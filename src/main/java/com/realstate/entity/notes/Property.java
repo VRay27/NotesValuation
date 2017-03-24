@@ -14,7 +14,7 @@ import lombok.ToString;
 @Entity
 @Table(name="PROPERTY")
 @ToString(callSuper = true)
-@NamedQueries({ @NamedQuery(name = Property.FETCH_PROPERTY_DETAILS,query="select * from property where propertyId =:propertyId")})
+@NamedQueries({ @NamedQuery(name = Property.FETCH_PROPERTY_DETAILS,query="select propertyId from Property p where p.propertyId =:propertyId")})
 public class Property extends AbstractEntity {
     /**
 	 * 

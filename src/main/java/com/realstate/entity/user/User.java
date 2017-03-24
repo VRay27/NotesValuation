@@ -14,7 +14,7 @@ import lombok.ToString;
 @Entity
 @Table(name = "USER")
 @ToString(callSuper = true)
-@NamedQueries({ @NamedQuery(name = "FETCH_USER_DETAILS",query="select * from user where userId =:userId")})
+@NamedQueries({ @NamedQuery(name = "FETCH_USER_DETAILS", query="select userId from User u where u.userId =:userId")})
 public class User extends AbstractEntity{
 
 	/**
@@ -27,7 +27,7 @@ public class User extends AbstractEntity{
 	 */
 	@Id
 	@Column(name="USER_ID")
-	private Integer userID;
+	private Integer userId;
 
 	/**
 	 * This will store the userName given to this user.
@@ -66,11 +66,11 @@ public class User extends AbstractEntity{
 	private String country;
 
 	public Integer getUserID() {
-		return userID;
+		return userId;
 	}
 
-	public void setUserID(Integer userID) {
-		this.userID = userID;
+	public void setUserID(Integer userId) {
+		this.userId = userId;
 	}
 
 	public String getUserName() {
@@ -157,7 +157,7 @@ public class User extends AbstractEntity{
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((userID == null) ? 0 : userID.hashCode());
+		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
 		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
 		return result;
 	}
@@ -171,10 +171,10 @@ public class User extends AbstractEntity{
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		if (userID == null) {
-			if (other.userID != null)
+		if (userId == null) {
+			if (other.userId != null)
 				return false;
-		} else if (!userID.equals(other.userID))
+		} else if (!userId.equals(other.userId))
 			return false;
 		if (userName == null) {
 			if (other.userName != null)

@@ -38,7 +38,7 @@ public abstract class AbstractEntity implements Serializable{
 	 * It will store created user name.
 	 */
 	
-	@Column(name="UPDATED_BY")
+	@Column(name="CREATED_BY")
 	private String createdBy;
 
 	public ZonedDateTime getUpdatedDateTime() {

@@ -14,7 +14,7 @@ import lombok.ToString;
 @Entity
 @Table(name="NOTE")
 @ToString(callSuper = true)
-@NamedQueries({ @NamedQuery(name = Note.FETCH_NOTE_DETAILS,query="select * from note where noteId =:noteId")})
+@NamedQueries({ @NamedQuery(name = Note.FETCH_NOTE_DETAILS,query="select noteId from Note n where n.noteId =:noteId")})
 public class Note extends AbstractEntity {
     /**
 	 * 
