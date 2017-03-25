@@ -1,8 +1,10 @@
-package com.realstate.entity;
+package com.realstate.dao;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+
+import com.realstate.entity.AbstractEntity;
 
 public interface GenericDao {
 
@@ -12,11 +14,11 @@ public interface GenericDao {
 	
 	<E extends AbstractEntity> void delete(final E model);
 	
-	<E extends AbstractEntity> void getById(final Class<E> modelClass, final Serializable id);
+	<E extends AbstractEntity> E getById(final Class<E> modelClass, final Serializable id);
 	
 	<E extends AbstractEntity> void deleteById(final Class<E> modelClass, final Serializable id);
 	
-	<E extends AbstractEntity> List<E>  getAll(final E model);
+	<E extends AbstractEntity> List<E>  getAll(final Class<E> model);
 	
 	/**
 	 * Update using named query
