@@ -1,4 +1,4 @@
-/*package com.realestate.springmvc.configuration;
+package com.realestate.springmvc.configuration;
 
 import javax.servlet.Filter;
 
@@ -27,4 +27,4 @@ public class HelloWorldInitializer extends AbstractAnnotationConfigDispatcherSer
     	return singleton;
 	}
  
-}*/
+}

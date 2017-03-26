@@ -12,14 +12,13 @@
         DAO -->
     <context:component-scan
         base-package="com.realstate" />
-        
     <!-- Getting Database properties -->
     <context:property-placeholder location="classpath:application.properties" />
 
     <mvc:annotation-driven />
     
     <!-- Specifying the Resource location to load JS, CSS, Images etc -->
-    <mvc:resources mapping="/resources/**" location="/resources/" />
+    <mvc:resources mapping="/static/**" location="/static/" />
 
     <!-- View Resolver -->
     <bean

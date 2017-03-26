@@ -1,4 +1,4 @@
-/*package com.realestate.springmvc.configuration;
+package com.realestate.springmvc.configuration;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -28,4 +28,4 @@ public class HelloWorldConfiguration extends WebMvcConfigurerAdapter{
 		registry.addResourceHandler("/static/**").addResourceLocations("/static/");
 	}
 
-}*/
+}
