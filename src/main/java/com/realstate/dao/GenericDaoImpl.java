@@ -1,4 +1,4 @@
-package com.realstate.dao.impl;
+package com.realstate.dao;
 
 import java.io.Serializable;
 import java.util.List;
@@ -14,11 +14,9 @@ import javax.persistence.criteria.CriteriaQuery;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import com.realstate.dao.GenericDao;
 import com.realstate.entity.AbstractEntity;
 
-@Repository
-@Qualifier("genericDao")
+@Repository("genericDao")
 public class GenericDaoImpl implements GenericDao {
 
 	

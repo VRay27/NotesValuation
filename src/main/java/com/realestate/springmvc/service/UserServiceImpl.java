@@ -5,8 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
-import javax.xml.transform.Source;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter;
@@ -14,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.realestate.springmvc.model.User;
+import com.realstate.dao.GenericDao;
+import com.realstate.entity.notes.Note;
 
 @Service("userService")
 public class UserServiceImpl implements UserService{
@@ -22,13 +23,25 @@ public class UserServiceImpl implements UserService{
 	
 	private static List<User> users;
 	
+	@Autowired
+	GenericDao genericDao;
+	
+	
+	
+	public GenericDao getGenericDao() {
+		return genericDao;
+	}
+
+	public void setGenericDao(GenericDao genericDao) {
+		this.genericDao = genericDao;
+	}
+
 	static{
 		users= populateDummyUsers();
 		RestTemplate restTemplate = new RestTemplate();
 		
-		
-	String url = "http://www.zillow.com/webservice/GetSearchResults.htm?zws-id=X1-ZWz19dj8ldqvwr_38l6u&address=2114+Bigelow+Ave&citystatezip=Seattle%2C+WA";
-	System.out.println(restTemplate.getForObject(url, Source.class));
+//	String url = "http://www.zillow.com/webservice/GetSearchResults.htm?zws-id=X1-ZWz19dj8ldqvwr_38l6u&address=2114+Bigelow+Ave&citystatezip=Seattle%2C+WA";
+	//System.out.println(restTemplate.getForObject(url, Source.class));
 		
 	}
 
@@ -47,6 +60,7 @@ public class UserServiceImpl implements UserService{
 	
 	public User findByName(String name) {
 		RestTemplate restTemplate = new RestTemplate();
+		genericDao.getAll(Note.class);
 		List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();
 		Jaxb2RootElementHttpMessageConverter jaxbMessageConverter = new Jaxb2RootElementHttpMessageConverter();
 		List<MediaType> mediaTypes = new ArrayList<MediaType>();
