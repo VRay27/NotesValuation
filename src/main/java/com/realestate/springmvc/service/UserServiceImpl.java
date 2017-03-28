@@ -12,8 +12,8 @@ import org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConvert
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.realestate.dao.GenericDao;
 import com.realestate.springmvc.model.User;
-import com.realstate.dao.GenericDao;
 import com.realstate.entity.notes.Note;
 
 @Service("userService")

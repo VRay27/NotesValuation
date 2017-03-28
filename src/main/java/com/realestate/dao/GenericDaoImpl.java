@@ -1,4 +1,4 @@
-package com.realstate.dao;
+package com.realestate.dao;
 
 import java.io.Serializable;
 import java.util.List;

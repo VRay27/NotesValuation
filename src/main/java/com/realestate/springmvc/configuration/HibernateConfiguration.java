@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  
 @Configuration
 @EnableTransactionManagement
-@ComponentScan({ "com.realstate.dao" })
+@ComponentScan({ "com.realestate.dao" })
 @PropertySource(value = { "classpath:application.properties" })
 public class HibernateConfiguration {
  
