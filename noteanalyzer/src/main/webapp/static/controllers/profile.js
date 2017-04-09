@@ -1,5 +1,5 @@
 angular.module('MyApp')
-  .controller('ProfileCtrl', function($scope, $auth, toastr, Account) {
+  .controller('ProfileCtrl', function($scope, $auth, toastr, Account,$state) {
     $scope.getProfile = function() {
       Account.getProfile()
         .then(function(response) {
@@ -7,6 +7,7 @@ angular.module('MyApp')
         })
         .catch(function(response) {
           toastr.error(response.data.message, response.status);
+          $state.go('login');
         });
     };
     $scope.updateProfile = function() {

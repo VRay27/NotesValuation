@@ -1,6 +1,7 @@
 package com.noteanalyzer.security.security.endpoint;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,12 +64,15 @@ public class RefreshTokenEndpoint {
 
         String subject = refreshToken.getSubject();
         User user = userService.getByUsername(subject).orElseThrow(() -> new UsernameNotFoundException("User not found: " + subject));
-
+/*
         if (user.getRoles() == null) throw new InsufficientAuthenticationException("User has no roles assigned");
         List<GrantedAuthority> authorities = user.getRoles().stream()
                 .map(authority -> new SimpleGrantedAuthority(authority.getRole().authority()))
                 .collect(Collectors.toList());
-
+*/
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority("ADMIN"));
+      
         UserContext userContext = UserContext.create(user.getUsername(), authorities);
 
         return tokenFactory.createAccessJwtToken(userContext);
