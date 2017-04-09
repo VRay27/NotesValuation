@@ -62,6 +62,21 @@ var noteApp = angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 
 
     
   });
+noteApp.config([ '$httpProvider',   function($httpProvider) {
+    $httpProvider.interceptors.push('APIInterceptor');
+} ]);
+noteApp.service('APIInterceptor', [function() {
+    var service = this;
+
+    service.request = function(config) {
+        config.headers['Content-Type']= "application/json";
+        config.headers['X-Requested-With']= "XMLHttpRequest";
+        if(localStorage.getItem('token')){
+        	config.headers['X-Authorization'] = 'Bearer '+localStorage.getItem('token');
+        }
+        return config;
+    };
+}]);
 noteApp.factory('$auth',function(){
   var isAuthenticated = function(){
      if(localStorage.getItem('token')){

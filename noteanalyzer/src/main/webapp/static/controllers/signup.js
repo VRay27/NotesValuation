@@ -7,4 +7,4 @@ angular.module('MyApp')
           toastr.info('You have successfully created a new account and have been signed-in');
        
     };
-  });
+  }).constant("userDetailsModel",{userName:"",emailId:"",password:"",contactNumber:""});

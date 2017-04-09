@@ -1,36 +1,28 @@
-angular.module('MyApp')
-  .controller('LoginCtrl', function($scope, $location,  toastr,loginService) {
-    $scope.login = function() {
-     //call https in post to get accesstoken then put into localstoarge
-     localStorage.setItem('token','asasd12e1');
-     toastr.success('You have successfully signed in with give n user name');
-          $location.path('/');
-    };
-    $scope.authenticate = function(provider) {
-      $auth.authenticate(provider)
-        .then(function() {
-          toastr.success('You have successfully signed in with ' + provider + '!');
-          $location.path('/');
-        })
-        .catch(function(error) {
-          if (error.message) {
-            // Satellizer promise reject error.
-            toastr.error(error.message);
-          } else if (error.data) {
-            // HTTP response error from server
-            toastr.error(error.data.message, error.status);
-          } else {
-            toastr.error(error);
-          }
-        });
-    };
-  }).service("loginService", function($http, $q) {
+var app = angular.module('MyApp');
+app.controller('LoginCtrl', function($scope, $location,  toastr,loginService,loginModel) {
+	 $scope.login = function() {
+	     //call https in post to get accesstoken then put into localstoarge
+		 loginModel.username=$scope.user.email;
+		 loginModel.password=$scope.user.password;
+	    	loginService.doLogin(loginModel).then(function(response) {
+	    		console.log('token'+response.token)
+	     localStorage.setItem('token',response.token);
+	     toastr.success('You have successfully signed in with give n user name');
+	          $location.path('/');
+	    },function(response){
+	    	toastr.error(response.message);
+	    	localStorage.removeItem('token');
+	    });
+};
+    
+  });
+    	app.service("loginService", function($http, $q) {
 
   var deferred = $q.defer();
 
-  this.login = function() {
+  var doLogin = function(loginModel) {
     //put the localhost:8080/notes/api/login here
-    return $http.post('https://api.github.com/users/haroldrv')
+    return $http.post('api/auth/login',loginModel)
       .then(function(response) {
         // promise is fulfilled
         deferred.resolve(response.data);
@@ -41,4 +33,13 @@ angular.module('MyApp')
         return deferred.promise;
       });
   };
+  
+  return {
+	  doLogin:doLogin
+  }
+});
+    	app.constant("loginModel", {
+			  "username":"",
+			  "password" : ""
+  
 });
