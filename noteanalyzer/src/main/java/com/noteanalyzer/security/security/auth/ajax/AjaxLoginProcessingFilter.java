@@ -24,13 +24,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.noteanalyzer.security.common.WebUtil;
 import com.noteanalyzer.security.security.exceptions.AuthMethodNotSupportedException;
 
-/**
- * AjaxLoginProcessingFilter
- * 
- * @author vladimir.stankovic
- *
- * Aug 3, 2016
- */
 public class AjaxLoginProcessingFilter extends AbstractAuthenticationProcessingFilter {
     private static Logger logger = LoggerFactory.getLogger(AjaxLoginProcessingFilter.class);
 

@@ -29,9 +29,6 @@ import com.noteanalyzer.security.security.auth.jwt.extractor.TokenExtractor;
 /**
  * WebSecurityConfig
  * 
- * @author vladimir.stankovic
- *
- * Aug 3, 2016
  */
 @Configuration
 @EnableWebSecurity

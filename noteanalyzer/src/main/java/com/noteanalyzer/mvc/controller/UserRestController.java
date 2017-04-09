@@ -18,7 +18,7 @@ import com.noteanalyzer.mvc.model.User;
 import com.noteanalyzer.mvc.service.UserService;
  
 @RestController
-public class HelloWorldRestController {
+public class UserRestController {
  
     @Autowired
     UserService userService;  //Service which will do all data retrieval/manipulation work

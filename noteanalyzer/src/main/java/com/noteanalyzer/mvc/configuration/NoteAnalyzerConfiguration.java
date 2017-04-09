@@ -16,7 +16,7 @@ import com.noteanalyzer.security.security.config.WebSecurityConfig;
 @EnableWebMvc
 @ComponentScan(basePackages = "com.noteanalyzer")
 @Import({ WebSecurityConfig.class })
-public class HelloWorldConfiguration extends WebMvcConfigurerAdapter{
+public class NoteAnalyzerConfiguration extends WebMvcConfigurerAdapter{
 	
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {

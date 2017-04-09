@@ -24,9 +24,6 @@ import com.noteanalyzer.security.security.model.token.RawAccessJwtToken;
 /**
  * Performs validation of provided JWT Token.
  * 
- * @author vladimir.stankovic
- *
- * Aug 5, 2016
  */
 public class JwtTokenAuthenticationProcessingFilter extends AbstractAuthenticationProcessingFilter {
     private final AuthenticationFailureHandler failureHandler;

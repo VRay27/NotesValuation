@@ -20,12 +20,6 @@ import com.noteanalyzer.security.entity.User;
 import com.noteanalyzer.security.security.model.UserContext;
 import com.noteanalyzer.security.user.service.DatabaseUserService;
 
-/**
- * 
- * @author vladimir.stankovic
- *
- * Aug 3, 2016
- */
 @Component
 public class AjaxAuthenticationProvider implements AuthenticationProvider {
     private final BCryptPasswordEncoder encoder;

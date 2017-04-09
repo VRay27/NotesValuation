@@ -11,9 +11,7 @@ import com.noteanalyzer.security.security.model.UserContext;
 /**
  * End-point for retrieving logged-in user details.
  * 
- * @author vladimir.stankovic
  *
- * Aug 4, 2016
  */
 @RestController
 public class ProfileEndpoint {

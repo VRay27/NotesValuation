@@ -3,11 +3,8 @@ package com.noteanalyzer.security.security.auth.jwt.verifier;
 import org.springframework.stereotype.Component;
 
 /**
- * BloomFilterTokenVerifier
+ * BloomFilterTokenVerifier.. This file may need to delete in future if not needed.
  * 
- * @author vladimir.stankovic
- *
- * Aug 17, 2016
  */
 @Component
 public class BloomFilterTokenVerifier implements TokenVerifier {

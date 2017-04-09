@@ -4,20 +4,20 @@ var noteApp = angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 
     /**
      * Helper auth functions
      */
-    var skipIfLoggedIn =  function() {
-      if(localStorage.getItem('token')){
+    var skipIfLoggedIn = function() {
+      if (localStorage.getItem('token')) {
         return true;
-       }else{
+      } else {
         return false;
-       }
+      }
     };
 
     var loginRequired = function() {
-     if(localStorage.getItem('token')){
+      if (localStorage.getItem('token')) {
         return false;
-       }else{
+      } else {
         return true;
-       }
+      }
     };
 
     /**
@@ -60,32 +60,32 @@ var noteApp = angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 
       });
     $urlRouterProvider.otherwise('/');
 
-    
-  });
-noteApp.config([ '$httpProvider',   function($httpProvider) {
-    $httpProvider.interceptors.push('APIInterceptor');
-} ]);
-noteApp.service('APIInterceptor', [function() {
-    var service = this;
 
-    service.request = function(config) {
-        config.headers['Content-Type']= "application/json";
-        config.headers['X-Requested-With']= "XMLHttpRequest";
-        if(localStorage.getItem('token')){
-        	config.headers['X-Authorization'] = 'Bearer '+localStorage.getItem('token');
-        }
-        return config;
-    };
+  });
+noteApp.config(['$httpProvider', function($httpProvider) {
+  $httpProvider.interceptors.push('APIInterceptor');
 }]);
-noteApp.factory('$auth',function(){
-  var isAuthenticated = function(){
-     if(localStorage.getItem('token')){
-        return true;
-       }else{
-        return false;
-       }
+noteApp.service('APIInterceptor', [function() {
+  var service = this;
+
+  service.request = function(config) {
+    config.headers['Content-Type'] = "application/json";
+    config.headers['X-Requested-With'] = "XMLHttpRequest";
+    if (localStorage.getItem('token')) {
+      config.headers['X-Authorization'] = 'Bearer ' + localStorage.getItem('token');
+    }
+    return config;
+  };
+}]);
+noteApp.factory('$auth', function() {
+  var isAuthenticated = function() {
+    if (localStorage.getItem('token')) {
+      return true;
+    } else {
+      return false;
+    }
   }
-  return{
-    isAuthenticated : isAuthenticated
+  return {
+    isAuthenticated: isAuthenticated
   }
 })

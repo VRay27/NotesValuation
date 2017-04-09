@@ -5,10 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.security.web.savedrequest.SavedRequest;
 
 /**
- * 
- * @author vladimir.stankovic
- *
- * Aug 3, 2016
+ * Util methods for Web security.
  */
 public class WebUtil {
     private static final String XML_HTTP_REQUEST = "XMLHttpRequest";

@@ -22,21 +22,13 @@ import com.noteanalyzer.security.security.model.UserContext;
 import com.noteanalyzer.security.security.model.token.JwtToken;
 import com.noteanalyzer.security.security.model.token.JwtTokenFactory;
 
-/**
- * AjaxAwareAuthenticationSuccessHandler
- * 
- * @author vladimir.stankovic
- *
- *         Aug 3, 2016
- */
 @Component
 public class AjaxAwareAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     private final ObjectMapper mapper = new ObjectMapper();
     private final JwtTokenFactory tokenFactory;
 
     @Autowired
-    public AjaxAwareAuthenticationSuccessHandler(/*final ObjectMapper mapper,*/ final JwtTokenFactory tokenFactory) {
-        //this.mapper = mapper;
+    public AjaxAwareAuthenticationSuccessHandler(final JwtTokenFactory tokenFactory) {
         this.tokenFactory = tokenFactory;
     }
 

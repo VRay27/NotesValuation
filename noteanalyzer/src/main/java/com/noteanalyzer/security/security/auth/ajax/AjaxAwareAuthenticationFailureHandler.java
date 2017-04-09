@@ -20,21 +20,10 @@ import com.noteanalyzer.security.common.ErrorResponse;
 import com.noteanalyzer.security.security.exceptions.AuthMethodNotSupportedException;
 import com.noteanalyzer.security.security.exceptions.JwtExpiredTokenException;
 
-/**
- * 
- * @author vladimir.stankovic
- *
- * Aug 3, 2016
- */
 @Component
 public class AjaxAwareAuthenticationFailureHandler implements AuthenticationFailureHandler {
     private final ObjectMapper mapper = new ObjectMapper();
     
-   /* @Autowired
-    public AjaxAwareAuthenticationFailureHandler(ObjectMapper mapper) {
-        this.mapper = mapper;
-    }	
-    */
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException e) throws IOException, ServletException {

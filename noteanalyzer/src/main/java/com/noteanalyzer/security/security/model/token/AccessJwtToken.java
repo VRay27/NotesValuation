@@ -7,9 +7,6 @@ import io.jsonwebtoken.Claims;
 /**
  * Raw representation of JWT Token.
  * 
- * @author vladimir.stankovic
- *
- *         May 31, 2016
  */
 public final class AccessJwtToken implements JwtToken {
     private final String rawToken;
