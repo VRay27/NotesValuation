@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.noteanalyzer.security.entity.User;
+import com.noteanalyzer.entity.user.User;
 import com.noteanalyzer.security.security.UserService;
 
 /**
