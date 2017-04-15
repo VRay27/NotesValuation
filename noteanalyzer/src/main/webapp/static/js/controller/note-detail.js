@@ -4,13 +4,13 @@ app.controller('NoteDetailCtrl', NoteDetailCtrl);
 app.controller('RowEditCtrl', RowEditCtrl);
 app.service('RowEditor', RowEditor);
 
-NoteDetailCtrl.$inject = [ '$scope', '$http', '$modal', 'RowEditor', 'uiGridConstants' ];
-function NoteDetailCtrl($scope, $http, $modal, RowEditor, uiGridConstants) {
+NoteDetailCtrl.$inject = [ '$scope', '$http', '$modal', 'RowEditor', 'uiGridConstants','noteDetailModel' ];
+function NoteDetailCtrl($scope, $http, $modal, RowEditor, uiGridConstants,noteDetailModel) {
     
 	var vm = this;
-	
+	$scope.noteDetailModel = noteDetailModel;
 	vm.editRow = RowEditor.editRow;
-
+  $scope.inputAddress = '';
 	vm.serviceGrid = {
 		enableRowSelection : true,
 		enableRowHeaderSelection : false,

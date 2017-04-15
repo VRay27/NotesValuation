@@ -4,43 +4,33 @@
   </div>
   <div class="modal-body">
     
-    <form name"serviceForm">
+    <form name = "noteDetailForm">
 
-	<div class="block">
-  		<label>TypeOfNote</label>
-  		<input class="input" type="text" disabled value="{{vm.entity.id}}" />
+	<div class="block bottom">
+		 <h4 class="modal-title text-center block-content-header">Terms</h4>
+  		<div class="col-sm-4"><label>Rate</label>
+  		<div class="nodeDetailsValue">{{noteDetailModel.rate}}123</div></div>
+  		<div class="col-sm-4"><label>Payment</label>
+  		<div class="nodeDetailsValue">{{noteDetailModel.payment}}224924</div></div>
+  		<div class="col-sm-4"><label>UPB</label>
+  		<div class="nodeDetailsValue">{{noteDetailModel.upb}}Testing</div></div>
 	</div>
-	<div class="block">
-  		<label>Address</label>
-  		<input class="input" type="text" ng-model="vm.entity.exposedws"/>
+	<div class="block bottom">
+		<h4 class="modal-title text-center block-content-header ">Asset Info</h4>
+  		<div class="col-sm-4"><label>Bedrooms(s)</label>
+  		<div class="nodeDetailsValue">{{noteDetailModel.bedroom}}4</div></div>
+  		<div class="col-sm-4"><label>Square Foot</label>
+  		<div class="nodeDetailsValue">{{noteDetailModel.sqfoot}}1213</div></div>
+  		<div class="col-sm-4"><label>Bath</label>
+  		<div class="nodeDetailsValue">{{noteDetailModel.bath}}2</div></div>
 	</div>
-	<div class="block">
-  		<label>Property</label>
-  		<input class="input" type="text" ng-model="vm.entity.exposedoperation"/>
-	</div>
-	<div class="block">
-  		<label>DateOfNote</label>
-  		<input class="input" type="text" ng-model="vm.entity.version"/>
-	</div>
-	<div class="block">
-  		<label>UPB</label>
-  		<input class="input" type="text" ng-model="vm.entity.category"/>
-	</div>
-	<div class="block">
-  		<label>Rate</label>
-  		<input class="input" type="text" ng-model="vm.entity.exposednamespace"/>
-	</div>
-	<div class="block">
-  		<label>PDI Payment</label>
-  		<input class="input" type="text" ng-model="vm.entity.path"/>
-	</div>
-	<div class="block">
-  		<label>TDIPayment</label>
-  		<input class="input" type="text" ng-model="vm.entity.provider"/>
-	</div>
-    <div class="block">
-  		<label>Remaining Term</label>
-  		<input class="input" type="text" ng-model="vm.entity.provider"/>
+
+	<div class="block ">
+		<h4 class="modal-title text-center block-content-header">City and Country Demographic</h4>
+  		<div class="col-sm-4"><label>Owner</label>
+  		<div class="nodeDetailsValue">{{noteDetailModel.owner}}Arvind Ray</div></div>
+  		<div class="col-sm-4"><label>Average Education</label>
+  		<div class="nodeDetailsValue">{{noteDetailModel.avgEducation}}ABCD</div></div>
 	</div>		
 	</form>
 	

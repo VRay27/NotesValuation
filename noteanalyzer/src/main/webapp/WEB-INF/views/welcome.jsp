@@ -5,12 +5,13 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Note Analyzer</title>
   
-  <link href="static/css/bootstrap.min.css" rel="stylesheet">
+  
   <link href="static/css/animate.css" rel="stylesheet">
   <link href="static/css/angular-toastr.css" rel="stylesheet">
   <link href="static/css/styles.css" rel="stylesheet">
   <link rel="styleSheet" href="static/css/ui-grid.min.css" />
   <link rel="styleSheet" href="static/css/app.css" />
+  <link href="static/css/bootstrap.min.css" rel="stylesheet">
   <link rel="styleSheet" href="static/css/custom.css" />
 </head>
 <body>
