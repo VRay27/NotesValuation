@@ -16,7 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-import com.noteanalyzer.security.entity.User;
+import com.noteanalyzer.entity.user.User;
 import com.noteanalyzer.security.security.model.UserContext;
 import com.noteanalyzer.security.user.service.DatabaseUserService;
 
@@ -54,7 +54,7 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
 */        
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("ADMIN"));
-        UserContext userContext = UserContext.create(user.getUsername(), authorities);
+        UserContext userContext = UserContext.create(user.getUserName(), authorities);
         
         return new UsernamePasswordAuthenticationToken(userContext, null, userContext.getAuthorities());
     }

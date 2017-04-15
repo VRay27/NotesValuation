@@ -21,10 +21,6 @@ public class Property extends AbstractEntity {
 	 */
 	private static final long serialVersionUID = 6408731281219126859L;
 
-	/**
-	 * 
-	 */
-	
 	public static final String FETCH_PROPERTY_DETAILS = "FETCH_PROPERTY_DETAILS";
 
 	@Id

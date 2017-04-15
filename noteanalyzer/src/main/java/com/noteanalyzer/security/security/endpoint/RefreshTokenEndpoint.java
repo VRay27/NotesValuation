@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.noteanalyzer.security.entity.User;
+import com.noteanalyzer.entity.user.User;
 import com.noteanalyzer.security.security.UserService;
 import com.noteanalyzer.security.security.auth.jwt.extractor.TokenExtractor;
 import com.noteanalyzer.security.security.auth.jwt.verifier.TokenVerifier;
@@ -79,7 +79,7 @@ public class RefreshTokenEndpoint {
 		List<GrantedAuthority> authorities = new ArrayList<>();
 		authorities.add(new SimpleGrantedAuthority("ADMIN"));
 
-		UserContext userContext = UserContext.create(user.getUsername(), authorities);
+		UserContext userContext = UserContext.create(user.getUserName(), authorities);
 
 		return tokenFactory.createAccessJwtToken(userContext);
 	}

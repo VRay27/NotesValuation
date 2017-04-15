@@ -1,4 +1,4 @@
-package com.noteanalyzer.security.entity;
+package com.noteanalyzer.entity.user;
 
 /**
  * Enumerated {@link User} roles.
