@@ -1,4 +1,4 @@
-angular.module('MyApp')
+angular.module('NoteApp')
   .controller('ProfileCtrl', function($scope, $auth, toastr, Account, $state) {
     $scope.getProfile = function() {
       Account.getProfile()

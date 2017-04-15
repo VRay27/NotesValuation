@@ -1,4 +1,4 @@
-angular.module('MyApp')
+angular.module('NoteApp')
   .controller('SignupCtrl', function($scope, $location, $auth, toastr) {
     $scope.signup = function() {
       ///call a service for sign up

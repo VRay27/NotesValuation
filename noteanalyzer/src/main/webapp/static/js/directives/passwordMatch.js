@@ -1,4 +1,4 @@
-angular.module('MyApp')
+angular.module('NoteApp')
   .directive('passwordMatch', function() {
     return {
       require: 'ngModel',

@@ -1,4 +1,4 @@
-angular.module('MyApp')
+angular.module('NoteApp')
   .factory('Account', function($http) {
     return {
       getProfile: function() {

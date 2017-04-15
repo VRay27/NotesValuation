@@ -1,4 +1,4 @@
-angular.module('MyApp')
+angular.module('NoteApp')
   .directive('passwordStrength', function() {
     return {
       restrict: 'A',

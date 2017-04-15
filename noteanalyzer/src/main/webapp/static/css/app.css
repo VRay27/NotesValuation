@@ -40,3 +40,18 @@ body, .form-control{
 .custom-width {
     width: 80px !important;
 }
+div.block{
+  overflow:hidden;
+  padding-bottom: 5px;
+}
+div.block label{
+  width:160px;
+  display:block;
+  float:left;
+  text-align:left;
+}
+div.block .input{
+  margin-left:4px;
+  float:left;
+}
+

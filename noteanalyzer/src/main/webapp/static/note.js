@@ -1,4 +1,4 @@
-var noteApp = angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.router'])
+var noteApp = angular.module('NoteApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.router', 'ngAnimate', 'ui.grid', 'ui.grid.moveColumns', 'ui.grid.selection', 'ui.grid.resizeColumns', 'ui.bootstrap', 'ui.grid.edit', 'ui.grid.pagination'])
   .config(function($stateProvider, $urlRouterProvider) {
 
     /**
@@ -27,11 +27,16 @@ var noteApp = angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 
       .state('home', {
         url: '/',
         controller: 'HomeCtrl',
-        templateUrl: 'static/partials/home.html'
+        templateUrl: 'static/template/home.html'
+      }).state('noteDashboard', {
+        url: '/noteDashboard',
+        controller: 'NoteDetailCtrl',
+        controllerAs:'vm',
+        templateUrl: 'static/template/note-dashboard.html'
       })
       .state('login', {
         url: '/login',
-        templateUrl: 'static/partials/login.html',
+        templateUrl: 'static/template/login.html',
         controller: 'LoginCtrl',
         resolve: {
           skipIfLoggedIn: skipIfLoggedIn
@@ -39,7 +44,7 @@ var noteApp = angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 
       })
       .state('signup', {
         url: '/signup',
-        templateUrl: 'static/partials/signup.html',
+        templateUrl: 'static/template/signup.html',
         controller: 'SignupCtrl',
         resolve: {
           skipIfLoggedIn: skipIfLoggedIn
@@ -52,7 +57,7 @@ var noteApp = angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 
       })
       .state('profile', {
         url: '/profile',
-        templateUrl: 'static/partials/profile.html',
+        templateUrl: 'static/template/profile.html',
         controller: 'ProfileCtrl',
         resolve: {
           loginRequired: loginRequired
@@ -64,6 +69,7 @@ var noteApp = angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 
   });
 noteApp.config(['$httpProvider', function($httpProvider) {
   $httpProvider.interceptors.push('APIInterceptor');
+  $httpProvider.useApplyAsync(true);
 }]);
 noteApp.service('APIInterceptor', [function() {
   var service = this;

@@ -1,4 +1,4 @@
-var app = angular.module('MyApp');
+var app = angular.module('NoteApp');
 app.controller('LoginCtrl', function($scope, $location, toastr, loginService, loginModel) {
   $scope.login = function() {
     //call https in post to get accesstoken then put into localstoarge

@@ -1,0 +1,53 @@
+<div>
+  <div class="modal-header">
+      <h3 class="modal-title">Note Detail</h3>
+  </div>
+  <div class="modal-body">
+    
+    <form name"serviceForm">
+
+	<div class="block">
+  		<label>TypeOfNote</label>
+  		<input class="input" type="text" disabled value="{{vm.entity.id}}" />
+	</div>
+	<div class="block">
+  		<label>Address</label>
+  		<input class="input" type="text" ng-model="vm.entity.exposedws"/>
+	</div>
+	<div class="block">
+  		<label>Property</label>
+  		<input class="input" type="text" ng-model="vm.entity.exposedoperation"/>
+	</div>
+	<div class="block">
+  		<label>DateOfNote</label>
+  		<input class="input" type="text" ng-model="vm.entity.version"/>
+	</div>
+	<div class="block">
+  		<label>UPB</label>
+  		<input class="input" type="text" ng-model="vm.entity.category"/>
+	</div>
+	<div class="block">
+  		<label>Rate</label>
+  		<input class="input" type="text" ng-model="vm.entity.exposednamespace"/>
+	</div>
+	<div class="block">
+  		<label>PDI Payment</label>
+  		<input class="input" type="text" ng-model="vm.entity.path"/>
+	</div>
+	<div class="block">
+  		<label>TDIPayment</label>
+  		<input class="input" type="text" ng-model="vm.entity.provider"/>
+	</div>
+    <div class="block">
+  		<label>Remaining Term</label>
+  		<input class="input" type="text" ng-model="vm.entity.provider"/>
+	</div>		
+	</form>
+	
+  </div>
+  <div class="modal-footer">
+      <button class="btn btn-primary" ng-click="vm.save()">Save</button>
+      <button class="btn btn-primary" ng-click="vm.remove()">Delete</button>
+      <button class="btn btn-primary" ng-click="$close()">Cancel</button>
+  </div>
+</div>

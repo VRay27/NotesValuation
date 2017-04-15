@@ -1,4 +1,4 @@
-angular.module('MyApp')
+angular.module('NoteApp')
   .controller('LogoutCtrl', function($location, $auth, toastr) {
     if (!$auth.isAuthenticated()) {
       return;
