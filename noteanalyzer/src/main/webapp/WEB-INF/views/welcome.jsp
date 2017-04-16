@@ -39,6 +39,7 @@
 <div ui-view></div>
 
 <!-- Third-party Libraries -->
+<script src="static/lib/jquery-3.2.1.min.js"></script>
 <script src="static/lib/angular.js"></script>
 <script src="static/lib/angular-animate.js"></script>
 <script src="static/lib/angular-messages.js"></script>

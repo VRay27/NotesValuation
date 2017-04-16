@@ -49,9 +49,22 @@ div.block label{
   display:block;
   float:left;
   text-align:left;
+  padding-right:1em;
+  font-size: 14px;
 }
 div.block .input{
   margin-left:4px;
   float:left;
+}
+
+.bottom {
+    border-bottom: 1px solid #ccc;
+}
+.block-content-header {
+     padding-bottom: 10px;
+     padding-top: 10px;
+}
+.noteAnalyzer{
+ line-height:25px;
 }
 

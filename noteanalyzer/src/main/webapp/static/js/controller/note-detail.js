@@ -31,7 +31,7 @@ function NoteDetailCtrl($scope, $http, $modal, RowEditor, uiGridConstants,noteDe
 		displayName : 'Asset Image',
 		enableSorting : false,
 		enableCellEdit : false,
-		cellTemplate:"<div ng-click='grid.appScope.vm.editRow(grid, row)'><img width=\"100px\" ng-src=\"http://cdn.flaticon.com/png/256/70689.png\" lazy-src/></div>"
+		cellTemplate:"<div ng-click='grid.appScope.vm.editRow(grid, row)'><img width=\"100px\" ng-src=\"http://cdn.flaticon.com/png/256/70689.png\" lazy-src  class=\"img-responsive\"/></div>"
 	}, {
 		field : 'yield',
         displayName : 'Yield',
