@@ -1,20 +1,36 @@
 <div class="container">
   <div class="panel panel-default">
     <div class="panel-heading">Notes Analyzer</div>
-    <div class="panel-body">
-      <div class="row">
-    <div ng-controller="HomeCtrl as homeCtrl" >
-		
-       <div class="center-form ">
-     
-        <h2 class="text-center">Note Analyzer</h2>
-        <div  > <input type="text" id="noteAnalyzer" class="noteAnalyzer"  ng-model="homeCtrl.inputAddress"/> 
-			<button type="button" id="addRow" class="btn btn-primary" ng-click="noteAnalyzed()">Analyze Note</button>
-            </div></div></div>
-        
-        </div>
-       
-    </div>
-    
-  </div>
+		<div class="panel-body">
+			<div class="row" style="padding-bottom:5%;padding-bottom:3%;">
+				<div ng-controller="HomeCtrl as homeCtrl">
+
+					<div class="row">
+
+						<h2 class="text-center" style="padding-bottom:3%">Note Analyzer</h2>
+						<section id="noteAnalyzerText"
+							class="noteAnalyzerTextClass">
+							<input type="text" id="noteAnalyzertext"
+								class="noteAnalyzerTextBox"
+								placeholder="Please enter your address"
+								ng-model="homeCtrl.inputAddress" />
+							<button type="button" id="addRow" class="btn btn-primary"
+								ng-click="noteAnalyzed()">Analyze</button>
+						</section>
+						<section id="noteAnalyzerUpload" class="noteAnalyzerUploadClass">
+							<div class="noteAnalyzerUpload">
+								<div class="btn btn-primary btn-upload" upload-button
+									url="static/uploadtobedeleted"
+									on-success="onFileUploadSuccess(response)"
+									on-error="onFileUploadFailure(response)">Upload</div>
+							</div>
+						</section>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
 </div>

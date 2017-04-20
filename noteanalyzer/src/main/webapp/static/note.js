@@ -1,4 +1,4 @@
-var noteApp = angular.module('NoteApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.router', 'ngAnimate', 'ui.grid', 'ui.grid.moveColumns', 'ui.grid.selection', 'ui.grid.resizeColumns', 'ui.bootstrap', 'ui.grid.edit', 'ui.grid.pagination'])
+var noteApp = angular.module('NoteApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.router', 'ngAnimate', 'ui.grid', 'ui.grid.moveColumns', 'ui.grid.selection', 'ui.grid.resizeColumns', 'ui.bootstrap', 'ui.grid.edit', 'ui.grid.pagination', 'lr.upload'])
   .config(function($stateProvider, $urlRouterProvider) {
 
     /**
@@ -29,11 +29,11 @@ var noteApp = angular.module('NoteApp', ['ngResource', 'ngMessages', 'ngAnimate'
         controller: 'HomeCtrl',
         templateUrl: 'static/template/home.html'
       }).state('noteDashboard', {
-        url: '/noteDashboard',
-        controller: 'NoteDetailCtrl',
-        controllerAs:'vm',
-        templateUrl: 'static/template/note-dashboard.html'
-      })
+      url: '/noteDashboard',
+      controller: 'NoteDetailCtrl',
+      controllerAs: 'vm',
+      templateUrl: 'static/template/note-dashboard.html'
+    })
       .state('login', {
         url: '/login',
         templateUrl: 'static/template/login.html',

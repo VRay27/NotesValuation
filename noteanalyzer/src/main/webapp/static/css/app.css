@@ -64,7 +64,24 @@ div.block .input{
      padding-bottom: 10px;
      padding-top: 10px;
 }
-.noteAnalyzer{
+.noteAnalyzerTextBox{
  line-height:25px;
+ font-size:14px;
+ width:30rem;
+ padding-left:10px;
+ margin-left:5px;
+ vertical-align:middle;
+ 
 }
-
+.noteAnalyzerUploadClass{
+	width: 50%; 
+	float: right; 
+	padding-left: 15%
+}
+.noteAnalyzerTextClass{
+	width: 50%; 
+	float: left; 
+	padding-left: 5%; 
+	padding-top: 10px;
+}
+noteAnalyzerUploadClass

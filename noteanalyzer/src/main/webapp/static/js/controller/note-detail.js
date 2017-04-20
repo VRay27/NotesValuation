@@ -1,11 +1,11 @@
-var app = angular.module('NoteApp')
+var app = angular.module('NoteApp');
 
 app.controller('NoteDetailCtrl', NoteDetailCtrl);
 app.controller('RowEditCtrl', RowEditCtrl);
 app.service('RowEditor', RowEditor);
 
-NoteDetailCtrl.$inject = [ '$scope', '$http', '$modal', 'RowEditor', 'uiGridConstants','noteDetailModel' ];
-function NoteDetailCtrl($scope, $http, $modal, RowEditor, uiGridConstants,noteDetailModel) {
+NoteDetailCtrl.$inject = [ '$scope', '$http', '$uibModal', 'RowEditor', 'uiGridConstants','noteDetailModel' ];
+function NoteDetailCtrl($scope, $http, $uibModal, RowEditor, uiGridConstants,noteDetailModel) {
     
 	var vm = this;
 	$scope.noteDetailModel = noteDetailModel;
@@ -68,9 +68,9 @@ function NoteDetailCtrl($scope, $http, $modal, RowEditor, uiGridConstants,noteDe
 		},
 	}];
 
-	$http.get('static/data.json').success(function(response) {
+	$http.get('static/data.json').then(function(response) {
 		vm.serviceGrid.data = response;
-	}).error(function(response){
+	},function(response){
 	  vm.serviceGrid.data = [];
 	});
 
@@ -92,15 +92,15 @@ function NoteDetailCtrl($scope, $http, $modal, RowEditor, uiGridConstants,noteDe
 
 }
 
-RowEditor.$inject = [ '$http', '$rootScope', '$modal' ];
-function RowEditor($http, $rootScope, $modal) {
+RowEditor.$inject = [ '$http', '$rootScope', '$uibModal' ];
+function RowEditor($http, $rootScope, $uibModal) {
 	var service = {};
 	service.editRow = editRow;
 
 	function editRow(grid, row) {
-		$modal.open({
+		$uibModal.open({
 			templateUrl : 'static/template/note-detail.html',
-			controller : [ '$http', '$modalInstance', 'grid', 'row', RowEditCtrl ],
+			controller : [ '$http', '$uibModalInstance', 'grid', 'row', RowEditCtrl ],
 			controllerAs : 'vm',
 			resolve : {
 				grid : function() {
@@ -116,14 +116,14 @@ function RowEditor($http, $rootScope, $modal) {
 	return service;
 }
 
-function RowEditCtrl($http, $modalInstance, grid, row) {
+function RowEditCtrl($http, $uibModalInstance, grid, row) {
 	var vm = this;
 	vm.entity = angular.copy(row.entity);
 	vm.save = save;
 	function save() {
 		if (row.entity.id == '0') {
 			/*
-			 * $http.post('http://localhost:8080/service/save', row.entity).success(function(response) { $modalInstance.close(row.entity); }).error(function(response) { alert('Cannot edit row (error in console)'); console.dir(response); });
+			 * $http.post('http://localhost:8080/service/save', row.entity).success(function(response) { $uibModalInstance.close(row.entity); }).error(function(response) { alert('Cannot edit row (error in console)'); console.dir(response); });
 			 */
 			row.entity = angular.extend(row.entity, vm.entity);
 			//real ID come back from response after the save in DB
@@ -134,10 +134,10 @@ function RowEditCtrl($http, $modalInstance, grid, row) {
 		} else {
 			row.entity = angular.extend(row.entity, vm.entity);
 			/*
-			 * $http.post('http://localhost:8080/service/save', row.entity).success(function(response) { $modalInstance.close(row.entity); }).error(function(response) { alert('Cannot edit row (error in console)'); console.dir(response); });
+			 * $http.post('http://localhost:8080/service/save', row.entity).success(function(response) { $uibModalInstance.close(row.entity); }).error(function(response) { alert('Cannot edit row (error in console)'); console.dir(response); });
 			 */
 		}
-		$modalInstance.close(row.entity);
+		$uibModalInstance.close(row.entity);
 	}
 
 	vm.remove = remove;
@@ -148,10 +148,10 @@ function RowEditCtrl($http, $modalInstance, grid, row) {
 			var index = grid.appScope.vm.serviceGrid.data.indexOf(row.entity);
 			grid.appScope.vm.serviceGrid.data.splice(index, 1);
 			/*
-			 * $http.delete('http://localhost:8080/service/delete/'+row.entity.id).success(function(response) { $modalInstance.close(row.entity); }).error(function(response) { alert('Cannot delete row (error in console)'); console.dir(response); });
+			 * $http.delete('http://localhost:8080/service/delete/'+row.entity.id).success(function(response) { $uibModalInstance.close(row.entity); }).error(function(response) { alert('Cannot delete row (error in console)'); console.dir(response); });
 			 */
 		}
-		$modalInstance.close(row.entity);
+		$uibModalInstance.close(row.entity);
 	}
 
 }
