@@ -82,16 +82,60 @@ noteApp.service('APIInterceptor', [function() {
     }
     return config;
   };
+  service.response= function(res) {
+   /* if(res.config.url.indexOf(API) === 0 && res.data.token) {
+      auth.saveToken(res.data.token);
+    }*/
+
+    return res;
+  };
 }]);
-noteApp.factory('$auth', function() {
+noteApp.factory('$auth', function($window) {
+  var auth = this;
   var isAuthenticated = function() {
     if (localStorage.getItem('token')) {
+      auth.isAuthed();
       return true;
     } else {
       return false;
     }
   }
-  return {
-    isAuthenticated: isAuthenticated
+  
+
+  auth.parseJwt = function (token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace('-', '+').replace('_', '/');
+    return JSON.parse($window.atob(base64));
+  };
+  
+  auth.saveToken = function (token) {
+    $window.localStorage.setItem('token',token);
+  };
+  
+  auth.logout = function (token) {
+    $window.localStorage.removeItem('token');
+  };
+  
+  auth.getToken = function () {
+    return $window.localStorage.getItem('token');
+  };
+  
+   auth.isAuthed = function () {
+    var token = auth.getToken();
+    if (token) {
+      var params = auth.parseJwt(token);
+      console.log('after parsing json token '+params);
+      return Math.round(new Date().getTime() / 1000) <= params.exp;
+    } else {
+      return false;
+    }
   }
-})
+  return {
+    isAuthenticated: isAuthenticated,
+    saveToken:auth.saveToken,
+    logout:auth.logout,
+    getToken:auth.getToken
+  }
+});
+
+

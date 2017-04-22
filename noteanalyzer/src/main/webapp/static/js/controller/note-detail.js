@@ -10,6 +10,15 @@ function NoteDetailCtrl($scope, $http, $uibModal, RowEditor, uiGridConstants,not
 	var vm = this;
 	$scope.noteDetailModel = noteDetailModel;
 	vm.editRow = RowEditor.editRow;
+	vm.noteUpload = function (modalName) {
+    var modalInstance = $uibModal.open({
+      templateUrl: 'static/template/note-form.html',
+      controller: 'noteInputFormController'/*,
+      resolve: {
+          'items': function() { return $scope.items; }
+      }*/
+  })};
+    
   $scope.inputAddress = '';
 	vm.serviceGrid = {
 		enableRowSelection : true,

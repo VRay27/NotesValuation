@@ -82,6 +82,11 @@ div.block .input{
 	width: 50%; 
 	float: left; 
 	padding-left: 5%; 
-	padding-top: 10px;
+	
+}
+.noteFileUploadBatch{
+	float: left;
+    padding-top: 10px;
+    width: 20rem;
 }
 noteAnalyzerUploadClass

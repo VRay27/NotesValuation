@@ -14,16 +14,20 @@
 								class="noteAnalyzerTextBox"
 								placeholder="Please enter your address"
 								ng-model="homeCtrl.inputAddress" />
-							<button type="button" id="addRow" class="btn btn-primary"
+							<button type="button" id="uploadNote" class="btn btn-primary"
 								ng-click="noteAnalyzed()">Analyze</button>
 						</section>
 						<section id="noteAnalyzerUpload" class="noteAnalyzerUploadClass">
-							<div class="noteAnalyzerUpload">
+							<!-- <div class="noteAnalyzerUpload">
 								<div class="btn btn-primary btn-upload" upload-button
 									url="static/uploadtobedeleted"
 									on-success="onFileUploadSuccess(response)"
 									on-error="onFileUploadFailure(response)">Upload</div>
-							</div>
+							</div> -->
+							 <input name="noteFile" type="file" class="noteFileUploadBatch"/><button type="button" id="uploadNoteBatch" class="btn btn-primary"
+								ng-click="uploadNoteBatch()">Analyze</button>
+								<p>
+								<a ng-href="{{noteDownloadTemplateAPI}}">Download Note Template</a>
 						</section>
 					</div>
 				</div>
