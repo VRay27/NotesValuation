@@ -16,19 +16,11 @@
 								ng-click="vm.noteUpload('dashboardNoteUpload')">Analyze</button>
 						</section>
 						<section id="noteAnalyzerUpload" class="noteAnalyzerUploadClass">
-							 <input name="noteFile" type="file" class="noteFileUploadBatch"/><button type="button" id="uploadNoteBatch" class="btn btn-primary"
-								ng-click="vm.uploadNoteBatch()">Analyze</button>
+							 <input file-model = "myFile" type="file" class="noteFileUploadBatch" /><button type="button" id="uploadNoteBatch" class="btn btn-primary"
+								ng-click="uploadFile()">Analyze</button>
 								<p>
 								<a ng-href="{{noteDownloadTemplateAPI}}">Download Note Template</a>
 						</section>
-        <!-- <div style="padding-left: 5%;width:50%;float:left" >
-			<input type="text" id="noteAnalyzer" class="noteAnalyzer" ng-model="inputAddress"/>  <button type="button" id="addRow" class="btn btn-primary" ng-click="addRow()">Analyze Note</button>
-		</div>
-         <div style="float:right;width:50%;padding-left: 15%">
-          
-          <input type="text" id="uploadNotes" class="noteAnalyzer" />
-            <a class="btn btn-primary" href="#">Upload Notes</a>
-        </div> -->
         <br />
         <br />
         <br />

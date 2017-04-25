@@ -27,11 +27,13 @@ var noteApp = angular.module('NoteApp', ['ngResource', 'ngMessages', 'ngAnimate'
       .state('home', {
         url: '/',
         controller: 'HomeCtrl',
+        params: {'referer':null,'loginState':null},
         templateUrl: 'static/template/home.html'
       }).state('noteDashboard', {
       url: '/noteDashboard',
       controller: 'NoteDetailCtrl',
       controllerAs: 'vm',
+      params: {'referer':null,'loginState':null},
       templateUrl: 'static/template/note-dashboard.html'
     })
       .state('login', {
@@ -40,7 +42,8 @@ var noteApp = angular.module('NoteApp', ['ngResource', 'ngMessages', 'ngAnimate'
         controller: 'LoginCtrl',
         resolve: {
           skipIfLoggedIn: skipIfLoggedIn
-        }
+        },
+        params: {'referer':null,'loginState':null}
       })
       .state('signup', {
         url: '/signup',
@@ -59,6 +62,7 @@ var noteApp = angular.module('NoteApp', ['ngResource', 'ngMessages', 'ngAnimate'
         url: '/profile',
         templateUrl: 'static/template/profile.html',
         controller: 'ProfileCtrl',
+        params: {'referer':null,'loginState':null},
         resolve: {
           loginRequired: loginRequired
         }
@@ -75,7 +79,7 @@ noteApp.service('APIInterceptor', [function() {
   var service = this;
 
   service.request = function(config) {
-    config.headers['Content-Type'] = "application/json";
+    /*config.headers['Content-Type'] = "application/json";*/
     config.headers['X-Requested-With'] = "XMLHttpRequest";
     if (localStorage.getItem('token')) {
       config.headers['X-Authorization'] = 'Bearer ' + localStorage.getItem('token');
@@ -93,12 +97,11 @@ noteApp.service('APIInterceptor', [function() {
 noteApp.factory('$auth', function($window) {
   var auth = this;
   var isAuthenticated = function() {
-    if (localStorage.getItem('token')) {
-      auth.isAuthed();
-      return true;
-    } else {
+    if(!auth.isAuthed()){
+      auth.logout();
       return false;
     }
+    return true;
   }
   
 
@@ -124,7 +127,6 @@ noteApp.factory('$auth', function($window) {
     var token = auth.getToken();
     if (token) {
       var params = auth.parseJwt(token);
-      console.log('after parsing json token '+params);
       return Math.round(new Date().getTime() / 1000) <= params.exp;
     } else {
       return false;

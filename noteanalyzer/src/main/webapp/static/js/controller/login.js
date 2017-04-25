@@ -1,5 +1,5 @@
 var app = angular.module('NoteApp');
-app.controller('LoginCtrl', function($scope, $location, toastr, loginService, loginModel) {
+app.controller('LoginCtrl', function($scope,$rootScope,$state, $location, toastr, loginService, loginModel,$stateParams) {
   $scope.login = function() {
     //call https in post to get accesstoken then put into localstoarge
     loginModel.username = $scope.user.email;
@@ -8,10 +8,16 @@ app.controller('LoginCtrl', function($scope, $location, toastr, loginService, lo
       console.log('token' + response.token)
       localStorage.setItem('token', response.token);
       toastr.success('You have successfully signed in with give n user name');
+      console.log('refer Value is  '+$stateParams.referer);
+      if($stateParams.referer){
+        $state.go($stateParams.referer,{'loginState':$stateParams.loginState});
+      }else{
       $location.path('/');
+      }
     }, function(response) {
       toastr.error(response.message);
       localStorage.removeItem('token');
+      $location.path('/');
     });
   };
 

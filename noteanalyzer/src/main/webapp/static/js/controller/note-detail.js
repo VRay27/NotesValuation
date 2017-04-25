@@ -4,8 +4,8 @@ app.controller('NoteDetailCtrl', NoteDetailCtrl);
 app.controller('RowEditCtrl', RowEditCtrl);
 app.service('RowEditor', RowEditor);
 
-NoteDetailCtrl.$inject = [ '$scope', '$http', '$uibModal', 'RowEditor', 'uiGridConstants','noteDetailModel' ];
-function NoteDetailCtrl($scope, $http, $uibModal, RowEditor, uiGridConstants,noteDetailModel) {
+NoteDetailCtrl.$inject = [ '$scope', '$http','$rootScope', '$uibModal', 'RowEditor', 'uiGridConstants','noteDetailModel','fileUpload','noteUploadAPI' ];
+function NoteDetailCtrl($scope, $http,$rootScope, $uibModal, RowEditor, uiGridConstants,noteDetailModel,fileUpload,noteUploadAPI) {
     
 	var vm = this;
 	$scope.noteDetailModel = noteDetailModel;
@@ -19,6 +19,10 @@ function NoteDetailCtrl($scope, $http, $uibModal, RowEditor, uiGridConstants,not
       }*/
   })};
     
+  $scope.uploadFile = function() {
+      fileUpload.uploadFileToUrl($scope.myFile, noteUploadAPI);
+  };
+  
   $scope.inputAddress = '';
 	vm.serviceGrid = {
 		enableRowSelection : true,

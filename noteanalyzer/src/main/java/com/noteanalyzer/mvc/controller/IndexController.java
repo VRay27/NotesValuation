@@ -13,5 +13,7 @@ public class IndexController {
 		  System.out.println("Inside Arvind Inedex Code");
 	        return "welcome";
 	    }
+	  
+	
 
 }

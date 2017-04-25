@@ -18,14 +18,8 @@
 								ng-click="noteAnalyzed()">Analyze</button>
 						</section>
 						<section id="noteAnalyzerUpload" class="noteAnalyzerUploadClass">
-							<!-- <div class="noteAnalyzerUpload">
-								<div class="btn btn-primary btn-upload" upload-button
-									url="static/uploadtobedeleted"
-									on-success="onFileUploadSuccess(response)"
-									on-error="onFileUploadFailure(response)">Upload</div>
-							</div> -->
-							 <input name="noteFile" type="file" class="noteFileUploadBatch"/><button type="button" id="uploadNoteBatch" class="btn btn-primary"
-								ng-click="uploadNoteBatch()">Analyze</button>
+							 <input file-model = "myFile" type="file" class="noteFileUploadBatch" /><button type="button" id="uploadNoteBatch" class="btn btn-primary"
+								ng-click="uploadFile()">Analyze</button>
 								<p>
 								<a ng-href="{{noteDownloadTemplateAPI}}">Download Note Template</a>
 						</section>
