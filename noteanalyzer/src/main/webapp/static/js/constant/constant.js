@@ -30,3 +30,15 @@ app.constant("noteSummaryModel",{
   crime : "",
   overallScore : ""
 });
+
+app.constant("loginModel", {
+  "username": "",
+  "password": ""
+});
+
+app.constant("userDetailsModel", {
+  userName: "",
+  emailId: "",
+  password: "",
+  contactNumber: ""
+});

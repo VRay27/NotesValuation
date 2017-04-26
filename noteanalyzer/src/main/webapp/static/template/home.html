@@ -1,15 +1,15 @@
 <div class="container">
-  <div class="panel panel-default">
-    <div class="panel-heading">Notes Analyzer</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">Notes Analyzer</div>
 		<div class="panel-body">
-			<div class="row" style="padding-bottom:5%;padding-bottom:3%;">
+			<div class="row" style="padding-bottom: 5%; padding-bottom: 3%;">
 				<div ng-controller="HomeCtrl as homeCtrl">
 
 					<div class="row">
 
-						<h2 class="text-center" style="padding-bottom:3%">Note Analyzer</h2>
-						<section id="noteAnalyzerText"
-							class="noteAnalyzerTextClass">
+						<h2 class="text-center" style="padding-bottom: 3%">Note
+							Analyzer</h2>
+						<section id="noteAnalyzerText" class="noteAnalyzerTextClass">
 							<input type="text" id="noteAnalyzertext"
 								class="noteAnalyzerTextBox"
 								placeholder="Please enter your address"
@@ -18,10 +18,13 @@
 								ng-click="noteAnalyzed()">Analyze</button>
 						</section>
 						<section id="noteAnalyzerUpload" class="noteAnalyzerUploadClass">
-							 <input file-model = "myFile" type="file" class="noteFileUploadBatch" /><button type="button" id="uploadNoteBatch" class="btn btn-primary"
-								ng-click="uploadFile()">Analyze</button>
-								<p>
-								<a ng-href="{{noteDownloadTemplateAPI}}">Download Note Template</a>
+							<input file-model="myFile" type="file"
+								class="noteFileUploadBatch" />
+							<button type="button" id="uploadNoteBatch"
+								class="btn btn-primary" ng-click="uploadFile()">Analyze</button>
+							<p>
+								<a href="console">Download Note Template</a>
+							</p>
 						</section>
 					</div>
 				</div>

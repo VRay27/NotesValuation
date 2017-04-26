@@ -1,49 +1,36 @@
 <div class="container">
-  <div class="panel panel-default">
-    <div class="panel-heading">Notes Dashboard</div>
-    <div class="panel-body">
-      <div class="row">
-        </div>
-        <div >
-        
-        <section id="noteAnalyzerText"
-							class="noteAnalyzerTextClass">
-							<input type="text" id="noteAnalyzertext"
-								class="noteAnalyzerTextBox"
-								placeholder="Please enter your address"
-								ng-model="homeCtrl.inputAddress" />
-							<button type="button" id="noteUpload" class="btn btn-primary"
-								ng-click="vm.noteUpload('dashboardNoteUpload')">Analyze</button>
-						</section>
-						<section id="noteAnalyzerUpload" class="noteAnalyzerUploadClass">
-							 <input file-model = "myFile" type="file" class="noteFileUploadBatch" /><button type="button" id="uploadNoteBatch" class="btn btn-primary"
-								ng-click="uploadFile()">Analyze</button>
-								<p>
-								<a ng-href="{{noteDownloadTemplateAPI}}">Download Note Template</a>
-						</section>
-        <br />
-        <br />
-        <br />
-        <br />
-        <div>
-		
-		<div id="serviceGrid" 
-		ui-grid-move-columns 
-		ui-grid-selection
-		ui-grid-resize-columns
-		ui-grid-pinning
-		ui-grid-exporter 
-		ui-grid-auto-resize
-		ui-grid-edit
-        
-		ui-grid="vm.serviceGrid"></div>
-	</div>
-           <!-- ui-grid-pagination -->
-            </div>
+	<div class="panel panel-default">
+		<div class="panel-heading">Notes Dashboard</div>
+		<div class="panel-body">
+			<div class="row"></div>
+			<div>
+				<section id="noteAnalyzerText" class="noteAnalyzerTextClass">
+					<input type="text" id="noteAnalyzertext"
+						class="noteAnalyzerTextBox"
+						placeholder="Please enter your address"
+						ng-model="homeCtrl.inputAddress" />
+					<button type="button" id="noteUpload" class="btn btn-primary"
+						ng-click="vm.noteUpload('dashboardNoteUpload')">Analyze</button>
+				</section>
+				<section id="noteAnalyzerUpload" class="noteAnalyzerUploadClass">
+					<input file-model="myFile" type="file" class="noteFileUploadBatch" />
+					<button type="button" id="uploadNoteBatch" class="btn btn-primary"
+						ng-click="uploadFile()">Analyze</button>
+					<p>
+						<a href="console">Download Note Template</a>
+					</p>
+				</section>
+				<br /> <br /> <br /> <br />
+				<div>
 
-      </div>
-    </div>
-    
-  </div>
-</div>
+					<div id="serviceGrid" ui-grid-move-columns ui-grid-selection
+						ui-grid-resize-columns ui-grid-pinning ui-grid-exporter
+						ui-grid-auto-resize ui-grid-edit ui-grid="vm.serviceGrid"></div>
+				</div>
+				<!-- ui-grid-pagination -->
+			</div>
+
+		</div>
+	</div>
+
 </div>

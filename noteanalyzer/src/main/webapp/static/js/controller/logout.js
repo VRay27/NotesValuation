@@ -3,8 +3,8 @@ angular.module('NoteApp')
     if (!$auth.isAuthenticated()) {
       return;
     }
-    localStorage.removeItem('token');
-    toastr.info('You have been logged out');
+    $auth.logout();
+    toastr.info('You have been successfully logged out');
     $location.path('/');
 
   });

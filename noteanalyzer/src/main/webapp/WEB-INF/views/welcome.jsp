@@ -66,10 +66,8 @@
 <script src="static/lib/angular-touch.min.js"></script>
 <script src="static/lib/ui-grid.js"></script>
 <script src="static/lib/ui-bootstrap-tpls.js"></script>
-<script src="static/lib/angular-upload.js"></script>
-<!-- shim is needed to support non-HTML5 FormData browsers (IE8-9)-->
-<!-- <script src="static/lib/ng-file-upload-shim.min.js"></script>
-<script src="static/lib/ng-file-upload.min.js"></script> -->
+
+
 <!-- Application Code -->
 <script src="static/note.js"></script>
 <script src="static/js/directives/passwordStrength.js"></script>
@@ -79,8 +77,6 @@
 <script src="static/js/controller/signup.js"></script>
 <script src="static/js/controller/logout.js"></script>
 <script src="static/js/controller/profile.js"></script>
-<script src="static/js/controller/navbar.js"></script>
-<script src="static/js/service/account.js"></script>
 <script src="static/js/controller/note-detail.js"></script>
 <script src="static/js/constant/constant.js"></script>
 </body>
