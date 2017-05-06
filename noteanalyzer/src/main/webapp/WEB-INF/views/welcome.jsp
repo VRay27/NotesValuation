@@ -9,10 +9,12 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css" rel="stylesheet"/>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-grid/4.0.4/ui-grid.css" rel="stylesheet"/>
    -->
+  <link rel="shortcut icon" href="static/img/favicon.ico" />
   <link href="static/css/animate.css" rel="stylesheet">
   <link href="static/css/angular-toastr.css" rel="stylesheet">
   <link rel="styleSheet" href="static/css/ui-grid.min.css" />
   <link href="static/css/bootstrap.min.css" rel="stylesheet">
+  <link href="static/css/bootstrap-formhelpers.css" rel="stylesheet">
 
    <link rel="styleSheet" href="static/css/app.css" />
   <link href="static/css/styles.css" rel="stylesheet">
@@ -66,7 +68,7 @@
 <script src="static/lib/angular-touch.min.js"></script>
 <script src="static/lib/ui-grid.js"></script>
 <script src="static/lib/ui-bootstrap-tpls.js"></script>
-
+<script src="static/js/bootstrap-formhelpers.js"></script>
 
 <!-- Application Code -->
 <script src="static/note.js"></script>
@@ -79,6 +81,8 @@
 <script src="static/js/controller/profile.js"></script>
 <script src="static/js/controller/note-detail.js"></script>
 <script src="static/js/constant/constant.js"></script>
+
+<link href="static/img/bootstrap-formhelpers-countries.flags.png" />
 </body>
 <script type="text/javascript">
 	angular.element(document).ready(function () {

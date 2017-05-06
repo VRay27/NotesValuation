@@ -130,7 +130,7 @@ public class UserRestController {
  
                 ColumnPositionMappingStrategy strat = new ColumnPositionMappingStrategy();
                 strat.setType(NoteModel.class);
-                String[] columns = new String[] {"noteName", "noteValue"}; // the fields to bind do in your JavaBean
+                String[] columns = new String[] {"typeOfNote", "address","property","dateOfNote","upb","rate","pdiPayment","tdiPayment","remainingTerm"}; // the fields to bind do in your JavaBean
                 strat.setColumnMapping(columns);
                 File file = convert(multipart);
                 CsvToBean csv = new CsvToBean();
