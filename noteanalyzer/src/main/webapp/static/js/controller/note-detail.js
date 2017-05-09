@@ -44,32 +44,37 @@ function NoteDetailCtrl($scope, $http, $rootScope, $uibModal, RowEditor, uiGridC
     displayName: 'Asset Image',
     enableSorting: false,
     enableCellEdit: false,
-    cellTemplate: "<div ng-click='grid.appScope.vm.editRow(grid, row)'><img width=\"100px\" ng-src=\"http://cdn.flaticon.com/png/256/70689.png\" lazy-src  class=\"img-responsive\"/></div>"
+    cellTemplate: "<div ng-click='grid.appScope.vm.editRow(grid, row)'><img width=\"100px\" ng-src=\"{{row.entity.assetImgSrc}}\" lazy-src  class=\"img-responsive\"/></div>"
   }, {
     field: 'yield',
     displayName: 'Yield',
     enableSorting: true,
-    enableCellEdit: false
+    enableCellEdit: false,
+    cellTemplate: "<div>{{row.entity.yield}}</div>"
   }, {
     field: 'itv',
     displayName: 'ITV',
     enableSorting: true,
-    enableCellEdit: false
+    enableCellEdit: false,
+    cellTemplate: "<div>{{row.entity.itv}}</div>"
   }, {
     field: 'ltv',
     displayName: 'LTV',
     enableSorting: true,
-    enableCellEdit: false
+    enableCellEdit: false,
+    cellTemplate: "<div>{{row.entity.ltv}}</div>"
   }, {
     field: 'marketValue',
     displayName: 'Market Value',
     enableSorting: true,
-    enableCellEdit: false
+    enableCellEdit: false,
+    cellTemplate: "<div>{{row.entity.marketValue}}</div>"
   }, {
     field: 'crime',
     displayName: 'Crime',
     enableSorting: true,
-    enableCellEdit: false
+    enableCellEdit: false,
+    cellTemplate: "<div>{{row.entity.crime}}</div>"
   }, {
     field: 'overAllScore',
     displayName: 'OverAll Score',
@@ -79,24 +84,24 @@ function NoteDetailCtrl($scope, $http, $rootScope, $uibModal, RowEditor, uiGridC
       direction: uiGridConstants.ASC,
       priority: 1,
     },
+    cellTemplate: "<div>{{row.entity.overAllScore}}</div>"
   }];
 
-  $http.get('static/data.json').then(function(response) {
-    vm.serviceGrid.data = response;
+  $http.get('fetchAllNotes').then(function(response) {
+	  $scope.vm.serviceGrid.data = response.data;
   }, function(response) {
-    vm.serviceGrid.data = [];
+	  $scope.vm.serviceGrid.data = [];
   });
 
   $scope.addRow = function() {
     var newService = {
-      "id": "0",
-      "category": "public",
-      "exposednamespace": "http://bced.wallonie.be/services/",
-      "exposedoperation": "-",
-      "exposedws": "-",
-      "path": "//*[local-name()='-']/text()",
-      "provider": "BCED",
-      "version": "1.0"
+      "assetImageURL": "0",
+      "yield": "public",
+      "itv": "http://bced.wallonie.be/services/",
+      "ltv": "-",
+      "marketValue": "-",
+      "crime": "//*[local-name()='-']/text()",
+      "overAllScore": "BCED"
     };
     var rowTmp = {};
     rowTmp.entity = newService;

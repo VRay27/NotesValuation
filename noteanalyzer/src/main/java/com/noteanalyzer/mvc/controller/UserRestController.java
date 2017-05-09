@@ -7,9 +7,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.URLConnection;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -32,6 +30,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.noteanalyzer.mvc.model.NoteDashboard;
 import com.noteanalyzer.mvc.model.NoteModel;
 import com.noteanalyzer.mvc.model.User;
 import com.noteanalyzer.mvc.service.UserService;
@@ -157,6 +156,23 @@ public class UserRestController {
       fos.close(); 
       return convFile;
   }
+  
+  @RequestMapping(value = "/fetchAllNotes", method = RequestMethod.GET)
+  public ResponseEntity<List<NoteDashboard>> listAllNotes() {
+  	System.out.println("Inside Arvind listAllNotes");
+      List<NoteDashboard> notesList = new ArrayList<>();
+      NoteDashboard note1 = new NoteDashboard("http://cdn.flaticon.com/png/256/70689.png","ad","ad","adsad","adafeae","asfasd", "asda");
+      NoteDashboard note2 = new NoteDashboard("http://cdn.flaticon.com/png/256/70689.png","ad","ad","adsad","adafeae","asfasd", "asda");
+      notesList.add(note1);
+      notesList.add(note2);
+      
+      if(notesList.isEmpty()){
+          return new ResponseEntity<List<NoteDashboard>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
+      }
+      return new ResponseEntity<List<NoteDashboard>>(notesList, HttpStatus.OK);
+  }
+
+  
     
     //-------------------Retrieve Single User--------------------------------------------------------
      
