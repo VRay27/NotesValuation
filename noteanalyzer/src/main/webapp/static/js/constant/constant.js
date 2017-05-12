@@ -3,7 +3,7 @@ app.constant("noteInputFormModel",{
   typeOfNote : "",
   address : "",
   property : "",
-  noteDate : "",
+  noteDate : new Date(),
   upb : "",
   rate : "",
   pdiPayment : "",

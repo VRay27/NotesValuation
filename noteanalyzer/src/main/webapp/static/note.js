@@ -1,9 +1,10 @@
 
-var noteApp = angular.module('NoteApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.router', 'ngAnimate', 'ui.grid', 'ui.grid.moveColumns', 'ui.grid.selection', 'ui.grid.resizeColumns', 'ui.bootstrap', 'ui.grid.edit', 'ui.grid.pagination']);
+var noteApp = angular.module('NoteApp', ['ngResource', 'xeditable', 'ngMessages', 'ngAnimate', 'toastr', 'ui.router', 'ngAnimate', 'ui.grid', 'ui.grid.moveColumns', 'ui.grid.selection', 'ui.grid.resizeColumns', 'ui.bootstrap', 'ui.grid.edit', 'ui.grid.pagination']);
 
 noteApp.config(function($stateProvider, $urlRouterProvider) {
 
 	/**
+	 *  'material.svgAssetsCache',
 	 * Helper auth functions
 	 */
 	var skipIfLoggedIn = function() {
@@ -93,6 +94,10 @@ noteApp.config(['$httpProvider', function($httpProvider) {
 	$httpProvider.interceptors.push('APIInterceptor');
 	$httpProvider.useApplyAsync(true);
 }]);
+
+noteApp.run(function(editableOptions) {
+	  editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
+	});
 
 noteApp.service('APIInterceptor', [function() {
 	var service = this;

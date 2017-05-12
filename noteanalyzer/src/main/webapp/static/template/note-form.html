@@ -12,16 +12,34 @@
 					ng-options="noteType.label for noteType in noteTypeList"></select>
 			</div>
 			<div class="block">
-				<label>Address</label> <input class="input" type="text"
+				<label>Street Address</label> <input class="input" type="text"
 					ng-model="noteInputFormModel.address" />
 			</div>
 			<div class="block">
-				<label>Property</label> <input class="input" type="text"
-					ng-model="noteInputFormModel.property" />
+				<label>City</label> <select style="margin-left: 4px;"
+					ng-model="noteInputFormModel.typeOfNote"
+					ng-options="noteType.label for noteType in noteTypeList"></select>
 			</div>
 			<div class="block">
-				<label>DateOfNote</label> <input class="input" type="text"
-					ng-model="noteInputFormModel.noteDate" />
+				<label>State</label> <select style="margin-left: 4px;"
+					ng-model="noteInputFormModel.typeOfNote"
+					ng-options="noteType.label for noteType in noteTypeList"></select>
+			</div>
+			<div class="block">
+				<label>ZipCode</label> <input class="input" type="text"
+					ng-model="noteInputFormModel.address" />
+			</div>
+			<div class="block">
+				<label>PropertyType</label> <select style="margin-left: 4px;"
+					ng-model="noteInputFormModel.typeOfNote"
+					ng-options="noteType.label for noteType in noteTypeList"></select>
+			</div>
+			
+			<div class="block">
+			<!-- <div flex-gt-xs>
+			<label>DateOfNote</label>
+      			<md-datepicker ng-model="noteInputFormModel.noteDate" md-placeholder="Enter date"></md-datepicker>
+    		</div> -->
 			</div>
 			<div class="block">
 				<label>UPB</label> <input class="input" type="text"
@@ -40,7 +58,7 @@
 					ng-model="noteInputFormModel.tdiPayment" />
 			</div>
 			<div class="block">
-				<label>Remaining Term</label> <input class="input" type="text"
+				<label>Original Term</label> <input class="input" type="text"
 					ng-model="noteInputFormModel.remainingTerm" />
 			</div>
 		</form>

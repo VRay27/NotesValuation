@@ -2,23 +2,25 @@
 	<div class="modal-header">
 		<h3 class="modal-title">Note Detail</h3>
 	</div>
+	<form name="editableForm" editable-form onaftersave="editCtrl.saveNote($data)">
 	<div class="modal-body">
-
-		<form name="noteDetailForm">
 
 			<div class="block bottom">
 				<h4 class="modal-title text-center block-content-header">Terms</h4>
 				<div class="col-sm-4">
 					<label>Rate</label>
-					<div class="nodeDetailsValue">{{noteDetailModel.rate}}123</div>
+					<span editable-text="noteDetailModel.rate" e-name="rate" onbeforesave="checkName($data)" e-required>{{noteDetailModel.rate  || 'empty' }}</span>
 				</div>
 				<div class="col-sm-4">
 					<label>Payment</label>
-					<div class="nodeDetailsValue">{{noteDetailModel.payment}}224924</div>
+					<span editable-text="noteDetailModel.payment" e-name="payment" onbeforesave="checkPayment($data)" e-required>{{noteDetailModel.payment  || 'empty' }}</span>
+					<!-- <span editable-select="user.status" e-name="status" e-ng-options="s.value as s.text for s in statuses">
+        {{ (statuses | filter:{value: user.status})[0].text || 'Not set' }}
+      </span> -->
 				</div>
 				<div class="col-sm-4">
 					<label>UPB</label>
-					<div class="nodeDetailsValue">{{noteDetailModel.upb}}Testing</div>
+					<span editable-text="noteDetailModel.upb" e-name="upb" onbeforesave="checkPayment($data)" e-required>{{noteDetailModel.upb  || 'empty' }}</span>
 				</div>
 			</div>
 			<div class="block bottom">
@@ -51,12 +53,31 @@
 					<div class="nodeDetailsValue">{{noteDetailModel.avgEducation}}ABCD</div>
 				</div>
 			</div>
-		</form>
-
+		
 	</div>
+	
 	<div class="modal-footer">
-		<button class="btn btn-primary" ng-click="vm.save()">Save</button>
-		<button class="btn btn-primary" ng-click="vm.remove()">Delete</button>
+		<div>
+      <!-- button to show form -->
+       <span ng-show="!editableForm.$visible">
+      <button type="button" class="btn btn-default" ng-click="editableForm.$show()" ng-show="!editableForm.$visible">
+        Edit
+      </button>
+      <button class="btn btn-primary" ng-click="editCtrl.removeNote()" >Delete</button>
 		<button class="btn btn-primary" ng-click="$close()">Cancel</button>
+		</span>
+      <!-- buttons to submit / cancel form -->
+      <span ng-show="editableForm.$visible">
+        <button type="submit" class="btn btn-primary" ng-disabled="editableForm.$waiting">
+          Save
+        </button>
+        <button type="button" class="btn btn-default" ng-disabled="editableForm.$waiting" ng-click="editableForm.$cancel()">
+          Cancel
+        </button>
+      </span>
+    </div>
+		
 	</div>
+	</form>
+	
 </div>
