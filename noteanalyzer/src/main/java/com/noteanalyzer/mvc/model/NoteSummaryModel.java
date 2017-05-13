@@ -2,7 +2,7 @@ package com.noteanalyzer.mvc.model;
 
 import java.io.Serializable;
 
-public class NoteDashboard  implements Serializable{
+public class NoteSummaryModel  implements Serializable{
 	
 	/**
 	 * 
@@ -19,11 +19,11 @@ public class NoteDashboard  implements Serializable{
 	private String overAllScore;
 	
 	
-	public NoteDashboard() {
+	public NoteSummaryModel() {
 	}
 	
 	
-	public NoteDashboard(String assetImgSrc, String yield, String itv, String ltv, String marketValue, String crime,
+	public NoteSummaryModel(String assetImgSrc, String yield, String itv, String ltv, String marketValue, String crime,
 			String overAllScore) {
 		super();
 		this.assetImgSrc = assetImgSrc;
@@ -78,7 +78,7 @@ public class NoteDashboard  implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "NoteDashboard [assetImgSrc=" + assetImgSrc + ", yield=" + yield + ", itv=" + itv + ", ltv=" + ltv
+		return "NoteSummaryModel [assetImgSrc=" + assetImgSrc + ", yield=" + yield + ", itv=" + itv + ", ltv=" + ltv
 				+ ", marketValue=" + marketValue + ", crime=" + crime + ", overAllScore=" + overAllScore + "]";
 	}
 	

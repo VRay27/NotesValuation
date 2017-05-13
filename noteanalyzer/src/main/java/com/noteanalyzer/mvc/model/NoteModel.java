@@ -5,7 +5,9 @@ import java.io.Serializable;
 public class NoteModel implements Serializable {
 
 	/**
+	 * This class will hold the data for Note input form.
 	 * 
+	 * @author Arvind Ray
 	 */
 	private static final long serialVersionUID = 7343742294405817564L;
 
@@ -18,6 +20,8 @@ public class NoteModel implements Serializable {
 	private String pdiPayment;
 	private String tdiPayment;
 	private String remainingTerm;
+	
+	
 	public String getTypeOfNote() {
 		return typeOfNote;
 	}
