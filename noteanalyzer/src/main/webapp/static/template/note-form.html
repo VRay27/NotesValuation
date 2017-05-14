@@ -2,70 +2,83 @@
 	<div class="modal-header">
 		<h3 class="modal-title">Note Detail</h3>
 	</div>
+<form name="noteInputForm">
 	<div class="modal-body">
 
-		<form name="noteInputForm">
+			<div class="block" >
+				<label class="requiredField">TypeOfNote</label> <select style="margin-left: 4px;" name="typeOfNote" required
+					ng-model="noteInputFormModel.typeOfNote"
+					ng-options="noteType.label for noteType in noteTypeList"></select>
+					<span class="inputError" ng-show="hasError('typeOfNote', 'required')">Required</span>
+			</div>
+			<div class="block" >
+				<label class="requiredField">Street Address</label> 
+				<input class="input" type="text" name="streetAddress" required
+					ng-model="noteInputFormModel.address" />
+					<span class="inputError" ng-show="hasError('streetAddress', 'required')">Required</span>
+			</div>
+			<div class="block">
+				<label class="requiredField">City</label> <select style="margin-left: 4px;" required name ="city"
+					ng-model="noteInputFormModel.typeOfNote"
+					ng-options="noteType.label for noteType in noteTypeList"></select>
+					<span class="inputError" ng-show="hasError('city', 'required')">Required</span>
 
-			<div class="block">
-				<label>TypeOfNote</label> <select style="margin-left: 4px;"
-					ng-model="noteInputFormModel.typeOfNote"
-					ng-options="noteType.label for noteType in noteTypeList"></select>
 			</div>
 			<div class="block">
-				<label>Street Address</label> <input class="input" type="text"
+				<label class="requiredField">State</label> <select style="margin-left: 4px;" required name ="state"
+					ng-model="noteInputFormModel.typeOfNote"
+					ng-options="noteType.label for noteType in noteTypeList"></select>
+					<span class="inputError" ng-show="hasError('state', 'required')">Required</span>
+			</div>
+			<div class="block">
+				<label class="requiredField">ZipCode</label> <input class="input" type="text" required name ="zipcode"
 					ng-model="noteInputFormModel.address" />
+					<span class="inputError" ng-show="hasError('zipcode', 'required')">Required</span>
 			</div>
 			<div class="block">
-				<label>City</label> <select style="margin-left: 4px;"
+				<label class="requiredField">PropertyType</label> <select style="margin-left: 4px;" required name ="propertyType"
 					ng-model="noteInputFormModel.typeOfNote"
 					ng-options="noteType.label for noteType in noteTypeList"></select>
-			</div>
-			<div class="block">
-				<label>State</label> <select style="margin-left: 4px;"
-					ng-model="noteInputFormModel.typeOfNote"
-					ng-options="noteType.label for noteType in noteTypeList"></select>
-			</div>
-			<div class="block">
-				<label>ZipCode</label> <input class="input" type="text"
-					ng-model="noteInputFormModel.address" />
-			</div>
-			<div class="block">
-				<label>PropertyType</label> <select style="margin-left: 4px;"
-					ng-model="noteInputFormModel.typeOfNote"
-					ng-options="noteType.label for noteType in noteTypeList"></select>
+					<span class="inputError" ng-show="hasError('propertyType', 'required')">Required</span>
 			</div>
 			
 			<div class="block">
-			<!-- <div flex-gt-xs>
-			<label>DateOfNote</label>
-      			<md-datepicker ng-model="noteInputFormModel.noteDate" md-placeholder="Enter date"></md-datepicker>
-    		</div> -->
+			<label class="requiredField">DateOfNote</label><div>
+      			   <input type="text"  required name ="dateOfNote" class="noteDateClass" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="noteInputFormModel.noteDate" is-open="noteDate.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+          <div class="input-group-btn">
+            <button type="button" class="btn btn-default calButton" ng-click="noteDate()"><i class="glyphicon glyphicon-calendar"></i></button>
+          </div>
+          <span class="inputError" ng-show="hasError('dateOfNote', 'required')">Required</span></div> 
 			</div>
 			<div class="block">
-				<label>UPB</label> <input class="input" type="text"
+				<label class="requiredField">UPB</label> <input class="input" type="text" required name ="upb"
 					ng-model="noteInputFormModel.upb" />
+					<span class="inputError" ng-show="hasError('upb', 'required')">Required</span>
 			</div>
 			<div class="block">
-				<label>Rate</label> <input class="input" type="text"
+				<label class="requiredField">Rate</label> <input class="input" type="text" required name ="rate"
 					ng-model="noteInputFormModel.rate" />
+					<span class="inputError" ng-show="hasError('rate', 'required')">Required</span>
 			</div>
 			<div class="block">
-				<label>PDI Payment</label> <input class="input" type="text"
+				<label class="requiredField">PDI Payment</label> <input class="input" type="text"  required name ="pdiPayment"
 					ng-model="noteInputFormModel.pdiPayment" />
+					<span class="inputError" ng-show="hasError('pdiPayment', 'required')">Required</span>
 			</div>
 			<div class="block">
-				<label>TDIPayment</label> <input class="input" type="text"
+				<label class="requiredField">TDIPayment</label> <input class="input" type="text" required name ="tdiPayment"
 					ng-model="noteInputFormModel.tdiPayment" />
+					<span class="inputError" ng-show="hasError('tdiPayment', 'required')">Required</span>
 			</div>
 			<div class="block">
-				<label>Original Term</label> <input class="input" type="text"
+				<label class="requiredField">Original Term</label> <input class="input" type="text" required name ="originalTerm"
 					ng-model="noteInputFormModel.remainingTerm" />
+					<span class="inputError" ng-show="hasError('originalTerm', 'required')">Required</span>
 			</div>
-		</form>
-
 	</div>
 	<div class="modal-footer">
-		<button class="btn btn-primary" ng-click="save()">Save</button>
+		<button class="btn btn-primary"  ng-click="save()">Save</button>
 		<button class="btn btn-primary" ng-click="$close()">Cancel</button>
 	</div>
+</form>
 </div>
