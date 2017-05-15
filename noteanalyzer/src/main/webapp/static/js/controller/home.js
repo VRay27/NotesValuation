@@ -13,8 +13,7 @@ noteApp.controller('HomeCtrl', function($scope, $stateParams, $state, $auth, $ht
 			      }
 			});
 			modalInstance.result.then(function(response) {
-				$scope.selected = response;
-				console.log('Modal result selected at: ' + $scope.selected);
+				$rootScope.submitInputFormModel = response;
 			}, function() {
 				console.log('Modal dismissed at: ' + new Date());
 			});
@@ -26,16 +25,13 @@ noteApp.controller('HomeCtrl', function($scope, $stateParams, $state, $auth, $ht
 
 
 	if ($stateParams.loginState === 'inputNoteForm') {
-		$rootScope.$broadcast("callCreateNote", {});
-		//$stateParams.loginState =='';
-		/*NoteService.createNote($scope.noteInputFormModel).then(function(){
-			$state.go('noteDashboard');
-		},function(errResponse){
-			console.error('Error while creating NOTE');
-		});*/
-	} else {
-		$scope.noteInputFormModel = {};
-	}
+		 NoteService.createNote($rootScope.submitInputFormModel).then(function(){
+			 $rootScope.submitInputFormModel = {};
+				$state.go('noteDashboard');
+			},function(errResponse){
+				console.error('Error while creating NOTE');
+			});
+	} 
 
 	$scope.uploadFile = function() {
 		if ($auth.isAuthenticated()) {
@@ -93,7 +89,7 @@ noteApp.controller('noteInputFormController', function($scope,$rootScope, $state
 				createNoteService();
 				
 			} else {
-				$uibModalInstance.dismiss('cancel');
+				$uibModalInstance.close($scope.noteInputFormModel);
 				$state.go('login', {
 					'referer' : 'home',
 					'loginState' : 'inputNoteForm'
@@ -103,11 +99,10 @@ noteApp.controller('noteInputFormController', function($scope,$rootScope, $state
 	};
 	$scope.cancel = function() {
 		$uibModalInstance.dismiss('cancel');
-		console.log('cancel');
 	};
 	
  function createNoteService(){
-	 NoteService.createNote($rootScope.noteInputFormModel).then(function(){
+	 NoteService.createNote($scope.noteInputFormModel).then(function(){
 			$state.go('noteDashboard');
 		},function(errResponse){
 			console.error('Error while creating NOTE');
