@@ -1,25 +1,40 @@
 var noteApp = angular.module('NoteApp');
-noteApp.controller('HomeCtrl', function($scope, $stateParams, $state, $auth, noteInputFormModel, $http, $uibModal, toastr, $rootScope, noteUploadAPI, fileUpload) {
+noteApp.controller('HomeCtrl', function($scope, $stateParams, $state, $auth, $http, $uibModal, toastr, $rootScope, noteUploadAPI, fileUpload,NoteService) {
 	$scope.noteAnalyzed = function(modalName) {
-		var modalInstance = $uibModal.open({
-			templateUrl : 'static/template/note-form.html',
-			controller : 'noteInputFormController',
+		$scope.noteInputFormModel = {};
+		$http.get('analyzeNote/' + $scope.zipCode).then(function(response) {
+			
+			$scope.noteInputFormModel = response.data;
+			var modalInstance = $uibModal.open({
+				templateUrl : 'static/template/note-form.html',
+				controller : 'noteInputFormController',
+			    resolve: {
+			          'noteInputFormModel': $scope.noteInputFormModel
+			      }
+			});
+			modalInstance.result.then(function(response) {
+				$scope.selected = response;
+				console.log('Modal result selected at: ' + $scope.selected);
+			}, function() {
+				console.log('Modal dismissed at: ' + new Date());
+			});
+		}, function(response) {
+			toastr.error('Unable to process your request');
 		});
-		modalInstance.result.then(function(response) {
-			$scope.selected = response;
-		}, function() {
-			console.log('Modal dismissed at: ' + new Date());
-		});
+
 	};
 
 
 	if ($stateParams.loginState === 'inputNoteForm') {
-		console.log("login done");
-		// $scope.noteAnalyzed(); hit the service to update the records and forward to dashboard
-		console.log('noteInputFormModel' + noteInputFormModel);
-		$state.go('noteDashboard');
+		$rootScope.$broadcast("callCreateNote", {});
+		//$stateParams.loginState =='';
+		/*NoteService.createNote($scope.noteInputFormModel).then(function(){
+			$state.go('noteDashboard');
+		},function(errResponse){
+			console.error('Error while creating NOTE');
+		});*/
 	} else {
-		noteInputFormModel = {};
+		$scope.noteInputFormModel = {};
 	}
 
 	$scope.uploadFile = function() {
@@ -45,20 +60,8 @@ noteApp.controller('HomeCtrl', function($scope, $stateParams, $state, $auth, not
 
 });
 
-noteApp.controller('noteInputFormController', function($scope, $state, $uibModalInstance, noteInputFormModel, $auth) {
+noteApp.controller('noteInputFormController', function($scope,$rootScope, $state, $uibModalInstance, noteInputFormModel, $auth,NoteService) {
 	$scope.noteInputFormModel = noteInputFormModel;
-	$scope.noteTypeList = [{
-		key : "ABC_KEY",
-		label : "ABC"
-	}, {
-		key : "XYZ_KEY",
-		label : "XYZ"
-	}, {
-		key : "CUSTOM_KEY",
-		label : "CUSTOM"
-	}];
-	$scope.noteInputFormModel.typeOfNote = "XYZ_KEY";
-
 	$scope.hasError = function(field, validation) {
 		if (validation) {
 			return ($scope.noteInputForm[field].$dirty && $scope.noteInputForm[field].$error[validation]) || ($scope.submitted && $scope.noteInputForm[field].$error[validation]);
@@ -80,15 +83,15 @@ noteApp.controller('noteInputFormController', function($scope, $state, $uibModal
 	$scope.noteDate = function() {
 		$scope.noteDate.opened = true;
 	};
-	$scope.altInputFormats = ['M!/d!/yyyy'];
+	$scope.altInputFormats = ['MM/dd/yyyy'];
 	$scope.save = function() {
 		$scope.submitted = true;
 		if ($scope.noteInputForm.$valid) {
-			console.log('selected type of note: ' + noteInputFormModel.typeOfNote.key);
+			
 			if ($auth.isAuthenticated()) {
 				$uibModalInstance.close();
-				console.log('ok');
-				$state.go('noteDashboard');
+				createNoteService();
+				
 			} else {
 				$uibModalInstance.dismiss('cancel');
 				$state.go('login', {
@@ -102,6 +105,16 @@ noteApp.controller('noteInputFormController', function($scope, $state, $uibModal
 		$uibModalInstance.dismiss('cancel');
 		console.log('cancel');
 	};
+	
+ function createNoteService(){
+	 NoteService.createNote($rootScope.noteInputFormModel).then(function(){
+			$state.go('noteDashboard');
+		},function(errResponse){
+			console.error('Error while creating NOTE');
+		});
+ }
+ 
+
 });
 
 
@@ -140,6 +153,31 @@ noteApp.service('fileUpload', ['$http', 'toastr', function($http, toastr) {
 		});
 	}
 }]);
+
+noteApp.factory('NoteService', ['$http', 'toastr','$q', function($http, toastr,$q) {
+	 var factory = {
+		        createNote: createNote
+		    };
+
+	return factory;
+	
+	  function createNote(noteInputFormModel) {
+	        var deferred = $q.defer();
+	        $http.post('analyzeNote/createNote', noteInputFormModel)
+	            .then(
+	            function (response) {
+	                deferred.resolve(response.data);
+	            },
+	            function(errResponse){
+	                console.error('Error while creating note');
+	                deferred.reject(errResponse);
+	            }
+	        );
+	        return deferred.promise;
+	    }
+	
+	}]);
+
 
 noteApp.controller('NavbarCtrl', function($scope, $auth) {
 	$scope.isAuthenticated = function() {

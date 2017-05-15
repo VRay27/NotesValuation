@@ -6,39 +6,30 @@
 	<div class="modal-body">
 
 			<div class="block" >
-				<label class="requiredField">TypeOfNote</label> <select style="margin-left: 4px;" name="typeOfNote" required
-					ng-model="noteInputFormModel.typeOfNote"
-					ng-options="noteType.label for noteType in noteTypeList"></select>
-					<span class="inputError" ng-show="hasError('typeOfNote', 'required')">Required</span>
+				<label class="requiredField">TypeOfNote</label> <select style="margin-left: 4px;" name="noteType" required
+					ng-model="noteInputFormModel.selNoteType"
+					ng-options="noteType.noteTypeValue for noteType in noteInputFormModel.noteTypeList"></select>
+					<span class="inputError" ng-show="hasError('noteType', 'required')">Required</span>
 			</div>
 			<div class="block" >
 				<label class="requiredField">Street Address</label> 
 				<input class="input" type="text" name="streetAddress" required
-					ng-model="noteInputFormModel.address" />
+					ng-model="noteInputFormModel.address.streetAddress" />
 					<span class="inputError" ng-show="hasError('streetAddress', 'required')">Required</span>
 			</div>
 			<div class="block">
-				<label class="requiredField">City</label> <select style="margin-left: 4px;" required name ="city"
-					ng-model="noteInputFormModel.typeOfNote"
-					ng-options="noteType.label for noteType in noteTypeList"></select>
-					<span class="inputError" ng-show="hasError('city', 'required')">Required</span>
-
+				<label>City</label> <span>{{noteInputFormModel.address.city}}</span>
 			</div>
 			<div class="block">
-				<label class="requiredField">State</label> <select style="margin-left: 4px;" required name ="state"
-					ng-model="noteInputFormModel.typeOfNote"
-					ng-options="noteType.label for noteType in noteTypeList"></select>
-					<span class="inputError" ng-show="hasError('state', 'required')">Required</span>
+				<label>State</label><span>{{noteInputFormModel.address.state}}</span>
 			</div>
 			<div class="block">
-				<label class="requiredField">ZipCode</label> <input class="input" type="text" required name ="zipcode"
-					ng-model="noteInputFormModel.address" />
-					<span class="inputError" ng-show="hasError('zipcode', 'required')">Required</span>
+				<label>ZipCode</label> <span>{{noteInputFormModel.address.zipCode}}</span>
 			</div>
 			<div class="block">
 				<label class="requiredField">PropertyType</label> <select style="margin-left: 4px;" required name ="propertyType"
-					ng-model="noteInputFormModel.typeOfNote"
-					ng-options="noteType.label for noteType in noteTypeList"></select>
+					ng-model="noteInputFormModel.selPropType"
+					ng-options="propType.propertyTypeValue for propType in noteInputFormModel.propTypeList"></select>
 					<span class="inputError" ng-show="hasError('propertyType', 'required')">Required</span>
 			</div>
 			
@@ -66,13 +57,13 @@
 					<span class="inputError" ng-show="hasError('pdiPayment', 'required')">Required</span>
 			</div>
 			<div class="block">
-				<label class="requiredField">TDIPayment</label> <input class="input" type="text" required name ="tdiPayment"
+				<label class="requiredField">TDI Payment</label> <input class="input" type="text" required name ="tdiPayment"
 					ng-model="noteInputFormModel.tdiPayment" />
 					<span class="inputError" ng-show="hasError('tdiPayment', 'required')">Required</span>
 			</div>
 			<div class="block">
 				<label class="requiredField">Original Term</label> <input class="input" type="text" required name ="originalTerm"
-					ng-model="noteInputFormModel.remainingTerm" />
+					ng-model="noteInputFormModel.originalTerm" />
 					<span class="inputError" ng-show="hasError('originalTerm', 'required')">Required</span>
 			</div>
 	</div>

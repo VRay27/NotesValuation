@@ -31,7 +31,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.noteanalyzer.mvc.model.NoteSummaryModel;
-import com.noteanalyzer.mvc.model.NoteModel;
+import com.noteanalyzer.mvc.model.NoteInputFormModel;
 import com.noteanalyzer.mvc.model.User;
 import com.noteanalyzer.mvc.service.UserService;
 

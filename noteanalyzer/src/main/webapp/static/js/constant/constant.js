@@ -1,5 +1,5 @@
 var app = angular.module('NoteApp');
-app.constant("noteInputFormModel",{
+/*app.constant("noteInputFormModel",{
   typeOfNote : "",
   address : "",
   property : "",
@@ -9,7 +9,7 @@ app.constant("noteInputFormModel",{
   pdiPayment : "",
   tdiPayment : "",
   remainingTerm : ""
-});
+});*/
 app.constant("noteDetailModel",{
   rate : "",
   payment : "",
