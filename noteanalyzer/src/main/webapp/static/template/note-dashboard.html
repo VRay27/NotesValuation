@@ -4,14 +4,16 @@
 		<div class="panel-body">
 			<div class="row"></div>
 			<div>
+			<form name="noteAddForm">
 				<section id="noteAnalyzerText" class="noteAnalyzerTextClass">
-					<input type="text" id="noteAnalyzertext"
+					<input type="text" id="noteAnalyzertext" required
 						class="noteAnalyzerTextBox"
 						placeholder="Please enter your address"
-						ng-model="homeCtrl.inputAddress" />
-					<button type="button" id="noteUpload" class="btn btn-primary"
-						ng-click="vm.noteUpload('dashboardNoteUpload')">Add</button>
+						ng-model="vm.inputZipCode" />
+					<button type="button" id="noteUpload" class="btn btn-primary"  ng-disabled= "!noteAddForm.$valid"
+						ng-click="vm.noteAnalyzer('dashboardNoteUpload')">Add</button>
 				</section>
+			</form>	
 				<section id="noteAnalyzerUpload" class="noteAnalyzerUploadClass">
 					<input file-model="myFile" type="file" class="noteFileUploadBatch" />
 					<button type="button" id="uploadNoteBatch" class="btn btn-primary"

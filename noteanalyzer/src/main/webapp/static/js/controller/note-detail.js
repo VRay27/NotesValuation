@@ -4,26 +4,19 @@ app.controller('NoteDetailCtrl', NoteDetailCtrl);
 app.controller('RowEditCtrl', RowEditCtrl);
 app.service('RowEditor', RowEditor);
 
-NoteDetailCtrl.$inject = ['$scope', '$http', '$rootScope', '$uibModal', 'RowEditor', 'uiGridConstants', 'noteDetailModel', 'fileUpload', 'noteUploadAPI'];
-function NoteDetailCtrl($scope, $http, $rootScope, $uibModal, RowEditor, uiGridConstants, noteDetailModel, fileUpload, noteUploadAPI) {
+NoteDetailCtrl.$inject = ['$scope', '$http', '$rootScope', '$uibModal', 'RowEditor', 'uiGridConstants', 'noteDetailModel', 'fileUpload', 'noteUploadAPI','NoteService'];
+function NoteDetailCtrl($scope, $http, $rootScope, $uibModal, RowEditor, uiGridConstants, noteDetailModel, fileUpload, noteUploadAPI,NoteService) {
   var vm = this;
   $scope.noteDetailModel = noteDetailModel;
   vm.editRow = RowEditor.editRow;
-  vm.noteUpload = function(modalName) {
-    var modalInstance = $uibModal.open({
-      templateUrl: 'static/template/note-form.html',
-      controller: 'noteInputFormController' /*,
-      resolve: {
-          'items': function() { return $scope.items; }
-      }*/
-    })
-  };
-
+  vm.noteAnalyzer = function() {
+		NoteService.noteAnalyze(vm.inputZipCode);
+	};
+	  
   $scope.uploadFile = function() {
     fileUpload.uploadFileToUrl($scope.myFile, noteUploadAPI);
   };
 
-  $scope.inputAddress = '';
   vm.serviceGrid = {
     enableRowSelection: true,
     enableRowHeaderSelection: false,
