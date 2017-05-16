@@ -2,14 +2,19 @@ package com.noteanalyzer.entity.notes;
 
 import java.sql.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.noteanalyzer.entity.AbstractEntity;
+import com.noteanalyzer.entity.valuation.BorrowerType;
 
 import lombok.ToString;
  
@@ -38,20 +43,20 @@ public class Note extends AbstractEntity {
     @Column(name="PERFORMANCE")
     private String performance;
     
-    @Column(name="NOTE_TYPE")
-    private String noteType;
+    @ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "NOTE_TYPE")
+    private NoteType noteType;
     
     @Column(name="NOTE_POSITION")
     private Integer notePosition;
     
-    @Column(name="PROPERTY_ID")
-    private Integer propertyId;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "PROP_ID")
+    private Property property;
     
-    @Column(name="PROPERTY_AREA")
-    private String propertyArea;
-    
-    @Column(name="BORROWER_TYPE")
-    private String borrowerType;
+    @ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "BORROWER_TYPE")
+    private BorrowerType borrowerType;
     
     @Column(name="USER_USER_ID")
     private Integer userUserId;
@@ -69,7 +74,7 @@ public class Note extends AbstractEntity {
     private String intrestRateAdjustmentRule;
     
     @Column(name="SERACH_NAME")
-    private String searchName;
+    private NoteSearchCriteria searchName;
     
     @Column(name="USER_SCORE")
     private Integer userScore;
@@ -112,11 +117,11 @@ public class Note extends AbstractEntity {
 		this.performance = performance;
 	}
 
-	public String getNoteType() {
+	public NoteType getNoteType() {
 		return noteType;
 	}
 
-	public void setNoteType(String noteType) {
+	public void setNoteType(NoteType noteType) {
 		this.noteType = noteType;
 	}
 
@@ -128,27 +133,19 @@ public class Note extends AbstractEntity {
 		this.notePosition = notePosition;
 	}
 
-	public Integer getPropertyId() {
-		return propertyId;
+	public Property getProperty() {
+		return property;
+	}
+	
+	public void setProperty(Property property) {
+		this.property = property;
 	}
 
-	public void setPropertyId(Integer propertyId) {
-		this.propertyId = propertyId;
-	}
-
-	public String getPropertyArea() {
-		return propertyArea;
-	}
-
-	public void setPropertyArea(String propertyArea) {
-		this.propertyArea = propertyArea;
-	}
-
-	public String getBorrowerType() {
+	public BorrowerType getBorrowerType() {
 		return borrowerType;
 	}
 
-	public void setBorrowerType(String borrowerType) {
+	public void setBorrowerType(BorrowerType borrowerType) {
 		this.borrowerType = borrowerType;
 	}
 
@@ -224,28 +221,19 @@ public class Note extends AbstractEntity {
 		this.vendorNoteId = vendorNoteId;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
+	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
+		result = prime * result + ((borrowerType == null) ? 0 : borrowerType.hashCode());
 		result = prime * result + ((noteId == null) ? 0 : noteId.hashCode());
-		result = prime * result
-				+ ((notePosition == null) ? 0 : notePosition.hashCode());
-		result = prime * result
-				+ ((noteType == null) ? 0 : noteType.hashCode());
-		result = prime * result
-				+ ((propertyId == null) ? 0 : propertyId.hashCode());
-		result = prime * result
-				+ ((vendorNoteId == null) ? 0 : vendorNoteId.hashCode());
+		result = prime * result + ((noteType == null) ? 0 : noteType.hashCode());
+		result = prime * result + ((property == null) ? 0 : property.hashCode());
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -255,33 +243,30 @@ public class Note extends AbstractEntity {
 		if (getClass() != obj.getClass())
 			return false;
 		Note other = (Note) obj;
+		if (borrowerType == null) {
+			if (other.borrowerType != null)
+				return false;
+		} else if (!borrowerType.equals(other.borrowerType))
+			return false;
 		if (noteId == null) {
 			if (other.noteId != null)
 				return false;
 		} else if (!noteId.equals(other.noteId))
-			return false;
-		if (notePosition == null) {
-			if (other.notePosition != null)
-				return false;
-		} else if (!notePosition.equals(other.notePosition))
 			return false;
 		if (noteType == null) {
 			if (other.noteType != null)
 				return false;
 		} else if (!noteType.equals(other.noteType))
 			return false;
-		if (propertyId == null) {
-			if (other.propertyId != null)
+		if (property == null) {
+			if (other.property != null)
 				return false;
-		} else if (!propertyId.equals(other.propertyId))
-			return false;
-		if (vendorNoteId == null) {
-			if (other.vendorNoteId != null)
-				return false;
-		} else if (!vendorNoteId.equals(other.vendorNoteId))
+		} else if (!property.equals(other.property))
 			return false;
 		return true;
 	}
+
+	
 
 	
 	

@@ -17,25 +17,20 @@ import lombok.ToString;
 @NamedQueries({ @NamedQuery(name = "FETCH_NOTE_TYPE_DETAILS",query="select type from NoteType n where n.type =:type")})
 public class NoteType  extends AbstractEntity {
 	
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 6885930415090373746L;
 
 	@Id
-	@Column(name="TYPE")
-	private String type;
+	@Column(name="NOTE_TYPE")
+	private String noteType;
 	
 	@Column(name="DESCRIPTION")
 	private String description;
 	
-	public void setType(String type) {
-		this.type = type;
+	public void setNoteType(String noteType) {
+		this.noteType = noteType;
 	}
-	
-	public String getType() {
-		return type;
+	public String getNoteType() {
+		return noteType;
 	}
 	
 	public String getDescription() {
