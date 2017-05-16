@@ -10,6 +10,7 @@ public class NoteSummaryModel  implements Serializable{
 	private static final long serialVersionUID = -1746624356754962655L;
 	
 	
+	private String noteId;
 	private String assetImgSrc;
 	private String yield;
 	private String itv;
@@ -34,6 +35,24 @@ public class NoteSummaryModel  implements Serializable{
 		this.crime = crime;
 		this.overAllScore = overAllScore;
 	}
+	
+	
+	/**
+	 * @return the noteId
+	 */
+	public String getNoteId() {
+		return noteId;
+	}
+
+
+	/**
+	 * @param noteId the noteId to set
+	 */
+	public void setNoteId(String noteId) {
+		this.noteId = noteId;
+	}
+
+
 	public String getAssetImgSrc() {
 		return assetImgSrc;
 	}

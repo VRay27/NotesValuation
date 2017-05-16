@@ -37,6 +37,7 @@ function NoteDetailCtrl($scope, $http, $rootScope, $uibModal, RowEditor, uiGridC
     displayName: 'Asset Image',
     enableSorting: false,
     enableCellEdit: false,
+    enableFiltering: false,
     cellTemplate: "<div ng-click='grid.appScope.vm.editRow(grid, row)'><img width=\"100px\" ng-src=\"{{row.entity.assetImgSrc}}\" lazy-src  class=\"img-responsive\"/></div>"
   }, {
     field: 'yield',
@@ -111,7 +112,7 @@ function RowEditor($http, $rootScope, $uibModal) {
   function editRow(grid, row) {
     $uibModal.open({
       templateUrl: 'static/template/note-detail.html',
-      controller: ['$http','$scope', '$uibModalInstance', 'grid','noteDetailModel', 'row', RowEditCtrl],
+      controller: ['$http','$scope', '$uibModalInstance', 'grid','noteDetailModel', 'row','NoteService','toastr', RowEditCtrl],
       controllerAs: 'editCtrl',
       resolve: {
         grid: function() {
@@ -127,30 +128,49 @@ function RowEditor($http, $rootScope, $uibModal) {
   return service;
 }
 
-function RowEditCtrl($http,$scope, $uibModalInstance, grid,noteDetailModel, row) {
+function RowEditCtrl($http,$scope, $uibModalInstance, grid,noteDetailModel, row,NoteService,toastr) {
 	var editCtrl = this;
-	$scope.noteDetailModel = noteDetailModel;
+	NoteService.getNoteDetail(row.entity.noteId).then(function(response){
+		$scope.noteDetailModel = response.data;
+	},function(response){
+		toastr.error("Unable to fetch the note detail. Please try after sometime");
+		$uibModalInstance.close(row.entity);
+	});
+	
 	editCtrl.removeNote= function(){
-		
-		console.log('remove Notes..');
+		console.log('delete Notes..');
+		NoteService.deleteNote(row.entity.noteId).then(function(response){
+			toastr.success("Note is deleted successfully");
+			$uibModalInstance.close(row.entity);
+		},function(response){
+			toastr.error("Unable to delete the note. Please try after sometime");
+		});
 	}
 	editCtrl.saveNote= function(data){
 		console.log('save Notes.. '+data+'  note'+noteDetailModel.rate);
-		$uibModalInstance.close(row.entity);
+		NoteService.editNote($scope.noteDetailModel).then(function(response){
+			$scope.noteDetailModel = noteDetailModel;
+			toastr.success("Note is updated successfully");
+			$uibModalInstance.close(row.entity);
+		},function(response){
+			toastr.error("Unable to save the note. Please try after sometime");
+		});
 	}
-	
+
 	$scope.checkName = function(data){
 		console.log('name  check Nname.'+data);
 		
 	}
 	
-	/* vm.entity = angular.copy(row.entity);
+	
+/*	
+	 vm.entity = angular.copy(row.entity);
   vm.save = save;
- */ function save() {
+  function save() {
     if (row.entity.id == '0') {
-      /*
+      
        * $http.post('http://localhost:8080/service/save', row.entity).success(function(response) { $uibModalInstance.close(row.entity); }).error(function(response) { alert('Cannot edit row (error in console)'); console.dir(response); });
-       */
+       
       row.entity = angular.extend(row.entity, vm.entity);
       //real ID come back from response after the save in DB
       row.entity.id = Math.floor(100 + Math.random() * 1000);
@@ -159,9 +179,9 @@ function RowEditCtrl($http,$scope, $uibModalInstance, grid,noteDetailModel, row)
 
     } else {
       row.entity = angular.extend(row.entity, vm.entity);
-    /*
+    
      * $http.post('http://localhost:8080/service/save', row.entity).success(function(response) { $uibModalInstance.close(row.entity); }).error(function(response) { alert('Cannot edit row (error in console)'); console.dir(response); });
-     */
+     
     }
     $uibModalInstance.close(row.entity);
   }
@@ -169,15 +189,15 @@ function RowEditCtrl($http,$scope, $uibModalInstance, grid,noteDetailModel, row)
  // vm.remove = remove;
   function remove() {
     console.dir(row)
-   /* if (row.entity.id != '0') {
+    if (row.entity.id != '0') {
       row.entity = angular.extend(row.entity, vm.entity);
       var index = grid.appScope.vm.serviceGrid.data.indexOf(row.entity);
       grid.appScope.vm.serviceGrid.data.splice(index, 1);
     
      * $http.delete('http://localhost:8080/service/delete/'+row.entity.id).success(function(response) { $uibModalInstance.close(row.entity); }).error(function(response) { alert('Cannot delete row (error in console)'); console.dir(response); });
      
-    }*/
+    }
     $uibModalInstance.close(row.entity);
-  }
+  }*/
 
 }

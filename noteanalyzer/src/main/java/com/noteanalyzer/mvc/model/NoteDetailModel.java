@@ -16,11 +16,29 @@ public class NoteDetailModel implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -2153058918300513346L;
+	
+	private String noteId;
 	private String rate;
 	private String payment;
 	private String upb;
 	
 	private PropertyDetailModel propertyDetailModel;
+
+	
+	
+	/**
+	 * @return the noteId
+	 */
+	public String getNoteId() {
+		return noteId;
+	}
+
+	/**
+	 * @param noteId the noteId to set
+	 */
+	public void setNoteId(String noteId) {
+		this.noteId = noteId;
+	}
 
 	/**
 	 * @return the rate

@@ -34,6 +34,9 @@
     <li ng-if="isAuthenticated()"><a href="/notes/#!/profile">Profile</a></li>
   </ul>
   <ul ng-if="isAuthenticated()" class="nav navbar-nav">
+    <li><a href="/notes/#!/noteDashboard">My Dashboard</a></li>
+  </ul>
+  <ul ng-if="isAuthenticated()" class="nav navbar-nav">
     <li><a href="/notes/#!/subscription">Subscription</a></li>
   </ul>
   <ul ng-if="!isAuthenticated()" class="nav navbar-nav pull-right">

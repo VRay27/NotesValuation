@@ -6,35 +6,35 @@
 	<div class="modal-body">
 
 			<div class="block" >
-				<label class="requiredField">TypeOfNote</label> <select style="margin-left: 4px;" name="noteType" required
+				<label class="requiredField" css="tooltip-color" tooltip-placement="top" uib-tooltip="Details about this field">TypeOfNote</label> <select style="margin-left: 4px;" name="noteType" required
 					ng-model="noteInputFormModel.selNoteType"
 					ng-options="noteType.noteTypeValue for noteType in noteInputFormModel.noteTypeList"></select>
 					<span class="inputError" ng-show="hasError('noteType', 'required')">Required</span>
 			</div>
 			<div class="block" >
-				<label class="requiredField">Street Address</label> 
+				<label class="requiredField tooltip-color" tooltip-placement="top" uib-tooltip="Details about this field">Street Address</label> 
 				<input class="input" type="text" name="streetAddress" required
 					ng-model="noteInputFormModel.address.streetAddress" />
 					<span class="inputError" ng-show="hasError('streetAddress', 'required')">Required</span>
 			</div>
 			<div class="block">
-				<label>City</label> <span>{{noteInputFormModel.address.city}}</span>
+				<label class="tooltip-color" tooltip-placement="top" uib-tooltip="Details about this field">City</label> <span>{{noteInputFormModel.address.city}}</span>
 			</div>
 			<div class="block">
-				<label>State</label><span>{{noteInputFormModel.address.state}}</span>
+				<label class="tooltip-color" tooltip-placement="top" uib-tooltip="Details about this field">State</label><span>{{noteInputFormModel.address.state}}</span>
 			</div>
 			<div class="block">
-				<label>ZipCode</label> <span>{{noteInputFormModel.address.zipCode}}</span>
+				<label class="tooltip-color" tooltip-placement="top" uib-tooltip="Details about this field">ZipCode</label> <span>{{noteInputFormModel.address.zipCode}}</span>
 			</div>
 			<div class="block">
-				<label class="requiredField">PropertyType</label> <select style="margin-left: 4px;" required name ="propertyType"
+				<label class="requiredField tooltip-color" tooltip-placement="top" uib-tooltip="Details about this field">PropertyType</label> <select style="margin-left: 4px;" required name ="propertyType"
 					ng-model="noteInputFormModel.selPropType"
 					ng-options="propType.propertyTypeValue for propType in noteInputFormModel.propTypeList"></select>
 					<span class="inputError" ng-show="hasError('propertyType', 'required')">Required</span>
 			</div>
 			
 			<div class="block">
-			<label class="requiredField">DateOfNote</label><div>
+			<label class="requiredField tooltip-color" tooltip-placement="top" uib-tooltip="Details about this field">DateOfNote</label><div>
       			   <input type="text"  required name ="dateOfNote" class="noteDateClass" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="noteInputFormModel.noteDate" is-open="noteDate.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
           <div class="input-group-btn">
             <button type="button" class="btn btn-default calButton" ng-click="noteDate()"><i class="glyphicon glyphicon-calendar"></i></button>
@@ -42,27 +42,27 @@
           <span class="inputError" ng-show="hasError('dateOfNote', 'required')">Required</span></div> 
 			</div>
 			<div class="block">
-				<label class="requiredField">UPB</label> <input class="input" type="text" required name ="upb"
+				<label class="requiredField tooltip-color" tooltip-placement="top" uib-tooltip="Details about this field">UPB</label> <input class="input" type="text" required name ="upb"
 					ng-model="noteInputFormModel.upb" />
 					<span class="inputError" ng-show="hasError('upb', 'required')">Required</span>
 			</div>
 			<div class="block">
-				<label class="requiredField">Rate</label> <input class="input" type="text" required name ="rate"
+				<label class="requiredField tooltip-color" tooltip-placement="top" uib-tooltip="Details about this field">Rate</label> <input class="input" type="text" required name ="rate"
 					ng-model="noteInputFormModel.rate" />
 					<span class="inputError" ng-show="hasError('rate', 'required')">Required</span>
 			</div>
 			<div class="block">
-				<label class="requiredField">PDI Payment</label> <input class="input" type="text"  required name ="pdiPayment"
+				<label class="requiredField tooltip-color" tooltip-placement="top" uib-tooltip="Details about this field">PDI Payment</label> <input class="input" type="text"  required name ="pdiPayment"
 					ng-model="noteInputFormModel.pdiPayment" />
 					<span class="inputError" ng-show="hasError('pdiPayment', 'required')">Required</span>
 			</div>
 			<div class="block">
-				<label class="requiredField">TDI Payment</label> <input class="input" type="text" required name ="tdiPayment"
+				<label class="requiredField tooltip-color" tooltip-placement="top" uib-tooltip="Details about this field">TDI Payment</label> <input class="input" type="text" required name ="tdiPayment"
 					ng-model="noteInputFormModel.tdiPayment" />
 					<span class="inputError" ng-show="hasError('tdiPayment', 'required')">Required</span>
 			</div>
 			<div class="block">
-				<label class="requiredField">Original Term</label> <input class="input" type="text" required name ="originalTerm"
+				<label class="requiredField tooltip-color" tooltip-placement="top" uib-tooltip="Details about this field">Original Term</label> <input class="input" type="text" required name ="originalTerm"
 					ng-model="noteInputFormModel.originalTerm" />
 					<span class="inputError" ng-show="hasError('originalTerm', 'required')">Required</span>
 			</div>

@@ -133,7 +133,10 @@ noteApp.service('fileUpload', ['$http', 'toastr', function($http, toastr) {
 noteApp.factory('NoteService', ['$http', 'toastr', '$q', '$rootScope', '$uibModal', function($http, toastr, $q, $rootScope, $uibModal) {
 	var factory = {
 		createNote : createNote,
-		noteAnalyze : noteAnalyze
+		noteAnalyze : noteAnalyze,
+		getNoteDetail : getNoteDetail,
+		deleteNote : deleteNote,
+		editNote : editNote
 	};
 
 	return factory;
@@ -152,7 +155,52 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q', '$rootScope', '$uibModa
 		);
 		return deferred.promise;
 	}
-
+	
+	function editNote(noteDetailModel) {
+		var deferred = $q.defer();
+		$http.post('editNote', noteDetailModel)
+			.then(
+				function(response) {
+					deferred.resolve(response.data);
+				},
+				function(errResponse) {
+					console.error('Error while edit note');
+					deferred.reject(errResponse);
+				}
+		);
+		return deferred.promise;
+	}
+	
+	function deleteNote(noteId) {
+		var deferred = $q.defer();
+		$http.delete('deleteNote/'+noteId)
+			.then(
+				function(response) {
+					deferred.resolve(response.data);
+				},
+				function(errResponse) {
+					console.error('Error while delete note '+noteId);
+					deferred.reject(errResponse);
+				}
+		);
+		return deferred.promise;
+	}
+	
+	function getNoteDetail(noteId) {
+		var deferred = $q.defer();
+		$http.get('getNoteDetail/'+noteId)
+			.then(
+				function(response) {
+					deferred.resolve(response.data);
+				},
+				function(errResponse) {
+					console.error('Error while fetching note '+noteId);
+					deferred.reject(errResponse);
+				}
+		);
+		return deferred.promise;
+	}
+	
 	function noteAnalyze(zipCode) {
 		$http.get('analyzeNote/' + zipCode).then(function(response) {
 

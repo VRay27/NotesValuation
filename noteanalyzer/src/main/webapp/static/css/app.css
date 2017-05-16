@@ -107,3 +107,6 @@ div.block .input{
 	color:red;
 	margin-left:4px;
 }
+
+.tooltip-color + .tooltip > .tooltip-inner {background-color: #f00;}
+.tooltip-color + .tooltip > .tooltip-arrow { border-bottom-color:#f00; }

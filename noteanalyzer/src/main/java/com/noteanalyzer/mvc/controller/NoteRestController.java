@@ -26,11 +26,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.noteanalyzer.mvc.model.NoteDetailModel;
 import com.noteanalyzer.mvc.model.NoteInputFormModel;
 import com.noteanalyzer.mvc.model.NoteSummaryModel;
 import com.noteanalyzer.mvc.model.NoteType;
 import com.noteanalyzer.mvc.model.PropertyType;
-import com.noteanalyzer.mvc.model.User;
 import com.noteanalyzer.utility.NoteUtility;
 
 import au.com.bytecode.opencsv.CSVReader;
@@ -190,6 +190,8 @@ public class NoteRestController {
       List<NoteSummaryModel> notesList = new ArrayList<>();
       NoteSummaryModel note1 = new NoteSummaryModel("http://cdn.flaticon.com/png/256/70689.png","ad","ad","adsad","adafeae","asfasd", "asda");
       NoteSummaryModel note2 = new NoteSummaryModel("http://cdn.flaticon.com/png/256/70689.png","ad","ad","adsad","adafeae","asfasd", "asda");
+      note1.setNoteId("1");
+      note2.setNoteId("2");
       notesList.add(note1);
       notesList.add(note2);
       
@@ -200,7 +202,29 @@ public class NoteRestController {
   }
 
   
-    
-
+  @RequestMapping(value = "editNote", method = RequestMethod.POST)
+  public ResponseEntity<String> editNote(@RequestBody NoteDetailModel noteDetailModel) {
+	
+	 System.out.println("Inside POST with editNote noteDetailModel value "+noteDetailModel);
+	 return new ResponseEntity<String>(HttpStatus.OK);
+ }
+  
+  @RequestMapping(value = "deleteNote/{noteId}", method = RequestMethod.DELETE)
+  public ResponseEntity<String> deleteNote(@PathVariable String noteId) {
+	 if (StringUtils.isEmpty(noteId)) {
+            return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+        }
+	 System.out.println("Inside DELETE with deleteNote noteDetailModel value "+noteId);
+	return new ResponseEntity<String>(HttpStatus.OK);
+  }
+ 
+  @RequestMapping(value = "getNoteDetail/{noteId}", method = RequestMethod.GET)
+  public ResponseEntity<String> getNoteDetail(@PathVariable String noteId) {
+	 if (StringUtils.isEmpty(noteId)) {
+            return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+        }
+	 System.out.println("Inside Get Note Details with  noteDetailModel value "+noteId);
+	return new ResponseEntity<String>(HttpStatus.OK);
+  }
  
 }
