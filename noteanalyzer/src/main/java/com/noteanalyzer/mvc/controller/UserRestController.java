@@ -1,5 +1,6 @@
 package com.noteanalyzer.mvc.controller;
  
+import java.util.Base64;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +21,7 @@ import com.noteanalyzer.mvc.model.UserModel;
 import com.noteanalyzer.mvc.service.EmailUtility;
 import com.noteanalyzer.mvc.service.UserService;
 import com.noteanalyzer.security.security.auth.ajax.LoginRequest;
+import com.noteanalyzer.utility.NoteUtility;
  
 @RestController
 public class UserRestController {
@@ -27,6 +29,7 @@ public class UserRestController {
     @Autowired
     UserService userService;  //Service which will do all data retrieval/manipulation work
  
+    
     
  
     
@@ -64,6 +67,21 @@ public class UserRestController {
     }
  
     
+    @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
+    public ResponseEntity<Void> changePassword(@RequestBody UserModel inputUser,HttpServletRequest request) {
+        System.out.println("Creating User " + inputUser);
+ 
+       String resetToken = request.getParameter("resetToken");
+       inputUser.setUserName(NoteUtility.getUserNameFromResetToken(resetToken));
+       inputUser.setResetToken(NoteUtility.decodeResetToken(resetToken));
+       Optional<UserModel> user = userService.changePassword(inputUser);
+       if(user.isPresent()){
+    	   return new ResponseEntity<Void>(HttpStatus.OK);
+       }else{
+    	   return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+       }
+       
+    }
      
      
     @RequestMapping(value = "api/updateUser", method = RequestMethod.PUT)
@@ -98,9 +116,9 @@ public class UserRestController {
            System.out.println("No User exist with " + inputUser.getUsername());
            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
        }
-       
+       String resetToken = NoteUtility.encodeResetToken(inputUser.getUsername(), userModel.get().getResetToken());
        String subject = "Reset Password Link For Notes Analyzer";
-       String bodyText  = "<p>Please use below link to reset your password for Note Analyzer.This token will expire in next 24 hours.</p><p>"+baseUrl+"/notes/forgetPassword?"+userModel.get().getResetToken()+"</p>";
+       String bodyText  = "<p>Please use below link to reset your password for Note Analyzer.This token will expire in next 24 hours.</p><p>"+baseUrl+"/notes/#!/changePassword?resetToken="+resetToken+"</p>";
        if(EmailUtility.sendEmail(inputUser.getUsername(), subject, bodyText)){
     	   return new ResponseEntity<Void>(HttpStatus.OK);   
        }else{

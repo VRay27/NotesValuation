@@ -44,7 +44,8 @@ noteApp.config(function($stateProvider, $urlRouterProvider) {
 			'loginState' : null
 		},
 		resolve : {
-			loginRequired : loginRequired
+			loginRequired : loginRequired,
+			skipIfLoggedIn : skipIfLoggedIn
 		},
 		templateUrl : 'static/template/note-dashboard.html'
 	})
@@ -73,6 +74,15 @@ noteApp.config(function($stateProvider, $urlRouterProvider) {
 			template : null,
 			controller : 'LogoutCtrl'
 		})
+		.state('changePassword', {
+			url : '/changePassword',
+			templateUrl : 'static/template/changePassword.html',
+			controller : 'SignupCtrl',
+			resolve : {
+				skipIfLoggedIn : skipIfLoggedIn
+			}
+			
+		})
 		.state('profile', {
 			url : '/profile',
 			templateUrl : 'static/template/profile.html',
@@ -82,7 +92,8 @@ noteApp.config(function($stateProvider, $urlRouterProvider) {
 				'loginState' : null
 			},
 			resolve : {
-				loginRequired : loginRequired
+				loginRequired : loginRequired,
+				skipIfLoggedIn : skipIfLoggedIn
 			}
 		});
 	$urlRouterProvider.otherwise('/');
@@ -118,6 +129,15 @@ noteApp.service('APIInterceptor', [function() {
 		return res;
 	};
 }]);
+
+noteApp.run(function($rootScope, $state, $location, $auth){
+    $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, skipIfLoggedIn){
+        let loggedIn = $auth.isAuthenticated();
+        if  (!skipIfLoggedIn && !loggedIn){
+        	$state.go('login');
+        }
+    });
+});
 
 noteApp.factory('$auth', function($window) {
 	var auth = this;

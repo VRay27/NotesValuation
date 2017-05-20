@@ -10,11 +10,11 @@ import lombok.NonNull;
 public class ConverterUtility {
 
 	public static User convertUserModelToUserEntity(@NonNull UserModel userModel) {
-		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		
 		User user = new User();
 		user.setFirstName(userModel.getUserName());
 		user.setUserName(userModel.getEmail());
-		user.setPassword(passwordEncoder.encode(userModel.getPassword()));
+		user.setPassword(encodePassword(userModel.getPassword()));
 		user.setEmailID(userModel.getEmail());
 		user.setContactNumber(userModel.getPhoneNumber());
 		if (userModel.getAddress() != null) {
@@ -34,6 +34,11 @@ public class ConverterUtility {
 		userModel.setEmail(user.getEmailID());
 		userModel.setResetToken(user.getResetToken());
 		return userModel;
+	}
+	
+	public static  String encodePassword(@NonNull String password){
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		return passwordEncoder.encode(password);
 	}
 
 }

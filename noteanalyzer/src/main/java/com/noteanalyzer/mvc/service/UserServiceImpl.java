@@ -20,17 +20,15 @@ import com.noteanalyzer.utility.ConverterUtility;
 import io.jsonwebtoken.lang.Collections;
 
 @Service("userService")
-public class UserServiceImpl implements UserService{
-	
+public class UserServiceImpl implements UserService {
+
 	private static final AtomicLong counter = new AtomicLong();
-	
+
 	private static List<User> users;
-	
+
 	@Autowired
 	GenericDao genericDao;
-	
-	
-	
+
 	public GenericDao getGenericDao() {
 		return genericDao;
 	}
@@ -39,129 +37,131 @@ public class UserServiceImpl implements UserService{
 		this.genericDao = genericDao;
 	}
 
-	static{
-	//	users= populateDummyUsers();
+	static {
+		// users= populateDummyUsers();
 		RestTemplate restTemplate = new RestTemplate();
-		
-//	String url = "http://www.zillow.com/webservice/GetSearchResults.htm?zws-id=X1-ZWz19dj8ldqvwr_38l6u&address=2114+Bigelow+Ave&citystatezip=Seattle%2C+WA";
-	//System.out.println(restTemplate.getForObject(url, Source.class));
-		
-	}
-	
-	
-	public void createUser(UserModel user){
-		 genericDao.create(ConverterUtility.convertUserModelToUserEntity(user));
+
+		// String url =
+		// "http://www.zillow.com/webservice/GetSearchResults.htm?zws-id=X1-ZWz19dj8ldqvwr_38l6u&address=2114+Bigelow+Ave&citystatezip=Seattle%2C+WA";
+		// System.out.println(restTemplate.getForObject(url, Source.class));
+
 	}
 
-	
-	public User getUserById(long userId){
-		return genericDao.getById(User.class, userId);
+	public void createUser(UserModel user) {
+		genericDao.create(ConverterUtility.convertUserModelToUserEntity(user));
 	}
-	
-	 @Override
-	    public Optional<UserModel> getByUsername(String userName) {
-			Map<String, Object> parameters = new HashMap<>();
-			parameters.put("userName", userName);
-	        List<User> userList =  genericDao.getResultByNamedQuery(User.class, User.GET_USER_DETAILS, parameters);
-	        if(Collections.isEmpty(userList)){
-	        	return Optional.empty();
-	        }
-	       UserModel userModel = ConverterUtility.convertUserToUserModel(userList.get(0));
-	       return Optional.of(userModel);
-	    }
+
+	public Optional<User> getUser(String userName) {
+		Map<String, Object> parameters = new HashMap<>();
+		parameters.put("userName", userName);
+		List<User> userList = genericDao.getResultByNamedQuery(User.class, User.GET_USER_DETAILS, parameters);
+		if (Collections.isEmpty(userList)) {
+			return Optional.empty();
+		}
+		return Optional.of(userList.get(0));
+	}
+
+	@Override
+	public Optional<UserModel> getByUsername(String userName) {
+		Map<String, Object> parameters = new HashMap<>();
+		parameters.put("userName", userName);
+		List<User> userList = genericDao.getResultByNamedQuery(User.class, User.GET_USER_DETAILS, parameters);
+		if (Collections.isEmpty(userList)) {
+			return Optional.empty();
+		}
+		UserModel userModel = ConverterUtility.convertUserToUserModel(userList.get(0));
+		return Optional.of(userModel);
+	}
 
 	@Override
 	public Optional<UserModel> resetUserPassword(String userName) {
-		
-		Map<String, Object> parameters = new HashMap<>();
-		parameters.put("userName", userName);
-        List<User> userList =  genericDao.getResultByNamedQuery(User.class, User.GET_USER_DETAILS, parameters);
-        if(Collections.isEmpty(userList)){
-        	return Optional.empty();
-        }
-       User user = userList.get(0);
-       user.setResetToken(RandomStringUtils.randomAlphanumeric(40).toUpperCase());
-       user.setResetTokenCreationTime(ZonedDateTime.now());
-       User updatedUser =  genericDao.update(user);
-       return Optional.of( ConverterUtility.convertUserToUserModel(updatedUser));
+
+		/*
+		 * Map<String, Object> parameters = new HashMap<>();
+		 * parameters.put("userName", userName); List<User> userList =
+		 * genericDao.getResultByNamedQuery(User.class, User.GET_USER_DETAILS,
+		 * parameters); if(Collections.isEmpty(userList)){ return
+		 * Optional.empty(); }
+		 */
+		Optional<User> userOpt = getUser(userName);
+		if (!userOpt.isPresent()) {
+			return Optional.empty();
+		}
+		User user = userOpt.get();
+		user.setResetToken(RandomStringUtils.randomAlphanumeric(40).toUpperCase());
+		user.setResetTokenCreationTime(ZonedDateTime.now());
+		User updatedUser = genericDao.update(user);
+		return Optional.of(ConverterUtility.convertUserToUserModel(updatedUser));
 	}
 
-
-	/*public List<User> findAllUsers() {
-		return users;
-	}
-	
-	public User findById(long id) {
-		for(User user : users){
-			if(user.getId() == id){
-				return user;
+	@Override
+	public Optional<UserModel> changePassword(UserModel inputUser) {
+		Optional<User> userOpt = getUser(inputUser.getUserName());
+		if (userOpt.isPresent()) {
+			User user = userOpt.get();
+			if (inputUser.getResetToken().equals(user.getResetToken())) {
+				user.setPassword(ConverterUtility.encodePassword(inputUser.getPassword()));
+				User updatedUser = genericDao.update(user);
+				return Optional.of(ConverterUtility.convertUserToUserModel(updatedUser));
 			}
 		}
-		return null;
-	}
-	
-	public User findByName(String name) {
-		RestTemplate restTemplate = new RestTemplate();
-		genericDao.getAll(Note.class);
-		List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();
-		Jaxb2RootElementHttpMessageConverter jaxbMessageConverter = new Jaxb2RootElementHttpMessageConverter();
-		List<MediaType> mediaTypes = new ArrayList<MediaType>();
-		mediaTypes.add(MediaType.TEXT_HTML);
-		jaxbMessageConverter.setSupportedMediaTypes(mediaTypes);
-		messageConverters.add(jaxbMessageConverter);
-		restTemplate.setMessageConverters(messageConverters);
-		
-		String url = "http://www.zillow.com/webservice/GetSearchResults.htm?zws-id=X1-ZWz19dj8ldqvwr_38l6u&address=2114+Bigelow+Ave&citystatezip=Seattle%2C+WA";
-		String responseString =   restTemplate.getForObject(url, String.class);
-	//	JSONObject  jsonObj = XML.toJSONObject(responseString);
-		
-		//System.out.println("Arvind Output"+jsonObj);
-		
-		User user = new User();
-		 
-		 return user;
-		for(User user : users){
-			if(user.getUsername().equalsIgnoreCase(name)){
-				return user;
-			}
-		}
-		return null;
-	}
-	
-	public void saveUser(User user) {
-		user.setId(counter.incrementAndGet());
-		users.add(user);
+		return Optional.empty();
 	}
 
-	public void updateUser(User user) {
-		int index = users.indexOf(user);
-		users.set(index, user);
-	}
-
-	public void deleteUserById(long id) {
-		
-		for (Iterator<User> iterator = users.iterator(); iterator.hasNext(); ) {
-		    User user = iterator.next();
-		    if (user.getId() == id) {
-		        iterator.remove();
-		    }
-		}
-	}
-
-	public boolean isUserExist(User user) {
-		return findByName(user.getUsername())!=null;
-	}
-	
-	public void deleteAllUsers(){
-		users.clear();
-	}
-*/
-	/*private static List<User> populateDummyUsers(){
-		List<User> users = new ArrayList<User>();
-		users.add(new User(counter.incrementAndGet(),"Sam", "NY", "sam@abc.com"));
-		users.add(new User(counter.incrementAndGet(),"Tomy", "ALBAMA", "tomy@abc.com"));
-		users.add(new User(counter.incrementAndGet(),"Kelly", "NEBRASKA", "kelly@abc.com"));
-		return users;
-	}*/
+	/*
+	 * public List<User> findAllUsers() { return users; }
+	 * 
+	 * public User findById(long id) { for(User user : users){ if(user.getId()
+	 * == id){ return user; } } return null; }
+	 * 
+	 * public User findByName(String name) { RestTemplate restTemplate = new
+	 * RestTemplate(); genericDao.getAll(Note.class);
+	 * List<HttpMessageConverter<?>> messageConverters = new
+	 * ArrayList<HttpMessageConverter<?>>();
+	 * Jaxb2RootElementHttpMessageConverter jaxbMessageConverter = new
+	 * Jaxb2RootElementHttpMessageConverter(); List<MediaType> mediaTypes = new
+	 * ArrayList<MediaType>(); mediaTypes.add(MediaType.TEXT_HTML);
+	 * jaxbMessageConverter.setSupportedMediaTypes(mediaTypes);
+	 * messageConverters.add(jaxbMessageConverter);
+	 * restTemplate.setMessageConverters(messageConverters);
+	 * 
+	 * String url =
+	 * "http://www.zillow.com/webservice/GetSearchResults.htm?zws-id=X1-ZWz19dj8ldqvwr_38l6u&address=2114+Bigelow+Ave&citystatezip=Seattle%2C+WA";
+	 * String responseString = restTemplate.getForObject(url, String.class); //
+	 * JSONObject jsonObj = XML.toJSONObject(responseString);
+	 * 
+	 * //System.out.println("Arvind Output"+jsonObj);
+	 * 
+	 * User user = new User();
+	 * 
+	 * return user; for(User user : users){
+	 * if(user.getUsername().equalsIgnoreCase(name)){ return user; } } return
+	 * null; }
+	 * 
+	 * public void saveUser(User user) { user.setId(counter.incrementAndGet());
+	 * users.add(user); }
+	 * 
+	 * public void updateUser(User user) { int index = users.indexOf(user);
+	 * users.set(index, user); }
+	 * 
+	 * public void deleteUserById(long id) {
+	 * 
+	 * for (Iterator<User> iterator = users.iterator(); iterator.hasNext(); ) {
+	 * User user = iterator.next(); if (user.getId() == id) { iterator.remove();
+	 * } } }
+	 * 
+	 * public boolean isUserExist(User user) { return
+	 * findByName(user.getUsername())!=null; }
+	 * 
+	 * public void deleteAllUsers(){ users.clear(); }
+	 */
+	/*
+	 * private static List<User> populateDummyUsers(){ List<User> users = new
+	 * ArrayList<User>(); users.add(new User(counter.incrementAndGet(),"Sam",
+	 * "NY", "sam@abc.com")); users.add(new
+	 * User(counter.incrementAndGet(),"Tomy", "ALBAMA", "tomy@abc.com"));
+	 * users.add(new User(counter.incrementAndGet(),"Kelly", "NEBRASKA",
+	 * "kelly@abc.com")); return users; }
+	 */
 
 }

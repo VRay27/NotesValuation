@@ -10,6 +10,7 @@ public interface UserService {
 	public void createUser(UserModel user);
 	public Optional<UserModel> getByUsername(String userName);
 	public Optional<UserModel> resetUserPassword(String userName);
+	public Optional<UserModel> changePassword(UserModel inputUser);
 	
 	/*User findById(long id);
 	

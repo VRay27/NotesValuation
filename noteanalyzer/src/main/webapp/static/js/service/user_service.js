@@ -6,7 +6,8 @@ angular.module('NoteApp').factory('UserService', ['$http', '$q', function($http,
     var factory = {
         createUser: createUser,
         updateUser:updateUser,
-        getUserDetail:getUserDetail
+        getUserDetail:getUserDetail,
+        changePassword:changePassword
     };
 
     return factory;
@@ -21,6 +22,22 @@ angular.module('NoteApp').factory('UserService', ['$http', '$q', function($http,
             },
             function(errResponse){
                 console.error('Error while creating User');
+                deferred.reject(errResponse);
+            }
+        );
+        return deferred.promise;
+    }
+
+
+    function changePassword(user,resetToken) {
+        var deferred = $q.defer();
+        $http.post('changePassword?resetToken='+resetToken, user)
+            .then(
+            function (response) {
+                deferred.resolve(response.data);
+            },
+            function(errResponse){
+                console.error('Error while changing password');
                 deferred.reject(errResponse);
             }
         );
