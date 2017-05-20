@@ -86,15 +86,15 @@
 <script src="static/note.js"></script>
 <script src="static/js/directives/passwordStrength.js"></script>
 <script src="static/js/directives/passwordMatch.js"></script>
+<script src="static/js/constant/constant.js"></script>
 <script src="static/js/controller/home.js"></script>
 <script src="static/js/controller/login.js"></script>
 <script src="static/js/controller/signup.js"></script>
 <script src="static/js/controller/logout.js"></script>
 <script src="static/js/controller/profile.js"></script>
 <script src="static/js/controller/note-detail.js"></script>
-<script src="static/js/constant/constant.js"></script>
+<script src="static/js/service/user_service.js"></script>
 
-<link href="static/img/bootstrap-formhelpers-countries.flags.png" />
 </body>
 <script type="text/javascript">
 	angular.element(document).ready(function () {

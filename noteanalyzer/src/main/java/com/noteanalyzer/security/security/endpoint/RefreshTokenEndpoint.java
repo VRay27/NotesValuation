@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.noteanalyzer.entity.user.User;
-import com.noteanalyzer.security.security.UserService;
+import com.noteanalyzer.mvc.model.UserModel;
+import com.noteanalyzer.mvc.service.UserServiceImpl;
 import com.noteanalyzer.security.security.auth.jwt.extractor.TokenExtractor;
 import com.noteanalyzer.security.security.auth.jwt.verifier.TokenVerifier;
 import com.noteanalyzer.security.security.config.JwtSettings;
@@ -43,7 +43,7 @@ public class RefreshTokenEndpoint {
 	@Autowired
 	private JwtSettings jwtSettings;
 	@Autowired
-	private UserService userService;
+	private UserServiceImpl userService;
 	@Autowired
 	private TokenVerifier tokenVerifier;
 	@Autowired
@@ -66,7 +66,7 @@ public class RefreshTokenEndpoint {
 		}
 
 		String subject = refreshToken.getSubject();
-		User user = userService.getByUsername(subject)
+		UserModel user = userService.getByUsername(subject)
 				.orElseThrow(() -> new UsernameNotFoundException("User not found: " + subject));
 		/*
 		 * if (user.getRoles() == null) throw new

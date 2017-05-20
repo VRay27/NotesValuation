@@ -8,15 +8,17 @@ import java.util.Map.Entry;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.transaction.Transactional;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.noteanalyzer.entity.AbstractEntity;
 
 @Repository("genericDao")
+@Transactional
 public class GenericDaoImpl implements GenericDao {
 
 	
@@ -80,8 +82,8 @@ public class GenericDaoImpl implements GenericDao {
 	}
 
 	@Override
-	public <E extends AbstractEntity> List<E> getResultByNamedQuery(String queryName, Map<String, Object> parameters) {
-		final Query query = entityManager.createNamedQuery(queryName); 
+	public <E extends AbstractEntity> List<E> getResultByNamedQuery(final Class<E> objectType, String queryName, Map<String, Object> parameters) {
+		final TypedQuery<E> query = entityManager.createNamedQuery(queryName,objectType); 
 		if(parameters != null) {
 			for(final Entry<String,Object> parameter : parameters.entrySet()) {
 				query.setParameter(parameter.getKey(), parameter.getValue());

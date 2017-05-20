@@ -9,18 +9,18 @@
 				<h4 class="modal-title text-center block-content-header">Terms</h4>
 				<div class="col-sm-4">
 					<label>Rate</label>
-					<span editable-text="noteDetailModel.rate" e-name="rate" onbeforesave="checkName($data)" e-required>{{noteDetailModel.rate  || 'empty' }}</span>
+					<span editable-text="noteDetailModel.rate" e-name="rate" onbeforesave="checkName($data)" e-required>{{noteDetailModel.rate  || '123' }}</span>
 				</div>
 				<div class="col-sm-4">
 					<label>Payment</label>
-					<span editable-text="noteDetailModel.payment" e-name="payment" onbeforesave="checkPayment($data)" e-required>{{noteDetailModel.payment  || 'empty' }}</span>
+					<span editable-text="noteDetailModel.payment" e-name="payment" onbeforesave="checkPayment($data)" e-required>{{noteDetailModel.payment  || '456' }}</span>
 					<!-- <span editable-select="user.status" e-name="status" e-ng-options="s.value as s.text for s in statuses">
         {{ (statuses | filter:{value: user.status})[0].text || 'Not set' }}
       </span> -->
 				</div>
 				<div class="col-sm-4">
 					<label>UPB</label>
-					<span editable-text="noteDetailModel.upb" e-name="upb" onbeforesave="checkPayment($data)" e-required>{{noteDetailModel.upb  || 'empty' }}</span>
+					<span editable-text="noteDetailModel.upb" e-name="upb" onbeforesave="checkPayment($data)" e-required>{{noteDetailModel.upb  || '789' }}</span>
 				</div>
 			</div>
 			<div class="block bottom">

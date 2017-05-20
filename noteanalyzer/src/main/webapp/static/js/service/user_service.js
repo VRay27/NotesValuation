@@ -2,35 +2,19 @@
 
 angular.module('NoteApp').factory('UserService', ['$http', '$q', function($http, $q){
 
-    var REST_SERVICE_URI = 'http://localhost:8080/notes/user/';
 
     var factory = {
-        fetchAllUsers: fetchAllUsers,
         createUser: createUser,
         updateUser:updateUser,
-        deleteUser:deleteUser
+        getUserDetail:getUserDetail
     };
 
     return factory;
 
-    function fetchAllUsers() {
-        var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI)
-            .then(
-            function (response) {
-                deferred.resolve(response.data);
-            },
-            function(errResponse){
-                console.error('Error while fetching Users');
-                deferred.reject(errResponse);
-            }
-        );
-        return deferred.promise;
-    }
 
     function createUser(user) {
         var deferred = $q.defer();
-        $http.post(REST_SERVICE_URI, user)
+        $http.post('createUser', user)
             .then(
             function (response) {
                 deferred.resolve(response.data);
@@ -44,9 +28,9 @@ angular.module('NoteApp').factory('UserService', ['$http', '$q', function($http,
     }
 
 
-    function updateUser(user, id) {
+    function updateUser(user) {
         var deferred = $q.defer();
-        $http.put(REST_SERVICE_URI+id, user)
+        $http.put('updateUser', user)
             .then(
             function (response) {
                 deferred.resolve(response.data);
@@ -59,15 +43,15 @@ angular.module('NoteApp').factory('UserService', ['$http', '$q', function($http,
         return deferred.promise;
     }
 
-    function deleteUser(id) {
+    function getUserDetail(id) {
         var deferred = $q.defer();
-        $http.delete(REST_SERVICE_URI+id)
+        $http.delete('userDetail/'+id)
             .then(
             function (response) {
                 deferred.resolve(response.data);
             },
             function(errResponse){
-                console.error('Error while deleting User');
+                console.error('Error while fetching User details');
                 deferred.reject(errResponse);
             }
         );

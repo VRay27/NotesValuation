@@ -24,4 +24,5 @@ public final class AccessJwtToken implements JwtToken {
     public Claims getClaims() {
         return claims;
     }
+    
 }

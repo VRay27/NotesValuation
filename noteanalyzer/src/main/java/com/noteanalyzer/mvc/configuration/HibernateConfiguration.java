@@ -2,10 +2,10 @@ package com.noteanalyzer.mvc.configuration;
 
 
 import java.util.Properties;
- 
+
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
- 
-import org.hibernate.SessionFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -13,8 +13,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
  
 @Configuration
@@ -53,11 +54,19 @@ public class HibernateConfiguration {
         return properties;        
     }
      
-    @Bean
+/*    @Bean
     @Autowired
     public HibernateTransactionManager transactionManager(SessionFactory s) {
        HibernateTransactionManager txManager = new HibernateTransactionManager();
        txManager.setSessionFactory(s);
        return txManager;
+    }*/
+    
+    @Bean
+    @Autowired
+    public PlatformTransactionManager transactionManager(final EntityManagerFactory emf) {
+        final JpaTransactionManager transactionManager = new JpaTransactionManager();
+        transactionManager.setEntityManagerFactory(emf);
+        return transactionManager;
     }
 }

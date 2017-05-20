@@ -14,7 +14,7 @@ import lombok.ToString;
 @Entity
 @Table(name="NOTE_TYPE")
 @ToString(callSuper = true)
-@NamedQueries({ @NamedQuery(name = "FETCH_NOTE_TYPE_DETAILS",query="select type from NoteType n where n.type =:type")})
+/*@NamedQueries({ @NamedQuery(name = "FETCH_NOTE_TYPE_DETAILS",query="select type from NoteType n where n.type =:type")})*/
 public class NoteType  extends AbstractEntity {
 	
 	private static final long serialVersionUID = 6885930415090373746L;

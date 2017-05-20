@@ -1,43 +1,25 @@
 package com.noteanalyzer.mvc.controller;
  
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.Optional;
 
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import com.noteanalyzer.mvc.model.NoteSummaryModel;
-import com.noteanalyzer.mvc.model.NoteInputFormModel;
-import com.noteanalyzer.mvc.model.User;
+import com.noteanalyzer.mvc.model.UserModel;
+import com.noteanalyzer.mvc.service.EmailUtility;
 import com.noteanalyzer.mvc.service.UserService;
-
-import au.com.bytecode.opencsv.CSVReader;
-import au.com.bytecode.opencsv.bean.ColumnPositionMappingStrategy;
-import au.com.bytecode.opencsv.bean.CsvToBean;
+import com.noteanalyzer.security.security.auth.ajax.LoginRequest;
  
 @RestController
 public class UserRestController {
@@ -46,105 +28,85 @@ public class UserRestController {
     UserService userService;  //Service which will do all data retrieval/manipulation work
  
     
-    //-------------------Retrieve All Users--------------------------------------------------------
-     
-    @RequestMapping(value = "/user/", method = RequestMethod.GET)
-    public ResponseEntity<List<User>> listAllUsers() {
-    	System.out.println("Inside Arvind listAllUsers");
-        List<User> users = userService.findAllUsers();
-        if(users.isEmpty()){
-            return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
-        }
-       return new ResponseEntity<List<User>>(users, HttpStatus.OK);
-    }
  
-    
-  
     
     //-------------------Retrieve Single User--------------------------------------------------------
      
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> getUser(@PathVariable("id") long id) {
+    @RequestMapping(value = "/userDetail/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserModel> getUserDetail(@PathVariable("id") long id) {
         System.out.println("Fetching User with id " + id);
-        User user = userService.findById(id);
+      //  User user = userService.findById(id);
+        UserModel user = new UserModel();
         if (user == null) {
             System.out.println("User with id " + id + " not found");
-            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<UserModel>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<User>(user, HttpStatus.OK);
+        return new ResponseEntity<UserModel>(user, HttpStatus.OK);
     }
  
      
      
     //-------------------Create a User--------------------------------------------------------
      
-    @RequestMapping(value = "/user/", method = RequestMethod.POST)
-    public ResponseEntity<Void> createUser(@RequestBody User user,    UriComponentsBuilder ucBuilder) {
-        System.out.println("Creating User " + user.getUsername());
+    @RequestMapping(value = "/createUser", method = RequestMethod.POST)
+    public ResponseEntity<Void> createUser(@RequestBody UserModel inputUser) {
+        System.out.println("Creating User " + inputUser);
  
-        if (userService.isUserExist(user)) {
-            System.out.println("A User with name " + user.getUsername() + " already exist");
+        if (userService.getByUsername(inputUser.getEmail()).isPresent()) {
+            System.out.println("A User with name " + inputUser.getEmail() + " already exist");
             return new ResponseEntity<Void>(HttpStatus.CONFLICT);
         }
  
-        userService.saveUser(user);
- 
+        userService.createUser(inputUser);
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri());
+       // headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri());
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
     }
  
     
      
-    //------------------- Update a User --------------------------------------------------------
      
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody User user) {
-        System.out.println("Updating User " + id);
-         
-        User currentUser = userService.findById(id);
-         
+    @RequestMapping(value = "api/updateUser", method = RequestMethod.PUT)
+    public ResponseEntity<UserModel> updateUser(@RequestBody UserModel user) {
+        System.out.println("Updating User " + user);
+        UserModel currentUser  = new UserModel();
+       // User currentUser = userService.findById(id);
+     /*   User currentUser  = new User();
         if (currentUser==null) {
-            System.out.println("User with id " + id + " not found");
+           // System.out.println("User with id " + id + " not found");
             return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
         }
- 
-        currentUser.setUsername(user.getUsername());
-        currentUser.setAddress(user.getAddress());
-        currentUser.setEmail(user.getEmail());
+ */
+       // currentUser.setUsername(user.getUsername());
+        //currentUser.setEmail(user.getEmail());
          
-        userService.updateUser(currentUser);
-        return new ResponseEntity<User>(currentUser, HttpStatus.OK);
+       // userService.updateUser(currentUser);
+        return new ResponseEntity<UserModel>(currentUser, HttpStatus.OK);
     }
  
     
+   @RequestMapping(value = "resetPassword", method = RequestMethod.POST)
+   public ResponseEntity<Void> resetPassword(@RequestBody LoginRequest inputUser,HttpServletRequest request) {
+       System.out.println("Reset Password " + inputUser+" request url "+request.getRequestURL()+" context url "+request.getContextPath());
+       StringBuffer url = request.getRequestURL();
+       String uri = request.getRequestURI();
+       String baseUrl = StringUtils.substringBefore(url.toString(), uri);
+       
+       
+       Optional<UserModel> userModel = userService.resetUserPassword(inputUser.getUsername());
+       if (!userModel.isPresent()) {
+           System.out.println("No User exist with " + inputUser.getUsername());
+           return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+       }
+       
+       String subject = "Reset Password Link For Notes Analyzer";
+       String bodyText  = "<p>Please use below link to reset your password for Note Analyzer.This token will expire in next 24 hours.</p><p>"+baseUrl+"/notes/forgetPassword?"+userModel.get().getResetToken()+"</p>";
+       if(EmailUtility.sendEmail(inputUser.getUsername(), subject, bodyText)){
+    	   return new ResponseEntity<Void>(HttpStatus.OK);   
+       }else{
+    	   return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+       }
+       
+   }
     
-    //------------------- Delete a User --------------------------------------------------------
-     
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<User> deleteUser(@PathVariable("id") long id) {
-        System.out.println("Fetching & Deleting User with id " + id);
- 
-        User user = userService.findById(id);
-        if (user == null) {
-            System.out.println("Unable to delete. User with id " + id + " not found");
-            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-        }
- 
-        userService.deleteUserById(id);
-        return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
-    }
- 
-     
-    
-    //------------------- Delete All Users --------------------------------------------------------
-     
-    @RequestMapping(value = "/user/", method = RequestMethod.DELETE)
-    public ResponseEntity<User> deleteAllUsers() {
-        System.out.println("Deleting All Users");
- 
-        userService.deleteAllUsers();
-        return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
-    }
- 
 }

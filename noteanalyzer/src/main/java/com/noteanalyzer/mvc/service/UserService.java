@@ -1,14 +1,17 @@
 package com.noteanalyzer.mvc.service;
 
-import java.util.List;
+import java.util.Optional;
 
-import com.noteanalyzer.mvc.model.User;
+import com.noteanalyzer.mvc.model.UserModel;
 
 
 
 public interface UserService {
+	public void createUser(UserModel user);
+	public Optional<UserModel> getByUsername(String userName);
+	public Optional<UserModel> resetUserPassword(String userName);
 	
-	User findById(long id);
+	/*User findById(long id);
 	
 	User findByName(String name);
 	
@@ -22,6 +25,6 @@ public interface UserService {
 	
 	void deleteAllUsers();
 	
-	public boolean isUserExist(User user);
+	public boolean isUserExist(User user);*/
 	
 }

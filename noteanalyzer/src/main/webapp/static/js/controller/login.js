@@ -1,11 +1,10 @@
 var app = angular.module('NoteApp');
-app.controller('LoginCtrl', function($scope, $rootScope, $state, $location, toastr, loginService, loginModel, $stateParams, $auth) {
+app.controller('LoginCtrl', function($scope, $rootScope, $state, $location, toastr, loginService, loginModel, $stateParams, $auth,$window) {
   $scope.login = function() {
     loginModel.username = $scope.user.email;
-    loginModel.password = $scope.user.password;
+    loginModel.password = $window.btoa($scope.user.password);
     loginService.doLogin(loginModel).then(function(response) {
       $auth.saveToken(response.token)
-      //localStorage.setItem('token', response.token);
       toastr.success('You have successfully signed in with give n user name');
       if ($stateParams.referer) {
         $state.go($stateParams.referer, {
@@ -15,12 +14,23 @@ app.controller('LoginCtrl', function($scope, $rootScope, $state, $location, toas
         $location.path('/');
       }
     }, function(response) {
-      toastr.error(response.message);
+      toastr.error('Please enter valid EmailId and password.');
       $auth.logout();
-      //localStorage.removeItem('token');
-      $location.path('/');
     });
   };
+  
+ $scope.resetPassword = function(){
+	 loginModel.username = $scope.user.email;
+	 loginService.resetPassword(loginModel).then(function(response) {
+		 toastr.success('We have sent an email to your given email id with password reset instruction.');
+	 },function(response){
+		 if(response.status==404){
+			 toastr.error('No user is registered with this email.');
+		 }else{
+		  toastr.error('We are unable to process your request. Please try after sometime.');
+		 }
+	 });
+ } 
 
 });
 app.service("loginService", function($http, $q) {
@@ -37,8 +47,20 @@ app.service("loginService", function($http, $q) {
         return deferred.promise;
       });
   };
+  
+  var resetPassword = function(loginModel) {
+	    return $http.post('resetPassword', loginModel)
+	      .then(function(response) {
+	        deferred.resolve(response.data);
+	        return deferred.promise;
+	      }, function(response) {
+	        deferred.reject(response);
+	        return deferred.promise;
+	      });
+	  };
 
   return {
-    doLogin: doLogin
+    doLogin: doLogin,
+    resetPassword:resetPassword
   }
 });

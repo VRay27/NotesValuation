@@ -8,7 +8,7 @@ noteApp.config(function($stateProvider, $urlRouterProvider) {
 	 * Helper auth functions
 	 */
 	var skipIfLoggedIn = function() {
-		if (localStorage.getItem('token')) {
+		if (sessionStorage.getItem('token')) {
 			return true;
 		} else {
 			return false;
@@ -16,7 +16,7 @@ noteApp.config(function($stateProvider, $urlRouterProvider) {
 	};
 
 	var loginRequired = function() {
-		if (localStorage.getItem('token')) {
+		if (sessionStorage.getItem('token')) {
 			return false;
 		} else {
 			return true;
@@ -105,8 +105,8 @@ noteApp.service('APIInterceptor', [function() {
 	service.request = function(config) {
 		/*config.headers['Content-Type'] = "application/json";*/
 		config.headers['X-Requested-With'] = "XMLHttpRequest";
-		if (localStorage.getItem('token')) {
-			config.headers['X-Authorization'] = 'Bearer ' + localStorage.getItem('token');
+		if (sessionStorage.getItem('token')) {
+			config.headers['X-Authorization'] = 'Bearer ' + sessionStorage.getItem('token');
 		}
 		return config;
 	};
@@ -135,15 +135,15 @@ noteApp.factory('$auth', function($window) {
 	};
 
 	auth.saveToken = function(token) {
-		$window.localStorage.setItem('token', token);
+		$window.sessionStorage.setItem('token', token);
 	};
 
 	auth.logout = function() {
-		$window.localStorage.removeItem('token');
+		$window.sessionStorage.removeItem('token');
 	};
 
 	auth.getToken = function() {
-		return $window.localStorage.getItem('token');
+		return $window.sessionStorage.getItem('token');
 	};
 
 	auth.isAuthed = function() {
@@ -155,10 +155,33 @@ noteApp.factory('$auth', function($window) {
 			return false;
 		}
 	}
+	auth.getUser = function(){
+		return $window.sessionStorage.getItem('user');
+		/*var token = auth.getToken();
+		if (token) {
+			var params = auth.parseJwt(token);
+			return  params.exp;
+		} else {
+			return false;
+		}*/
+	}
+	
+	auth.setUser = function(user){
+		$window.sessionStorage.setItem('user', user);
+			/*var token = auth.getToken();
+			if (token) {
+				var params = auth.parseJwt(token);
+				return  params.exp;
+			} else {
+				return false;
+			}*/
+		}
 	return {
 		isAuthenticated : isAuthenticated,
 		saveToken : auth.saveToken,
 		logout : auth.logout,
-		getToken : auth.getToken
+		getToken : auth.getToken,
+		getUser : auth.getUser,
+		getUser : auth.setUser,
 	}
 });

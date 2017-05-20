@@ -73,8 +73,8 @@ public class Note extends AbstractEntity {
     @Column(name="INTREST_RATE_ADJUSTMENT_RULE")
     private String intrestRateAdjustmentRule;
     
-    @Column(name="SERACH_NAME")
-    private NoteSearchCriteria searchName;
+  /*  @Column(name="SERACH_NAME")
+    private NoteSearchCriteria searchName;*/
     
     @Column(name="USER_SCORE")
     private Integer userScore;
@@ -189,13 +189,21 @@ public class Note extends AbstractEntity {
 		this.intrestRateAdjustmentRule = intrestRateAdjustmentRule;
 	}
 
-	public String getSearchName() {
+	
+/*
+	*//**
+	 * @return the searchName
+	 *//*
+	public NoteSearchCriteria getSearchName() {
 		return searchName;
 	}
 
-	public void setSearchName(String searchName) {
+	*//**
+	 * @param searchName the searchName to set
+	 *//*
+	public void setSearchName(NoteSearchCriteria searchName) {
 		this.searchName = searchName;
-	}
+	}*/
 
 	public Integer getUserScore() {
 		return userScore;

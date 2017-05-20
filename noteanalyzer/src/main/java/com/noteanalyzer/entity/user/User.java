@@ -1,34 +1,34 @@
 package com.noteanalyzer.entity.user;
 
-import java.util.List;
+import java.time.ZonedDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.noteanalyzer.entity.AbstractEntity;
-
 
 import lombok.ToString;
 
 @Entity
 @Table(name = "USER")
 @ToString(callSuper = true)
+@NamedQueries({ @NamedQuery(name = User.GET_USER_DETAILS,query="select u from User u where u.userName =:userName")})
 public class User extends AbstractEntity{
 
+	public static final String GET_USER_DETAILS = "GET_USER_DETAILS";
+	
 	private static final long serialVersionUID = -2173424644486392900L;
 	
 	@Id 
-	@Column(name="ID")
+	@Column(name="USER_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long userId;
     
    	/**
 	 * This will store the userName given to this user.
@@ -71,24 +71,68 @@ public class User extends AbstractEntity{
 	
 	@Column(name="COUNTRY")
 	private String country;
+
+	@Column(name="RESET_TOKEN")
+	private String resetToken;
+
+	@Column(name="RESET_TOKEN_CREATION_TIME")
+	private ZonedDateTime resetTokenCreationTime;
 	
-	@OneToMany
+
+	/*@OneToMany
 	@JoinColumn(name="APP_USER_ID", referencedColumnName="ID")
 	private List<UserRole> roles;
 	    
+	*/
 	
-	public User(Long id, String username, String password, List<UserRole> roles) {
+	public User() {
+		super();
+	}
+
+	/*public User(Long id, String username, String password, List<UserRole> roles) {
         this.id = id;
         this.userName = username;
         this.password = password;
         this.roles = roles;
     }
-
+*/
+	
+	
 	/**
 	 * @return the userName
 	 */
 	public String getUserName() {
 		return userName;
+	}
+
+	
+
+	/**
+	 * @return the userId
+	 */
+	public Long getUserId() {
+		return userId;
+	}
+
+	/**
+	 * @param userId the userId to set
+	 */
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	/**
+	 * @return the city
+	 */
+	public String getCity() {
+		return city;
+	}
+
+	/**
+	 * @param city the city to set
+	 */
+	public void setCity(String city) {
+		this.city = city;
 	}
 
 	/**
@@ -196,20 +240,7 @@ public class User extends AbstractEntity{
 		this.street = street;
 	}
 
-	/**
-	 * @return the city
-	 */
-	public String getCity() {
-		return city;
-	}
-
-	/**
-	 * @param city the city to set
-	 */
-	public void setCity(String city) {
-		this.city = city;
-	}
-
+	
 	/**
 	 * @return the zipcode
 	 */
@@ -250,6 +281,39 @@ public class User extends AbstractEntity{
 	 */
 	public void setCountry(String country) {
 		this.country = country;
+	}
+	
+	
+
+	/**
+	 * @return the resetToken
+	 */
+	public String getResetToken() {
+		return resetToken;
+	}
+
+	/**
+	 * @param resetToken the resetToken to set
+	 */
+	public void setResetToken(String resetToken) {
+		this.resetToken = resetToken;
+	}
+
+
+
+
+	/**
+	 * @return the resetTokenCreationTime
+	 */
+	public ZonedDateTime getResetTokenCreationTime() {
+		return resetTokenCreationTime;
+	}
+
+	/**
+	 * @param resetTokenCreationTime the resetTokenCreationTime to set
+	 */
+	public void setResetTokenCreationTime(ZonedDateTime resetTokenCreationTime) {
+		this.resetTokenCreationTime = resetTokenCreationTime;
 	}
 
 	@Override

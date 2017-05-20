@@ -30,7 +30,7 @@ public interface GenericDao {
 	 */
 	int updateByNamedQuery(String queryName, Map<String,Object> parameters);
 	
-	<E extends AbstractEntity> List<E>  getResultByNamedQuery(String queryName, Map<String,Object> parameters);
+	<E extends AbstractEntity> List<E>  getResultByNamedQuery(final Class<E> objectType,String queryName, Map<String,Object> parameters);
 	
 	
 }

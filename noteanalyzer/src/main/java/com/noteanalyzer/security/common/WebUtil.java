@@ -25,4 +25,20 @@ public class WebUtil {
     public static boolean isContentTypeJson(SavedRequest request) {
         return request.getHeaderValues(CONTENT_TYPE).contains(CONTENT_TYPE_JSON);
     }
+    
+   /* public static JwtAuthenticationToken createJWTToken(@NonNull User user){
+    	List<GrantedAuthority> authorities = null;
+    	if(Collections.isEmpty(user.getRoles())){
+    		  authorities = new ArrayList<>();
+    	    authorities.add(new SimpleGrantedAuthority("USER"));
+    	}else{
+    	 authorities = user.getRoles().stream()
+                 .map(authority -> new SimpleGrantedAuthority(authority.getRoleName()))
+                 .collect(Collectors.toList());
+    	}
+        UserContext context = UserContext.create(user.getUsername(), authorities);
+        
+        return new JwtAuthenticationToken(context, context.getAuthorities());
+    }
+*/
 }
