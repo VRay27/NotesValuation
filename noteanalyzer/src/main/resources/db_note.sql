@@ -26,3 +26,12 @@ ADD CONSTRAINT 'fk_NoteType'
   FOREIGN KEY ('NOTE_TYPE')
   REFERENCES 'notes'.'notetype' ('NOTE_TYPE')
   ON UPDATE NO ACTION;
+  
+  ALTER TABLE 'notes'.'note' 
+ADD INDEX 'fk_property_idx' ('PROP_ID' ASC);
+ALTER TABLE 'notes'.'note' 
+ADD CONSTRAINT 'fk_property'
+  FOREIGN KEY ('PROP_ID')
+  REFERENCES 'notes'.'property' ('PROP_ID')
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
