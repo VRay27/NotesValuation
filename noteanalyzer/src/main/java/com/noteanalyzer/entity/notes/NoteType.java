@@ -2,6 +2,8 @@ package com.noteanalyzer.entity.notes;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -20,12 +22,18 @@ public class NoteType  extends AbstractEntity {
 	private static final long serialVersionUID = 6885930415090373746L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="N_TYPE_ID")
+    private Integer nTypeId;
+
 	@Column(name="NOTE_TYPE")
 	private String noteType;
 	
 	@Column(name="DESCRIPTION")
 	private String description;
 	
+	public NoteType() {
+	}
 	public void setNoteType(String noteType) {
 		this.noteType = noteType;
 	}

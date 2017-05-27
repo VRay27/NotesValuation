@@ -2,6 +2,8 @@ package com.noteanalyzer.entity.notes;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -14,9 +16,13 @@ import lombok.ToString;
 @ToString(callSuper = true)
 public class PropertyType extends AbstractEntity { 
 	
-	private static final long serialVersionUID = -6809609970307104305L;
+	private static final long serialVersionUID = 3343766906297480204L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="P_TYPE_ID")
+    private Integer P_TYPE_ID;
+	
     @Column(name="PROPERTY_TYPE")
 	private String propertyType;
 	

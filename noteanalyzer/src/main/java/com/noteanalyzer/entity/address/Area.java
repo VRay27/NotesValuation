@@ -2,17 +2,26 @@ package com.noteanalyzer.entity.address;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.noteanalyzer.entity.AbstractEntity;
+
 @Entity
 @Table(name="AREA")
-public class Area  {
+public class Area extends AbstractEntity{
 
-	
+	private static final long serialVersionUID = -7773399468661533735L;
+
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="AID")
+    private Integer aId;
+	
 	@Column(name="AREA_ID")
-	private Integer areaId;
+	private String areaId;
 	
 	@Column(name="AREA_NAME")
 	private String	areaName;
@@ -22,13 +31,13 @@ public class Area  {
 	/**
 	 * @return the areaId
 	 */
-	public Integer getAreaId() {
+	public String getAreaId() {
 		return areaId;
 	}
 	/**
 	 * @param areaId the areaId to set
 	 */
-	public void setAreaId(Integer areaId) {
+	public void setAreaId(String areaId) {
 		this.areaId = areaId;
 	}
 	/**
