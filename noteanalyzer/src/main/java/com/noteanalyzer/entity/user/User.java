@@ -42,6 +42,9 @@ public class User extends AbstractEntity{
 	@Column(name="PASSWORD")
 	private String password;
 	
+	@Column(name="DISPLAY_NAME")
+	private String displayName;
+	
 	@Column(name="FIRST_NAME")
 	private String firstName;
 	
@@ -284,6 +287,21 @@ public class User extends AbstractEntity{
 	}
 	
 	
+	
+
+	/**
+	 * @return the displayName
+	 */
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	/**
+	 * @param displayName the displayName to set
+	 */
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
 
 	/**
 	 * @return the resetToken
@@ -298,8 +316,6 @@ public class User extends AbstractEntity{
 	public void setResetToken(String resetToken) {
 		this.resetToken = resetToken;
 	}
-
-
 
 
 	/**
