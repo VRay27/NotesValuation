@@ -22,7 +22,7 @@ public class Property extends AbstractEntity {
 	public static final String FETCH_PROPERTY_DETAILS = "FETCH_PROPERTY_DETAILS";
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="PID")
     private Integer pId;
 

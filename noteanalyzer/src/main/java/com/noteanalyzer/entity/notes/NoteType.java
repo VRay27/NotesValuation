@@ -16,13 +16,15 @@ import lombok.ToString;
 @Entity
 @Table(name="NOTE_TYPE")
 @ToString(callSuper = true)
-/*@NamedQueries({ @NamedQuery(name = "FETCH_NOTE_TYPE_DETAILS",query="select type from NoteType n where n.type =:type")})*/
+@NamedQueries({ @NamedQuery(name = "GET_NOTE_TYPE_BY_TYPE",query="select n from NoteType n where n.noteType =:noteType")})
 public class NoteType  extends AbstractEntity {
 	
 	private static final long serialVersionUID = 6885930415090373746L;
-
+	
+	public static final String GET_NOTE_TYPE_BY_TYPE = "GET_NOTE_TYPE_BY_TYPE";
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="N_TYPE_ID")
     private Integer nTypeId;
 
@@ -48,7 +50,6 @@ public class NoteType  extends AbstractEntity {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
 	
 
 }

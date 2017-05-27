@@ -10,6 +10,17 @@ public class NoteTypeModel implements Serializable {
 	private static final long serialVersionUID = -1924873727695219842L;
 	private String noteTypeCode;
 	private String noteTypeValue;
+	
+	
+	public NoteTypeModel() {
+		super();
+	}
+	
+	public NoteTypeModel(String noteTypeCode, String noteTypeValue) {
+		super();
+		this.noteTypeCode = noteTypeCode;
+		this.noteTypeValue = noteTypeValue;
+	}
 	/**
 	 * @return the noteTypeCode
 	 */

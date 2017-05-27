@@ -10,6 +10,16 @@ public class PropertyTypeModel implements Serializable {
 	private static final long serialVersionUID = -3800824063535708236L;
 	private String propertyTypeCode;
 	private String propertyTypeValue;
+	
+	public PropertyTypeModel() {
+		super();
+	}
+	
+	public PropertyTypeModel(String propertyTypeCode, String propertyTypeValue) {
+		super();
+		this.propertyTypeCode = propertyTypeCode;
+		this.propertyTypeValue = propertyTypeValue;
+	}
 	/**
 	 * @return the propertyTypeCode
 	 */

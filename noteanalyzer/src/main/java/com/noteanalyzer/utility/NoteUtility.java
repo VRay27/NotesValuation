@@ -44,20 +44,6 @@ public class NoteUtility {
 	       return StringUtils.substringAfter(resetTokenStr, RESET_TOKEN_SEP);
 	 }
 
-	public static AbstractEntity convertModelToEntity(NoteInputFormModel note) {
-		Note noteEntity = new Note();
-		noteEntity.setNoteType(note.getSelNoteType().getNoteTypeCode());
-		Property property = new Property();
-		property.setCity(note.getAddress().getCity());
-		property.setState(note.getAddress().getState());
-		property.setStreet(note.getAddress().getStreetAddress());
-		property.setZip(Integer.valueOf(note.getAddress().getZipCode()));
-		//PropertyType propType = new PropertyType();
-		//property.setPropertyType(note.getSelPropType().getPropertyTypeCode());
-	//	noteEntity.
-				
-		return null;
-	}
 	
 	public static String getLoggedInUserName(){
 	     Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
