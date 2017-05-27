@@ -2,16 +2,13 @@ package com.noteanalyzer.mvc.service;
 
 import java.util.Optional;
 
+import com.noteanalyzer.mvc.model.NoteInputFormModel;
 import com.noteanalyzer.mvc.model.UserModel;
 
 
 
-public interface UserService {
-	public void createUser(UserModel user);
-	public Optional<UserModel> getByUsername(String userName);
-	public Optional<UserModel> resetUserPassword(String userName);
-	public Optional<UserModel> updateUser(UserModel user);
-	Optional<UserModel> changePassword(UserModel inputUser, boolean isResetTokenRequired);
+public interface NoteService {
+	public void createNote(NoteInputFormModel note);
 	
 	/*User findById(long id);
 	

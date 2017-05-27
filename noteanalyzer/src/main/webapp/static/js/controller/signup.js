@@ -2,7 +2,8 @@ angular.module('NoteApp')
   .controller('SignupCtrl', function($scope, $state, $auth, toastr,UserService,$window,$location) {
     $scope.signup = function() {
     	var user = $scope.user;
-    	user.password = $window.btoa($scope.user.password);
+    	user.password = $auth.encodeString($scope.user.password);
+    	$auth.encodeString($scope.user.confirmPassword);
       UserService.createUser(user).then(function(response){
     	  $state.go('login');
           toastr.info('You have successfully created a new account. Please sign in using your Email and password');
@@ -18,14 +19,23 @@ angular.module('NoteApp')
     
     $scope.changePassword = function() {
     	var user = $scope.user;
-      	user.password = $window.btoa($scope.user.password);
-      	var obj = $location.search();
+    	user.password = $auth.encodeString($scope.user.password);
+    	if($auth.isAuthenticated){
+    		 UserService.changePasswordWithLoginUser(user).then(function(response){
+    	      	  $state.go('login');
+    	          toastr.info('You have successfully change your password. Please sign in using your Email and password');
+    	        },function(response){
+    	      		  toastr.error('We are unable to process your request. Please try after some time');
+    	      	  });
+    	}else{
+    	var obj = $location.search();
         UserService.changePassword(user,obj.resetToken).then(function(response){
       	  $state.go('login');
           toastr.info('You have successfully change your password. Please sign in using your Email and password');
         },function(response){
       		  toastr.error('We are unable to process your request. Please try after some time');
       	  });
+    	};
     };
     
   });

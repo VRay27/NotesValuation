@@ -14,19 +14,19 @@
 			</div>
 			<div class="block" >
 				<label class="requiredField">Street Address</label> 
-				<input class="input" type="text" name="streetAddress" required
+				<input class="input" type="text" name="streetAddress" required maxlength="100" 
 					ng-model="noteInputFormModel.address.streetAddress" />
 					<span class="glyphicon glyphicon-info-sign tooltip-color" tooltip-placement="top" uib-tooltip="Details about this field"></span>
 					<span class="inputError" ng-show="hasError('streetAddress', 'required')">Required</span>
 			</div>
 			<div class="block">
-				<label class="tooltip-color" tooltip-placement="top" uib-tooltip="Details about this field">City</label> <span>{{noteInputFormModel.address.city}}</span>
+				<label >City</label> <span>{{noteInputFormModel.address.city}}</span><span class="glyphicon glyphicon-info-sign tooltip-color" tooltip-placement="top" uib-tooltip="Details about this field"></span>
 			</div>
 			<div class="block">
-				<label class="tooltip-color" tooltip-placement="top" uib-tooltip="Details about this field">State</label><span>{{noteInputFormModel.address.state}}</span>
+				<label >State</label><span>{{noteInputFormModel.address.state}}</span><span class="glyphicon glyphicon-info-sign tooltip-color" tooltip-placement="top" uib-tooltip="Details about this field"></span>
 			</div>
 			<div class="block">
-				<label class="tooltip-color" tooltip-placement="top" uib-tooltip="Details about this field">ZipCode</label> <span>{{noteInputFormModel.address.zipCode}}</span>
+				<label >ZipCode</label> <span>{{noteInputFormModel.address.zipCode}}</span><span class="glyphicon glyphicon-info-sign tooltip-color" tooltip-placement="top" uib-tooltip="Details about this field"></span>
 			</div>
 			<div class="block">
 				<label class="requiredField">PropertyType</label> <select style="margin-left: 4px;" required name ="propertyType"
@@ -46,31 +46,31 @@
           <span class="inputError noteDateAligment" ng-show="hasError('dateOfNote', 'required')">Required</span></div> 
 			</div>
 			<div class="block">
-				<label class="requiredField">UPB</label> <input class="input" type="text" required name ="upb"
+				<label class="requiredField">UPB</label> <input class="input" type="text" required name ="upb" maxlength="50"  pattern="[a-zA-Z0-9._\s]+" title="This field can contain only alpha numeric characters.."
 					ng-model="noteInputFormModel.upb" />
 					<span class="glyphicon glyphicon-info-sign tooltip-color" tooltip-placement="top" uib-tooltip="Details about this field"></span>
 					<span class="inputError" ng-show="hasError('upb', 'required')">Required</span>
 			</div>
 			<div class="block">
-				<label class="requiredField">Rate</label> <input class="input" type="text" required name ="rate"
+				<label class="requiredField">Rate</label> <input class="input" type="text" required name ="rate" maxlength="50"  pattern="[a-zA-Z0-9._\s]+" title="This field can contain only alpha numeric characters.."
 					ng-model="noteInputFormModel.rate" />
 					<span class="glyphicon glyphicon-info-sign tooltip-color" tooltip-placement="top" uib-tooltip="Details about this field"></span>
 					<span class="inputError" ng-show="hasError('rate', 'required')">Required</span>
 			</div>
 			<div class="block">
-				<label class="requiredField">PDI Payment</label> <input class="input" type="text"  required name ="pdiPayment"
+				<label class="requiredField">PDI Payment</label> <input class="input" type="text"  required name ="pdiPayment" maxlength="50"  pattern="[a-zA-Z0-9._\s]+" title="This field can contain only alpha numeric characters.."
 					ng-model="noteInputFormModel.pdiPayment" />
 					<span class="glyphicon glyphicon-info-sign tooltip-color" tooltip-placement="top" uib-tooltip="Details about this field"></span>
 					<span class="inputError" ng-show="hasError('pdiPayment', 'required')">Required</span>
 			</div>
 			<div class="block">
-				<label class="requiredField">TDI Payment</label> <input class="input" type="text" required name ="tdiPayment"
+				<label class="requiredField">TDI Payment</label> <input class="input" type="text" required name ="tdiPayment" maxlength="50"  pattern="[a-zA-Z0-9._\s]+" title="This field can contain only alpha numeric characters.."
 					ng-model="noteInputFormModel.tdiPayment" />
 					<span class="glyphicon glyphicon-info-sign tooltip-color" tooltip-placement="top" uib-tooltip="Details about this field"></span>
 					<span class="inputError" ng-show="hasError('tdiPayment', 'required')">Required</span>
 			</div>
 			<div class="block">
-				<label class="requiredField" >Original Term</label> <input class="input" type="text" required name ="originalTerm"
+				<label class="requiredField" >Original Term</label> <input class="input" type="text" required name ="originalTerm" maxlength="50"  pattern="[a-zA-Z0-9._\s]+" title="This field can contain only alpha numeric characters.."
 					ng-model="noteInputFormModel.originalTerm" />
 					<span class="glyphicon glyphicon-info-sign tooltip-color" tooltip-placement="top" uib-tooltip="Details about this field"></span>
 					<span class="inputError" ng-show="hasError('originalTerm', 'required')">Required</span>

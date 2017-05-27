@@ -42,3 +42,5 @@ app.constant("userDetailsModel", {
   password: "",
   contactNumber: ""
 });
+
+app.constant('noteUploadAPI', 'api/noteUpload');

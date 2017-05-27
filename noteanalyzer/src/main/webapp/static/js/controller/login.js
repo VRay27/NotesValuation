@@ -2,7 +2,7 @@ var app = angular.module('NoteApp');
 app.controller('LoginCtrl', function($scope, $rootScope, $state, $location, toastr, loginService, loginModel, $stateParams, $auth,$window) {
   $scope.login = function() {
     loginModel.username = $scope.user.email;
-    loginModel.password = $window.btoa($scope.user.password);
+    loginModel.password = $auth.encodeString($scope.user.password);
     loginService.doLogin(loginModel).then(function(response) {
       $auth.saveToken(response.token)
       toastr.success('You have successfully signed in with give n user name');

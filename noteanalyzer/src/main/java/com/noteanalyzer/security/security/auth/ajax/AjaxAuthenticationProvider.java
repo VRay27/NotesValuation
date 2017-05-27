@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.noteanalyzer.mvc.model.UserModel;
-import com.noteanalyzer.mvc.service.UserServiceImpl;
+import com.noteanalyzer.mvc.service.impl.UserServiceImpl;
 import com.noteanalyzer.security.security.model.UserContext;
 
 
@@ -41,7 +41,7 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
         
         System.out.println("Arvind "+username+", password "+password);
 
-        UserModel user = userService.getByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+        UserModel user = userService.getByUsernameWithPassword(username).orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
         System.out.println("Userrrrr "+user);
         if (!encoder.matches(password, user.getPassword())) {
             throw new BadCredentialsException("Authentication Failed. Username or Password not valid.");
@@ -55,7 +55,7 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
 */        
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("ADMIN"));
-        UserContext userContext = UserContext.create(user.getUserName(), authorities);
+        UserContext userContext = UserContext.create(user.getEmail(), authorities);
         
         return new UsernamePasswordAuthenticationToken(userContext, null, userContext.getAuthorities());
     }

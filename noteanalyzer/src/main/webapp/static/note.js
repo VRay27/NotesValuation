@@ -95,6 +95,17 @@ noteApp.config(function($stateProvider, $urlRouterProvider) {
 				loginRequired : loginRequired,
 				skipIfLoggedIn : skipIfLoggedIn
 			}
+		}).state('subscription', {
+			url : '/subscription',
+			templateUrl : 'static/template/subscription.html',
+			controller : 'SubscriptionCtrl',
+			params : {
+				'referer' : null,
+				'loginState' : null
+			},
+			resolve : {
+				loginRequired : loginRequired
+			}
 		});
 	$urlRouterProvider.otherwise('/');
 
@@ -119,6 +130,11 @@ noteApp.service('APIInterceptor', [function() {
 		if (sessionStorage.getItem('token')) {
 			config.headers['X-Authorization'] = 'Bearer ' + sessionStorage.getItem('token');
 		}
+		 //disable IE ajax request caching
+		config.headers['If-Modified-Since'] = 'Mon, 26 Jul 1997 05:00:00 GMT';
+	    // extra
+		config.headers['Cache-Control'] = 'no-cache';
+		config.headers['Pragma'] = 'no-cache';
 		return config;
 	};
 	service.response = function(res) {
@@ -139,7 +155,7 @@ noteApp.run(function($rootScope, $state, $location, $auth){
     });
 });
 
-noteApp.factory('$auth', function($window) {
+noteApp.factory('$auth', function($window,$state,toastr) {
 	var auth = this;
 	var isAuthenticated = function() {
 		if (!auth.isAuthed()) {
@@ -165,6 +181,15 @@ noteApp.factory('$auth', function($window) {
 	auth.getToken = function() {
 		return $window.sessionStorage.getItem('token');
 	};
+	
+	auth.checkLoginFromServer = function(status) {
+		if(status===401){
+			auth.logout();
+			toastr.error('Your session has been invalid. Please login again.');
+			$state.go('login');
+		}
+	};
+	
 
 	auth.isAuthed = function() {
 		var token = auth.getToken();
@@ -177,25 +202,20 @@ noteApp.factory('$auth', function($window) {
 	}
 	auth.getUser = function(){
 		return $window.sessionStorage.getItem('user');
-		/*var token = auth.getToken();
-		if (token) {
-			var params = auth.parseJwt(token);
-			return  params.exp;
-		} else {
-			return false;
-		}*/
 	}
 	
 	auth.setUser = function(user){
 		$window.sessionStorage.setItem('user', user);
-			/*var token = auth.getToken();
-			if (token) {
-				var params = auth.parseJwt(token);
-				return  params.exp;
-			} else {
-				return false;
-			}*/
-		}
+	}
+	auth.encodeString = function (str) {
+	    // first we use encodeURIComponent to get percent-encoded UTF-8,
+	    // then we convert the percent encodings into raw bytes which
+	    // can be fed into btoa.
+	    return $window.btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+	        function toSolidBytes(match, p1) {
+	            return String.fromCharCode('0x' + p1);
+	    }));
+	}
 	return {
 		isAuthenticated : isAuthenticated,
 		saveToken : auth.saveToken,
@@ -203,5 +223,7 @@ noteApp.factory('$auth', function($window) {
 		getToken : auth.getToken,
 		getUser : auth.getUser,
 		getUser : auth.setUser,
+		checkLoginFromServer:auth.checkLoginFromServer,
+		encodeString:auth.encodeString
 	}
 });

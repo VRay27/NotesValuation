@@ -10,11 +10,11 @@ public class UserModel {
 
 	private long userId;
 	
-	private String userName;
+	private String displayName;
 	
 	private String password;
 	
-	private Address address;
+	private AddressModel addressModel;
 	
 	private String email;
 	
@@ -32,9 +32,9 @@ public class UserModel {
 		super();
 	}
 
-	public UserModel(long userId, String userName, String email){
+	public UserModel(long userId, String displayName, String email){
 		this.userId = userId;
-		this.userName = userName;
+		this.displayName = displayName;
 		this.email = email;
 	}
 
@@ -55,18 +55,48 @@ public class UserModel {
 	}
 
 	
+	
+
 	/**
-	 * @return the userName
+	 * @return the displayName
 	 */
-	public String getUserName() {
-		return userName;
+	public String getDisplayName() {
+		return displayName;
 	}
 
 	/**
-	 * @param userName the userName to set
+	 * @param displayName the displayName to set
 	 */
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+
+	/**
+	 * @return the addressModel
+	 */
+	public AddressModel getAddressModel() {
+		return addressModel;
+	}
+
+	/**
+	 * @param addressModel the addressModel to set
+	 */
+	public void setAddressModel(AddressModel addressModel) {
+		this.addressModel = addressModel;
+	}
+
+	/**
+	 * @return the resetCreationTime
+	 */
+	public ZonedDateTime getResetCreationTime() {
+		return resetCreationTime;
+	}
+
+	/**
+	 * @param resetCreationTime the resetCreationTime to set
+	 */
+	public void setResetCreationTime(ZonedDateTime resetCreationTime) {
+		this.resetCreationTime = resetCreationTime;
 	}
 
 	public String getEmail() {
@@ -139,15 +169,15 @@ public class UserModel {
 	/**
 	 * @return the address
 	 */
-	public Address getAddress() {
-		return address;
+	public AddressModel getAddress() {
+		return addressModel;
 	}
 
 	/**
-	 * @param address the address to set
+	 * @param addressModel the address to set
 	 */
-	public void setAddress(Address address) {
-		this.address = address;
+	public void setAddress(AddressModel addressModel) {
+		this.addressModel = addressModel;
 	}
 
 	/**
@@ -183,9 +213,13 @@ public class UserModel {
 	 */
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", userName=" + userName + ", address=" + address + ", email=" + email
-				+ ", phoneNumber=" + phoneNumber + ", roles=" + roles + "]";
+		return "UserModel [userId=" + userId + ", displayName=" + displayName + ", password=" + password
+				+ ", addressModel=" + addressModel + ", email=" + email + ", phoneNumber=" + phoneNumber
+				+ ", resetToken=" + resetToken + ", resetCreationTime=" + resetCreationTime + ", roles=" + roles + "]";
 	}
+
+	
+	
 
 	
 	

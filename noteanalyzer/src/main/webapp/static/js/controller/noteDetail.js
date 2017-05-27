@@ -4,8 +4,8 @@ app.controller('NoteDetailCtrl', NoteDetailCtrl);
 app.controller('RowEditCtrl', RowEditCtrl);
 app.service('RowEditor', RowEditor);
 
-NoteDetailCtrl.$inject = ['$scope', '$http', '$rootScope', '$uibModal', 'RowEditor', 'uiGridConstants', 'noteDetailModel', 'fileUpload', 'noteUploadAPI','NoteService'];
-function NoteDetailCtrl($scope, $http, $rootScope, $uibModal, RowEditor, uiGridConstants, noteDetailModel, fileUpload, noteUploadAPI,NoteService) {
+NoteDetailCtrl.$inject = ['$scope', '$http','$auth', '$rootScope', '$uibModal', 'RowEditor', 'uiGridConstants', 'noteDetailModel','noteUploadAPI','NoteService'];
+function NoteDetailCtrl($scope, $http,$auth, $rootScope, $uibModal, RowEditor, uiGridConstants, noteDetailModel,noteUploadAPI,NoteService) {
   var vm = this;
   $scope.noteDetailModel = noteDetailModel;
   vm.editRow = RowEditor.editRow;
@@ -14,7 +14,7 @@ function NoteDetailCtrl($scope, $http, $rootScope, $uibModal, RowEditor, uiGridC
 	};
 	  
   $scope.uploadFile = function() {
-    fileUpload.uploadFileToUrl($scope.myFile, noteUploadAPI);
+	  NoteService.uploadNoteFile($scope.myFile, noteUploadAPI);
   };
 
   vm.serviceGrid = {
@@ -81,10 +81,11 @@ function NoteDetailCtrl($scope, $http, $rootScope, $uibModal, RowEditor, uiGridC
     cellTemplate: "<div>{{row.entity.overAllScore}}</div>"
   }];
 
-  $http.get('fetchAllNotes').then(function(response) {
+  $http.get('api/fetchAllNotes').then(function(response) {
 	  $scope.vm.serviceGrid.data = response.data;
   }, function(response) {
 	  $scope.vm.serviceGrid.data = [];
+	  $auth.checkLoginFromServer(response.status);
   });
 
   $scope.addRow = function() {

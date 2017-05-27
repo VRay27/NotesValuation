@@ -29,8 +29,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.noteanalyzer.mvc.model.NoteDetailModel;
 import com.noteanalyzer.mvc.model.NoteInputFormModel;
 import com.noteanalyzer.mvc.model.NoteSummaryModel;
-import com.noteanalyzer.mvc.model.NoteType;
-import com.noteanalyzer.mvc.model.PropertyType;
+import com.noteanalyzer.mvc.model.NoteTypeModel;
+import com.noteanalyzer.mvc.model.PropertyTypeModel;
 import com.noteanalyzer.utility.NoteUtility;
 
 import au.com.bytecode.opencsv.CSVReader;
@@ -54,23 +54,23 @@ public class NoteRestController {
 		 noteInputFormModel.getAddress().setZipCode(zipCode);
 		 
 		 ///Need to be deleted
-		 NoteType noteType = new NoteType();
-		 noteType.setNoteTypeCode("code1");
-		 noteType.setNoteTypeValue("value1");
-		 NoteType noteType2 = new NoteType();
+		 NoteTypeModel noteTypeModel = new NoteTypeModel();
+		 noteTypeModel.setNoteTypeCode("code1");
+		 noteTypeModel.setNoteTypeValue("value1");
+		 NoteTypeModel noteType2 = new NoteTypeModel();
 		 noteType2.setNoteTypeCode("code2");
 		 noteType2.setNoteTypeValue("value2");
 		 
-		 PropertyType propType = new PropertyType();
+		 PropertyTypeModel propType = new PropertyTypeModel();
 		 propType.setPropertyTypeCode("codeP1");
 		 propType.setPropertyTypeValue("valueP1");
-		 PropertyType propType2 = new PropertyType();
+		 PropertyTypeModel propType2 = new PropertyTypeModel();
 		 propType2.setPropertyTypeCode("codeP2");
 		 propType2.setPropertyTypeValue("valueP2");
 		 
-		 List<NoteType> noteTypeList = new ArrayList<>();
-		 List<PropertyType> propTypeList = new ArrayList<>();
-		 noteTypeList.add(noteType);
+		 List<NoteTypeModel> noteTypeList = new ArrayList<>();
+		 List<PropertyTypeModel> propTypeList = new ArrayList<>();
+		 noteTypeList.add(noteTypeModel);
 		 noteTypeList.add(noteType2);
 		 
 		 propTypeList.add(propType);
@@ -89,7 +89,7 @@ public class NoteRestController {
 		 
 	 }
 	 
-	 @RequestMapping(value = "/analyzeNote/createNote", method = RequestMethod.POST)
+	 @RequestMapping(value = "/api/createNote", method = RequestMethod.POST)
 	  public ResponseEntity<String> createNote(@RequestBody NoteInputFormModel noteInputFormModel) {
 		
 		 System.out.println("Inside POST with ALL value "+noteInputFormModel);
@@ -184,9 +184,10 @@ public class NoteRestController {
   
 
   
-  @RequestMapping(value = "/fetchAllNotes", method = RequestMethod.GET)
+  @RequestMapping(value = "/api/fetchAllNotes", method = RequestMethod.GET)
   public ResponseEntity<List<NoteSummaryModel>> listAllNotes() {
-  	System.out.println("Inside Arvind listAllNotes");
+	  String loggedInUserName = NoteUtility.getLoggedInUserName();
+  	System.out.println("Inside Arvind listAllNotes loggedInUserName"+loggedInUserName);
       List<NoteSummaryModel> notesList = new ArrayList<>();
       NoteSummaryModel note1 = new NoteSummaryModel("http://cdn.flaticon.com/png/256/70689.png","ad","ad","adsad","adafeae","asfasd", "asda");
       NoteSummaryModel note2 = new NoteSummaryModel("http://cdn.flaticon.com/png/256/70689.png","ad","ad","adsad","adafeae","asfasd", "asda");
@@ -202,14 +203,14 @@ public class NoteRestController {
   }
 
   
-  @RequestMapping(value = "editNote", method = RequestMethod.POST)
+  @RequestMapping(value = "/api/editNote", method = RequestMethod.POST)
   public ResponseEntity<String> editNote(@RequestBody NoteDetailModel noteDetailModel) {
 	
 	 System.out.println("Inside POST with editNote noteDetailModel value "+noteDetailModel);
 	 return new ResponseEntity<String>(HttpStatus.OK);
  }
   
-  @RequestMapping(value = "deleteNote/{noteId}", method = RequestMethod.DELETE)
+  @RequestMapping(value = "/api/deleteNote/{noteId}", method = RequestMethod.DELETE)
   public ResponseEntity<String> deleteNote(@PathVariable String noteId) {
 	 if (StringUtils.isEmpty(noteId)) {
             return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
@@ -218,7 +219,7 @@ public class NoteRestController {
 	return new ResponseEntity<String>(HttpStatus.OK);
   }
  
-  @RequestMapping(value = "getNoteDetail/{noteId}", method = RequestMethod.GET)
+  @RequestMapping(value = "/api/getNoteDetail/{noteId}", method = RequestMethod.GET)
   public ResponseEntity<String> getNoteDetail(@PathVariable String noteId) {
 	 if (StringUtils.isEmpty(noteId)) {
             return new ResponseEntity<String>(HttpStatus.NOT_FOUND);

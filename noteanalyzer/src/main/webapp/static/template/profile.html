@@ -1,5 +1,5 @@
 <div class="container">
-	<div class="panel panel-default">
+	<div class="panel panel-default profilePanel">
 		<div class="panel-heading">Profile</div>
 		<div class="panel-body">
 			<legend>
@@ -9,8 +9,8 @@
 				
 				<div class="form-group">
 					<label class="control-label"><i class="ion-person"></i>
-						User Name</label> <input type="text" class="form-control" required autofocus
-						ng-model="user.userName" />
+						Display Name</label> <input type="text" class="form-control" required autofocus
+						maxlength="90"  pattern="[a-zA-Z0-9._\s]+" title="This field can contain only alpha numeric characters.." ng-model="user.displayName" />
 				</div>
 				<div class="form-group">
 					<label class="control-label"><i class="ion-at"></i> Email
@@ -22,8 +22,11 @@
 						</label> <input type="text" class="form-control"
 						ng-model="user.phoneNumber" />
 				</div>
-				<button class="btn btn-lg btn-success">Update Information</button>
+		
+				<button class="btn btn-lg btn-success profile-button">Update Information</button>
+				
 			</form>
+			<button class="btn btn-lg btn-info profile-button" ng-click="changePassword()">Change Password</button>
 		</div>
 	</div>
 

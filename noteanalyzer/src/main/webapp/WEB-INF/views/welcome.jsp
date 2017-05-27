@@ -14,15 +14,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-formhelpers/2.3.0/css/bootstrap-formhelpers.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-xeditable/0.7.1/css/xeditable.min.css" />
   <link rel="shortcut icon" href="static/img/favicon.ico" />
-  <!-- <link href="static/css/animate.css" rel="stylesheet">
-  <link href="static/css/angular-toastr.css" rel="stylesheet">
-  <link rel="styleSheet" href="static/css/ui-grid.min.css" />
-  <link href="static/css/bootstrap.min.css" rel="stylesheet">
-  <link href="static/css/bootstrap-formhelpers.css" rel="stylesheet">
- -->
-   <link rel="styleSheet" href="static/css/app.css" />
+  <link rel="styleSheet" href="static/css/app.css" />
   <link href="static/css/styles.css" rel="stylesheet">
   <link rel="styleSheet" href="static/css/custom.css" /> 
+  <link rel="stylesheet" href="static/css/subscription-style.css">
 </head>
 <body>
 <div ng-controller="NavbarCtrl" class="navbar navbar-default navbar-static-top">
@@ -52,8 +47,7 @@
 <div ui-view ></div>
 
 <!-- Third-party Libraries -->
-<!-- <script src="static/lib/jquery-3.2.1.min.js"></script>
-<script src="static/lib/angular.js"></script> -->
+
  
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.4/angular-animate.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-messages/1.6.4/angular-messages.min.js"></script>
@@ -71,16 +65,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js" ></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-formhelpers/2.3.0/js/bootstrap-formhelpers.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-xeditable/0.7.1/js/xeditable.min.js"></script>
-<!-- <script src="static/lib/angular-animate.js"></script>
-<script src="static/lib/angular-messages.js"></script>
-<script src="static/lib/angular-resource.js"></script>
-<script src="static/lib/angular-sanitize.js"></script>
-<script src="static/lib/angular-ui-router.js"></script>
-<script src="static/lib/angular-toastr.tpls.js"></script>
-<script src="static/lib/angular-touch.min.js"></script>
-<script src="static/lib/ui-grid.js"></script>
-<script src="static/lib/ui-bootstrap-tpls.js"></script>
-<script src="static/js/bootstrap-formhelpers.js"></script> -->
+<!--[if lt IE 9]><script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 
 <!-- Application Code -->
 <script src="static/note.js"></script>
@@ -92,8 +77,9 @@
 <script src="static/js/controller/signup.js"></script>
 <script src="static/js/controller/logout.js"></script>
 <script src="static/js/controller/profile.js"></script>
-<script src="static/js/controller/note-detail.js"></script>
-<script src="static/js/service/user_service.js"></script>
+<script src="static/js/controller/noteDetail.js"></script>
+<script src="static/js/service/userService.js"></script>
+<script src="static/js/service/noteService.js"></script>
 
 </body>
 <script type="text/javascript">

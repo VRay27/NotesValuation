@@ -13,7 +13,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-public class EmailUtility {
+public class EmailService {
 	public static boolean sendEmail(String senderEmailId, String subject,String bodyText) {
 		/*		Properties props = new Properties();
 		props.put("mail.smtp.host", "smtp.gmail.com");

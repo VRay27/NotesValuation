@@ -6,7 +6,15 @@ import java.io.IOException;
 import java.util.Base64;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.noteanalyzer.entity.AbstractEntity;
+import com.noteanalyzer.entity.notes.Note;
+import com.noteanalyzer.entity.notes.Property;
+import com.noteanalyzer.mvc.model.NoteInputFormModel;
+import com.noteanalyzer.security.security.model.UserContext;
 
 public class NoteUtility {
 
@@ -35,4 +43,32 @@ public class NoteUtility {
 	       String resetTokenStr =  new String(Base64.getDecoder().decode(resetToken));
 	       return StringUtils.substringAfter(resetTokenStr, RESET_TOKEN_SEP);
 	 }
+
+	public static AbstractEntity convertModelToEntity(NoteInputFormModel note) {
+		Note noteEntity = new Note();
+		noteEntity.setNoteType(note.getSelNoteType().getNoteTypeCode());
+		Property property = new Property();
+		property.setCity(note.getAddress().getCity());
+		property.setState(note.getAddress().getState());
+		property.setStreet(note.getAddress().getStreetAddress());
+		property.setZip(Integer.valueOf(note.getAddress().getZipCode()));
+		//PropertyType propType = new PropertyType();
+		//property.setPropertyType(note.getSelPropType().getPropertyTypeCode());
+	//	noteEntity.
+				
+		return null;
+	}
+	
+	public static String getLoggedInUserName(){
+	     Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	     String userName;
+	        if (principal instanceof UserContext) {
+	        	userName = ((UserContext)principal).getUsername();
+	        } else {
+	        	userName = principal.toString();
+	        }
+	      return userName;  
+	}
+	
+	
 }

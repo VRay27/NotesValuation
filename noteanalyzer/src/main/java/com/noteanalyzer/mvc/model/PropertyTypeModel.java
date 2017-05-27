@@ -2,7 +2,7 @@ package com.noteanalyzer.mvc.model;
 
 import java.io.Serializable;
 
-public class PropertyType implements Serializable {
+public class PropertyTypeModel implements Serializable {
 	
 	/**
 	 * 

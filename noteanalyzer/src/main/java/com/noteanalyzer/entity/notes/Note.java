@@ -43,9 +43,13 @@ public class Note extends AbstractEntity {
     @Column(name="PERFORMANCE")
     private String performance;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+   /* @ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "NOTE_TYPE")
-    private NoteType noteType;
+    private NoteType noteType;*/
+    
+    @Column(name="NOTE_TYPE")
+    private String noteType;
+    
     
     @Column(name="NOTE_POSITION")
     private Integer notePosition;
@@ -117,11 +121,18 @@ public class Note extends AbstractEntity {
 		this.performance = performance;
 	}
 
-	public NoteType getNoteType() {
+	
+	/**
+	 * @return the noteType
+	 */
+	public String getNoteType() {
 		return noteType;
 	}
 
-	public void setNoteType(NoteType noteType) {
+	/**
+	 * @param noteType the noteType to set
+	 */
+	public void setNoteType(String noteType) {
 		this.noteType = noteType;
 	}
 

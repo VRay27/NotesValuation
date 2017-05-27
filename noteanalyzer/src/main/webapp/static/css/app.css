@@ -120,3 +120,13 @@ div.block .input{
     color: green;
     padding-left: 6px;
 }
+
+.profilePanel{
+	width:50%;
+	margin:5% auto;
+}
+
+.profile-button{
+	float:left;
+	margin:10px;
+}

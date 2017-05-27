@@ -7,7 +7,8 @@ angular.module('NoteApp').factory('UserService', ['$http', '$q', function($http,
         createUser: createUser,
         updateUser:updateUser,
         getUserDetail:getUserDetail,
-        changePassword:changePassword
+        changePassword:changePassword,
+        changePasswordWithLoginUser:changePasswordWithLoginUser
     };
 
     return factory;
@@ -28,7 +29,22 @@ angular.module('NoteApp').factory('UserService', ['$http', '$q', function($http,
         return deferred.promise;
     }
 
+    function changePasswordWithLoginUser(user,resetToken) {
+        var deferred = $q.defer();
+        $http.post('api/changePassword', user)
+            .then(
+            function (response) {
+                deferred.resolve(response.data);
+            },
+            function(errResponse){
+                console.error('Error while changing password');
+                deferred.reject(errResponse);
+            }
+        );
+        return deferred.promise;
+    }
 
+    
     function changePassword(user,resetToken) {
         var deferred = $q.defer();
         $http.post('changePassword?resetToken='+resetToken, user)
@@ -47,7 +63,7 @@ angular.module('NoteApp').factory('UserService', ['$http', '$q', function($http,
 
     function updateUser(user) {
         var deferred = $q.defer();
-        $http.put('updateUser', user)
+        $http.post('api/updateUser', user)
             .then(
             function (response) {
                 deferred.resolve(response.data);
@@ -60,9 +76,9 @@ angular.module('NoteApp').factory('UserService', ['$http', '$q', function($http,
         return deferred.promise;
     }
 
-    function getUserDetail(id) {
+    function getUserDetail() {
         var deferred = $q.defer();
-        $http.delete('userDetail/'+id)
+        $http.get('api/userDetail')
             .then(
             function (response) {
                 deferred.resolve(response.data);

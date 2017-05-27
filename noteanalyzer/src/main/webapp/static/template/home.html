@@ -13,7 +13,7 @@
 						<section id="noteAnalyzerText" class="noteAnalyzerTextClass">
 							<input type="text" id="noteAnalyzertext"
 								class="noteAnalyzerTextBox"
-								placeholder="Please enter your property zipcode" required
+								placeholder="Please enter your property zipcode" required maxlength="50"  pattern="[0-9]+" title="This field can contain only  numeric characters.."
 								ng-model="zipCode" />
 							<button type="button" id="uploadNote" class="btn btn-primary" ng-disabled= "!noteAnalayzeForm.$valid"
 								ng-click="noteAnalyzed()">Analyze</button>

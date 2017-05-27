@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
 
-public class Address implements Serializable {
+public class AddressModel implements Serializable {
 	
 	/**
 	 * 

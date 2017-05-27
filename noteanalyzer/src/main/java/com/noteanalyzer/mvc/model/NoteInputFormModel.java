@@ -15,11 +15,11 @@ public class NoteInputFormModel implements Serializable {
 	 */
 	private static final long serialVersionUID = 7343742294405817564L;
 
-	private List<NoteType> noteTypeList;
-	private NoteType selNoteType;
-	private List<PropertyType> propTypeList;
-	private PropertyType selPropType;
-	private Address address;
+	private List<NoteTypeModel> noteTypeList;
+	private NoteTypeModel selNoteType;
+	private List<PropertyTypeModel> propTypeList;
+	private PropertyTypeModel selPropType;
+	private AddressModel addressModel;
 	private String noteDate;
 	private String upb;
 	private String rate;
@@ -30,9 +30,9 @@ public class NoteInputFormModel implements Serializable {
 	/**
 	 * @return the noteTypeList
 	 */
-	public List<NoteType> getNoteTypeList() {
+	public List<NoteTypeModel> getNoteTypeList() {
 		if (noteTypeList == null) {
-			noteTypeList = new ArrayList<NoteType>();
+			noteTypeList = new ArrayList<NoteTypeModel>();
 		}
 		return noteTypeList;
 	}
@@ -41,16 +41,16 @@ public class NoteInputFormModel implements Serializable {
 	 * @param noteTypeList
 	 *            the noteTypeList to set
 	 */
-	public void setNoteTypeList(List<NoteType> noteTypeList) {
+	public void setNoteTypeList(List<NoteTypeModel> noteTypeList) {
 		this.noteTypeList = noteTypeList;
 	}
 
 	/**
 	 * @return the selNoteType
 	 */
-	public NoteType getSelNoteType() {
+	public NoteTypeModel getSelNoteType() {
 		if (selNoteType == null) {
-			selNoteType = new NoteType();
+			selNoteType = new NoteTypeModel();
 		}
 		return selNoteType;
 	}
@@ -59,16 +59,16 @@ public class NoteInputFormModel implements Serializable {
 	 * @param selNoteType
 	 *            the selNoteType to set
 	 */
-	public void setSelNoteType(NoteType selNoteType) {
+	public void setSelNoteType(NoteTypeModel selNoteType) {
 		this.selNoteType = selNoteType;
 	}
 
 	/**
 	 * @return the propTypeList
 	 */
-	public List<PropertyType> getPropTypeList() {
+	public List<PropertyTypeModel> getPropTypeList() {
 		if (propTypeList == null) {
-			propTypeList = new ArrayList<PropertyType>();
+			propTypeList = new ArrayList<PropertyTypeModel>();
 		}
 		return propTypeList;
 	}
@@ -77,14 +77,14 @@ public class NoteInputFormModel implements Serializable {
 	 * @param propTypeList
 	 *            the propTypeList to set
 	 */
-	public void setPropTypeList(List<PropertyType> propTypeList) {
+	public void setPropTypeList(List<PropertyTypeModel> propTypeList) {
 		this.propTypeList = propTypeList;
 	}
 
 	/**
 	 * @return the selPropType
 	 */
-	public PropertyType getSelPropType() {
+	public PropertyTypeModel getSelPropType() {
 		return selPropType;
 	}
 
@@ -92,26 +92,26 @@ public class NoteInputFormModel implements Serializable {
 	 * @param selPropType
 	 *            the selPropType to set
 	 */
-	public void setSelPropType(PropertyType selPropType) {
+	public void setSelPropType(PropertyTypeModel selPropType) {
 		this.selPropType = selPropType;
 	}
 
 	/**
 	 * @return the selAddress
 	 */
-	public Address getAddress() {
-		if (address == null) {
-			address = new Address();
+	public AddressModel getAddress() {
+		if (addressModel == null) {
+			addressModel = new AddressModel();
 		}
-		return address;
+		return addressModel;
 	}
 
 	/**
 	 * @param selAddress
 	 *            the selAddress to set
 	 */
-	public void setAddress(Address address) {
-		this.address = address;
+	public void setAddress(AddressModel addressModel) {
+		this.addressModel = addressModel;
 	}
 
 	/**
@@ -212,7 +212,7 @@ public class NoteInputFormModel implements Serializable {
 	@Override
 	public String toString() {
 		return "NoteInputFormModel [noteTypeList=" + noteTypeList + ", selNoteType=" + selNoteType + ", propTypeList="
-				+ propTypeList + ", selPropType=" + selPropType + ", address=" + address + ", noteDate=" + noteDate
+				+ propTypeList + ", selPropType=" + selPropType + ", address=" + addressModel + ", noteDate=" + noteDate
 				+ ", upb=" + upb + ", rate=" + rate + ", pdiPayment=" + pdiPayment + ", tdiPayment=" + tdiPayment
 				+ ", originalTerm=" + originalTerm + "]";
 	}

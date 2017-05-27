@@ -1,12 +1,13 @@
 angular.module('NoteApp')
   .controller('ProfileCtrl', function($scope, $auth, toastr, UserService, $state) {
     $scope.getProfile = function() {
-    	UserService.getUserDetail($auth.getUserId())
+    	UserService.getUserDetail()
         .then(function(response) {
-          $scope.user = response.data;
+          $scope.user = response;
         })
         .catch(function(response) {
           toastr.error('We are unable to fetch your profile record. Please try after sometime.');
+          $auth.checkLoginFromServer(response.status);
         });
     };
     $scope.updateProfile = function() {
@@ -20,4 +21,15 @@ angular.module('NoteApp')
     };
 
     $scope.getProfile();
+    
+    $scope.changePassword = function(){
+    	$state.go('changePassword');
+    }
   });
+
+
+angular.module('NoteApp')
+.controller('SubscriptionCtrl', function($scope, $auth, toastr, UserService, $state) {
+	
+	
+});
