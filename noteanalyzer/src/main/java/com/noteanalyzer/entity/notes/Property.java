@@ -1,18 +1,15 @@
 package com.noteanalyzer.entity.notes;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import com.noteanalyzer.entity.AbstractEntity;
-import com.noteanalyzer.entity.address.Area;
-
 import lombok.ToString;
  
 @Entity
@@ -20,31 +17,29 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @NamedQueries({ @NamedQuery(name = Property.FETCH_PROPERTY_DETAILS,query="select propertyId from Property p where p.propertyId =:propertyId")})
 public class Property extends AbstractEntity {
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 6408731281219126859L;
 
 	public static final String FETCH_PROPERTY_DETAILS = "FETCH_PROPERTY_DETAILS";
 
 	@Id
-    @Column(name="PROP_ID")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="PID")
+    private Integer pId;
+
+	@Column(name="PROP_ID")
     private Integer propertyId;
  
-	@ManyToOne(optional = false)
-	@JoinColumn(name="AREA_ID")
-	private Area area;
+	@Column(name="AREA_ID")
+	private String areaID;
 	
 	@Column(name="PROP_NAME")
     private String propertyName;
  
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "PROPERTY_TYPE")
-	private PropertyType propertyType;
+	@Column(name = "PROPERTY_TYPE")
+	private String propertyType;
 	
 	@Column(name="PROP_DESC")
     private String propertyDescription;
-	
 	
 	@Column(name="STREET")
 	private String street;
@@ -65,7 +60,7 @@ public class Property extends AbstractEntity {
 	private Integer	size_sf;
 	
 	@Column(name="SUBDIVIDABLE")
-	private boolean subdividable;
+	private String subdividable;
 	
 	@Column(name="OTH_HIGH_PRIO_DEBT")
 	private Integer	otherHigherPriorityDebt;
@@ -77,6 +72,12 @@ public class Property extends AbstractEntity {
 	private Integer otherMonthlyExpenses;
 
 	
+	public Integer getpId() {
+		return pId;
+	}
+	public void setpId(Integer pId) {
+		this.pId = pId;
+	}
 	
 	public Integer getPropertyId() {
 		return propertyId;
@@ -104,19 +105,19 @@ public class Property extends AbstractEntity {
 
 	
 	
-	public Area getArea() {
-		return area;
+	public String getArea() {
+		return areaID;
 	}
 
-	public void setArea(Area area) {
-		this.area = area;
+	public void setArea(String areaID) {
+		this.areaID = areaID;
 	}
 
-	public PropertyType getPropertyType() {
+	public String getPropertyType() {
 		return propertyType;
 	}
 
-	public void setPropertyType(PropertyType propertyType) {
+	public void setPropertyType(String propertyType) {
 		this.propertyType = propertyType;
 	}
 
@@ -168,11 +169,11 @@ public class Property extends AbstractEntity {
 		this.size_sf = size_sf;
 	}
 
-	public boolean isSubdividable() {
+	public String isSubdividable() {
 		return subdividable;
 	}
 
-	public void setSubdividable(boolean subdividable) {
+	public void setSubdividable(String subdividable) {
 		this.subdividable = subdividable;
 	}
 
