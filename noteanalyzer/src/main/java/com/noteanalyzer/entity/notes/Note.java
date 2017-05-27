@@ -5,11 +5,14 @@ import java.sql.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -23,16 +26,18 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @NamedQueries({ @NamedQuery(name = Note.FETCH_NOTE_DETAILS,query="select noteId from Note n where n.noteId =:noteId")})
 public class Note extends AbstractEntity {
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = -8179556227491337368L;
 	
 	public static final String FETCH_NOTE_DETAILS = "FETCH_NOTE_DETAILS";
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="NID")
+    private Integer nId;
+	
+	
     @Column(name="NOTE_ID")
-    private Integer noteId;
+    private String noteId;
 	
     @Column(name="FACE_VALUE")
     private Integer faceValue;
@@ -43,24 +48,17 @@ public class Note extends AbstractEntity {
     @Column(name="PERFORMANCE")
     private String performance;
     
-   /* @ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "NOTE_TYPE")
-    private NoteType noteType;*/
-    
-    @Column(name="NOTE_TYPE")
+	@Column(name = "NOTE_TYPE")
     private String noteType;
-    
     
     @Column(name="NOTE_POSITION")
     private Integer notePosition;
     
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "PROP_ID")
-    private Property property;
+    @Column(name = "PROP_ID")
+    private String propertyID;
     
-    @ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "BORROWER_TYPE")
-    private BorrowerType borrowerType;
+	@Column(name = "BORROWER_TYPE")
+    private String borrowerType;
     
     @Column(name="USER_USER_ID")
     private Integer userUserId;
@@ -77,8 +75,8 @@ public class Note extends AbstractEntity {
     @Column(name="INTREST_RATE_ADJUSTMENT_RULE")
     private String intrestRateAdjustmentRule;
     
-  /*  @Column(name="SERACH_NAME")
-    private NoteSearchCriteria searchName;*/
+    @Column(name="SERACH_NAME")
+    private String searchName;
     
     @Column(name="USER_SCORE")
     private Integer userScore;
@@ -88,12 +86,39 @@ public class Note extends AbstractEntity {
     
     @Column(name="VENDOR_NOTE_ID")
     private String vendorNoteId;
+    
+    @Column(name="DATE_OF_NOTE")
+    private Date dateOfNote;
+    
+    @Column(name="UNPAID_PRIN_BAL")
+    private Integer unpaidPrinBal;
+    
+    @Column(name="RATE")
+    private Integer rate;
+    
+    @Column(name="PDI_PAY")
+    private Integer preDeliveryInspectionPay;
+    
+    @Column(name="TDI_PAY")
+    private Integer TDI;
+    
+    @Column(name="ORIGINAL_TERM")
+    private Integer originalTerm;
+    
 
-	public Integer getNoteId() {
+	public Integer getnId() {
+		return nId;
+	}
+
+	public void setnId(Integer nId) {
+		this.nId = nId;
+	}
+
+	public String getNoteId() {
 		return noteId;
 	}
 
-	public void setNoteId(Integer noteId) {
+	public void setNoteId(String noteId) {
 		this.noteId = noteId;
 	}
 
@@ -121,17 +146,10 @@ public class Note extends AbstractEntity {
 		this.performance = performance;
 	}
 
-	
-	/**
-	 * @return the noteType
-	 */
 	public String getNoteType() {
 		return noteType;
 	}
 
-	/**
-	 * @param noteType the noteType to set
-	 */
 	public void setNoteType(String noteType) {
 		this.noteType = noteType;
 	}
@@ -144,20 +162,17 @@ public class Note extends AbstractEntity {
 		this.notePosition = notePosition;
 	}
 
-	public Property getProperty() {
-		return property;
+	public void setPropertyID(String propertyID) {
+		this.propertyID = propertyID;
 	}
-	
-	public void setProperty(Property property) {
-		this.property = property;
+	public String getPropertyID() {
+		return propertyID;
 	}
-
-	public BorrowerType getBorrowerType() {
-		return borrowerType;
-	}
-
-	public void setBorrowerType(BorrowerType borrowerType) {
+	public void setBorrowerType(String borrowerType) {
 		this.borrowerType = borrowerType;
+	}
+	public String getBorrowerType() {
+		return borrowerType;
 	}
 
 	public Integer getUserUserId() {
@@ -242,6 +257,54 @@ public class Note extends AbstractEntity {
 
 	
 
+	public Date getDateOfNote() {
+		return dateOfNote;
+	}
+
+	public void setDateOfNote(Date dateOfNote) {
+		this.dateOfNote = dateOfNote;
+	}
+
+	public Integer getUnpaidPrinBal() {
+		return unpaidPrinBal;
+	}
+
+	public void setUnpaidPrinBal(Integer unpaidPrinBal) {
+		this.unpaidPrinBal = unpaidPrinBal;
+	}
+
+	public Integer getRate() {
+		return rate;
+	}
+
+	public void setRate(Integer rate) {
+		this.rate = rate;
+	}
+
+	public Integer getPreDeliveryInspectionPay() {
+		return preDeliveryInspectionPay;
+	}
+
+	public void setPreDeliveryInspectionPay(Integer preDeliveryInspectionPay) {
+		this.preDeliveryInspectionPay = preDeliveryInspectionPay;
+	}
+
+	public Integer getTDI() {
+		return TDI;
+	}
+
+	public void setTDI(Integer tDI) {
+		TDI = tDI;
+	}
+
+	public Integer getOriginalTerm() {
+		return originalTerm;
+	}
+
+	public void setOriginalTerm(Integer originalTerm) {
+		this.originalTerm = originalTerm;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -249,7 +312,8 @@ public class Note extends AbstractEntity {
 		result = prime * result + ((borrowerType == null) ? 0 : borrowerType.hashCode());
 		result = prime * result + ((noteId == null) ? 0 : noteId.hashCode());
 		result = prime * result + ((noteType == null) ? 0 : noteType.hashCode());
-		result = prime * result + ((property == null) ? 0 : property.hashCode());
+		result = prime * result + ((propertyID == null) ? 0 : propertyID.hashCode());
+	
 		return result;
 	}
 
@@ -277,18 +341,14 @@ public class Note extends AbstractEntity {
 				return false;
 		} else if (!noteType.equals(other.noteType))
 			return false;
-		if (property == null) {
-			if (other.property != null)
+		if (propertyID == null) {
+			if (other.propertyID != null)
 				return false;
-		} else if (!property.equals(other.property))
+		} else if (!propertyID.equals(other.propertyID))
 			return false;
 		return true;
 	}
 
-	
-
-	
-	
  
    
 }
