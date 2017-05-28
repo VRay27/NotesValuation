@@ -213,7 +213,7 @@ public class UserModel {
 	 */
 	@Override
 	public String toString() {
-		return "UserModel [userId=" + userId + ", displayName=" + displayName + ", password=" + password
+		return "UserModel [userId=" + userId + ", displayName=" + displayName 
 				+ ", addressModel=" + addressModel + ", email=" + email + ", phoneNumber=" + phoneNumber
 				+ ", resetToken=" + resetToken + ", resetCreationTime=" + resetCreationTime + ", roles=" + roles + "]";
 	}

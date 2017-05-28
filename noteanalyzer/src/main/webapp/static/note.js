@@ -30,6 +30,7 @@ noteApp.config(function($stateProvider, $urlRouterProvider) {
 		.state('home', {
 			url : '/',
 			controller : 'HomeCtrl',
+			cache: false,
 			params : {
 				'referer' : null,
 				'loginState' : null
@@ -39,6 +40,7 @@ noteApp.config(function($stateProvider, $urlRouterProvider) {
 		url : '/noteDashboard',
 		controller : 'NoteDetailCtrl',
 		controllerAs : 'vm',
+		cache: false,
 		params : {
 			'referer' : null,
 			'loginState' : null
@@ -53,6 +55,7 @@ noteApp.config(function($stateProvider, $urlRouterProvider) {
 			url : '/login',
 			templateUrl : 'static/template/login.html',
 			controller : 'LoginCtrl',
+			cache: false,
 			resolve : {
 				skipIfLoggedIn : skipIfLoggedIn
 			},
@@ -65,6 +68,7 @@ noteApp.config(function($stateProvider, $urlRouterProvider) {
 			url : '/signup',
 			templateUrl : 'static/template/signup.html',
 			controller : 'SignupCtrl',
+			cache: false,
 			resolve : {
 				skipIfLoggedIn : skipIfLoggedIn
 			}
@@ -72,12 +76,14 @@ noteApp.config(function($stateProvider, $urlRouterProvider) {
 		.state('logout', {
 			url : '/logout',
 			template : null,
+			cache: false,
 			controller : 'LogoutCtrl'
 		})
 		.state('changePassword', {
 			url : '/changePassword',
 			templateUrl : 'static/template/changePassword.html',
 			controller : 'SignupCtrl',
+			cache: false,
 			resolve : {
 				skipIfLoggedIn : skipIfLoggedIn
 			}
@@ -87,6 +93,7 @@ noteApp.config(function($stateProvider, $urlRouterProvider) {
 			url : '/profile',
 			templateUrl : 'static/template/profile.html',
 			controller : 'ProfileCtrl',
+			cache: false,
 			params : {
 				'referer' : null,
 				'loginState' : null
@@ -99,6 +106,7 @@ noteApp.config(function($stateProvider, $urlRouterProvider) {
 			url : '/subscription',
 			templateUrl : 'static/template/subscription.html',
 			controller : 'SubscriptionCtrl',
+			cache: false,
 			params : {
 				'referer' : null,
 				'loginState' : null
@@ -114,16 +122,18 @@ noteApp.config(function($stateProvider, $urlRouterProvider) {
 
 noteApp.config(['$httpProvider', function($httpProvider) {
 	$httpProvider.interceptors.push('APIInterceptor');
-	$httpProvider.useApplyAsync(true);
 }]);
 
 noteApp.run(function(editableOptions) {
 	  editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
 	});
 
+
+
 noteApp.service('APIInterceptor', [function() {
 	var service = this;
-
+	//var resourceCache = $cacheFactory.get('resourceCache');
+	//ar httpCache = $cacheFactory.get('$http');
 	service.request = function(config) {
 		/*config.headers['Content-Type'] = "application/json";*/
 		config.headers['X-Requested-With'] = "XMLHttpRequest";
@@ -137,12 +147,11 @@ noteApp.service('APIInterceptor', [function() {
 		config.headers['Pragma'] = 'no-cache';
 		return config;
 	};
-	service.response = function(res) {
-		/* if(res.config.url.indexOf(API) === 0 && res.data.token) {
-		   auth.saveToken(res.data.token);
-		 }*/
-
-		return res;
+	service.response = function(response) {
+		//resourceCache.remove(response.config.url);
+		//httpCache.remove(response.config.url);
+	      //console.log('cache removed', response.config.url);
+	      return response;
 	};
 }]);
 

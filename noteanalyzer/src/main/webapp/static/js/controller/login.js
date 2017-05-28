@@ -14,7 +14,7 @@ app.controller('LoginCtrl', function($scope, $rootScope, $state, $location, toas
         $location.path('/');
       }
     }, function(response) {
-      toastr.error('Please enter valid EmailId and password.');
+      toastr.error('Please enter valid email and password.');
       $auth.logout();
     });
   };
@@ -34,22 +34,22 @@ app.controller('LoginCtrl', function($scope, $rootScope, $state, $location, toas
 
 });
 app.service("loginService", function($http, $q) {
-
-  var deferred = $q.defer();
-
   var doLogin = function(loginModel) {
-    return $http.post('api/auth/login', loginModel)
+	  var deferred = $q.defer();
+	  return $http.post('api/auth/login', loginModel)
       .then(function(response) {
-        deferred.resolve(response.data);
-        return deferred.promise;
+    	  deferred.resolve(response.data);
+    	  return deferred.promise;
       }, function(response) {
         deferred.reject(response);
         return deferred.promise;
       });
+	 
   };
   
   var resetPassword = function(loginModel) {
-	    return $http.post('resetPassword', loginModel)
+	  var deferred = $q.defer();
+	  return $http.post('resetPassword', loginModel)
 	      .then(function(response) {
 	        deferred.resolve(response.data);
 	        return deferred.promise;
@@ -57,6 +57,7 @@ app.service("loginService", function($http, $q) {
 	        deferred.reject(response);
 	        return deferred.promise;
 	      });
+	  
 	  };
 
   return {
