@@ -82,14 +82,7 @@ public class NoteRestController {
 		if (propTypeModelList.isPresent()) {
 			noteInputFormModel.setPropTypeList(propTypeModelList.get());
 		}
-
-		noteInputFormModel.setNoteDate("13/05/2003");
-		noteInputFormModel.getAddress().setStreetAddress("strated street");
-		noteInputFormModel.setOriginalTerm("original");
-		noteInputFormModel.setTdiPayment("tdi");
-		noteInputFormModel.setPdiPayment("pdi");
-		noteInputFormModel.setUpb("upb");
-		noteInputFormModel.setRate("rate");
+		
 		return new ResponseEntity<NoteInputFormModel>(noteInputFormModel, HttpStatus.OK);
 
 	}
@@ -202,7 +195,10 @@ public class NoteRestController {
 	public ResponseEntity<List<NoteSummaryModel>> listAllNotes() {
 		String loggedInUserName = NoteUtility.getLoggedInUserName();
 		System.out.println("Inside Arvind listAllNotes loggedInUserName" + loggedInUserName);
-		List<NoteSummaryModel> notesList = new ArrayList<>();
+		
+		Optional<List<NoteSummaryModel>> notesList = noteService.getAllNotes(loggedInUserName);
+		
+		/*//List<NoteSummaryModel> notesList = new ArrayList<>();
 		NoteSummaryModel note1 = new NoteSummaryModel("http://cdn.flaticon.com/png/256/70689.png", "ad", "ad", "adsad",
 				"adafeae", "asfasd", "asda");
 		NoteSummaryModel note2 = new NoteSummaryModel("http://cdn.flaticon.com/png/256/70689.png", "ad", "ad", "adsad",
@@ -210,17 +206,12 @@ public class NoteRestController {
 		note1.setNoteId("1");
 		note2.setNoteId("2");
 		notesList.add(note1);
-		notesList.add(note2);
+		notesList.add(note2);*/
 
-		if (notesList.isEmpty()) {
+		if (!notesList.isPresent()) {
 			return new ResponseEntity<List<NoteSummaryModel>>(HttpStatus.NO_CONTENT);// You
-																						// many
-																						// decide
-																						// to
-																						// return
-																						// HttpStatus.NOT_FOUND
-		}
-		return new ResponseEntity<List<NoteSummaryModel>>(notesList, HttpStatus.OK);
+		}																						// many
+		return new ResponseEntity<List<NoteSummaryModel>>(notesList.get(), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/api/editNote", method = RequestMethod.POST)

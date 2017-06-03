@@ -47,7 +47,7 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 	};
 
 	$scope.dateOptions = {
-		/*dateDisabled: disabled,*/
+		dateDisabled: disabled,
 		formatYear : 'yy',
 		maxDate : new Date(2100, 12, 31),
 		minDate : new Date(1800, 12, 31),

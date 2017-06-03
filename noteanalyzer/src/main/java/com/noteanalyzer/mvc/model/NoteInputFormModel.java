@@ -26,6 +26,7 @@ public class NoteInputFormModel implements Serializable {
 	private String pdiPayment;
 	private String tdiPayment;
 	private String originalTerm;
+	private String originalPrincipleBalance;
 
 	/**
 	 * @return the noteTypeList
@@ -202,6 +203,36 @@ public class NoteInputFormModel implements Serializable {
 	 */
 	public void setOriginalTerm(String originalTerm) {
 		this.originalTerm = originalTerm;
+	}
+	
+	
+
+	/**
+	 * @return the addressModel
+	 */
+	public AddressModel getAddressModel() {
+		return addressModel;
+	}
+
+	/**
+	 * @param addressModel the addressModel to set
+	 */
+	public void setAddressModel(AddressModel addressModel) {
+		this.addressModel = addressModel;
+	}
+
+	/**
+	 * @return the originalPrincipleBalance
+	 */
+	public String getOriginalPrincipleBalance() {
+		return originalPrincipleBalance;
+	}
+
+	/**
+	 * @param originalPrincipleBalance the originalPrincipleBalance to set
+	 */
+	public void setOriginalPrincipleBalance(String originalPrincipleBalance) {
+		this.originalPrincipleBalance = originalPrincipleBalance;
 	}
 
 	/*

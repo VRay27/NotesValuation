@@ -8,7 +8,7 @@ NoteDetailCtrl.$inject = ['$scope', '$http','$auth', '$rootScope', '$uibModal', 
 function NoteDetailCtrl($scope, $http,$auth, $rootScope, $uibModal, RowEditor, uiGridConstants, noteDetailModel,noteUploadAPI,NoteService) {
   var vm = this;
   $scope.noteDetailModel = noteDetailModel;
-  vm.editRow = RowEditor.editRow;
+  vm.getNoteDetail = RowEditor.getNoteDetail;
   vm.noteAnalyzer = function() {
 		NoteService.noteAnalyze(vm.inputZipCode);
 	};
@@ -29,7 +29,7 @@ function NoteDetailCtrl($scope, $http,$auth, $rootScope, $uibModal, RowEditor, u
           paginationPageSizes: [10,25, 50, 75],
           paginationPageSize: 10,
           
-  */ /*rowTemplate : "<div ng-dblclick=\"grid.appScope.vm.editRow(grid, row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"*/
+  */ /*rowTemplate : "<div ng-dblclick=\"grid.appScope.vm.getNoteDetail(grid, row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"*/
   };
 
   vm.serviceGrid.columnDefs = [{
@@ -38,7 +38,7 @@ function NoteDetailCtrl($scope, $http,$auth, $rootScope, $uibModal, RowEditor, u
     enableSorting: false,
     enableCellEdit: false,
     enableFiltering: false,
-    cellTemplate: "<div ng-click='grid.appScope.vm.editRow(grid, row)'><img width=\"100px\" ng-src=\"{{row.entity.assetImgSrc}}\" lazy-src  class=\"img-responsive\"/></div>"
+    cellTemplate: "<div ng-click='grid.appScope.vm.getNoteDetail(grid, row)'><img width=\"100px\" ng-src=\"{{row.entity.assetImgSrc}}\" lazy-src  class=\"img-responsive\"/></div>"
   }, {
     field: 'yield',
     displayName: 'Yield',
@@ -88,29 +88,35 @@ function NoteDetailCtrl($scope, $http,$auth, $rootScope, $uibModal, RowEditor, u
 	  $auth.checkLoginFromServer(response.status);
   });
 
-  $scope.addRow = function() {
-    var newService = {
-      "assetImageURL": "0",
-      "yield": "public",
-      "itv": "http://bced.wallonie.be/services/",
-      "ltv": "-",
-      "marketValue": "-",
-      "crime": "//*[local-name()='-']/text()",
-      "overAllScore": "BCED"
-    };
-    var rowTmp = {};
-    rowTmp.entity = newService;
-    vm.editRow($scope.vm.serviceGrid, rowTmp);
-  };
-
 }
 
-RowEditor.$inject = ['$http', '$rootScope', '$uibModal'];
-function RowEditor($http, $rootScope, $uibModal) {
+RowEditor.$inject = ['$http', '$rootScope', '$uibModal','NoteService','toastr'];
+function RowEditor($http, $rootScope, $uibModal,NoteService,toastr) {
   var service = {};
-  service.editRow = editRow;
+  service.getNoteDetail = getNoteDetail;
 
-  function editRow(grid, row) {
+ function getNoteDetail(grid, row) {
+	  NoteService.getNoteDetail(row.entity.noteId).then(function(response) {
+		  $uibModal.open({
+		      templateUrl: 'static/template/note-detail.html',
+		      controller: ['$http','$scope', '$uibModalInstance', 'grid','noteDetailModel', 'row','NoteService','toastr', RowEditCtrl],
+		      controllerAs: 'editCtrl',
+		      resolve: {
+		        grid: function() {
+		          return grid;
+		        },
+		        noteDetail: function() {
+		          return response.data;
+		        }
+		      }
+		    });
+	  },function(response) {
+		  toastr.error("We are unable to find details for this note. Please try after sometime.")
+
+	  });
+ };
+	  
+	 /* function editRow(grid, row) {
     $uibModal.open({
       templateUrl: 'static/template/note-detail.html',
       controller: ['$http','$scope', '$uibModalInstance', 'grid','noteDetailModel', 'row','NoteService','toastr', RowEditCtrl],
@@ -124,19 +130,16 @@ function RowEditor($http, $rootScope, $uibModal) {
         }
       }
     });
-  }
+  }*/
+	  
 
   return service;
 }
 
-function RowEditCtrl($http,$scope, $uibModalInstance, grid,noteDetailModel, row,NoteService,toastr) {
+function RowEditCtrl($http,$scope, $uibModalInstance, grid, noteDetail,NoteService,toastr) {
 	var editCtrl = this;
-	NoteService.getNoteDetail(row.entity.noteId).then(function(response){
-		$scope.noteDetailModel = response.data;
-	},function(response){
-		toastr.error("Unable to fetch the note detail. Please try after sometime");
-		$uibModalInstance.close(row.entity);
-	});
+	
+	$scope.noteDetailModel = noteDetail;
 	
 	editCtrl.removeNote= function(){
 		console.log('delete Notes..');
@@ -148,9 +151,9 @@ function RowEditCtrl($http,$scope, $uibModalInstance, grid,noteDetailModel, row,
 		});
 	}
 	editCtrl.saveNote= function(data){
-		console.log('save Notes.. '+data+'  note'+noteDetailModel.rate);
+		console.log('save Notes.. '+data+'  note'+$scope.noteDetailModel.rate);
 		NoteService.editNote($scope.noteDetailModel).then(function(response){
-			$scope.noteDetailModel = noteDetailModel;
+			$scope.noteDetailModel = response.data;
 			toastr.success("Note is updated successfully");
 			$uibModalInstance.close(row.entity);
 		},function(response){
@@ -163,42 +166,5 @@ function RowEditCtrl($http,$scope, $uibModalInstance, grid,noteDetailModel, row,
 		
 	}
 	
-	
-/*	
-	 vm.entity = angular.copy(row.entity);
-  vm.save = save;
-  function save() {
-    if (row.entity.id == '0') {
-      
-       * $http.post('http://localhost:8080/service/save', row.entity).success(function(response) { $uibModalInstance.close(row.entity); }).error(function(response) { alert('Cannot edit row (error in console)'); console.dir(response); });
-       
-      row.entity = angular.extend(row.entity, vm.entity);
-      //real ID come back from response after the save in DB
-      row.entity.id = Math.floor(100 + Math.random() * 1000);
-
-      grid.data.push(row.entity);
-
-    } else {
-      row.entity = angular.extend(row.entity, vm.entity);
-    
-     * $http.post('http://localhost:8080/service/save', row.entity).success(function(response) { $uibModalInstance.close(row.entity); }).error(function(response) { alert('Cannot edit row (error in console)'); console.dir(response); });
-     
-    }
-    $uibModalInstance.close(row.entity);
-  }
-
- // vm.remove = remove;
-  function remove() {
-    console.dir(row)
-    if (row.entity.id != '0') {
-      row.entity = angular.extend(row.entity, vm.entity);
-      var index = grid.appScope.vm.serviceGrid.data.indexOf(row.entity);
-      grid.appScope.vm.serviceGrid.data.splice(index, 1);
-    
-     * $http.delete('http://localhost:8080/service/delete/'+row.entity.id).success(function(response) { $uibModalInstance.close(row.entity); }).error(function(response) { alert('Cannot delete row (error in console)'); console.dir(response); });
-     
-    }
-    $uibModalInstance.close(row.entity);
-  }*/
 
 }

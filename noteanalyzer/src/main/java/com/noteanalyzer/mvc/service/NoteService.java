@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.noteanalyzer.mvc.model.NoteInputFormModel;
+import com.noteanalyzer.mvc.model.NoteSummaryModel;
 import com.noteanalyzer.mvc.model.NoteTypeModel;
 import com.noteanalyzer.mvc.model.PropertyTypeModel;
 
@@ -19,6 +20,8 @@ public interface NoteService {
 	public Optional<List<PropertyTypeModel>> getPropertyType();
 	
 	public Optional<NoteInputFormModel> getNoteDetail(@NonNull int noteId);
+
+	public Optional<List<NoteSummaryModel>> getAllNotes(@NonNull String loggedInUserName);
 	
 	/*User findById(long id);
 	
