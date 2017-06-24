@@ -61,17 +61,13 @@ public class NoteRestController {
 		this.noteService = noteService;
 	}
 
-	@RequestMapping(value = "/analyzeNote/{zipCode}", method = RequestMethod.GET)
-	public ResponseEntity<NoteInputFormModel> analyzeNote(@PathVariable String zipCode) {
+	@RequestMapping(value = "/analyzeNote", method = RequestMethod.POST)
+	public ResponseEntity<NoteInputFormModel> analyzeNote(@RequestBody NoteInputFormModel noteInputFormModel)  {
+		String zipCode = noteInputFormModel.getAddress().getZipCode();
 		if (StringUtils.isEmpty(zipCode)) {
 			return new ResponseEntity<NoteInputFormModel>(HttpStatus.NOT_FOUND);
 		}
-		NoteInputFormModel noteInputFormModel = new NoteInputFormModel();
 
-		/// make google map call to fetch the details of zipCode
-		noteInputFormModel.getAddress().setCity("Test");
-		noteInputFormModel.getAddress().setState("TestState");
-		noteInputFormModel.getAddress().setZipCode(zipCode);
 
 		Optional<List<NoteTypeModel>> noteTypeModelList = noteService.getNoteType();
 		if (noteTypeModelList.isPresent()) {

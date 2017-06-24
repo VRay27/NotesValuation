@@ -209,18 +209,18 @@ public class NoteInputFormModel implements Serializable {
 
 	/**
 	 * @return the addressModel
-	 */
+	 *//*
 	public AddressModel getAddressModel() {
 		return addressModel;
 	}
 
-	/**
+	*//**
 	 * @param addressModel the addressModel to set
-	 */
+	 *//*
 	public void setAddressModel(AddressModel addressModel) {
 		this.addressModel = addressModel;
 	}
-
+*/
 	/**
 	 * @return the originalPrincipleBalance
 	 */

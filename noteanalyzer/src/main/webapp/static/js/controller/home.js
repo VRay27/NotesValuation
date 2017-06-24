@@ -1,7 +1,12 @@
 var noteApp = angular.module('NoteApp');
 noteApp.controller('HomeCtrl', function($scope, $stateParams, $state, $auth, $http, $uibModal, toastr, $rootScope, noteUploadAPI, NoteService) {
 	$scope.noteAnalyzed = function() {
-		NoteService.noteAnalyze($scope.zipCode);
+		NoteService.getGeoDetails($scope.zipCode).then(function(noteInputFormModel){
+			NoteService.noteAnalyze(noteInputFormModel);
+		},function(errResponse) {
+			toastr.error('Error while fetching location details');
+		});
+		
 	};
 
 
@@ -10,7 +15,7 @@ noteApp.controller('HomeCtrl', function($scope, $stateParams, $state, $auth, $ht
 			$rootScope.submitInputFormModel = {};
 			$state.go('noteDashboard');
 		}, function(errResponse) {
-			console.error('Error while creating NOTE');
+			toastr.error('Error while creating NOTE');
 		});
 	}
 
@@ -46,8 +51,13 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 		return ($scope.noteInputForm[field].$dirty && $scope.noteInputForm[field].$invalid) || ($scope.submitted && $scope.noteInputForm[field].$invalid);
 	};
 
+	$scope.populateNoteInputModelFromJS = function(){
+		var model = $scope.noteInputFormModel 
+		NoteService.noteCalculator(model);
+		$scope.noteInputFormModel = model;
+	};
+	
 	$scope.dateOptions = {
-		dateDisabled: disabled,
 		formatYear : 'yy',
 		maxDate : new Date(2100, 12, 31),
 		minDate : new Date(1800, 12, 31),
@@ -86,7 +96,7 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 		NoteService.createNote($scope.noteInputFormModel).then(function() {
 			$state.go('noteDashboard');
 		}, function(errResponse) {
-			console.error('Error while creating NOTE');
+			toastr.error('Error while creating NOTE');
 		});
 	}
 
