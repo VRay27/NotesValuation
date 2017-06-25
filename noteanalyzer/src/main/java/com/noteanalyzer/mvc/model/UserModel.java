@@ -22,6 +22,10 @@ public class UserModel {
 	
 	@JsonIgnore
 	private String resetToken;
+	
+	@JsonIgnore
+	private String verificationToken;
+	
 	@JsonIgnore
 	private ZonedDateTime resetCreationTime;
 	
@@ -206,6 +210,22 @@ public class UserModel {
 	 */
 	public void setRoles(List<UserRoleModel> roles) {
 		this.roles = roles;
+	}
+	
+	
+
+	/**
+	 * @return the verificationToken
+	 */
+	public String getVerificationToken() {
+		return verificationToken;
+	}
+
+	/**
+	 * @param verificationToken the verificationToken to set
+	 */
+	public void setVerificationToken(String verificationToken) {
+		this.verificationToken = verificationToken;
 	}
 
 	/* (non-Javadoc)

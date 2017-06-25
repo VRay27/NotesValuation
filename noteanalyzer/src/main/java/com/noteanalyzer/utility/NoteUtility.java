@@ -30,18 +30,18 @@ public class NoteUtility {
 	      return convFile;
 	  }
 	 
-	 public static String encodeResetToken(String userName,String resetToken){
-	       return Base64.getEncoder().encodeToString((userName+RESET_TOKEN_SEP+resetToken).getBytes());
+	 public static String encodeResetToken(String userName,String token){
+	       return Base64.getEncoder().encodeToString((userName+RESET_TOKEN_SEP+token).getBytes());
 	 }
 	 
-	 public static String getUserNameFromResetToken(String resetToken){
-	       String resetTokenStr =  new String(Base64.getDecoder().decode(resetToken));
-	       return StringUtils.substringBefore(resetTokenStr, RESET_TOKEN_SEP);
+	 public static String getUserNameFromResetToken(String token){
+	       String tokenStr =  new String(Base64.getDecoder().decode(token));
+	       return StringUtils.substringBefore(tokenStr, RESET_TOKEN_SEP);
 	 }
 	 
-	 public static String decodeResetToken(String resetToken){
-	       String resetTokenStr =  new String(Base64.getDecoder().decode(resetToken));
-	       return StringUtils.substringAfter(resetTokenStr, RESET_TOKEN_SEP);
+	 public static String decodeResetToken(String token){
+	       String tokenStr =  new String(Base64.getDecoder().decode(token));
+	       return StringUtils.substringAfter(tokenStr, RESET_TOKEN_SEP);
 	 }
 
 	

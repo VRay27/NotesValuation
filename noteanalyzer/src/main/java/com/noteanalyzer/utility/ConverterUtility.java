@@ -1,5 +1,8 @@
 package com.noteanalyzer.utility;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +11,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.noteanalyzer.entity.AbstractEntity;
 import com.noteanalyzer.entity.notes.Note;
 import com.noteanalyzer.entity.notes.NoteType;
-import com.noteanalyzer.entity.notes.Property;
 import com.noteanalyzer.entity.notes.PropertyType;
 import com.noteanalyzer.entity.user.User;
 import com.noteanalyzer.mvc.model.NoteInputFormModel;
@@ -33,7 +35,9 @@ public class ConverterUtility {
 			user.setCity(userModel.getAddress().getCity());
 			user.setState(userModel.getAddress().getState());
 		}
-
+		user.setVerificationToken(userModel.getVerificationToken());
+		user.setVerificationTokenCreationTime(ZonedDateTime.now());
+		user.setUserCreationStatus("R");
 		return user;
 	}
 
@@ -44,6 +48,7 @@ public class ConverterUtility {
 		userModel.setPhoneNumber(user.getContactNumber());
 		userModel.setEmail(user.getEmailID());
 		userModel.setResetToken(user.getResetToken());
+		userModel.setVerificationToken(user.getVerificationToken());
 		return userModel;
 	}
 	

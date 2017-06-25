@@ -1,12 +1,16 @@
 package com.noteanalyzer.mvc.controller;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.noteanalyzer.entity.notes.NoteConfiguration;
 import com.noteanalyzer.mvc.model.UserModel;
 import com.noteanalyzer.mvc.service.EmailService;
+import com.noteanalyzer.mvc.service.NoteService;
 import com.noteanalyzer.mvc.service.UserService;
 import com.noteanalyzer.security.security.auth.ajax.LoginRequest;
 import com.noteanalyzer.utility.NoteUtility;
@@ -27,6 +33,12 @@ public class UserRestController {
 	@Autowired
 	UserService userService; // Service which will do all data
 								// retrieval/manipulation work
+	
+	@Autowired
+	EmailService emailService;
+	
+	@Autowired
+	NoteService noteService;
 
 	// -------------------Retrieve Single
 	// User--------------------------------------------------------
@@ -47,18 +59,39 @@ public class UserRestController {
 	// User--------------------------------------------------------
 
 	@RequestMapping(value = "/createUser", method = RequestMethod.POST)
-	public ResponseEntity<Void> createUser(@RequestBody UserModel inputUser) {
+	public ResponseEntity<Void> createUser(@RequestBody UserModel inputUser, HttpServletRequest request) {
 		System.out.println("Creating User " + inputUser);
-
+		StringBuffer url = request.getRequestURL();
+		String uri = request.getRequestURI();
+		String baseUrl = StringUtils.substringBefore(url.toString(), uri);
+		
 		if (userService.getByUsername(inputUser.getEmail()).isPresent()) {
 			System.out.println("A User with name " + inputUser.getEmail() + " already exist");
 			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
 		}
-
+		String verificationToken = NoteUtility.encodeResetToken(inputUser.getEmail(), RandomStringUtils.randomAlphanumeric(40).toUpperCase());
+		inputUser.setVerificationToken(verificationToken);
 		userService.createUser(inputUser);
-		HttpHeaders headers = new HttpHeaders();
-		// headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri());
-		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+		List<String> configCodeList = new ArrayList<>();
+		configCodeList.add("CREATE_USER_EMAIL_SUBJECT");
+		configCodeList.add("CREATE_USER_EMAIL_CONTENT_BODY");
+		List<NoteConfiguration> configList = noteService.getConfigValue(configCodeList);
+		String subject = null;
+		String bodyText = null;
+		for(NoteConfiguration config: configList){
+			 if("CREATE_USER_EMAIL_SUBJECT".equals(config.getConfigCode())){
+				 subject = config.getConfigValue();
+			}else if("CREATE_USER_EMAIL_CONTENT_BODY".equals(config.getConfigCode())){
+				bodyText = config.getConfigValue();
+			}
+		}
+		bodyText = bodyText+"<p>"
+				+ baseUrl + "/notes/verifyUser?verificationToken=" + verificationToken + "</p>";
+		if (emailService.sendEmail(inputUser.getEmail(), subject, bodyText)) {
+			return new ResponseEntity<Void>(HttpStatus.CREATED);
+		} else {
+			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+		}
 	}
 
 	@RequestMapping(value = "/changePassword", method = RequestMethod.POST)
@@ -74,6 +107,20 @@ public class UserRestController {
 		} else {
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 		}
+
+	}
+	
+	@RequestMapping(value = "/verifyUser", method = RequestMethod.GET)
+	public String verifyUser(HttpServletRequest request,HttpServletResponse response) throws IOException {
+		UserModel inputUser = new UserModel();
+		String verificationToken = request.getParameter("verificationToken");
+		inputUser.setEmail(NoteUtility.getUserNameFromResetToken(verificationToken));
+		inputUser.setVerificationToken(verificationToken);
+		Optional<UserModel> user = userService.verifyUser(inputUser);
+		if (!user.isPresent()) {
+			return "genericError";
+		}
+		return "welcome";
 
 	}
 
@@ -116,10 +163,22 @@ public class UserRestController {
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 		}
 		String resetToken = NoteUtility.encodeResetToken(inputUser.getUsername(), userModel.get().getResetToken());
-		String subject = "Reset Password Link For Notes Analyzer";
-		String bodyText = "<p>Please use below link to reset your password for Note Analyzer.This token will expire in next 24 hours.</p><p>"
+		List<String> configCodeList = new ArrayList<>();
+		configCodeList.add("FORGOT_PASSWORD_EMAIL_SUBJECT");
+		configCodeList.add("FORGOT_PASSWORD_EMAIL_CONTENT_BODY");
+		List<NoteConfiguration> configList = noteService.getConfigValue(configCodeList);
+		String subject = null;
+		String bodyText = null;
+		for(NoteConfiguration config: configList){
+			 if("FORGOT_PASSWORD_EMAIL_SUBJECT".equals(config.getConfigCode())){
+				 subject = config.getConfigValue();
+			}else if("FORGOT_PASSWORD_EMAIL_CONTENT_BODY".equals(config.getConfigCode())){
+				bodyText = config.getConfigValue();
+			}
+		}
+		bodyText = bodyText+"<p>"
 				+ baseUrl + "/notes/#!/changePassword?resetToken=" + resetToken + "</p>";
-		if (EmailService.sendEmail(inputUser.getUsername(), subject, bodyText)) {
+		if (emailService.sendEmail(inputUser.getUsername(), subject, bodyText)) {
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} else {
 			return new ResponseEntity<Void>(HttpStatus.CONFLICT);

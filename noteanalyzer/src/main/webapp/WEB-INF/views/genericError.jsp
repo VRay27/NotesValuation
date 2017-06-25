@@ -129,7 +129,7 @@ html, body {
 
 	</div>
 
-	<div ui-view></div>
+	<p> Unable to process your request. Please try after some time.</p>
 
 	<!-- Third-party Libraries -->
 

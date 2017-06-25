@@ -18,10 +18,12 @@ import lombok.ToString;
 @Entity
 @Table(name = "USER")
 @ToString(callSuper = true)
-@NamedQueries({ @NamedQuery(name = User.GET_USER_DETAILS,query="select u from User u where u.userName =:userName")})
+@NamedQueries({ @NamedQuery(name = User.GET_IN_ACTIVE_USER_DETAILS, query="select u from User u where u.userName =:userName and  u.userCreationStatus !='C'"),
+				@NamedQuery(name = User.GET_USER_DETAILS, query="select u from User u where u.userName =:userName and u.userCreationStatus='C'")})
 public class User extends AbstractEntity{
 
 	public static final String GET_USER_DETAILS = "GET_USER_DETAILS";
+	public static final String GET_IN_ACTIVE_USER_DETAILS = "GET_IN_ACTIVE_USER_DETAILS";
 	
 	private static final long serialVersionUID = -2173424644486392900L;
 	
@@ -81,6 +83,14 @@ public class User extends AbstractEntity{
 	@Column(name="RESET_TOKEN_CREATION_TIME")
 	private ZonedDateTime resetTokenCreationTime;
 	
+	@Column(name="VERIFICATION_TOKEN")
+	private String verificationToken;
+
+	@Column(name="VERIFICATION_TOKEN_CREATION_TIME")
+	private ZonedDateTime verificationTokenCreationTime;
+	
+	@Column(name="USER_CREATION_STATUS")
+	private String userCreationStatus;
 
 	/*@OneToMany
 	@JoinColumn(name="APP_USER_ID", referencedColumnName="ID")
@@ -330,6 +340,52 @@ public class User extends AbstractEntity{
 	 */
 	public void setResetTokenCreationTime(ZonedDateTime resetTokenCreationTime) {
 		this.resetTokenCreationTime = resetTokenCreationTime;
+	}
+	
+	
+
+	/**
+	 * @return the verificationTokenCreationTime
+	 */
+	public ZonedDateTime getVerificationTokenCreationTime() {
+		return verificationTokenCreationTime;
+	}
+
+	/**
+	 * @param verificationTokenCreationTime the verificationTokenCreationTime to set
+	 */
+	public void setVerificationTokenCreationTime(ZonedDateTime verificationTokenCreationTime) {
+		this.verificationTokenCreationTime = verificationTokenCreationTime;
+	}
+
+	/**
+	 * @return the verificationToken
+	 */
+	public String getVerificationToken() {
+		return verificationToken;
+	}
+
+	/**
+	 * @param verificationToken the verificationToken to set
+	 */
+	public void setVerificationToken(String verificationToken) {
+		this.verificationToken = verificationToken;
+	}
+
+	
+
+	/**
+	 * @return the userCreationStatus
+	 */
+	public String getUserCreationStatus() {
+		return userCreationStatus;
+	}
+
+	/**
+	 * @param userCreationStatus the userCreationStatus to set
+	 */
+	public void setUserCreationStatus(String userCreationStatus) {
+		this.userCreationStatus = userCreationStatus;
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package com.noteanalyzer.mvc.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.noteanalyzer.entity.notes.NoteConfiguration;
 import com.noteanalyzer.mvc.model.NoteInputFormModel;
 import com.noteanalyzer.mvc.model.NoteSummaryModel;
 import com.noteanalyzer.mvc.model.NoteTypeModel;
@@ -22,6 +23,8 @@ public interface NoteService {
 	public Optional<NoteInputFormModel> getNoteDetail(@NonNull int noteId);
 
 	public Optional<List<NoteSummaryModel>> getAllNotes(@NonNull String loggedInUserName);
+	
+	public List<NoteConfiguration> getConfigValue(@NonNull List<String> configCode);
 	
 	/*User findById(long id);
 	

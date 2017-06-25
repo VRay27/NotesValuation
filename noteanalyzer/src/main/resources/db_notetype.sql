@@ -9,6 +9,6 @@ CREATE TABLE NOTE_TYPE (
   PRIMARY KEY (N_TYPE_ID),
   UNIQUE INDEX NOTE_TYPE_UNIQUE (NOTE_TYPE ASC));
   
-  insert into NOTE_TYPE (n_type_id, note_type, description,updated_date_time,updated_by,created_date_time,created_by) values (1,'PERFORMING',' Performing Note Type',now(),'admin',now(),'admin');
-insert into NOTE_TYPE (n_type_id, note_type, description,updated_date_time,updated_by,created_date_time,created_by) values (2,'SUB-PERFORMING','Sub Performing Note Type',now(),'admin',now(),'admin');
-insert into NOTE_TYPE (n_type_id, note_type, description,updated_date_time,updated_by,created_date_time,created_by) values (3,'NON-PERFORMING','Non Performaing Note Type',current_timestamp,'admin',current_timestamp,'admin');
+insert into NOTE_TYPE (n_type_id, note_type, description,updated_date_time,updated_by,created_date_time,created_by) values (1,'PERFORMING',' Performing Note',now(),'admin',now(),'admin');
+insert into NOTE_TYPE (n_type_id, note_type, description,updated_date_time,updated_by,created_date_time,created_by) values (2,'SUB-PERFORMING','Sub Performing Note',now(),'admin',now(),'admin');
+insert into NOTE_TYPE (n_type_id, note_type, description,updated_date_time,updated_by,created_date_time,created_by) values (3,'NON-PERFORMING','Non Performaing Note',current_timestamp,'admin',current_timestamp,'admin');

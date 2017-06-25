@@ -12,6 +12,7 @@ public interface UserService {
 	public Optional<UserModel> resetUserPassword(String userName);
 	public Optional<UserModel> updateUser(UserModel user);
 	Optional<UserModel> changePassword(UserModel inputUser, boolean isResetTokenRequired);
+	public Optional<UserModel> verifyUser(UserModel inputUser);
 	
 	/*User findById(long id);
 	

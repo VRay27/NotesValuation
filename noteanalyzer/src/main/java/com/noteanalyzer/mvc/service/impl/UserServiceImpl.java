@@ -59,6 +59,17 @@ public class UserServiceImpl implements UserService {
 		return Optional.of(userList.get(0));
 	}
 
+	public Optional<User> getInActiveUser(String userName) {
+		Map<String, Object> parameters = new HashMap<>();
+		parameters.put("userName", userName);
+		List<User> userList = genericDao.getResultByNamedQuery(User.class, User.GET_IN_ACTIVE_USER_DETAILS, parameters);
+		if (Collections.isEmpty(userList)) {
+			return Optional.empty();
+		}
+		return Optional.of(userList.get(0));
+	}
+
+	
 	@Override
 	public Optional<UserModel> getByUsername(String userName) {
 		Optional<User> userOptional = getUser(userName);
@@ -90,6 +101,7 @@ public class UserServiceImpl implements UserService {
 			User user = userOpt.get();
 			if (isResetTokenNotRequired || inputUser.getResetToken().equals(user.getResetToken())) {
 				user.setPassword(encoder.encode(inputUser.getPassword()));
+				user.setResetTokenCreationTime(ZonedDateTime.now());
 				User updatedUser = genericDao.update(user);
 				return Optional.of(ConverterUtility.convertUserToUserModel(updatedUser));
 			}
@@ -116,6 +128,21 @@ public class UserServiceImpl implements UserService {
 			UserModel userModel = ConverterUtility.convertUserToUserModel(userOptional.get());
 			userModel.setPassword(userOptional.get().getPassword());
 			return Optional.of(userModel);
+		}
+		return Optional.empty();
+	}
+
+	@Override
+	public Optional<UserModel> verifyUser(UserModel inputUser) {
+		Optional<User> userOpt = getInActiveUser(inputUser.getEmail());
+		if (userOpt.isPresent()) {
+			User user = userOpt.get();
+			if (inputUser.getVerificationToken().equals(user.getVerificationToken())) {
+				user.setUserCreationStatus("C");
+				user.setVerificationTokenCreationTime(ZonedDateTime.now());
+				User updatedUser = genericDao.update(user);
+				return Optional.of(ConverterUtility.convertUserToUserModel(updatedUser));
+			}
 		}
 		return Optional.empty();
 	}

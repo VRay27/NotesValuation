@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 
 import com.noteanalyzer.dao.GenericDao;
 import com.noteanalyzer.entity.notes.Note;
+import com.noteanalyzer.entity.notes.NoteConfiguration;
 import com.noteanalyzer.entity.notes.NoteType;
 import com.noteanalyzer.entity.notes.PropertyType;
-import com.noteanalyzer.entity.user.User;
 import com.noteanalyzer.mvc.model.NoteInputFormModel;
 import com.noteanalyzer.mvc.model.NoteSummaryModel;
 import com.noteanalyzer.mvc.model.NoteTypeModel;
@@ -73,6 +73,14 @@ public class NoteServiceImpl implements NoteService {
 		parameters.put("userName", loggedInUserName);
 		genericDao.getResultByNamedQuery(Note.class, Note.GET_NOTE_DETAILS_BY_USER, parameters);
 		return null;
+	}
+
+	@Override
+	public List<NoteConfiguration> getConfigValue(@NonNull List<String> configCode) {
+		Map<String, Object> parameters = new HashMap<>();
+		parameters.put("configCode", configCode);
+		List<NoteConfiguration> noteConfigurationList = genericDao.getResultByNamedQuery(NoteConfiguration.class, NoteConfiguration.GET_CONFIG_VALUE, parameters);
+		return noteConfigurationList;
 	}
 
 }

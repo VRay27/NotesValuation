@@ -23,6 +23,7 @@ app.controller('LoginCtrl', function($scope, $rootScope, $state, $location, toas
 	 loginModel.username = $scope.user.email;
 	 loginService.resetPassword(loginModel).then(function(response) {
 		 toastr.success('We have sent an email to your given email id with password reset instruction.');
+		 $('#forgotPasswordModal').modal('hide');
 	 },function(response){
 		 if(response.status==404){
 			 toastr.error('No user is registered with this email.');
