@@ -51,9 +51,9 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 		return ($scope.noteInputForm[field].$dirty && $scope.noteInputForm[field].$invalid) || ($scope.submitted && $scope.noteInputForm[field].$invalid);
 	};
 
-	$scope.populateNoteInputModelFromJS = function(changeInputField){
+	$scope.populateNoteInputModelFromJS = function(){
 		var model = $scope.noteInputFormModel 
-		NoteService.noteCalculator(model, changeInputField);
+		NoteService.noteCalculator(model);
 		$scope.noteInputFormModel = model;
 	};
 	
@@ -72,6 +72,7 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 	};
 	$scope.altInputFormats = ['MM/dd/yyyy'];
 	$scope.save = function() {
+		$scope.populateNoteInputModelFromJS();
 		$scope.submitted = true;
 		if ($scope.noteInputForm.$valid) {
 
