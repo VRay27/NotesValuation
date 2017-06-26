@@ -15,24 +15,29 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q', '$rootScope', '$uibModa
 
 	return factory;
 
-	function noteCalculator(noteInputFormModel) {
+	function noteCalculator(noteInputFormModel, changeInputField) {
 		 var principal = noteInputFormModel.upb;
 		 var term  = noteInputFormModel.originalTerm;
 		 var interestRate   = noteInputFormModel.rate;
 		 var payment = noteInputFormModel.pdiPayment;
-		 if(!(principal && term && interestRate && payment)) {
-			 	interestRate = interestRate / 1200;
-			 	payment = payment * -1;
-				if (principal && term && interestRate) {
-					noteInputFormModel.pdiPayment = principal * interestRate / (1 - (Math.pow(1 / (1 + interestRate), term)));
-				} else if (principal && term && payment) {
-					noteInputFormModel.rate = calculateRate(term,payment, principal) * 1200;
-				} else if (principal && interestRate && payment) {
-					noteInputFormModel.originalTerm = getNPER(interestRate, payment, principal);
-				} else if (term && interestRate && payment) {
-					noteInputFormModel.upb = getPV(interestRate, term, payment);
-				}
-				}
+	 	interestRate = interestRate / 1200;
+	 	payment = payment * -1;
+		if (principal && term && interestRate && changeInputField != 'payment') {
+			var pay = principal * interestRate / (1 - (Math.pow(1 / (1 + interestRate), term)));
+			noteInputFormModel.pdiPayment = round(pay,2);
+		} 
+		if (principal && term && payment && changeInputField != 'rate') {
+			var newRate = calculateRate(term,payment, principal) * 1200;
+			noteInputFormModel.rate = round(newRate,2);
+		} 
+		if (principal && interestRate && payment && changeInputField != 'term') {
+			var newTerm = getNPER(interestRate, payment, principal);
+			noteInputFormModel.originalTerm = round(newTerm, 2);
+		} 
+		if (term && interestRate && payment && changeInputField != 'upb') {
+			var newPrinciple = getPV(interestRate, term, payment);
+			noteInputFormModel.upb = round(newPrinciple, 2);
+		}
 		return noteInputFormModel;
 	}
 	
@@ -254,5 +259,11 @@ function compIsType(t, s) {
 							    return (((1 - Math.pow(1 + rate, periods)) / rate) * payment * (1 + rate * type) - future) / Math.pow(1 + rate, periods);
 							  }
 							};
+							
+	function round(value, decimals) {
+		if(value){
+			return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+		}
+	}
 }]);
 

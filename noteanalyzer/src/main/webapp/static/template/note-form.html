@@ -41,19 +41,19 @@
           <span class="inputError noteDateAligment" ng-show="hasError('dateOfNote', 'required')">Required</span></div> 
 			</div>
 			<div class="block">
-				<label class="requiredField">UPB</label> <input class="input" type="text" required name ="upb" maxlength="50"  pattern="[0-9.\s]+" title="This field can contain only numeric characters."  ng-blur="populateNoteInputModelFromJS()"
+				<label class="requiredField">UPB</label> <input class="input" type="text" required name ="upb" maxlength="50"  pattern="[0-9.\s]+" title="This field can contain only numeric characters."  ng-change="populateNoteInputModelFromJS('upb')"  ng-blur="populateNoteInputModelFromJS('upb')"
 					ng-model="noteInputFormModel.upb" />
 					<span class="glyphicon glyphicon-info-sign tooltip-color" tooltip-placement="top" uib-tooltip="Unpaid loan balance"></span>
 					<span class="inputError" ng-show="hasError('upb', 'required')">Required</span>
 			</div>
 			<div class="block">
-				<label class="requiredField">Rate</label> <input class="input" type="text" required name ="rate" maxlength="50"  pattern="[0-9.\s]+" title="This field can contain only numeric characters."  ng-blur="populateNoteInputModelFromJS()"
-					ng-model="noteInputFormModel.rate" />
+				<label class="requiredField">Rate</label> <input class="input" type="text" required name ="rate" maxlength="50"  pattern="[0-9.\s]+" title="This field can contain only numeric characters."  ng-change="populateNoteInputModelFromJS('rate')"  ng-blur="populateNoteInputModelFromJS('rate')"
+					ng-model="noteInputFormModel.rate" placeholder="Enter annual interest rate"/>
 					<span class="glyphicon glyphicon-info-sign tooltip-color" tooltip-placement="top" uib-tooltip="Original interest rate of the note"></span>
 					<span class="inputError" ng-show="hasError('rate', 'required')">Required</span>
 			</div>
 			<div class="block">
-				<label class="requiredField">PDI Payment</label> <input class="input" type="text"  required name ="pdiPayment" maxlength="50"  pattern="[0-9.\s]+" title="This field can contain only numeric characters."  ng-blur="populateNoteInputModelFromJS()"
+				<label class="requiredField">PDI Payment</label> <input class="input" type="text"  required name ="pdiPayment" maxlength="50"  pattern="[0-9.\s]+" title="This field can contain only numeric characters."  ng-change="populateNoteInputModelFromJS('payment')"  ng-blur="populateNoteInputModelFromJS('payment')"
 					ng-model="noteInputFormModel.pdiPayment" />
 					<span class="glyphicon glyphicon-info-sign tooltip-color" tooltip-placement="top" uib-tooltip="Payment and interest"></span>
 					<span class="inputError" ng-show="hasError('pdiPayment', 'required')">Required</span>
@@ -65,8 +65,8 @@
 					<span class="inputError" ng-show="hasError('tdiPayment', 'required')">Required</span>
 			</div>
 			<div class="block">
-				<label class="requiredField" >Original Term</label> <input class="input" type="text" required name ="originalTerm" maxlength="50"  pattern="[0-9.\s]+" title="This field can contain only numeric characters."  ng-blur="populateNoteInputModelFromJS()"
-					ng-model="noteInputFormModel.originalTerm" />
+				<label class="requiredField" >Original Term</label> <input class="input" type="text" required name ="originalTerm" maxlength="50"  pattern="[0-9.\s]+" title="This field can contain only numeric characters."  ng-change="populateNoteInputModelFromJS('term')"  ng-blur="populateNoteInputModelFromJS('term')"
+					ng-model="noteInputFormModel.originalTerm" placeholder="Enter terms in months" />
 					<span class="glyphicon glyphicon-info-sign tooltip-color" tooltip-placement="top" uib-tooltip="Original length/term of the note"></span>
 					<span class="inputError" ng-show="hasError('originalTerm', 'required')">Required</span>
 			</div>

@@ -11,7 +11,7 @@
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.4/angular.min.js"></script>
 	<script
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwnzVWUsuJbZVgt99rWIWYMGFcU4zq5bI&libraries=places"
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB6lfbjsaLDihAIKq_mMXIhjCJYDZBlhXc&libraries=places"
 		async defer></script>
 <link
 	href="https://cdnjs.cloudflare.com/ajax/libs/angular-toastr/2.1.1/angular-toastr.css"

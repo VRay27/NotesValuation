@@ -51,9 +51,9 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 		return ($scope.noteInputForm[field].$dirty && $scope.noteInputForm[field].$invalid) || ($scope.submitted && $scope.noteInputForm[field].$invalid);
 	};
 
-	$scope.populateNoteInputModelFromJS = function(){
+	$scope.populateNoteInputModelFromJS = function(changeInputField){
 		var model = $scope.noteInputFormModel 
-		NoteService.noteCalculator(model);
+		NoteService.noteCalculator(model, changeInputField);
 		$scope.noteInputFormModel = model;
 	};
 	
