@@ -116,8 +116,8 @@ html, body {
 		<ul ng-if="isAuthenticated()" class="nav navbar-nav">
 			<li><a href="/notes/#!/noteDashboard">My Dashboard</a></li>
 		</ul>
-		<ul ng-if="isAuthenticated()" class="nav navbar-nav">
-			<li><a href="/notes/#!/subscription">Calculator</a></li>
+		<ul  class="nav navbar-nav">
+			<li><a href="/notes/#!/calculator">Calculator</a></li>
 		</ul>
 		<ul ng-if="!isAuthenticated()" class="nav navbar-nav pull-right">
 			<li><a href="/notes/#!/login">Login</a></li>

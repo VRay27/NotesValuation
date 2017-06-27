@@ -39,6 +39,11 @@ noteApp.controller('HomeCtrl', function($scope, $stateParams, $state, $auth, $ht
 		}
 	}
 
+	$scope.populateNoteInputModelFromJS = function(){
+		var model = $scope.noteInputFormModel 
+		NoteService.noteCalculator(model);
+		$scope.noteInputFormModel = model;
+	};
 
 });
 

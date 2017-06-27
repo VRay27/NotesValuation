@@ -110,19 +110,6 @@ public class UserRestController {
 
 	}
 	
-	@RequestMapping(value = "/verifyUser", method = RequestMethod.GET)
-	public String verifyUser(HttpServletRequest request,HttpServletResponse response) throws IOException {
-		UserModel inputUser = new UserModel();
-		String verificationToken = request.getParameter("verificationToken");
-		inputUser.setEmail(NoteUtility.getUserNameFromResetToken(verificationToken));
-		inputUser.setVerificationToken(verificationToken);
-		Optional<UserModel> user = userService.verifyUser(inputUser);
-		if (!user.isPresent()) {
-			return "genericError";
-		}
-		return "welcome";
-
-	}
 
 	@RequestMapping(value = "/api/changePassword", method = RequestMethod.POST)
 	public ResponseEntity<Void> changePasswordForLoginUser(@RequestBody UserModel inputUser) {

@@ -102,10 +102,10 @@ noteApp.config(function($stateProvider, $urlRouterProvider) {
 				loginRequired : loginRequired,
 				skipIfLoggedIn : skipIfLoggedIn
 			}
-		}).state('subscription', {
-			url : '/subscription',
-			templateUrl : 'static/template/subscription.html',
-			controller : 'SubscriptionCtrl',
+		}).state('calculator', {
+			url : '/calculator',
+			templateUrl : 'static/template/calculator.html',
+			controller : 'HomeCtrl',
 			cache: false,
 			params : {
 				'referer' : null,

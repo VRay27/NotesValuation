@@ -1,0 +1,37 @@
+<div class="container">
+	<div class="panel panel-default profilePanel">
+		<div class="panel-heading">Calculator</div>
+		<div class="panel-body">
+			<legend>
+				<i class="ion-clipboard"></i>Enter any three field to calculate other
+			</legend>
+			<form  ng-submit="populateNoteInputModelFromJS()">
+				
+				<div class="form-group">
+					<label class="control-label"><i class="ion-person"></i>
+						UPB</label> <input type="text" class="form-control"  autofocus ng-model="noteInputFormModel.upb"
+						maxlength="90"  pattern="[0-9.]+" title="This field can contain only  numeric characters."  placeholder="Enter unpaid balance." />
+				</div>
+				<div class="form-group">
+					<label class="control-label"><i class="ion-at"></i> Rate
+						</label> <input type="text" class="form-control" pattern="[0-9.]+" placeholder="Enter Annual Interest Rate."  maxlength="90"
+						title="This field can contain only  numeric characters." ng-model="noteInputFormModel.rate" />
+				</div>
+				<div class="form-group">
+					<label class="control-label"><i class="ion-at"></i> Payment
+						</label> <input type="text" class="form-control" placeholder="Enter payment amount."  maxlength="90" pattern="[0-9.]+"
+						title="This field can contain only  numeric characters."  ng-model="noteInputFormModel.pdiPayment"/>
+				</div>
+				<div class="form-group">
+					<label class="control-label"><i class="ion-at"></i> Term
+						</label> <input type="text" class="form-control" placeholder="Enter duration in months."  maxlength="90" pattern="[0-9.]+"
+						title="This field can contain only  numeric characters." ng-model="noteInputFormModel.originalTerm" />
+				</div>
+		
+				<button class="btn btn-lg btn-success profile-button">Calculate</button>
+				
+			</form>
+		</div>
+	</div>
+
+</div>

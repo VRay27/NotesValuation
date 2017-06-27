@@ -66,7 +66,7 @@
 			</div>
 			<div class="block">
 				<label class="requiredField" >Original Term</label> <input class="input" type="text" required name ="originalTerm" maxlength="50"  pattern="[0-9.\s]+" title="This field can contain only numeric characters."  ng-blur="populateNoteInputModelFromJS()"
-					ng-model="noteInputFormModel.originalTerm" placeholder="Enter terms in months" />
+					ng-model="noteInputFormModel.originalTerm" placeholder="Enter duration in months" />
 					<span class="glyphicon glyphicon-info-sign tooltip-color" tooltip-placement="top" uib-tooltip="Original length/term of the note"></span>
 					<span class="inputError" ng-show="hasError('originalTerm', 'required')">Required</span>
 			</div>
