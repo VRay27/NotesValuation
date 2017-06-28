@@ -179,6 +179,7 @@ html, body {
 	<script src="static/js/service/noteService.js"></script>
 	
 	
+	
 </body>
 <script type="text/javascript">
 	angular.element(document).ready(function () {

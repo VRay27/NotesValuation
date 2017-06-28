@@ -1,7 +1,7 @@
 'use strict';
 
 
-noteApp.factory('NoteService', ['$http', 'toastr', '$q', '$rootScope', '$uibModal', function($http, toastr, $q, $rootScope, $uibModal) {
+noteApp.factory('NoteService', ['$http', 'toastr', '$q', '$rootScope', '$uibModal', 'WaitingDialog',function($http, toastr, $q, $rootScope, $uibModal,WaitingDialog) {
 	var factory = {
 		createNote : createNote,
 		noteAnalyze : noteAnalyze,
@@ -101,8 +101,8 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q', '$rootScope', '$uibModa
 	}
 	
 	function noteAnalyze(noteInputFormModel) {
+		WaitingDialog.show();
 		$http.post('analyzeNote' , noteInputFormModel).then(function(response) {
-
 			var noteInputFormModel = response.data;
 			var modalInstance = $uibModal.open({
 				templateUrl : 'static/template/note-form.html',
@@ -118,6 +118,8 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q', '$rootScope', '$uibModa
 			});
 		}, function(response) {
 			toastr.error('Unable to process your request');
+		}).then(function() {
+			WaitingDialog.hide();
 		});
 	}
 	

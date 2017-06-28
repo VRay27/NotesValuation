@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta http-equiv="Pragma" content="no-cache">
@@ -109,7 +111,7 @@ html, body {
 			<a class="navbar-brand" href="/"><i class="ion-ios7-pulse-strong"></i>
 				Note Analyzer</a>
 		</div>
-		<ul class="nav navbar-nav">
+		<!-- <ul class="nav navbar-nav">
 			<li><a href="/notes/#!/">Home</a></li>
 			<li ng-if="isAuthenticated()"><a href="/notes/#!/profile">Profile</a></li>
 		</ul>
@@ -125,11 +127,11 @@ html, body {
 		</ul>
 		<ul ng-if="isAuthenticated()" class="nav navbar-nav pull-right">
 			<li><a href="/notes/#!/logout">Logout</a></li>
-		</ul>
+		</ul> -->
 
 	</div>
 
-	<p> Unable to process your request. Please try after some time.</p>
+	<p>You have successfully verified your account. Please <%-- <a href="<%=response.sendRedirect("welcome.jsp")%>"> --%>login</a> with your credential.</p>
 
 	<!-- Third-party Libraries -->
 
