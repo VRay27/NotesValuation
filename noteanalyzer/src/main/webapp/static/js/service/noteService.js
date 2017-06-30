@@ -1,7 +1,7 @@
 'use strict';
 
 
-noteApp.factory('NoteService', ['$http', 'toastr', '$q', '$rootScope', '$uibModal', 'WaitingDialog',function($http, toastr, $q, $rootScope, $uibModal,WaitingDialog) {
+noteApp.factory('NoteService', ['$http', 'toastr', '$q', '$rootScope', '$uibModal', 'WaitingDialog','UtilityService',function($http, toastr, $q, $rootScope, $uibModal,WaitingDialog,UtilityService) {
 	var factory = {
 		createNote : createNote,
 		noteAnalyze : noteAnalyze,
@@ -20,27 +20,29 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q', '$rootScope', '$uibModa
 		 var term  = noteInputFormModel.originalTerm;
 		 var interestRate   = noteInputFormModel.rate;
 		 var payment = noteInputFormModel.pdiPayment;
-		 if(!(principal && term && interestRate && payment)) {
+		 var isAllPresent = principal && term && interestRate && payment;
+		 if(!(isAllPresent)) {
 			 	interestRate = interestRate / 1200;
 			 	payment = payment * -1;
 				if (principal && term && interestRate) {
 					var pay = principal * interestRate / (1 - (Math.pow(1 / (1 + interestRate), term)));
-					noteInputFormModel.pdiPayment = round(pay,2);
+					noteInputFormModel.pdiPayment = UtilityService.round(pay,2);
 				} else if (principal && term && payment) {
-					var newRate = calculateRate(term,payment, principal) * 1200;
-					noteInputFormModel.rate = round(newRate,2);
+					var newRate = UtilityService.calculateRate(term,payment, principal) * 1200;
+					noteInputFormModel.rate = UtilityService.round(newRate,2);
 				} else if (principal && interestRate && payment) {
-					var newTerm = getNPER(interestRate, payment, principal);
-					noteInputFormModel.originalTerm = round(newTerm, 2);
+					var newTerm = UtilityService.getNPER(interestRate, payment, principal);
+					noteInputFormModel.originalTerm = UtilityService.round(newTerm, 2);
 				} else if (term && interestRate && payment) {
-					var newPrinciple = getPV(interestRate, term, payment);
-					noteInputFormModel.upb = round(newPrinciple, 2);
+					var newPrinciple = UtilityService.getPV(interestRate, term, payment);
+					noteInputFormModel.upb = UtilityService.round(newPrinciple, 2);
 				}
 			}
 		return noteInputFormModel;
 	}
 	
 	function createNote(noteInputFormModel) {
+		WaitingDialog.show();
 		var deferred = $q.defer();
 		$http.post('api/createNote', noteInputFormModel)
 			.then(
@@ -51,11 +53,15 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q', '$rootScope', '$uibModa
 					console.error('Error while creating note');
 					deferred.reject(errResponse);
 				}
-		);
+		).then(
+				function() {
+					WaitingDialog.hide();
+				});
 		return deferred.promise;
 	}
 	
 	function editNote(noteDetailModel) {
+		WaitingDialog.show();
 		var deferred = $q.defer();
 		$http.post('api/editNote', noteDetailModel)
 			.then(
@@ -66,11 +72,15 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q', '$rootScope', '$uibModa
 					console.error('Error while edit note');
 					deferred.reject(errResponse);
 				}
-		);
+		).then(
+				function() {
+					WaitingDialog.hide();
+				});
 		return deferred.promise;
 	}
 	
 	function deleteNote(noteId) {
+		WaitingDialog.show();
 		var deferred = $q.defer();
 		$http.delete('api/deleteNote/'+noteId)
 			.then(
@@ -81,11 +91,15 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q', '$rootScope', '$uibModa
 					console.error('Error while delete note '+noteId);
 					deferred.reject(errResponse);
 				}
-		);
+		).then(
+				function() {
+					WaitingDialog.hide();
+				});
 		return deferred.promise;
 	}
 	
 	function getNoteDetail(noteId) {
+		WaitingDialog.show();
 		var deferred = $q.defer();
 		$http.get('api/getNoteDetail/'+noteId)
 			.then(
@@ -96,7 +110,10 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q', '$rootScope', '$uibModa
 					console.error('Error while fetching note '+noteId);
 					deferred.reject(errResponse);
 				}
-		);
+		).then(
+				function() {
+					WaitingDialog.hide();
+				});
 		return deferred.promise;
 	}
 	
@@ -124,6 +141,7 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q', '$rootScope', '$uibModa
 	}
 	
 	function uploadNoteFile(file, uploadUrl) {
+		WaitingDialog.show();
 		var fd = new FormData();
 		fd.append('file', file);
 
@@ -136,7 +154,10 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q', '$rootScope', '$uibModa
 			toastr.success('File has been uploaded Successfully!!');
 		}, function(response) {
 			toastr.error('Unable to upload file. Please try after sometime.');
-		});
+		}).then(
+				function() {
+					WaitingDialog.hide();
+				});
 	}
 
 	
@@ -194,77 +215,6 @@ function compIsType(t, s) {
        return false;
     }
 
-	 function calculateRate(term, payment, principal, future, type, guess) {
-
-		  guess = (guess === undefined) ? 0.01 : guess;
-		  future = (future === undefined) ? 0 : future;
-		  type = (type === undefined) ? 0 : type;
-
-		
-
-		  // Set maximum epsilon for end of iteration
-		  var epsMax = 1e-6;
-
-		  // Set maximum number of iterations
-		  var iterMax = 100;
-		  var iter = 0;
-		  var close = false;
-		  var rate = guess;
-
-		  while (iter < iterMax && !close) {
-		    var t1 = Math.pow(rate + 1, term);
-		    var t2 = Math.pow(rate + 1, term - 1);
-
-		    var f1 = future + t1 * principal + payment * (t1 - 1) * (rate * type + 1) / rate;
-		    var f2 = term * t2 * principal - payment * (t1 - 1) *(rate * type + 1) / Math.pow(rate,2);
-		    var f3 = term * payment * t2 * (rate * type + 1) / rate + payment * (t1 - 1) * type / rate;
-
-		    var newRate = rate - f1 / (f2 + f3);
-
-		    if (Math.abs(newRate - rate) < epsMax) close = true;
-		    iter++
-		    rate = newRate;
-		  }
-
-		  if (!close) return Number.NaN + rate;
-		  return rate;
-		};
-		
-		
-
-		function getNPER(rate, payment, present, future, type) {
-		  // Initialize type
-		  var type = (typeof type === 'undefined') ? 0 : type;
-
-		  // Initialize future value
-		  var future = (typeof future === 'undefined') ? 0 : future;
-
-		  // Evaluate rate and periods (TODO: replace with secure expression evaluator)
-		  rate = eval(rate);
-
-		  // Return number of periods
-		  var num = payment * (1 + rate * type) - future * rate;
-		  var den = (present * rate + payment * (1 + rate * type));
-		  return Math.log(num / den) / Math.log(1 + rate);
-		}
-		
 	
-	 function getPV (rate, periods, payment, future, type) {
-							  future = future || 0;
-							  type = type || 0;
-
-							  // Return present value
-							  if (rate === 0) {
-							    return -payment * periods - future;
-							  } else {
-							    return (((1 - Math.pow(1 + rate, periods)) / rate) * payment * (1 + rate * type) - future) / Math.pow(1 + rate, periods);
-							  }
-							};
-							
-	function round(value, decimals) {
-		if(value){
-			return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
-		}
-	}
 }]);
 

@@ -39,7 +39,50 @@ function NoteDetailCtrl($scope, $http,$auth, $rootScope, $uibModal, RowEditor, u
     enableCellEdit: false,
     enableFiltering: false,
     cellTemplate: "<div ng-click='grid.appScope.vm.getNoteDetail(grid, row)'><img width=\"100px\" ng-src=\"{{row.entity.assetImgSrc}}\" lazy-src  class=\"img-responsive\"/></div>"
-  }, {
+  },{
+	    field: 'creditScore',
+	    displayName: 'Credit Score',
+	    enableSorting: true,
+	    enableCellEdit: false,
+	    cellTemplate: "<div>{{row.entity.yield}}</div>"
+	  }, {
+		    field: 'paymentHistory',
+		    displayName: 'Payment History',
+		    enableSorting: true,
+		    enableCellEdit: false,
+		    cellTemplate: "<div>{{row.entity.yield}}</div>"
+		  }, {
+			    field: 'employmentHistory',
+			    displayName: 'Employment History',
+			    enableSorting: true,
+			    enableCellEdit: false,
+			    cellTemplate: "<div>{{row.entity.yield}}</div>"
+			  },{
+				    field: 'marketValue',
+				    displayName: 'Market Value',
+				    enableSorting: true,
+				    enableCellEdit: false,
+				    cellTemplate: "<div>{{row.entity.yield}}</div>"
+				  },{
+					    field: 'school',
+					    displayName: 'school',
+					    enableSorting: true,
+					    enableCellEdit: false,
+					    cellTemplate: "<div>{{row.entity.yield}}</div>"
+					  },{
+						    field: 'rent',
+						    displayName: 'Employment History',
+						    enableSorting: true,
+						    enableCellEdit: false,
+						    cellTemplate: "<div>{{row.entity.yield}}</div>"
+						  },{
+							    field: 'crime',
+							    displayName: 'crime',
+							    enableSorting: true,
+							    enableCellEdit: false,
+							    cellTemplate: "<div>{{row.entity.yield}}</div>"
+							  },
+	  {
     field: 'yield',
     displayName: 'Yield',
     enableSorting: true,
@@ -58,18 +101,18 @@ function NoteDetailCtrl($scope, $http,$auth, $rootScope, $uibModal, RowEditor, u
     enableCellEdit: false,
     cellTemplate: "<div>{{row.entity.ltv}}</div>"
   }, {
-    field: 'marketValue',
-    displayName: 'Market Value',
+	    field: 'jurisdical',
+	    displayName: 'Jurisdical',
+	    enableSorting: true,
+	    enableCellEdit: false,
+	    cellTemplate: "<div>{{row.entity.crime}}</div>"
+	  },  {
+    field: 'riskFactor',
+    displayName: 'Risk Factor',
     enableSorting: true,
     enableCellEdit: false,
     cellTemplate: "<div>{{row.entity.marketValue}}</div>"
-  }, {
-    field: 'crime',
-    displayName: 'Crime',
-    enableSorting: true,
-    enableCellEdit: false,
-    cellTemplate: "<div>{{row.entity.crime}}</div>"
-  }, {
+  },{
     field: 'overAllScore',
     displayName: 'OverAll Score',
     enableSorting: true,

@@ -177,6 +177,7 @@ html, body {
 	<script src="static/js/controller/noteDetail.js"></script>
 	<script src="static/js/service/userService.js"></script>
 	<script src="static/js/service/noteService.js"></script>
+	<script src="static/js/service/utilityService.js"></script>
 	
 	
 	

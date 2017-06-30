@@ -3,10 +3,10 @@ angular.module('NoteApp')
     $scope.signup = function() {
     	var user = $scope.user;
     	user.password = $auth.encodeString($scope.user.password);
-    	$auth.encodeString($scope.user.confirmPassword);
+    	$scope.user.confirmPassword = $auth.encodeString($scope.user.confirmPassword);
       UserService.createUser(user).then(function(response){
-    	  $state.go('login');
-          toastr.info('You have successfully created a new account. Please sign in using your Email and password');
+    	  $state.go('home');
+          toastr.info('We have sent you a verification mail, please verify your email and then sign in using your Email and password');
       },function(response){
     	  if(response.status == 409){
     		  toastr.error('A User with email this already exist. Please use another email id.');
@@ -20,6 +20,7 @@ angular.module('NoteApp')
     $scope.changePassword = function() {
     	var user = $scope.user;
     	user.password = $auth.encodeString($scope.user.password);
+    	$scope.user.confirmPassword = $auth.encodeString($scope.user.confirmPassword);
     	if($auth.isAuthenticated){
     		 UserService.changePasswordWithLoginUser(user).then(function(response){
     	      	  $state.go('login');

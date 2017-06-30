@@ -1,5 +1,5 @@
 var noteApp = angular.module('NoteApp');
-noteApp.controller('HomeCtrl', function($scope, $stateParams, $state, $auth, $http, $uibModal, toastr, $rootScope, noteUploadAPI, NoteService) {
+noteApp.controller('HomeCtrl', function($scope, $stateParams, $state, $auth, $http, $uibModal, toastr, $rootScope, noteUploadAPI, NoteService,UtilityService) {
 	$scope.noteAnalyzed = function() {
 		NoteService.getGeoDetails($scope.zipCode).then(function(noteInputFormModel){
 			NoteService.noteAnalyze(noteInputFormModel);
@@ -8,7 +8,10 @@ noteApp.controller('HomeCtrl', function($scope, $stateParams, $state, $auth, $ht
 		});
 		
 	};
-
+	if(UtilityService.getParameterByName('verificationToken')){
+			$state.go('login');
+			toastr.success('Successfuly verified the user. Please login using your credential.');
+	}
 
 	if ($stateParams.loginState === 'inputNoteForm') {
 		NoteService.createNote($rootScope.submitInputFormModel).then(function() {

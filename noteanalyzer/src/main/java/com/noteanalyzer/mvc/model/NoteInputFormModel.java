@@ -27,6 +27,8 @@ public class NoteInputFormModel implements Serializable {
 	private String tdiPayment;
 	private String originalTerm;
 	private String originalPrincipleBalance;
+	private String paymentHistory;
+	private String noOfPaymentRemaining;
 
 	/**
 	 * @return the noteTypeList
@@ -233,6 +235,36 @@ public class NoteInputFormModel implements Serializable {
 	 */
 	public void setOriginalPrincipleBalance(String originalPrincipleBalance) {
 		this.originalPrincipleBalance = originalPrincipleBalance;
+	}
+	
+	
+
+	/**
+	 * @return the paymentHistory
+	 */
+	public String getPaymentHistory() {
+		return paymentHistory;
+	}
+
+	/**
+	 * @param paymentHistory the paymentHistory to set
+	 */
+	public void setPaymentHistory(String paymentHistory) {
+		this.paymentHistory = paymentHistory;
+	}
+
+	/**
+	 * @return the noOfPaymentRemaining
+	 */
+	public String getNoOfPaymentRemaining() {
+		return noOfPaymentRemaining;
+	}
+
+	/**
+	 * @param noOfPaymentRemaining the noOfPaymentRemaining to set
+	 */
+	public void setNoOfPaymentRemaining(String noOfPaymentRemaining) {
+		this.noOfPaymentRemaining = noOfPaymentRemaining;
 	}
 
 	/*
