@@ -6,6 +6,8 @@ import java.time.ZonedDateTime;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
+import com.noteanalyzer.utility.NoteUtility;
+
 import lombok.ToString;
 
 @ToString
@@ -42,6 +44,9 @@ public abstract class AbstractEntity implements Serializable{
 	private String createdBy;
 
 	public ZonedDateTime getUpdatedDateTime() {
+		if(updatedDateTime == null){
+			return ZonedDateTime.now();
+		}
 		return updatedDateTime;
 	}
 
@@ -50,6 +55,9 @@ public abstract class AbstractEntity implements Serializable{
 	}
 
 	public String getUpdatedBy() {
+		if(updatedBy == null){
+			return NoteUtility.getLoggedInUserName();
+		}
 		return updatedBy;
 	}
 
@@ -58,6 +66,9 @@ public abstract class AbstractEntity implements Serializable{
 	}
 
 	public ZonedDateTime getCreatedDateTime() {
+		if(createdDateTime == null){
+			return ZonedDateTime.now();
+		}
 		return createdDateTime;
 	}
 
@@ -66,6 +77,9 @@ public abstract class AbstractEntity implements Serializable{
 	}
 
 	public String getCreatedBy() {
+		if(createdBy == null){
+			return NoteUtility.getLoggedInUserName();
+		}
 		return createdBy;
 	}
 

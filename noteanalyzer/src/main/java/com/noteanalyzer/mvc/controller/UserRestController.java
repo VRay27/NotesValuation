@@ -1,12 +1,10 @@
 package com.noteanalyzer.mvc.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -31,12 +29,11 @@ import com.noteanalyzer.utility.NoteUtility;
 public class UserRestController {
 
 	@Autowired
-	UserService userService; // Service which will do all data
-								// retrieval/manipulation work
-	
+	UserService userService;
+
 	@Autowired
 	EmailService emailService;
-	
+
 	@Autowired
 	NoteService noteService;
 
@@ -55,21 +52,24 @@ public class UserRestController {
 		return new ResponseEntity<UserModel>(HttpStatus.NOT_FOUND);
 	}
 
-	// -------------------Create a
-	// User--------------------------------------------------------
-
 	@RequestMapping(value = "/createUser", method = RequestMethod.POST)
 	public ResponseEntity<Void> createUser(@RequestBody UserModel inputUser, HttpServletRequest request) {
 		System.out.println("Creating User " + inputUser);
-		StringBuffer url = request.getRequestURL();
-		String uri = request.getRequestURI();
-		String baseUrl = StringUtils.substringBefore(url.toString(), uri);
-		
-		if (userService.getByUsername(inputUser.getEmail()).isPresent()) {
-			System.out.println("A User with name " + inputUser.getEmail() + " already exist");
-			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+		String userStatus = userService.getUserStatus(inputUser.getEmail());
+		if (StringUtils.isNotBlank(userStatus)) {
+			if ("Y".equalsIgnoreCase(userStatus)) {
+				System.out.println("A User with name " + inputUser.getEmail() + " already exist. ");
+				return new ResponseEntity<Void>(HttpStatus.FOUND);
+			} else {
+				System.out.println(
+						"A User with name " + inputUser.getEmail() + "registered with us, but not yet verified.");
+				return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+			}
 		}
-		String verificationToken = NoteUtility.encodeResetToken(inputUser.getEmail(), RandomStringUtils.randomAlphanumeric(40).toUpperCase());
+
+		String baseUrl = StringUtils.substringBefore(request.getRequestURL().toString(), request.getRequestURI());
+		String verificationToken = NoteUtility.encodeResetToken(inputUser.getEmail(),
+				RandomStringUtils.randomAlphanumeric(40).toUpperCase());
 		inputUser.setVerificationToken(verificationToken);
 		userService.createUser(inputUser);
 		List<String> configCodeList = new ArrayList<>();
@@ -78,15 +78,14 @@ public class UserRestController {
 		List<NoteConfiguration> configList = noteService.getConfigValue(configCodeList);
 		String subject = null;
 		String bodyText = null;
-		for(NoteConfiguration config: configList){
-			 if("CREATE_USER_EMAIL_SUBJECT".equals(config.getConfigCode())){
-				 subject = config.getConfigValue();
-			}else if("CREATE_USER_EMAIL_CONTENT_BODY".equals(config.getConfigCode())){
+		for (NoteConfiguration config : configList) {
+			if ("CREATE_USER_EMAIL_SUBJECT".equals(config.getConfigCode())) {
+				subject = config.getConfigValue();
+			} else if ("CREATE_USER_EMAIL_CONTENT_BODY".equals(config.getConfigCode())) {
 				bodyText = config.getConfigValue();
 			}
 		}
-		bodyText = bodyText+"<p>"
-				+ baseUrl + "/notes/verifyUser?verificationToken=" + verificationToken + "</p>";
+		bodyText = bodyText + "<p>" + baseUrl + "/notes/verifyUser?verificationToken=" + verificationToken + "</p>";
 		if (emailService.sendEmail(inputUser.getEmail(), subject, bodyText)) {
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
 		} else {
@@ -101,7 +100,7 @@ public class UserRestController {
 		String resetToken = request.getParameter("resetToken");
 		inputUser.setEmail(NoteUtility.getUserNameFromResetToken(resetToken));
 		inputUser.setResetToken(NoteUtility.decodeResetToken(resetToken));
-		Optional<UserModel> user = userService.changePassword(inputUser,false);
+		Optional<UserModel> user = userService.changePassword(inputUser, false);
 		if (user.isPresent()) {
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} else {
@@ -109,14 +108,13 @@ public class UserRestController {
 		}
 
 	}
-	
 
 	@RequestMapping(value = "/api/changePassword", method = RequestMethod.POST)
 	public ResponseEntity<Void> changePasswordForLoginUser(@RequestBody UserModel inputUser) {
 		System.out.println("Creating User " + inputUser);
-		inputUser.setEmail( NoteUtility.getLoggedInUserName());
+		inputUser.setEmail(NoteUtility.getLoggedInUserName());
 		inputUser.setResetToken(null);
-		Optional<UserModel> user = userService.changePassword(inputUser,true);
+		Optional<UserModel> user = userService.changePassword(inputUser, true);
 		if (user.isPresent()) {
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} else {
@@ -156,15 +154,14 @@ public class UserRestController {
 		List<NoteConfiguration> configList = noteService.getConfigValue(configCodeList);
 		String subject = null;
 		String bodyText = null;
-		for(NoteConfiguration config: configList){
-			 if("FORGOT_PASSWORD_EMAIL_SUBJECT".equals(config.getConfigCode())){
-				 subject = config.getConfigValue();
-			}else if("FORGOT_PASSWORD_EMAIL_CONTENT_BODY".equals(config.getConfigCode())){
+		for (NoteConfiguration config : configList) {
+			if ("FORGOT_PASSWORD_EMAIL_SUBJECT".equals(config.getConfigCode())) {
+				subject = config.getConfigValue();
+			} else if ("FORGOT_PASSWORD_EMAIL_CONTENT_BODY".equals(config.getConfigCode())) {
 				bodyText = config.getConfigValue();
 			}
 		}
-		bodyText = bodyText+"<p>"
-				+ baseUrl + "/notes/#!/changePassword?resetToken=" + resetToken + "</p>";
+		bodyText = bodyText + "<p>" + baseUrl + "/notes/#!/changePassword?resetToken=" + resetToken + "</p>";
 		if (emailService.sendEmail(inputUser.getUsername(), subject, bodyText)) {
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} else {

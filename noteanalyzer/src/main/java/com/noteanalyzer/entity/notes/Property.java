@@ -15,11 +15,13 @@ import lombok.ToString;
 @Entity
 @Table(name="PROPERTY")
 @ToString(callSuper = true)
-@NamedQueries({ @NamedQuery(name = Property.FETCH_PROPERTY_DETAILS,query="select propertyId from Property p where p.propertyId =:propertyId")})
+@NamedQueries({ @NamedQuery(name = Property.GET_PROPERTY_DETAILS_BY_ID,query="select p from Property p where p.propertyId =:propertyId"),
+	 			@NamedQuery(name = Property.GET_PROPERTY_DETAILS_BY_ADDRESS,query="select p from Property p where p.street =:streetAddress and p.zip =:zipCode and p.state =:state and p.city=:city")})
 public class Property extends AbstractEntity {
 	private static final long serialVersionUID = 6408731281219126859L;
 
-	public static final String FETCH_PROPERTY_DETAILS = "FETCH_PROPERTY_DETAILS";
+	public static final String GET_PROPERTY_DETAILS_BY_ID = "GET_PROPERTY_DETAILS_BY_ID";
+	public static final String GET_PROPERTY_DETAILS_BY_ADDRESS = "GET_PROPERTY_DETAILS_BY_ADDRESS";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,7 +53,7 @@ public class Property extends AbstractEntity {
 	private String	state;
 	
 	@Column(name="ZIP")
-	private Integer	Zip;
+	private Integer	zip;
 	
 	@Column(name="AGE")
 	private Integer	age;
@@ -60,7 +62,7 @@ public class Property extends AbstractEntity {
 	private Integer	size_sf;
 	
 	@Column(name="SUBDIVIDABLE")
-	private String subdividable;
+	private String subDividable;
 	
 	@Column(name="OTH_HIGH_PRIO_DEBT")
 	private Integer	otherHigherPriorityDebt;
@@ -70,6 +72,9 @@ public class Property extends AbstractEntity {
 	
 	@Column(name="OTH_MONTH_EXPENSE")
 	private Integer otherMonthlyExpenses;
+	
+	@Column(name="MARKET_VALUE")
+    private Float marketValue;
 
 	
 	public Integer getpId() {
@@ -145,14 +150,43 @@ public class Property extends AbstractEntity {
 		this.state = state;
 	}
 
+	
+	/**
+	 * @return the marketValue
+	 */
+	public Float getMarketValue() {
+		return marketValue;
+	}
+	/**
+	 * @param marketValue the marketValue to set
+	 */
+	public void setMarketValue(Float marketValue) {
+		this.marketValue = marketValue;
+	}
+	/**
+	 * @return the areaID
+	 */
+	public String getAreaID() {
+		return areaID;
+	}
+	/**
+	 * @param areaID the areaID to set
+	 */
+	public void setAreaID(String areaID) {
+		this.areaID = areaID;
+	}
+	/**
+	 * @return the zip
+	 */
 	public Integer getZip() {
-		return Zip;
+		return zip;
 	}
-
+	/**
+	 * @param zip the zip to set
+	 */
 	public void setZip(Integer zip) {
-		Zip = zip;
+		this.zip = zip;
 	}
-
 	public Integer getAge() {
 		return age;
 	}
@@ -169,14 +203,20 @@ public class Property extends AbstractEntity {
 		this.size_sf = size_sf;
 	}
 
-	public String isSubdividable() {
-		return subdividable;
-	}
 
-	public void setSubdividable(String subdividable) {
-		this.subdividable = subdividable;
-	}
 
+	/**
+	 * @return the subDividable
+	 */
+	public String getSubDividable() {
+		return subDividable;
+	}
+	/**
+	 * @param subDividable the subDividable to set
+	 */
+	public void setSubDividable(String subDividable) {
+		this.subDividable = subDividable;
+	}
 	public Integer getOtherHigherPriorityDebt() {
 		return otherHigherPriorityDebt;
 	}

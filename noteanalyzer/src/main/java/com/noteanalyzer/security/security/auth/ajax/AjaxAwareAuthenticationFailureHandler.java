@@ -6,7 +6,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -19,6 +18,7 @@ import com.noteanalyzer.security.common.ErrorCode;
 import com.noteanalyzer.security.common.ErrorResponse;
 import com.noteanalyzer.security.security.exceptions.AuthMethodNotSupportedException;
 import com.noteanalyzer.security.security.exceptions.JwtExpiredTokenException;
+import com.noteanalyzer.security.security.exceptions.UnverifiedUserException;
 
 @Component
 public class AjaxAwareAuthenticationFailureHandler implements AuthenticationFailureHandler {
@@ -37,8 +37,10 @@ public class AjaxAwareAuthenticationFailureHandler implements AuthenticationFail
 			mapper.writeValue(response.getWriter(), ErrorResponse.of("Token has expired", ErrorCode.JWT_TOKEN_EXPIRED, HttpStatus.UNAUTHORIZED));
 		} else if (e instanceof AuthMethodNotSupportedException) {
 		    mapper.writeValue(response.getWriter(), ErrorResponse.of(e.getMessage(), ErrorCode.AUTHENTICATION, HttpStatus.UNAUTHORIZED));
+		} else if (e instanceof UnverifiedUserException) {
+		    mapper.writeValue(response.getWriter(), ErrorResponse.of(e.getMessage(), ErrorCode.AUTHENTICATION, HttpStatus.FORBIDDEN));
+		}else{
+			mapper.writeValue(response.getWriter(), ErrorResponse.of("Authentication failed", ErrorCode.AUTHENTICATION, HttpStatus.UNAUTHORIZED));
 		}
-
-		mapper.writeValue(response.getWriter(), ErrorResponse.of("Authentication failed", ErrorCode.AUTHENTICATION, HttpStatus.UNAUTHORIZED));
 	}
 }

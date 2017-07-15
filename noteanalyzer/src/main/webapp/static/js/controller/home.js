@@ -1,5 +1,5 @@
 var noteApp = angular.module('NoteApp');
-noteApp.controller('HomeCtrl', function($scope, $stateParams, $state, $auth, $http, $uibModal, toastr, $rootScope, noteUploadAPI, NoteService,UtilityService) {
+noteApp.controller('HomeCtrl', function($scope, $stateParams, $state,$document, $auth, $http, $uibModal, toastr, $rootScope, noteUploadAPI, NoteService,UtilityService) {
 	$scope.noteAnalyzed = function() {
 		NoteService.getGeoDetails($scope.zipCode).then(function(noteInputFormModel){
 			NoteService.noteAnalyze(noteInputFormModel);
@@ -42,12 +42,38 @@ noteApp.controller('HomeCtrl', function($scope, $stateParams, $state, $auth, $ht
 		}
 	}
 
-	$scope.populateNoteInputModelFromJS = function(){
-		var model = $scope.noteInputFormModel 
-		NoteService.noteCalculator(model);
-		$scope.noteInputFormModel = model;
+	$scope.populateNoteInputModelFromJS = function(inputField){
+		var model = $scope.noteInputFormModel
+		angular.element( document.querySelector('#upb')).removeClass('notesuccess');
+		angular.element( document.querySelector('#rate')).removeClass('notesuccess');
+		angular.element( document.querySelector('#originalTerm')).removeClass('notesuccess');
+		angular.element( document.querySelector('#pdiPayment')).removeClass('notesuccess');
+		if(model[inputField]){
+			model[inputField] ='';
+		}
+		 var principal = model.upb;
+		 var term  = model.originalTerm;
+		 var interestRate   = model.rate;
+		 var payment = model.pdiPayment;
+		 var isAllPresent = principal && term && interestRate && payment;
+		 
+		 if(isAllPresent){
+			 alert('Please click on search icon of the field you want to calculate.');
+		 }else{
+			var calculatedField = '#'+ NoteService.noteCalculator($scope.noteInputFormModel);
+			var elem = angular.element( document.querySelector(calculatedField) );
+			elem.addClass('notesuccess');
+		 }
 	};
 
+	$scope.clearCalcField = function(inputField){
+		if($scope.noteInputFormModel){
+			$scope.noteInputFormModel[inputField] ='';
+		}else{
+			$scope.noteInputFormModel = {};	
+		}
+	}
+	
 });
 
 noteApp.controller('noteInputFormController', function($scope, $rootScope, $state, $uibModalInstance, noteInputFormModel, $auth, NoteService) {

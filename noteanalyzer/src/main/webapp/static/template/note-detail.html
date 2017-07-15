@@ -4,9 +4,9 @@
 	</div>
 	<form name="editableForm" editable-form onaftersave="editCtrl.saveNote($data)">
 	<div class="modal-body">
-
+	 <uib-accordion>
+	<div uib-accordion-group class="panel-default" heading="Terms">
 			<div class="block bottom">
-				<h4 class="modal-title text-center block-content-header">Terms</h4>
 				<div class="col-sm-4">
 					<label>Rate</label>
 					<span editable-text="noteDetailModel.rate" e-name="rate" onbeforesave="checkName($data)" e-required>{{noteDetailModel.rate  || '123' }}</span>
@@ -23,9 +23,9 @@
 					<span editable-text="noteDetailModel.upb" e-name="upb" onbeforesave="checkPayment($data)" e-required>{{noteDetailModel.upb  || '789' }}</span>
 				</div>
 			</div>
+	</div>
+	<div uib-accordion-group class="panel-default" heading="Asset Info">
 			<div class="block bottom">
-				<h4 class="modal-title text-center block-content-header ">Asset
-					Info</h4>
 				<div class="col-sm-4">
 					<label>Bedrooms(s)</label>
 					<div class="nodeDetailsValue">{{noteDetailModel.bedroom}}4</div>
@@ -39,10 +39,9 @@
 					<div class="nodeDetailsValue">{{noteDetailModel.bath}}2</div>
 				</div>
 			</div>
-
+	</div>
+	<div uib-accordion-group class="panel-default" heading="City and Country Demographic">
 			<div class="block ">
-				<h4 class="modal-title text-center block-content-header">City
-					and Country Demographic</h4>
 				<div class="col-sm-4">
 					<label>Owner</label>
 					<div class="nodeDetailsValue">{{noteDetailModel.owner}}Arvind
@@ -55,7 +54,8 @@
 			</div>
 		
 	</div>
-	
+	</uib-accordion>
+	</div>
 	<div class="modal-footer">
 		<div>
       <!-- button to show form -->

@@ -93,7 +93,7 @@ angular.module('NoteApp').factory('UserService', ['$http', '$q','WaitingDialog',
     }
 
     function getUserDetail() {
-    	WaitingDialog.show();
+    	
         var deferred = $q.defer();
         $http.get('api/userDetail')
             .then(
@@ -104,10 +104,7 @@ angular.module('NoteApp').factory('UserService', ['$http', '$q','WaitingDialog',
                 console.error('Error while fetching User details');
                 deferred.reject(errResponse);
             }
-        ).then(
-				function() {
-					WaitingDialog.hide();
-				});
+        );
         return deferred.promise;
     }
 

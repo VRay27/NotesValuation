@@ -1,5 +1,7 @@
 package com.noteanalyzer.security.security.auth.ajax;
 
+import static com.noteanalyzer.mvc.constant.NoteConstant.ACTIVE_USER_FLAG;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +20,7 @@ import org.springframework.util.Assert;
 
 import com.noteanalyzer.mvc.model.UserModel;
 import com.noteanalyzer.mvc.service.impl.UserServiceImpl;
+import com.noteanalyzer.security.security.exceptions.UnverifiedUserException;
 import com.noteanalyzer.security.security.model.UserContext;
 
 
@@ -42,7 +45,9 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
         System.out.println("Arvind "+username+", password "+password);
 
         UserModel user = userService.getByUsernameWithPassword(username).orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
-        System.out.println("Userrrrr "+user);
+        if(!ACTIVE_USER_FLAG.equalsIgnoreCase(user.getIsActive())){
+        	throw new UnverifiedUserException("Unverified user");
+        }
         if (!encoder.matches(password, user.getPassword())) {
             throw new BadCredentialsException("Authentication Failed. Username or Password not valid.");
         }

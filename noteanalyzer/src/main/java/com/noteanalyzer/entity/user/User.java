@@ -18,12 +18,14 @@ import lombok.ToString;
 @Entity
 @Table(name = "USER")
 @ToString(callSuper = true)
-@NamedQueries({ @NamedQuery(name = User.GET_IN_ACTIVE_USER_DETAILS, query="select u from User u where u.userName =:userName and  u.userCreationStatus !='C'"),
-				@NamedQuery(name = User.GET_USER_DETAILS, query="select u from User u where u.userName =:userName and u.userCreationStatus='C'")})
+@NamedQueries({ @NamedQuery(name = User.GET_IN_ACTIVE_USER_DETAILS, query="select u from User u where lower(u.userName) =:userName and  u.isActive !='Y'"),
+				@NamedQuery(name = User.GET_ACTIVE_USER_DETAILS, query="select u from User u where lower(u.userName) =:userName and u.isActive='Y'"),
+				@NamedQuery(name = User.GET_USER_DETAILS, query="select u from User u where lower(u.userName) =:userName")})
 public class User extends AbstractEntity{
 
 	public static final String GET_USER_DETAILS = "GET_USER_DETAILS";
 	public static final String GET_IN_ACTIVE_USER_DETAILS = "GET_IN_ACTIVE_USER_DETAILS";
+	public static final String GET_ACTIVE_USER_DETAILS = "GET_ACTIVE_USER_DETAILS";
 	
 	private static final long serialVersionUID = -2173424644486392900L;
 	
@@ -89,27 +91,14 @@ public class User extends AbstractEntity{
 	@Column(name="VERIFICATION_TOKEN_CREATION_TIME")
 	private ZonedDateTime verificationTokenCreationTime;
 	
-	@Column(name="USER_CREATION_STATUS")
-	private String userCreationStatus;
+	@Column(name="IS_ACTIVE")
+	private String isActive;
 
-	/*@OneToMany
-	@JoinColumn(name="APP_USER_ID", referencedColumnName="ID")
-	private List<UserRole> roles;
-	    
-	*/
 	
 	public User() {
 		super();
 	}
 
-	/*public User(Long id, String username, String password, List<UserRole> roles) {
-        this.id = id;
-        this.userName = username;
-        this.password = password;
-        this.roles = roles;
-    }
-*/
-	
 	
 	/**
 	 * @return the userName
@@ -374,18 +363,19 @@ public class User extends AbstractEntity{
 
 	
 
+	
 	/**
-	 * @return the userCreationStatus
+	 * @return the isActive
 	 */
-	public String getUserCreationStatus() {
-		return userCreationStatus;
+	public String getIsActive() {
+		return isActive;
 	}
 
 	/**
-	 * @param userCreationStatus the userCreationStatus to set
+	 * @param isActive the isActive to set
 	 */
-	public void setUserCreationStatus(String userCreationStatus) {
-		this.userCreationStatus = userCreationStatus;
+	public void setIsActive(String isActive) {
+		this.isActive = isActive;
 	}
 
 	@Override

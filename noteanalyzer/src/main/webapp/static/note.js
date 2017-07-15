@@ -1,5 +1,5 @@
 
-var noteApp = angular.module('NoteApp', ['ngResource', 'xeditable', 'ngMessages', 'ngAnimate', 'toastr', 'ui.router', 'ngAnimate', 'ui.grid', 'ui.grid.moveColumns', 'ui.grid.selection', 'ui.grid.resizeColumns', 'ui.bootstrap', 'ui.grid.edit', 'ui.grid.pagination']);
+var noteApp = angular.module('NoteApp', ['ngResource', 'xeditable', 'ngMessages', 'ngAnimate', 'toastr', 'ui.router', 'ngAnimate', 'ui.grid', 'ui.grid.moveColumns', 'ui.grid.selection', 'ui.grid.resizeColumns', 'ui.bootstrap', 'ui.grid.edit', 'btorfs.multiselect','ui.grid.pagination']);
 
 noteApp.config(function($stateProvider, $urlRouterProvider) {
 
@@ -184,6 +184,7 @@ noteApp.factory('$auth', function($window,$state,toastr) {
 	};
 
 	auth.logout = function() {
+		$window.sessionStorage.removeItem('user');
 		$window.sessionStorage.removeItem('token');
 	};
 
@@ -231,7 +232,7 @@ noteApp.factory('$auth', function($window,$state,toastr) {
 		logout : auth.logout,
 		getToken : auth.getToken,
 		getUser : auth.getUser,
-		getUser : auth.setUser,
+		setUser : auth.setUser,
 		checkLoginFromServer:auth.checkLoginFromServer,
 		encodeString:auth.encodeString
 	};

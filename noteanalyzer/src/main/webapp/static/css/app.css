@@ -130,3 +130,7 @@ div.block .input{
 	float:left;
 	margin:10px;
 }
+
+.notesuccess{
+	border: 2px solid green;
+}

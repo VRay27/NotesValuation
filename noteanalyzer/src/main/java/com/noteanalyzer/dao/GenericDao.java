@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.stereotype.Component;
-
 import com.noteanalyzer.entity.AbstractEntity;
 
 public interface GenericDao {
@@ -29,8 +27,9 @@ public interface GenericDao {
 	 * @return
 	 */
 	int updateByNamedQuery(String queryName, Map<String,Object> parameters);
+
+	<E  extends AbstractEntity> List<E> getResultByNamedQuery(Class<E> objectType, String queryName, Map<String, Object> parameters);
 	
-	<E extends AbstractEntity> List<E>  getResultByNamedQuery(final Class<E> objectType,String queryName, Map<String,Object> parameters);
 	
 	
 }

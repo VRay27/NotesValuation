@@ -27,18 +27,21 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q', '$rootScope', '$uibModa
 				if (principal && term && interestRate) {
 					var pay = principal * interestRate / (1 - (Math.pow(1 / (1 + interestRate), term)));
 					noteInputFormModel.pdiPayment = UtilityService.round(pay,2);
+					return 'pdiPayment';
 				} else if (principal && term && payment) {
 					var newRate = UtilityService.calculateRate(term,payment, principal) * 1200;
 					noteInputFormModel.rate = UtilityService.round(newRate,2);
+					return 'rate';
 				} else if (principal && interestRate && payment) {
 					var newTerm = UtilityService.getNPER(interestRate, payment, principal);
 					noteInputFormModel.originalTerm = UtilityService.round(newTerm, 2);
+					return 'originalTerm';
 				} else if (term && interestRate && payment) {
 					var newPrinciple = UtilityService.getPV(interestRate, term, payment);
 					noteInputFormModel.upb = UtilityService.round(newPrinciple, 2);
+					return 'upb';
 				}
 			}
-		return noteInputFormModel;
 	}
 	
 	function createNote(noteInputFormModel) {

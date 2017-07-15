@@ -901,3 +901,8 @@ input[type="text"].ui-grid-filter-input:hover {
 .ui-grid {
   color: #003f59;
 }
+
+.searchDashboard{
+	padding-bottom:26px;
+}
+}

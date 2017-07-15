@@ -1,6 +1,7 @@
 package com.noteanalyzer.entity.notes;
 
-import java.sql.Date;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -23,7 +24,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @NamedQueries({
 		@NamedQuery(name = Note.GET_NOTE_DETAILS_BY_NOTEID, query = "select n from Note n where n.noteId =:noteId"),
-		@NamedQuery(name = Note.GET_NOTE_DETAILS_BY_USER, query = "select n from Note n where n.createdBy =:createdBy")})
+		@NamedQuery(name = Note.GET_NOTE_DETAILS_BY_USER, query = "select n from Note n where n.createdBy =:userName")})
 public class Note extends AbstractEntity {
 	private static final long serialVersionUID = -8179556227491337368L;
 
@@ -37,7 +38,7 @@ public class Note extends AbstractEntity {
 	private int noteId;
 
 	@Column(name = "FACE_VALUE")
-	private Integer faceValue;
+	private BigDecimal faceValue;
 
 	@Column(name = "DISCOUNT")
 	private Float discount;
@@ -54,9 +55,6 @@ public class Note extends AbstractEntity {
 	@Column(name = "PROP_TYPE")
 	private String propertyType;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "PID")
-	private Property property;
 
 	@Column(name = "BORROWER_TYPE")
 	private String borrowerType;
@@ -68,49 +66,63 @@ public class Note extends AbstractEntity {
 	private Integer monthsToMaturity;
 
 	@Column(name = "INTREST_RATE")
-	private Float intrestRate;
+	private BigDecimal intrestRate;
 
 	@Column(name = "NEXT_INTREST_ADJUSTMENT_DATE")
-	private Date nextIntrestAdjustmentDate;
+	private ZonedDateTime nextIntrestAdjustmentDate;
 
 	@Column(name = "INTREST_RATE_ADJUSTMENT_RULE")
-	private String intrestRateAdjustmentRule;
+	private BigDecimal intrestRateAdjustmentRule;
 
 	@Column(name = "USER_SCORE")
-	private Integer userScore;
+	private BigDecimal userScore;
 
 	@Column(name = "SYSTEM_SCORE")
-	private Integer systemScore;
+	private BigDecimal systemScore;
 
 	@Column(name = "VENDOR_NOTE_ID")
 	private String vendorNoteId;
 
 	@Column(name = "DATE_OF_NOTE")
-	private Date dateOfNote;
+	private ZonedDateTime dateOfNote;
 
 	@Column(name = "UNPAID_PRIN_BAL")
-	private Integer unpaidPrinBal;
+	private BigDecimal unpaidPrincpalBal;
 
 	@Column(name = "RATE")
-	private Integer rate;
+	private BigDecimal rate;
 
 	@Column(name = "PDI_PAY")
-	private Integer preDeliveryInspectionPay;
+	private BigDecimal preDeliveryInspectionPay;
 
 	@Column(name = "TDI_PAY")
-	private Integer TDI;
+	private BigDecimal TDI;
 
 	@Column(name = "ORIGINAL_TERM")
 	private Integer originalTerm;
+	
+	@Column(name = "ORIGINAL_PRINCIPAL_BAL")
+	private BigDecimal originalPrincipleBal;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "NOTE_ADDRESS_ID")
+	private NoteAddress noteAddress;
 
 	
 
-	public Integer getFaceValue() {
-		return faceValue;
+	
+	/**
+	 * @return the originalPrincipleBal
+	 */
+	public BigDecimal getOriginalPrincipleBal() {
+		return originalPrincipleBal;
 	}
 
-	public void setFaceValue(Integer faceValue) {
-		this.faceValue = faceValue;
+	/**
+	 * @param originalPrincipleBal the originalPrincipleBal to set
+	 */
+	public void setOriginalPrincipleBal(BigDecimal originalPrincipleBal) {
+		this.originalPrincipleBal = originalPrincipleBal;
 	}
 
 	public Float getDiscount() {
@@ -169,60 +181,146 @@ public class Note extends AbstractEntity {
 		this.monthsToMaturity = monthsToMaturity;
 	}
 
-	public Float getIntrestRate() {
+	
+
+	/**
+	 * @return the faceValue
+	 */
+	public BigDecimal getFaceValue() {
+		return faceValue;
+	}
+
+	/**
+	 * @param faceValue the faceValue to set
+	 */
+	public void setFaceValue(BigDecimal faceValue) {
+		this.faceValue = faceValue;
+	}
+
+	/**
+	 * @return the intrestRate
+	 */
+	public BigDecimal getIntrestRate() {
 		return intrestRate;
 	}
 
-	public void setIntrestRate(Float intrestRate) {
+	/**
+	 * @param intrestRate the intrestRate to set
+	 */
+	public void setIntrestRate(BigDecimal intrestRate) {
 		this.intrestRate = intrestRate;
 	}
 
-	public Date getNextIntrestAdjustmentDate() {
+	/**
+	 * @return the nextIntrestAdjustmentDate
+	 */
+	public ZonedDateTime getNextIntrestAdjustmentDate() {
 		return nextIntrestAdjustmentDate;
 	}
 
-	public void setNextIntrestAdjustmentDate(Date nextIntrestAdjustmentDate) {
+	/**
+	 * @param nextIntrestAdjustmentDate the nextIntrestAdjustmentDate to set
+	 */
+	public void setNextIntrestAdjustmentDate(ZonedDateTime nextIntrestAdjustmentDate) {
 		this.nextIntrestAdjustmentDate = nextIntrestAdjustmentDate;
 	}
 
-	public String getIntrestRateAdjustmentRule() {
+	/**
+	 * @return the intrestRateAdjustmentRule
+	 */
+	public BigDecimal getIntrestRateAdjustmentRule() {
 		return intrestRateAdjustmentRule;
 	}
 
-	public void setIntrestRateAdjustmentRule(String intrestRateAdjustmentRule) {
+	/**
+	 * @param intrestRateAdjustmentRule the intrestRateAdjustmentRule to set
+	 */
+	public void setIntrestRateAdjustmentRule(BigDecimal intrestRateAdjustmentRule) {
 		this.intrestRateAdjustmentRule = intrestRateAdjustmentRule;
 	}
 
-	/*
-		*//**
-			 * @return the searchName
-			 */
-
-	/*
-	 * public NoteSearchCriteria getSearchName() { return searchName; }
-	 * 
-	 *//**
-		 * @param searchName
-		 *            the searchName to set
-		 *//*
-		 * public void setSearchName(NoteSearchCriteria searchName) {
-		 * this.searchName = searchName; }
-		 */
-
-	public Integer getUserScore() {
+	/**
+	 * @return the userScore
+	 */
+	public BigDecimal getUserScore() {
 		return userScore;
 	}
 
-	public void setUserScore(Integer userScore) {
+	/**
+	 * @param userScore the userScore to set
+	 */
+	public void setUserScore(BigDecimal userScore) {
 		this.userScore = userScore;
 	}
 
-	public Integer getSystemScore() {
+	/**
+	 * @return the systemScore
+	 */
+	public BigDecimal getSystemScore() {
 		return systemScore;
 	}
 
-	public void setSystemScore(Integer systemScore) {
+	/**
+	 * @param systemScore the systemScore to set
+	 */
+	public void setSystemScore(BigDecimal systemScore) {
 		this.systemScore = systemScore;
+	}
+
+	/**
+	 * @return the unpaidPrincpalBal
+	 */
+	public BigDecimal getUnpaidPrincpalBal() {
+		return unpaidPrincpalBal;
+	}
+
+	/**
+	 * @param unpaidPrincpalBal the unpaidPrincpalBal to set
+	 */
+	public void setUnpaidPrincpalBal(BigDecimal unpaidPrincpalBal) {
+		this.unpaidPrincpalBal = unpaidPrincpalBal;
+	}
+
+	/**
+	 * @return the rate
+	 */
+	public BigDecimal getRate() {
+		return rate;
+	}
+
+	/**
+	 * @param rate the rate to set
+	 */
+	public void setRate(BigDecimal rate) {
+		this.rate = rate;
+	}
+
+	/**
+	 * @return the preDeliveryInspectionPay
+	 */
+	public BigDecimal getPreDeliveryInspectionPay() {
+		return preDeliveryInspectionPay;
+	}
+
+	/**
+	 * @param preDeliveryInspectionPay the preDeliveryInspectionPay to set
+	 */
+	public void setPreDeliveryInspectionPay(BigDecimal preDeliveryInspectionPay) {
+		this.preDeliveryInspectionPay = preDeliveryInspectionPay;
+	}
+
+	/**
+	 * @return the tDI
+	 */
+	public BigDecimal getTDI() {
+		return TDI;
+	}
+
+	/**
+	 * @param tDI the tDI to set
+	 */
+	public void setTDI(BigDecimal tDI) {
+		TDI = tDI;
 	}
 
 	public String getVendorNoteId() {
@@ -233,45 +331,15 @@ public class Note extends AbstractEntity {
 		this.vendorNoteId = vendorNoteId;
 	}
 
-	public Date getDateOfNote() {
+	public ZonedDateTime getDateOfNote() {
 		return dateOfNote;
 	}
 
-	public void setDateOfNote(Date dateOfNote) {
+	public void setDateOfNote(ZonedDateTime dateOfNote) {
 		this.dateOfNote = dateOfNote;
 	}
 
-	public Integer getUnpaidPrinBal() {
-		return unpaidPrinBal;
-	}
 
-	public void setUnpaidPrinBal(Integer unpaidPrinBal) {
-		this.unpaidPrinBal = unpaidPrinBal;
-	}
-
-	public Integer getRate() {
-		return rate;
-	}
-
-	public void setRate(Integer rate) {
-		this.rate = rate;
-	}
-
-	public Integer getPreDeliveryInspectionPay() {
-		return preDeliveryInspectionPay;
-	}
-
-	public void setPreDeliveryInspectionPay(Integer preDeliveryInspectionPay) {
-		this.preDeliveryInspectionPay = preDeliveryInspectionPay;
-	}
-
-	public Integer getTDI() {
-		return TDI;
-	}
-
-	public void setTDI(Integer tDI) {
-		TDI = tDI;
-	}
 
 	public Integer getOriginalTerm() {
 		return originalTerm;
@@ -297,19 +365,6 @@ public class Note extends AbstractEntity {
 		this.propertyType = propertyType;
 	}
 
-	/**
-	 * @return the property
-	 */
-	public Property getProperty() {
-		return property;
-	}
-
-	/**
-	 * @param property the property to set
-	 */
-	public void setProperty(Property property) {
-		this.property = property;
-	}
 
 	/**
 	 * @return the noteId
@@ -323,6 +378,22 @@ public class Note extends AbstractEntity {
 	 */
 	public void setNoteId(int noteId) {
 		this.noteId = noteId;
+	}
+	
+	
+
+	/**
+	 * @return the noteAddress
+	 */
+	public NoteAddress getNoteAddress() {
+		return noteAddress;
+	}
+
+	/**
+	 * @param noteAddress the noteAddress to set
+	 */
+	public void setNoteAddress(NoteAddress noteAddress) {
+		this.noteAddress = noteAddress;
 	}
 
 	/* (non-Javadoc)

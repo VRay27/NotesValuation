@@ -27,6 +27,7 @@
 	rel="stylesheet" />
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-formhelpers/2.3.0/css/bootstrap-formhelpers.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css" />
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/angular-xeditable/0.7.1/css/xeditable.min.css" />
 <link rel="shortcut icon" href="static/img/favicon.ico" />
@@ -111,7 +112,7 @@ html, body {
 		</div>
 		<ul class="nav navbar-nav">
 			<li><a href="/notes/#!/">Home</a></li>
-			<li ng-if="isAuthenticated()"><a href="/notes/#!/profile">Profile</a></li>
+			<!-- <li ng-if="isAuthenticated()"><a href="/notes/#!/profile">Profile</a></li> -->
 		</ul>
 		<ul ng-if="isAuthenticated()" class="nav navbar-nav">
 			<li><a href="/notes/#!/noteDashboard">My Dashboard</a></li>
@@ -123,7 +124,9 @@ html, body {
 			<li><a href="/notes/#!/login">Login</a></li>
 			<li><a href="/notes/#!/signup">Sign up</a></li>
 		</ul>
+		
 		<ul ng-if="isAuthenticated()" class="nav navbar-nav pull-right">
+			<li><a href="/notes/#!/profile">Welcome <span id="welcomeUserName"></span></a></li>
 			<li><a href="/notes/#!/logout">Logout</a></li>
 		</ul>
 
@@ -163,7 +166,9 @@ html, body {
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/angular-xeditable/0.7.1/js/xeditable.min.js"></script>
 	<!--[if lt IE 9]><script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.min.js"></script> -->
+	<script src="static/lib/angular-bootstrap-multiselect.min.js"></script>
+	
 	<!-- Application Code -->
 	<script src="static/note.js"></script>
 	<script src="static/js/directives/passwordStrength.js"></script>

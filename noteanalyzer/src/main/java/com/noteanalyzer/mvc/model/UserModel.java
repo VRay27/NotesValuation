@@ -29,6 +29,8 @@ public class UserModel {
 	@JsonIgnore
 	private ZonedDateTime resetCreationTime;
 	
+	@JsonIgnore
+	private String isActive;
 	
 	private List<UserRoleModel> roles;
 	
@@ -227,21 +229,32 @@ public class UserModel {
 	public void setVerificationToken(String verificationToken) {
 		this.verificationToken = verificationToken;
 	}
+	
+	
+
+	/**
+	 * @return the isActive
+	 */
+	public String getIsActive() {
+		return isActive;
+	}
+
+	/**
+	 * @param isActive the isActive to set
+	 */
+	public void setIsActive(String isActive) {
+		this.isActive = isActive;
+	}
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "UserModel [userId=" + userId + ", displayName=" + displayName 
+		return "UserModel [userId=" + userId + ", displayName=" + displayName + ", password=" + password
 				+ ", addressModel=" + addressModel + ", email=" + email + ", phoneNumber=" + phoneNumber
-				+ ", resetToken=" + resetToken + ", resetCreationTime=" + resetCreationTime + ", roles=" + roles + "]";
+				+ ", resetToken=" + resetToken + ", verificationToken=" + verificationToken + ", resetCreationTime="
+				+ resetCreationTime + ", isActive=" + isActive + ", roles=" + roles + "]";
 	}
 
-	
-	
-
-	
-	
-	
 }

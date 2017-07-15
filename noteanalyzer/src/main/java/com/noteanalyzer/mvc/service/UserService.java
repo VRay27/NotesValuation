@@ -13,21 +13,5 @@ public interface UserService {
 	public Optional<UserModel> updateUser(UserModel user);
 	Optional<UserModel> changePassword(UserModel inputUser, boolean isResetTokenRequired);
 	public Optional<UserModel> verifyUser(UserModel inputUser);
-	
-	/*User findById(long id);
-	
-	User findByName(String name);
-	
-	void saveUser(User user);
-	
-	void updateUser(User user);
-	
-	void deleteUserById(long id);
-
-	List<User> findAllUsers(); 
-	
-	void deleteAllUsers();
-	
-	public boolean isUserExist(User user);*/
-	
+	public String getUserStatus(String userName);
 }

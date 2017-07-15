@@ -28,11 +28,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.noteanalyzer.mvc.model.CityModel;
 import com.noteanalyzer.mvc.model.NoteDetailModel;
 import com.noteanalyzer.mvc.model.NoteInputFormModel;
 import com.noteanalyzer.mvc.model.NoteSummaryModel;
 import com.noteanalyzer.mvc.model.NoteTypeModel;
 import com.noteanalyzer.mvc.model.PropertyTypeModel;
+import com.noteanalyzer.mvc.model.StateModel;
 import com.noteanalyzer.mvc.service.NoteService;
 import com.noteanalyzer.utility.NoteUtility;
 
@@ -254,4 +256,32 @@ public class NoteRestController {
 		return new ResponseEntity<List<PropertyTypeModel>>(HttpStatus.NOT_FOUND);
 	}
 
+	@RequestMapping(value = "/getStateCityList", method = RequestMethod.GET)
+	public ResponseEntity<List<StateModel>> getStateCityList() {
+		
+		CityModel cityModel = new CityModel();
+		cityModel.setId("1");
+		cityModel.setCityDisplayName("First City");
+		CityModel cityModel2 = new CityModel();
+		cityModel2.setId("2");
+		cityModel2.setCityDisplayName("Second City");
+		StateModel stateModel =  new StateModel();
+		stateModel.setId("1");
+		stateModel.setStateDisplayName("First State");
+		List<CityModel> cityList = new ArrayList<>();
+		cityList.add(cityModel);
+		List<CityModel> cityList2 = new ArrayList<>();
+		cityList2.add(cityModel2);
+		stateModel.setCityList(cityList);
+		StateModel stateModel2 =  new StateModel();
+		stateModel2.setId("1");
+		stateModel2.setStateDisplayName("Second State");
+		stateModel2.setCityList(cityList2);
+		
+		List<StateModel> stateList = new ArrayList<>();
+		stateList.add(stateModel2);
+		stateList.add(stateModel);
+		return new ResponseEntity<List<StateModel>>(stateList,HttpStatus.OK);
+	}
+	
 }

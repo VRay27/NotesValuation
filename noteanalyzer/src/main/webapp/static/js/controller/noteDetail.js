@@ -17,12 +17,32 @@ function NoteDetailCtrl($scope, $http,$auth, $rootScope, $uibModal, RowEditor, u
 	  NoteService.uploadNoteFile($scope.myFile, noteUploadAPI);
   };
 
+  $scope.stateListOptions = [
+	    {
+	        "id": "1",
+	        "name": "France",
+	        "capital": "Paris"
+	    },
+	    {
+	        "id": "2",
+	        "name": "United Kingdom",
+	        "capital": "London"
+	    },
+	    {
+	        "id": "3",
+	        "name": "Germany",
+	        "capital": "Berlin"
+	    }
+	];
+  
+  $scope.selectedStateList;
+  
   vm.serviceGrid = {
     enableRowSelection: true,
     enableRowHeaderSelection: false,
     multiSelect: false,
-    enableSorting: true,
-    enableFiltering: true,
+    enableSorting: false,
+    enableFiltering: false,
     enableGridMenu: false,
     rowHeight: 100,
   /*        enablePaginationControls:true,
@@ -39,50 +59,7 @@ function NoteDetailCtrl($scope, $http,$auth, $rootScope, $uibModal, RowEditor, u
     enableCellEdit: false,
     enableFiltering: false,
     cellTemplate: "<div ng-click='grid.appScope.vm.getNoteDetail(grid, row)'><img width=\"100px\" ng-src=\"{{row.entity.assetImgSrc}}\" lazy-src  class=\"img-responsive\"/></div>"
-  },{
-	    field: 'creditScore',
-	    displayName: 'Credit Score',
-	    enableSorting: true,
-	    enableCellEdit: false,
-	    cellTemplate: "<div>{{row.entity.yield}}</div>"
-	  }, {
-		    field: 'paymentHistory',
-		    displayName: 'Payment History',
-		    enableSorting: true,
-		    enableCellEdit: false,
-		    cellTemplate: "<div>{{row.entity.yield}}</div>"
-		  }, {
-			    field: 'employmentHistory',
-			    displayName: 'Employment History',
-			    enableSorting: true,
-			    enableCellEdit: false,
-			    cellTemplate: "<div>{{row.entity.yield}}</div>"
-			  },{
-				    field: 'marketValue',
-				    displayName: 'Market Value',
-				    enableSorting: true,
-				    enableCellEdit: false,
-				    cellTemplate: "<div>{{row.entity.yield}}</div>"
-				  },{
-					    field: 'school',
-					    displayName: 'school',
-					    enableSorting: true,
-					    enableCellEdit: false,
-					    cellTemplate: "<div>{{row.entity.yield}}</div>"
-					  },{
-						    field: 'rent',
-						    displayName: 'Employment History',
-						    enableSorting: true,
-						    enableCellEdit: false,
-						    cellTemplate: "<div>{{row.entity.yield}}</div>"
-						  },{
-							    field: 'crime',
-							    displayName: 'crime',
-							    enableSorting: true,
-							    enableCellEdit: false,
-							    cellTemplate: "<div>{{row.entity.yield}}</div>"
-							  },
-	  {
+  },  {
     field: 'yield',
     displayName: 'Yield',
     enableSorting: true,
@@ -100,18 +77,6 @@ function NoteDetailCtrl($scope, $http,$auth, $rootScope, $uibModal, RowEditor, u
     enableSorting: true,
     enableCellEdit: false,
     cellTemplate: "<div>{{row.entity.ltv}}</div>"
-  }, {
-	    field: 'jurisdical',
-	    displayName: 'Jurisdical',
-	    enableSorting: true,
-	    enableCellEdit: false,
-	    cellTemplate: "<div>{{row.entity.crime}}</div>"
-	  },  {
-    field: 'riskFactor',
-    displayName: 'Risk Factor',
-    enableSorting: true,
-    enableCellEdit: false,
-    cellTemplate: "<div>{{row.entity.marketValue}}</div>"
   },{
     field: 'overAllScore',
     displayName: 'OverAll Score',
