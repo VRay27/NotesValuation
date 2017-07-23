@@ -16,10 +16,6 @@ public class Area extends AbstractEntity{
 	private static final long serialVersionUID = -7773399468661533735L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="AID")
-    private Integer aId;
-	
 	@Column(name="AREA_ID")
 	private String areaId;
 	

@@ -13,8 +13,8 @@ import javax.persistence.Table;
 public class NoteSearchCriteria {
 
 	
-	@EmbeddedId
-	private NoteSearchID noteSearcId;
+	/*@EmbeddedId
+	private NoteSearchID noteSearcId;*/
     
     @Column(name = "MAX_PRICE")
     private Integer maxPrice;

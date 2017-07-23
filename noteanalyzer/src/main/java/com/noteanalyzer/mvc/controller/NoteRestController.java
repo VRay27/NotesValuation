@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -89,7 +90,12 @@ public class NoteRestController {
 	public ResponseEntity<String> createNote(@RequestBody NoteInputFormModel noteInputFormModel) {
 
 		System.out.println("Inside POST with ALL value " + noteInputFormModel);
-		noteService.createNote(noteInputFormModel);
+		try {
+			noteService.createNote(noteInputFormModel);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 

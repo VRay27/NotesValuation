@@ -4,16 +4,47 @@
 		<div class="panel-body">
 	
 	<div class="container searchDashboard">
-  <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#search">Search</button>
+  <a type="button" data-toggle="collapse" href="#search">Click here for Search</a>
   <div id="search" class="collapse">
-    <form role="form" class="form-horizontal">
+    <form role="form" class="searchForm">
     <div class="form-group">
-      <label class="col-sm-1" for="stateList">State</label>
-      <div class="col-sm-5"> <multiselect id ="stateList" show-search="true" ng-model="selectedStateList" options="stateListOptions" id-prop="id"  display-prop="name"  show-select-all="true" show-unselect-all="true">
- 		</multiselect>
-                 </div>
+    <div id="stateListDiv" class="stateListClass col-sm-2" style="padding-bottom:13px;">
+      <label  for="stateList">State:</label>
+      <div > <div     
+    isteven-multi-select
+    input-model="stateList"
+    output-model="selectedStateList"
+    button-label="displayName"
+    item-label="displayName"
+    tick-property="selected",
+    max-labels ="1",
+    max-height ="200px",
+    helper-elements="all none filter"
+>
+</div>
+        </div></div>
+       <div id="cityListDiv" class="cityListClass col-sm-2" style="padding-bottom:13px;">
+       <label for="cityList">City:</label>
+      <div >  <div     
+    isteven-multi-select
+    input-model="cityList"
+    output-model="selectedCityList"
+    button-label="displayName"
+    item-label="displayName"
+    tick-property="selected",
+    max-labels ="1",
+    max-height ="200px",
+    helper-elements="all none filter"
+>
+</div>
+ 	</div></div>
+ 	<div id="streetAddress" class="streetAddressClass col-sm-2" style="padding-bottom:13px;">
+ 		<label for="stateList">Street:</label>
+      <div > <input type="text" class="form-control" placeholder="Enter Street Address" style="height:24px;"/>
+        </div>
+        </div>
     </div>
-    <div class="form-group">
+<!--     <div class="form-group">
       <label class="col-sm-1" for="inputPassword1">Password</label>
       <div class="col-sm-5"><input type="password" class="form-control" id="inputPassword1" placeholder="Password"></div>
     </div>
@@ -37,9 +68,9 @@
       <div class="col-sm-2"><input type="text" class="form-control" placeholder="Option 1"></div>
       <div class="col-sm-3"><input type="text" class="form-control" placeholder="Option 2"></div>
     </div>
-    <div class="form-group">
-      <div class="col-sm-6">
-        <button type="submit" class="btn btn-info pull-right">Submit</button>
+ -->    <div class="form-group">
+      <div class="col-sm-11">
+        <button type="submit" class="btn btn-info pull-right" ng-click="noteSearch()">Search</button>
       </div>
     </div>
   </form>

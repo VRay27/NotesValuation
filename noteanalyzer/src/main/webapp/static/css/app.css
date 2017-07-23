@@ -89,15 +89,14 @@ div.block .input{
     padding-top: 10px;
     width: 20rem;
 }
-.noteDateClass{
-	margin-left:4px;
-}
+
 .noteDateAligment{
 	float:left;
+	
 }
 .noteDateCalAligment{
 	float:left;
-	width:4%;
+	width:10%;
 }
 .calButton{
 	margin-left: 2px !important;
@@ -133,4 +132,12 @@ div.block .input{
 
 .notesuccess{
 	border: 2px solid green;
+}
+
+.noteError{
+	border: 2px solid red;
+}
+
+.searchDashboard{
+	padding-top:13px;
 }

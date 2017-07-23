@@ -1,0 +1,302 @@
+<div class="container">
+	<div class="panel panel-default">
+		<div class="panel-heading">Note Entry Form</div>
+		<div class="panel-body">
+			
+<form name="noteInputForm" method="post" class="form-horizontal" ng-submit="populateNoteInputModelFromJS()">
+
+		  <div class="form-group">
+                    <label class="col-lg-2 control-label requiredField">TypeOfNote</label>
+                            <div class="col-lg-3">
+				 <select  name="noteType" required
+					ng-model="noteInputFormModel.selNoteType"
+					ng-options="noteType.noteTypeValue for noteType in noteInputFormModel.noteTypeList"></select>
+					<span class="glyphicon glyphicon-info-sign tooltip-color" tooltip-placement="top" uib-tooltip="There are 3 types of notes: performing, sub-performing and non-performing"></span>
+			</div>
+			</div>
+			<div class="form-group">
+			<label class=" col-lg-2 control-label">Original Term</label>
+			   <div class="col-lg-2"><span>{{noteInputFormModel.originalTerm}}</span><span class="glyphicon glyphicon-info-sign tooltip-color" tooltip-placement="top" uib-tooltip="Original length/term of the note"></span>
+               </div>
+			</div>
+			   <div class="form-group">
+                            <label class="col-lg-2 control-label">Street Address</label>
+                           <div class="col-lg-3">
+                               <input class="input" type="text" name="streetAddress" required maxlength="200" 
+						ng-model="noteInputFormModel.address.streetAddress" />
+					<span class="glyphicon glyphicon-info-sign tooltip-color" tooltip-placement="top" uib-tooltip="Details about this field"></span>
+                            </div>
+                        </div>
+			
+			
+			  <div class="form-group">
+                            <label class="col-lg-2 control-label">Address</label>
+				 <div class="col-lg-3"> <span>{{noteInputFormModel.address.city}}, {{noteInputFormModel.address.state}}, {{noteInputFormModel.address.zipCode}}</span><span class="glyphicon glyphicon-info-sign tooltip-color" tooltip-placement="top" uib-tooltip="Details about this field"></span>
+			</div></div>
+			
+			  <div class="form-group">
+				  <label class="col-lg-2 control-label requiredField">PropertyType</label> <div class="col-lg-3"> <select  required name ="propertyType"
+					ng-model="noteInputFormModel.selPropType"
+					ng-options="propType.propertyTypeValue for propType in noteInputFormModel.propTypeList"></select>
+					<span class="glyphicon glyphicon-info-sign tooltip-color" tooltip-placement="top" uib-tooltip="Details about this field"></span>
+					
+			</div></div>
+			
+			  <div class="form-group">
+				  <label class="col-lg-2 control-label requiredField" >DateOfNote</label> <div class="col-lg-3">
+      			   <input type="text"  required name ="dateOfNote" class="noteDateAligment" uib-datepicker-popup="MM/dd/yyyy" ng-model="noteInputFormModel.noteDate" is-open="noteDate.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+          <div class="input-group-btn noteDateCalAligment">
+            <button type="button" class="btn btn-default calButton" ng-click="noteDate()"><i class="glyphicon glyphicon-calendar"></i></button>
+          </div>
+          <span class="glyphicon glyphicon-info-sign tooltip-color noteDateAligment" tooltip-placement="top" uib-tooltip="Origination date of the note"></span>
+         </div> 
+			</div>
+			<div class="form-group">
+				  <label class="col-lg-2 control-label requiredField">UPB</label>  <div class="col-lg-3"><input class="input" type="text" required name ="upb" maxlength="50"  pattern="[0-9.\s]+" title="This field can contain only numeric characters."  ng-blur="populateNoteInputModelFromJS()"
+					ng-model="noteInputFormModel.upb" placeholder="Unpaid Loan Balance" />
+					<span class="glyphicon glyphicon-info-sign tooltip-color" tooltip-placement="top" uib-tooltip="Unpaid loan balance"></span>
+			</div></div>
+			<div class="form-group">
+				  <label class="col-lg-2 control-label  requiredField">Rate</label><div class="col-lg-3"> <input class="input" type="text" required name ="rate" maxlength="50"  pattern="[0-9.\s]+" title="This field can contain only numeric characters."  ng-blur="populateNoteInputModelFromJS()"
+					ng-model="noteInputFormModel.rate" placeholder="Annual interest rate"/>
+					<span class="glyphicon glyphicon-info-sign tooltip-color" tooltip-placement="top" uib-tooltip="Original interest rate of the note"></span>
+			</div></div>
+			<div class="form-group">
+				  <label class="col-lg-2 control-label  requiredField">PDI Payment</label><div class="col-lg-3">  <input class="input" type="text"  required name ="pdiPayment" maxlength="50"  pattern="[0-9.\s]+" title="This field can contain only numeric characters."  ng-blur="populateNoteInputModelFromJS()"
+					ng-model="noteInputFormModel.pdiPayment" placeholder="Payment and interest" />
+					<span class="glyphicon glyphicon-info-sign tooltip-color" tooltip-placement="top" uib-tooltip="Payment and interest"></span>
+					
+			</div></div>
+			<div class="form-group">
+				  <label class="col-lg-2 control-label  requiredField">TDI Payment</label><div class="col-lg-3">   <input class="input" type="text" required name ="tdiPayment" maxlength="50"  pattern="[0-9.\s]+" title="This field can contain only numeric characters."  
+					ng-model="noteInputFormModel.tdiPayment" placeholder="Taxes and interest"/>
+					<span class="glyphicon glyphicon-info-sign tooltip-color" tooltip-placement="top" uib-tooltip="Taxes and Interest"></span>
+			</div>			</div>
+						
+			<div class="form-group">
+				  <label class="col-lg-2 control-label  requiredField" >Original Principle Balance</label> <div class="col-lg-3">   <input class="input" type="text" required name ="originalTerm" maxlength="50"  pattern="[0-9.\s]+" title="This field can contain only numeric characters.."
+					ng-model="noteInputFormModel.originalPrincipleBalance"  placeholder="Original principle balance"/>
+					<span class="glyphicon glyphicon-info-sign tooltip-color" tooltip-placement="top" uib-tooltip="Original principle balance of the loan"></span>
+			</div></div>
+			
+			<div class="form-group">
+				  <label class="col-lg-2 control-label  requiredField" >Sale Price</label> <div class="col-lg-3">   <input class="input" type="text" required name ="salePrice" maxlength="50"  pattern="[0-9.\s]+" title="This field can contain only numeric characters.."
+					ng-model="noteInputFormModel.salePrice"  placeholder="Sale Price"/>
+					<span class="glyphicon glyphicon-info-sign tooltip-color" tooltip-placement="top" uib-tooltip="Sale Price"></span>
+			</div></div>
+			
+			
+	<div class="modal-footer">
+		<button class="btn btn-secondary" ng-click="populateNoteInputModelFromJS()">Calculate</button>
+		<button class="btn btn-primary"  id="saveNote" ng-click="save()">Save</button>
+		<button class="btn btn-primary" ng-click="$close()">Cancel</button>
+	</div>
+</form>
+</div></div></div>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+    // Generate a simple captcha
+    function randomNumber(min, max) {
+        return Math.floor(Math.random() * (max - min + 1) + min);
+    };
+    $('#captchaOperation').html([randomNumber(1, 100), '+', randomNumber(1, 200), '='].join(' '));
+
+    $('#noteInputForm').bootstrapValidator({
+//        live: 'disabled',
+        message: 'This value is not valid',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+        	displayName: {
+        		message: 'The display name is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The display name is required and cannot be empty'
+                    },
+                    stringLength: {
+                        min: 1,
+                        max: 50,
+                        message: 'The username must be more than 1 and less than 50 characters long'
+                    },
+                }
+            },
+            lastName: {
+                group: '.col-lg-4',
+                validators: {
+                    notEmpty: {
+                        message: 'The last name is required and cannot be empty'
+                    }
+                }
+            },
+            username: {
+                message: 'The username is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The username is required and cannot be empty'
+                    },
+                    stringLength: {
+                        min: 6,
+                        max: 30,
+                        message: 'The username must be more than 6 and less than 30 characters long'
+                    },
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9_\.]+$/,
+                        message: 'The username can only consist of alphabetical, number, dot and underscore'
+                    },
+                    remote: {
+                        type: 'POST',
+                        url: 'remote.php',
+                        message: 'The username is not available'
+                    },
+                    different: {
+                        field: 'password,confirmPassword',
+                        message: 'The username and password cannot be the same as each other'
+                    }
+                }
+            },
+            email: {
+                validators: {
+                    notEmpty: {
+                        message: 'The email address is required and can\'t be empty'
+                    },
+                    emailAddress: {
+                        message: 'The input is not a valid email address'
+                    }
+                }
+            },
+            password: {
+                validators: {
+                    notEmpty: {
+                        message: 'The password is required and cannot be empty'
+                    },
+                    identical: {
+                        field: 'confirmPassword',
+                        message: 'The password and its confirm are not the same'
+                    },
+                    different: {
+                        field: 'username',
+                        message: 'The password cannot be the same as username'
+                    }
+                }
+            },
+            confirmPassword: {
+                validators: {
+                    notEmpty: {
+                        message: 'The confirm password is required and cannot be empty'
+                    },
+                    identical: {
+                        field: 'password',
+                        message: 'The password and its confirm are not the same'
+                    },
+                    different: {
+                        field: 'username',
+                        message: 'The password cannot be the same as username'
+                    }
+                }
+            },
+            birthday: {
+                validators: {
+                     notEmpty: {
+                        message: 'The birthday field cannot be empty'
+                    },
+                    date: {
+                        format: 'YYYY/MM/DD',
+                        message: 'The birthday is not valid'
+                    }
+                }
+            },
+            gender: {
+                validators: {
+                    notEmpty: {
+                        message: 'The gender is required'
+                    }
+                }
+            },
+            'languages[]': {
+                validators: {
+                    notEmpty: {
+                        message: 'Please specify at least one language you can speak'
+                    }
+                }
+            },
+            'programs[]': {
+                validators: {
+                    choice: {
+                        min: 2,
+                        max: 4,
+                        message: 'Please choose 2 - 4 programming languages you are good at'
+                    }
+                }
+            },
+            File: {
+                validators: {
+                    notEmpty: {
+                        message: 'Please select value'
+                    },
+                    file: {
+                        extension: 'pdf',
+                        type: 'application/pdf',
+                        message: 'Please choose a pdf file.'
+                    }
+                }
+            },
+             country: {
+                validators: {
+                    notEmpty: {
+                        message: 'The country is required and can\'t be empty'
+                    }
+                }
+            },
+            phoneNumber: {
+                validators: {
+                    phone: {
+                       country: 'US',
+                       message: 'The value is not valid %s phone number'                       
+                                }
+                            }
+             },streetAddress:{
+            	 validators: {
+	            	stringLength: {
+	                     min: 0,
+	                     max: 200,
+	                     message: 'The street Addres must be less than 200 characters long'
+	            	 }, notEmpty: {
+	                        message: 'The birthday field cannot be empty'
+	                    }
+             }},
+             zipCode: {
+                 validators: {
+                     zipCode: {
+                        country: 'US',
+                        message: 'The value is not valid %s Zip Code'                       
+                                 }
+                             }
+              },
+            captcha: {
+                validators: {
+                    callback: {
+                        message: 'Wrong answer',
+                        callback: function(value, validator) {
+                            var items = $('#captchaOperation').html().split(' '), sum = parseInt(items[0]) + parseInt(items[2]);
+                            return value == sum;
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    // Validate the form manually
+    $('#saveNote').click(function() {
+        $('#noteInputForm').bootstrapValidator('validate');
+    });
+
+  
+});
+</script>
+

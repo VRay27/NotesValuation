@@ -109,15 +109,18 @@ ul {
   background-color: #fff;
 }
 
-.has-feedback .form-control-feedback {
+/* .has-feedback .form-control-feedback {
   top: 0;
   left: 0;
   width: 46px;
   height: 46px;
   line-height: 46px;
   color: #555;
+} */
+.form-control{
+    height: 28px;
+    padding: 3px 6px;
 }
-
 .password-strength-indicator {
   position: absolute;
   top: 10px;
@@ -139,9 +142,9 @@ ul {
   font-size: 1.2em;
 }
 
-.has-feedback .form-control {
+/* .has-feedback .form-control {
   padding-left: 42.5px;
-}
+} */
 
 .alert-material {
   position: fixed;

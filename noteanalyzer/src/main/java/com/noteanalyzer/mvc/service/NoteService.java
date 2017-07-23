@@ -1,9 +1,11 @@
 package com.noteanalyzer.mvc.service;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
 
 import com.noteanalyzer.entity.notes.NoteConfiguration;
+import com.noteanalyzer.entity.notes.Parameters;
 import com.noteanalyzer.mvc.model.NoteInputFormModel;
 import com.noteanalyzer.mvc.model.NoteSummaryModel;
 import com.noteanalyzer.mvc.model.NoteTypeModel;
@@ -14,7 +16,7 @@ import lombok.NonNull;
 
 
 public interface NoteService {
-	public void createNote(@NonNull NoteInputFormModel note);
+	public void createNote(@NonNull NoteInputFormModel note) throws ParseException;
 	
 	public Optional<List<NoteTypeModel>> getNoteType();
 	
@@ -25,6 +27,8 @@ public interface NoteService {
 	public Optional<List<NoteSummaryModel>> getAllNotes(@NonNull String loggedInUserName);
 	
 	public List<NoteConfiguration> getConfigValue(@NonNull List<String> configCode);
+
+	Parameters getParameterValue(String parameterName, String userEmailId);
 	
 	/*User findById(long id);
 	

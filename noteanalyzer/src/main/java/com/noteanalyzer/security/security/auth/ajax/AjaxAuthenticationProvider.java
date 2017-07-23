@@ -1,6 +1,6 @@
 package com.noteanalyzer.security.security.auth.ajax;
 
-import static com.noteanalyzer.mvc.constant.NoteConstant.ACTIVE_USER_FLAG;
+import static com.noteanalyzer.mvc.constant.NoteConstant.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +49,10 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
         	throw new UnverifiedUserException("Unverified user");
         }
         if (!encoder.matches(password, user.getPassword())) {
+        	userService.updateUnsuccessfullAttempt(LOGIN_FAIL,user.getUserId(),user.getEmail());
             throw new BadCredentialsException("Authentication Failed. Username or Password not valid.");
+        }else{
+        	userService.updateUnsuccessfullAttempt(LOGIN_SUCCESS,user.getUserId(),user.getEmail());
         }
 
 /*        if (user.getRoles() == null) throw new InsufficientAuthenticationException("User has no roles assigned");

@@ -1,5 +1,6 @@
 package com.noteanalyzer.mvc.service.impl;
 
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,9 +13,9 @@ import org.springframework.util.CollectionUtils;
 
 import com.noteanalyzer.dao.GenericDao;
 import com.noteanalyzer.entity.notes.Note;
-import com.noteanalyzer.entity.notes.NoteAddress;
 import com.noteanalyzer.entity.notes.NoteConfiguration;
 import com.noteanalyzer.entity.notes.NoteType;
+import com.noteanalyzer.entity.notes.Parameters;
 import com.noteanalyzer.entity.notes.Property;
 import com.noteanalyzer.entity.notes.PropertyType;
 import com.noteanalyzer.mvc.model.NoteInputFormModel;
@@ -23,6 +24,7 @@ import com.noteanalyzer.mvc.model.NoteTypeModel;
 import com.noteanalyzer.mvc.model.PropertyTypeModel;
 import com.noteanalyzer.mvc.service.NoteService;
 import com.noteanalyzer.utility.ConverterUtility;
+import com.noteanalyzer.utility.NoteUtility;
 
 import io.jsonwebtoken.lang.Collections;
 import lombok.NonNull;
@@ -43,13 +45,13 @@ public class NoteServiceImpl implements NoteService {
 
 	@Override
 	@Transactional
-	public void createNote(@NonNull NoteInputFormModel noteModel) {
-		NoteAddress noteAddress = new NoteAddress();
+	public void createNote(@NonNull NoteInputFormModel noteModel) throws ParseException {
+	/*	NoteAddress noteAddress = new NoteAddress();
 		noteAddress.setCity(noteModel.getAddress().getCity());
 		noteAddress.setCountry("US");
 		noteAddress.setState(noteModel.getAddress().getState());
 		noteAddress.setStreetAddress(noteModel.getAddress().getStreetAddress());
-		noteAddress.setZipCode(noteModel.getAddress().getZipCode());
+		noteAddress.setZipCode(noteModel.getAddress().getZipCode());*/
 
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("zipCode", Integer.valueOf(noteModel.getAddress().getZipCode()));
@@ -61,10 +63,10 @@ public class NoteServiceImpl implements NoteService {
 		Property property = null;
 		if (!CollectionUtils.isEmpty(propertyList)) {
 			property = propertyList.get(0);
-			noteAddress.setProperty(property);
+		//	noteAddress.setProperty(property);
 		}
 		Note note = ConverterUtility.convertNoteModelToEntity(noteModel);
-		note.setNoteAddress(noteAddress);
+		//note.setNoteAddress(noteAddress);
 		genericDao.create(note);
 
 	}
@@ -112,4 +114,19 @@ public class NoteServiceImpl implements NoteService {
 		return noteConfigurationList;
 	}
 
+	@Override
+	public Parameters getParameterValue(String parameterName, String userEmailId){
+		Map<String, Object> parameters = new HashMap<>();
+		if(userEmailId == null){
+			userEmailId = NoteUtility.getLoggedInUserName();
+		}
+		parameters.put("parameterName", parameterName);
+		parameters.put("emailId", userEmailId);
+		List<Parameters> param = genericDao.getResultByNamedQuery(Parameters.class,
+				Parameters.GET_PARAMETERS_VALUE, parameters);
+		if(param != null){
+			return param.get(0);
+		}
+		return null;
+	}
 }

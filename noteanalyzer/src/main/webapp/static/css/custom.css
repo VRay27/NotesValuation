@@ -903,6 +903,14 @@ input[type="text"].ui-grid-filter-input:hover {
 }
 
 .searchDashboard{
-	padding-bottom:26px;
+	padding-top:0px;
+	padding-bottom:13px;
 }
+.searchForm{
+	padding-top:13px;
+}
+ 
+.cityListClass, .stateListClass, .streetAddressClass{
+	padding-bottom:13 px;
+	border: 1px solid lightgrey;
 }

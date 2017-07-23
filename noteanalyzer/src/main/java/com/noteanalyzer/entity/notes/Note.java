@@ -1,7 +1,7 @@
 package com.noteanalyzer.entity.notes;
 
 import java.math.BigDecimal;
-import java.time.ZonedDateTime;
+import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,10 +12,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.joda.time.DateTime;
+
 import com.noteanalyzer.entity.AbstractEntity;
+import com.noteanalyzer.entity.address.Area;
 
 import lombok.ToString;
 
@@ -24,7 +28,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @NamedQueries({
 		@NamedQuery(name = Note.GET_NOTE_DETAILS_BY_NOTEID, query = "select n from Note n where n.noteId =:noteId"),
-		@NamedQuery(name = Note.GET_NOTE_DETAILS_BY_USER, query = "select n from Note n where n.createdBy =:userName")})
+		@NamedQuery(name = Note.GET_NOTE_DETAILS_BY_USER, query = "select n from Note n where n.userId =:userId")})
 public class Note extends AbstractEntity {
 	private static final long serialVersionUID = -8179556227491337368L;
 
@@ -36,15 +40,18 @@ public class Note extends AbstractEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "NOTE_ID")
 	private int noteId;
+	
+	@Column(name = "USER_ID")
+	private Long userId;
 
 	@Column(name = "FACE_VALUE")
 	private BigDecimal faceValue;
+	
+	@Column(name = "SALE_PRICE")
+	private BigDecimal salePrice;
 
-	@Column(name = "DISCOUNT")
-	private Float discount;
-
-	@Column(name = "PERFORMANCE")
-	private String performance;
+	@Column(name = "PERFORMING")
+	private String performing;
 
 	@Column(name = "NOTE_TYPE")
 	private String noteType;
@@ -55,133 +62,72 @@ public class Note extends AbstractEntity {
 	@Column(name = "PROP_TYPE")
 	private String propertyType;
 
+	@Column(name = "BORROWER_CREDIT_SCORE")
+	private String borrowerCreditScore;
 
-	@Column(name = "BORROWER_TYPE")
-	private String borrowerType;
+	@Column(name = "INTEREST_RATE_INITIAL")
+	private BigDecimal interestRateInitial;
 
-	@Column(name = "USER_USER_ID")
-	private Integer userUserId;
+	@Column(name = "ORIGINATION_DATE")
+	private Date originationDate;
 
-	@Column(name = "MONTHS_TO_MATURITY")
-	private Integer monthsToMaturity;
+	@Column(name = "TERM_MONTHS")
+	private BigDecimal termMonths;
+	
+	@Column(name = "LATE_PAYMENTS")
+	private BigDecimal latePayments;
 
-	@Column(name = "INTREST_RATE")
-	private BigDecimal intrestRate;
+	@Column(name = "SEARCH_NAME")
+	private String searchName;
 
-	@Column(name = "NEXT_INTREST_ADJUSTMENT_DATE")
-	private ZonedDateTime nextIntrestAdjustmentDate;
-
-	@Column(name = "INTREST_RATE_ADJUSTMENT_RULE")
-	private BigDecimal intrestRateAdjustmentRule;
-
-	@Column(name = "USER_SCORE")
+	@Column(name = "SCORE_BY_USER")
 	private BigDecimal userScore;
 
-	@Column(name = "SYSTEM_SCORE")
+	@Column(name = "SYSTEM_ASSIGNED_SCORE")
 	private BigDecimal systemScore;
 
-	@Column(name = "VENDOR_NOTE_ID")
-	private String vendorNoteId;
-
-	@Column(name = "DATE_OF_NOTE")
-	private ZonedDateTime dateOfNote;
-
-	@Column(name = "UNPAID_PRIN_BAL")
-	private BigDecimal unpaidPrincpalBal;
-
-	@Column(name = "RATE")
-	private BigDecimal rate;
-
-	@Column(name = "PDI_PAY")
-	private BigDecimal preDeliveryInspectionPay;
-
-	@Column(name = "TDI_PAY")
-	private BigDecimal TDI;
-
-	@Column(name = "ORIGINAL_TERM")
-	private Integer originalTerm;
 	
-	@Column(name = "ORIGINAL_PRINCIPAL_BAL")
-	private BigDecimal originalPrincipleBal;
-	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "NOTE_ADDRESS_ID")
-	private NoteAddress noteAddress;
+	@Column(name = "STORE_NOTE_ID")
+	private Long storeNoteId;
 
+	@Column(name = "STORE_NAME")
+	private String storeName;
+	
+	@Column(name = "PROPERTY_VALUE_AT_ORIGINATION")
+	private BigDecimal propertyValueAtOrigination;
 	
 
-	
+	@OneToMany
+	@JoinColumn(name = "PROPERTY_ID")
+	private Property propertyId;
+
 	/**
-	 * @return the originalPrincipleBal
+	 * @return the noteId
 	 */
-	public BigDecimal getOriginalPrincipleBal() {
-		return originalPrincipleBal;
+	public int getNoteId() {
+		return noteId;
 	}
 
 	/**
-	 * @param originalPrincipleBal the originalPrincipleBal to set
+	 * @param noteId the noteId to set
 	 */
-	public void setOriginalPrincipleBal(BigDecimal originalPrincipleBal) {
-		this.originalPrincipleBal = originalPrincipleBal;
+	public void setNoteId(int noteId) {
+		this.noteId = noteId;
 	}
 
-	public Float getDiscount() {
-		return discount;
+	/**
+	 * @return the userId
+	 */
+	public Long getUserId() {
+		return userId;
 	}
 
-	public void setDiscount(Float discount) {
-		this.discount = discount;
+	/**
+	 * @param userId the userId to set
+	 */
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
-
-	public String getPerformance() {
-		return performance;
-	}
-
-	public void setPerformance(String performance) {
-		this.performance = performance;
-	}
-
-	public String getNoteType() {
-		return noteType;
-	}
-
-	public void setNoteType(String noteType) {
-		this.noteType = noteType;
-	}
-
-	public Integer getNotePosition() {
-		return notePosition;
-	}
-
-	public void setNotePosition(Integer notePosition) {
-		this.notePosition = notePosition;
-	}
-
-	public void setBorrowerType(String borrowerType) {
-		this.borrowerType = borrowerType;
-	}
-
-	public String getBorrowerType() {
-		return borrowerType;
-	}
-
-	public Integer getUserUserId() {
-		return userUserId;
-	}
-
-	public void setUserUserId(Integer userUserId) {
-		this.userUserId = userUserId;
-	}
-
-	public Integer getMonthsToMaturity() {
-		return monthsToMaturity;
-	}
-
-	public void setMonthsToMaturity(Integer monthsToMaturity) {
-		this.monthsToMaturity = monthsToMaturity;
-	}
-
-	
 
 	/**
 	 * @return the faceValue
@@ -198,45 +144,158 @@ public class Note extends AbstractEntity {
 	}
 
 	/**
-	 * @return the intrestRate
+	 * @return the salePrice
 	 */
-	public BigDecimal getIntrestRate() {
-		return intrestRate;
+	public BigDecimal getSalePrice() {
+		return salePrice;
 	}
 
 	/**
-	 * @param intrestRate the intrestRate to set
+	 * @param salePrice the salePrice to set
 	 */
-	public void setIntrestRate(BigDecimal intrestRate) {
-		this.intrestRate = intrestRate;
+	public void setSalePrice(BigDecimal salePrice) {
+		this.salePrice = salePrice;
 	}
 
 	/**
-	 * @return the nextIntrestAdjustmentDate
+	 * @return the performing
 	 */
-	public ZonedDateTime getNextIntrestAdjustmentDate() {
-		return nextIntrestAdjustmentDate;
+	public String getPerforming() {
+		return performing;
 	}
 
 	/**
-	 * @param nextIntrestAdjustmentDate the nextIntrestAdjustmentDate to set
+	 * @param performing the performing to set
 	 */
-	public void setNextIntrestAdjustmentDate(ZonedDateTime nextIntrestAdjustmentDate) {
-		this.nextIntrestAdjustmentDate = nextIntrestAdjustmentDate;
+	public void setPerforming(String performing) {
+		this.performing = performing;
 	}
 
 	/**
-	 * @return the intrestRateAdjustmentRule
+	 * @return the noteType
 	 */
-	public BigDecimal getIntrestRateAdjustmentRule() {
-		return intrestRateAdjustmentRule;
+	public String getNoteType() {
+		return noteType;
 	}
 
 	/**
-	 * @param intrestRateAdjustmentRule the intrestRateAdjustmentRule to set
+	 * @param noteType the noteType to set
 	 */
-	public void setIntrestRateAdjustmentRule(BigDecimal intrestRateAdjustmentRule) {
-		this.intrestRateAdjustmentRule = intrestRateAdjustmentRule;
+	public void setNoteType(String noteType) {
+		this.noteType = noteType;
+	}
+
+	/**
+	 * @return the notePosition
+	 */
+	public Integer getNotePosition() {
+		return notePosition;
+	}
+
+	/**
+	 * @param notePosition the notePosition to set
+	 */
+	public void setNotePosition(Integer notePosition) {
+		this.notePosition = notePosition;
+	}
+
+	/**
+	 * @return the propertyType
+	 */
+	public String getPropertyType() {
+		return propertyType;
+	}
+
+	/**
+	 * @param propertyType the propertyType to set
+	 */
+	public void setPropertyType(String propertyType) {
+		this.propertyType = propertyType;
+	}
+
+	/**
+	 * @return the borrowerCreditScore
+	 */
+	public String getBorrowerCreditScore() {
+		return borrowerCreditScore;
+	}
+
+	/**
+	 * @param borrowerCreditScore the borrowerCreditScore to set
+	 */
+	public void setBorrowerCreditScore(String borrowerCreditScore) {
+		this.borrowerCreditScore = borrowerCreditScore;
+	}
+
+	/**
+	 * @return the interestRateInitial
+	 */
+	public BigDecimal getInterestRateInitial() {
+		return interestRateInitial;
+	}
+
+	/**
+	 * @param interestRateInitial the interestRateInitial to set
+	 */
+	public void setInterestRateInitial(BigDecimal interestRateInitial) {
+		this.interestRateInitial = interestRateInitial;
+	}
+
+	/**
+	 * @return the originationDate
+	 */
+	public Date getOriginationDate() {
+		return originationDate;
+	}
+
+	/**
+	 * @param originationDate the originationDate to set
+	 */
+	public void setOriginationDate(Date originationDate) {
+		this.originationDate = originationDate;
+	}
+
+	
+	/**
+	 * @return the termMonths
+	 */
+	public BigDecimal getTermMonths() {
+		return termMonths;
+	}
+
+	/**
+	 * @param termMonths the termMonths to set
+	 */
+	public void setTermMonths(BigDecimal termMonths) {
+		this.termMonths = termMonths;
+	}
+
+	/**
+	 * @return the latePayments
+	 */
+	public BigDecimal getLatePayments() {
+		return latePayments;
+	}
+
+	/**
+	 * @param latePayments the latePayments to set
+	 */
+	public void setLatePayments(BigDecimal latePayments) {
+		this.latePayments = latePayments;
+	}
+
+	/**
+	 * @return the searchName
+	 */
+	public String getSearchName() {
+		return searchName;
+	}
+
+	/**
+	 * @param searchName the searchName to set
+	 */
+	public void setSearchName(String searchName) {
+		this.searchName = searchName;
 	}
 
 	/**
@@ -268,132 +327,59 @@ public class Note extends AbstractEntity {
 	}
 
 	/**
-	 * @return the unpaidPrincpalBal
+	 * @return the storeNoteId
 	 */
-	public BigDecimal getUnpaidPrincpalBal() {
-		return unpaidPrincpalBal;
+	public Long getStoreNoteId() {
+		return storeNoteId;
 	}
 
 	/**
-	 * @param unpaidPrincpalBal the unpaidPrincpalBal to set
+	 * @param storeNoteId the storeNoteId to set
 	 */
-	public void setUnpaidPrincpalBal(BigDecimal unpaidPrincpalBal) {
-		this.unpaidPrincpalBal = unpaidPrincpalBal;
+	public void setStoreNoteId(Long storeNoteId) {
+		this.storeNoteId = storeNoteId;
 	}
 
 	/**
-	 * @return the rate
+	 * @return the storeName
 	 */
-	public BigDecimal getRate() {
-		return rate;
+	public String getStoreName() {
+		return storeName;
 	}
 
 	/**
-	 * @param rate the rate to set
+	 * @param storeName the storeName to set
 	 */
-	public void setRate(BigDecimal rate) {
-		this.rate = rate;
+	public void setStoreName(String storeName) {
+		this.storeName = storeName;
 	}
 
 	/**
-	 * @return the preDeliveryInspectionPay
+	 * @return the propertyValueAtOrigination
 	 */
-	public BigDecimal getPreDeliveryInspectionPay() {
-		return preDeliveryInspectionPay;
+	public BigDecimal getPropertyValueAtOrigination() {
+		return propertyValueAtOrigination;
 	}
 
 	/**
-	 * @param preDeliveryInspectionPay the preDeliveryInspectionPay to set
+	 * @param propertyValueAtOrigination the propertyValueAtOrigination to set
 	 */
-	public void setPreDeliveryInspectionPay(BigDecimal preDeliveryInspectionPay) {
-		this.preDeliveryInspectionPay = preDeliveryInspectionPay;
+	public void setPropertyValueAtOrigination(BigDecimal propertyValueAtOrigination) {
+		this.propertyValueAtOrigination = propertyValueAtOrigination;
 	}
 
 	/**
-	 * @return the tDI
+	 * @return the propertyId
 	 */
-	public BigDecimal getTDI() {
-		return TDI;
+	public Property getPropertyId() {
+		return propertyId;
 	}
 
 	/**
-	 * @param tDI the tDI to set
+	 * @param propertyId the propertyId to set
 	 */
-	public void setTDI(BigDecimal tDI) {
-		TDI = tDI;
-	}
-
-	public String getVendorNoteId() {
-		return vendorNoteId;
-	}
-
-	public void setVendorNoteId(String vendorNoteId) {
-		this.vendorNoteId = vendorNoteId;
-	}
-
-	public ZonedDateTime getDateOfNote() {
-		return dateOfNote;
-	}
-
-	public void setDateOfNote(ZonedDateTime dateOfNote) {
-		this.dateOfNote = dateOfNote;
-	}
-
-
-
-	public Integer getOriginalTerm() {
-		return originalTerm;
-	}
-
-	public void setOriginalTerm(Integer originalTerm) {
-		this.originalTerm = originalTerm;
-	}
-	
-	
-
-	/**
-	 * @return the propertyType
-	 */
-	public String getPropertyType() {
-		return propertyType;
-	}
-
-	/**
-	 * @param propertyType the propertyType to set
-	 */
-	public void setPropertyType(String propertyType) {
-		this.propertyType = propertyType;
-	}
-
-
-	/**
-	 * @return the noteId
-	 */
-	public int getNoteId() {
-		return noteId;
-	}
-
-	/**
-	 * @param noteId the noteId to set
-	 */
-	public void setNoteId(int noteId) {
-		this.noteId = noteId;
-	}
-	
-	
-
-	/**
-	 * @return the noteAddress
-	 */
-	public NoteAddress getNoteAddress() {
-		return noteAddress;
-	}
-
-	/**
-	 * @param noteAddress the noteAddress to set
-	 */
-	public void setNoteAddress(NoteAddress noteAddress) {
-		this.noteAddress = noteAddress;
+	public void setPropertyId(Property propertyId) {
+		this.propertyId = propertyId;
 	}
 
 	/* (non-Javadoc)
@@ -412,18 +398,20 @@ public class Note extends AbstractEntity {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (!super.equals(obj))
+		}
+		if (!super.equals(obj)) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (!(obj instanceof Note)) {
 			return false;
+		}
 		Note other = (Note) obj;
-		if (noteId != other.noteId)
+		if (noteId != other.noteId) {
 			return false;
+		}
 		return true;
 	}
 
-
-	
 }

@@ -17,25 +17,37 @@ function NoteDetailCtrl($scope, $http,$auth, $rootScope, $uibModal, RowEditor, u
 	  NoteService.uploadNoteFile($scope.myFile, noteUploadAPI);
   };
 
-  $scope.stateListOptions = [
-	    {
-	        "id": "1",
-	        "name": "France",
-	        "capital": "Paris"
-	    },
-	    {
-	        "id": "2",
-	        "name": "United Kingdom",
-	        "capital": "London"
-	    },
-	    {
-	        "id": "3",
-	        "name": "Germany",
-	        "capital": "Berlin"
-	    }
+  $scope.stateList = [
+	    {     code: "AL",              displayName: "Alabama",        selected: false  },
+	    {  name: "CAL",  displayName: "Califonia",             selected: false },
+	    {         name: "TX",            displayName: "Texas",    selected: false  },
+	    {       name: "NV",             displayName: "Nevada",                 selected: false },
+	    {               name: "NC",             displayName: "North Carolina",                selected: false  }
+	]; 
+  
+  $scope.cityList = [
+	    {     code: "CH",              displayName: "Chicago",        selected: false  },
+	    {  name: "MI",  displayName: "Miami",             selected: false },
+	    {         name: "SN",            displayName: "San fransisco",    selected: false  },
+	    {       name: "NY",             displayName: "New york",                 selected: false },
+	    {               name: "NJ",             displayName: "New Jersey",                selected: false  }
 	];
   
-  $scope.selectedStateList;
+  $scope.noteSearch = function(){
+	  angular.forEach( $scope.selectedStateList, function( value, key ) {    
+		   	console.log('selected'+$scope.selectedStateList);
+		   	console.log('value'+value);
+		   	console.log('key'+key);
+		});
+	  
+	  angular.forEach( $scope.selectedCityList, function( value, key ) {    
+		   	console.log('selected'+$scope.selectedCityList);
+		   	console.log('value'+value);
+		   	console.log('key'+key);
+		});
+	  
+	  angular.element(document.querySelector('.collapse')).collapse("hide");
+  }
   
   vm.serviceGrid = {
     enableRowSelection: true,
@@ -52,14 +64,14 @@ function NoteDetailCtrl($scope, $http,$auth, $rootScope, $uibModal, RowEditor, u
   */ /*rowTemplate : "<div ng-dblclick=\"grid.appScope.vm.getNoteDetail(grid, row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"*/
   };
 
-  vm.serviceGrid.columnDefs = [{
+  vm.serviceGrid.columnDefs = [/*{
     field: 'assetImageURL',
     displayName: 'Asset Image',
     enableSorting: false,
     enableCellEdit: false,
     enableFiltering: false,
     cellTemplate: "<div ng-click='grid.appScope.vm.getNoteDetail(grid, row)'><img width=\"100px\" ng-src=\"{{row.entity.assetImgSrc}}\" lazy-src  class=\"img-responsive\"/></div>"
-  },  {
+  }, */ {
     field: 'yield',
     displayName: 'Yield',
     enableSorting: true,
@@ -78,6 +90,12 @@ function NoteDetailCtrl($scope, $http,$auth, $rootScope, $uibModal, RowEditor, u
     enableCellEdit: false,
     cellTemplate: "<div>{{row.entity.ltv}}</div>"
   },{
+	    field: 'crime',
+	    displayName: 'Crime',
+	    enableSorting: true,
+	    enableCellEdit: false,
+	    cellTemplate: "<div>{{row.entity.crime}}</div>"
+	  },{
     field: 'overAllScore',
     displayName: 'OverAll Score',
     enableSorting: true,

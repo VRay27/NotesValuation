@@ -44,30 +44,32 @@ noteApp.controller('HomeCtrl', function($scope, $stateParams, $state,$document, 
 
 	$scope.populateNoteInputModelFromJS = function(inputField){
 		var model = $scope.noteInputFormModel
-		angular.element( document.querySelector('#upb')).removeClass('notesuccess');
-		angular.element( document.querySelector('#rate')).removeClass('notesuccess');
-		angular.element( document.querySelector('#originalTerm')).removeClass('notesuccess');
-		angular.element( document.querySelector('#pdiPayment')).removeClass('notesuccess');
-		if(model[inputField]){
-			model[inputField] ='';
-		}
-		 var principal = model.upb;
-		 var term  = model.originalTerm;
-		 var interestRate   = model.rate;
-		 var payment = model.pdiPayment;
-		 var isAllPresent = principal && term && interestRate && payment;
+		angular.element( document.querySelector('#upb')).removeClass('notesuccess noteError');
+		angular.element( document.querySelector('#rate')).removeClass('notesuccess noteError');
+		angular.element( document.querySelector('#originalTerm')).removeClass('notesuccess noteError');
+		angular.element( document.querySelector('#pdiPayment')).removeClass('notesuccess noteError');
+		var isAllPresent = model.upb && model.originalTerm && model.rate &&  model.pdiPayment;
+		 
+		 if(model[inputField] && isAllPresent){
+				model[inputField] ='';
+				isAllPresent =  model.upb && model.originalTerm && model.rate &&  model.pdiPayment;
+			}
 		 
 		 if(isAllPresent){
 			 alert('Please click on search icon of the field you want to calculate.');
 		 }else{
-			var calculatedField = '#'+ NoteService.noteCalculator($scope.noteInputFormModel);
-			var elem = angular.element( document.querySelector(calculatedField) );
-			elem.addClass('notesuccess');
+			var calculatedField =  NoteService.noteCalculator($scope.noteInputFormModel);
+			var elem = angular.element( document.querySelector('#'+calculatedField) );
+			if($scope.noteInputFormModel[calculatedField]){
+				elem.addClass('notesuccess');
+			}else{
+				elem.addClass('noteError');
+			}
 		 }
 	};
 
 	$scope.clearCalcField = function(inputField){
-		if($scope.noteInputFormModel){
+		if($scope.noteInputFormModel[inputField]){
 			$scope.noteInputFormModel[inputField] ='';
 		}else{
 			$scope.noteInputFormModel = {};	
@@ -76,7 +78,7 @@ noteApp.controller('HomeCtrl', function($scope, $stateParams, $state,$document, 
 	
 });
 
-noteApp.controller('noteInputFormController', function($scope, $rootScope, $state, $uibModalInstance, noteInputFormModel, $auth, NoteService) {
+noteApp.controller('noteInputFormController', function($scope, $rootScope, $state, $uibModalInstance, noteInputFormModel, $auth, $filter,NoteService) {
 	$scope.noteInputFormModel = noteInputFormModel;
 	$scope.hasError = function(field, validation) {
 		if (validation) {
@@ -107,6 +109,8 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 	$scope.altInputFormats = ['MM/dd/yyyy'];
 	$scope.save = function() {
 		$scope.populateNoteInputModelFromJS();
+		noteInputFormModel.noteDate = $filter('date')(noteInputFormModel.noteDate, 'MM/dd/yyyy');
+
 		$scope.submitted = true;
 		if ($scope.noteInputForm.$valid) {
 

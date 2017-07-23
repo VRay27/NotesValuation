@@ -34,51 +34,33 @@ public class User extends AbstractEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
     
-   	/**
-	 * This will store the userName given to this user.
-	 */
-	@Column(name="USER_NAME")
-	private String userName;
-	
 	/**
 	 * This will store the userName given to this user.
 	 */
 	@Column(name="PASSWORD")
 	private String password;
 	
-	@Column(name="DISPLAY_NAME")
+	@Column(name="USER_FIRST_LAST_NAME")
 	private String displayName;
 	
-	@Column(name="FIRST_NAME")
-	private String firstName;
-	
-	@Column(name="LAST_NAME")
-	private String lastName;
-	
-	@Column(name="EMAIL_ID")
+	@Column(name="EMAIL_ADDRESS")
 	private String emailID;
 
-	@Column(name="CONTACT_NUMBER")
+	@Column(name="RECOVERY_PHONE_NUMBER")
 	private String contactNumber;
-
-	@Column(name="ADDRESS")
-	private String address;
-	
-	@Column(name="STREET")
+		
+	@Column(name="STREET_ADDRESS")
 	private String street;
 	
 	@Column(name="CITY")
 	private String city;
 	
-	@Column(name="ZIP_CODE")
+	@Column(name="ZIPCODE")
 	private String zipcode;
 
 	@Column(name="STATE")
 	private String state;
 	
-	@Column(name="COUNTRY")
-	private String country;
-
 	@Column(name="RESET_TOKEN")
 	private String resetToken;
 
@@ -91,7 +73,16 @@ public class User extends AbstractEntity{
 	@Column(name="VERIFICATION_TOKEN_CREATION_TIME")
 	private ZonedDateTime verificationTokenCreationTime;
 	
-	@Column(name="IS_ACTIVE")
+	@Column(name="CREATE_DATE")
+	private ZonedDateTime createDate;
+	
+	@Column(name="UPDATE_DATE")
+	private ZonedDateTime updateDate;
+
+	@Column(name="UNSUCCESSFUL_LOGIN_ATTEMPTS")
+	private Long unsuccessfulLoginAttempts;
+	
+	@Column(name="STATUS")
 	private String isActive;
 
 	
@@ -100,22 +91,7 @@ public class User extends AbstractEntity{
 	}
 
 	
-	/**
-	 * @return the userName
-	 */
-	public String getUserName() {
-		return userName;
-	}
-
 	
-
-	/**
-	 * @return the userId
-	 */
-	public Long getUserId() {
-		return userId;
-	}
-
 	/**
 	 * @param userId the userId to set
 	 */
@@ -137,13 +113,7 @@ public class User extends AbstractEntity{
 		this.city = city;
 	}
 
-	/**
-	 * @param userName the userName to set
-	 */
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
+	
 	/**
 	 * @return the password
 	 */
@@ -158,34 +128,7 @@ public class User extends AbstractEntity{
 		this.password = password;
 	}
 
-	/**
-	 * @return the firstName
-	 */
-	public String getFirstName() {
-		return firstName;
-	}
-
-	/**
-	 * @param firstName the firstName to set
-	 */
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	/**
-	 * @return the lastName
-	 */
-	public String getLastName() {
-		return lastName;
-	}
-
-	/**
-	 * @param lastName the lastName to set
-	 */
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
+	
 	/**
 	 * @return the emailID
 	 */
@@ -212,20 +155,6 @@ public class User extends AbstractEntity{
 	 */
 	public void setContactNumber(String contactNumber) {
 		this.contactNumber = contactNumber;
-	}
-
-	/**
-	 * @return the address
-	 */
-	public String getAddress() {
-		return address;
-	}
-
-	/**
-	 * @param address the address to set
-	 */
-	public void setAddress(String address) {
-		this.address = address;
 	}
 
 	/**
@@ -270,23 +199,6 @@ public class User extends AbstractEntity{
 	public void setState(String state) {
 		this.state = state;
 	}
-
-	/**
-	 * @return the country
-	 */
-	public String getCountry() {
-		return country;
-	}
-
-	/**
-	 * @param country the country to set
-	 */
-	public void setCountry(String country) {
-		this.country = country;
-	}
-	
-	
-	
 
 	/**
 	 * @return the displayName
@@ -378,31 +290,118 @@ public class User extends AbstractEntity{
 		this.isActive = isActive;
 	}
 
+
+
+	/**
+	 * @return the createDate
+	 */
+	public ZonedDateTime getCreateDate() {
+		return createDate;
+	}
+
+
+
+	/**
+	 * @param createDate the createDate to set
+	 */
+	public void setCreateDate(ZonedDateTime createDate) {
+		this.createDate = createDate;
+	}
+
+
+
+	/**
+	 * @return the updateDate
+	 */
+	public ZonedDateTime getUpdateDate() {
+		return updateDate;
+	}
+
+
+
+	/**
+	 * @param updateDate the updateDate to set
+	 */
+	public void setUpdateDate(ZonedDateTime updateDate) {
+		this.updateDate = updateDate;
+	}
+
+
+
+	/**
+	 * @return the unsuccessfulLoginAttempts
+	 */
+	public Long getUnsuccessfulLoginAttempts() {
+		return unsuccessfulLoginAttempts;
+	}
+
+
+
+	/**
+	 * @param unsuccessfulLoginAttempts the unsuccessfulLoginAttempts to set
+	 */
+	public void setUnsuccessfulLoginAttempts(Long unsuccessfulLoginAttempts) {
+		this.unsuccessfulLoginAttempts = unsuccessfulLoginAttempts;
+	}
+
+
+
+	/**
+	 * @return the userId
+	 */
+	public Long getUserId() {
+		return userId;
+	}
+
+
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
+		int result = 1;
+		result = prime * result + ((emailID == null) ? 0 : emailID.hashCode());
+		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
 		return result;
 	}
 
+
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (!super.equals(obj))
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (!(obj instanceof User)) {
 			return false;
+		}
 		User other = (User) obj;
-		if (userName == null) {
-			if (other.userName != null)
+		if (emailID == null) {
+			if (other.emailID != null) {
 				return false;
-		} else if (!userName.equals(other.userName))
+			}
+		} else if (!emailID.equals(other.emailID)) {
 			return false;
+		}
+		if (userId == null) {
+			if (other.userId != null) {
+				return false;
+			}
+		} else if (!userId.equals(other.userId)) {
+			return false;
+		}
 		return true;
 	}
-	
-	
-	
+
+
+
+
 }

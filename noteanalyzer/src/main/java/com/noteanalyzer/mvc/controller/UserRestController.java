@@ -1,5 +1,13 @@
 package com.noteanalyzer.mvc.controller;
 
+import static com.noteanalyzer.mvc.constant.NoteConstant.ACTIVE_USER_FLAG;
+import static com.noteanalyzer.mvc.constant.NoteConstant.BLOCK_USER_FLAG;
+import static com.noteanalyzer.mvc.constant.NoteConstant.CREATE_USER_EMAIL_CONTENT_BODY;
+import static com.noteanalyzer.mvc.constant.NoteConstant.CREATE_USER_EMAIL_SUBJECT;
+import static com.noteanalyzer.mvc.constant.NoteConstant.FORGOT_PASSWORD_EMAIL_CONTENT_BODY;
+import static com.noteanalyzer.mvc.constant.NoteConstant.FORGOT_PASSWORD_EMAIL_SUBJECT;
+import static com.noteanalyzer.mvc.constant.NoteConstant.IN_ACTIVE_USER_FLAG;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,9 +45,11 @@ public class UserRestController {
 	@Autowired
 	NoteService noteService;
 
-	// -------------------Retrieve Single
-	// User--------------------------------------------------------
-
+/**
+ * This method will return the user details of logged in user.
+ * User name will fetched from the token passed by the browser.
+ * @return
+ */
 	@RequestMapping(value = "api/userDetail", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserModel> getUserDetail() {
 		String userName = NoteUtility.getLoggedInUserName();
@@ -57,13 +67,21 @@ public class UserRestController {
 		System.out.println("Creating User " + inputUser);
 		String userStatus = userService.getUserStatus(inputUser.getEmail());
 		if (StringUtils.isNotBlank(userStatus)) {
-			if ("Y".equalsIgnoreCase(userStatus)) {
+			if (ACTIVE_USER_FLAG.equalsIgnoreCase(userStatus)) {
 				System.out.println("A User with name " + inputUser.getEmail() + " already exist. ");
 				return new ResponseEntity<Void>(HttpStatus.FOUND);
-			} else {
+			} else if (IN_ACTIVE_USER_FLAG.equalsIgnoreCase(userStatus)) {
 				System.out.println(
 						"A User with name " + inputUser.getEmail() + "registered with us, but not yet verified.");
 				return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+			} else if (BLOCK_USER_FLAG.equalsIgnoreCase(userStatus)) {
+				System.out.println(
+						"A User with name " + inputUser.getEmail() + "registered with us, but in blocked state.");
+				return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
+			} else {
+				System.out.println(
+						"A User with name " + inputUser.getEmail() + "have corrupted Data in user status column");
+				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 			}
 		}
 
@@ -73,15 +91,15 @@ public class UserRestController {
 		inputUser.setVerificationToken(verificationToken);
 		userService.createUser(inputUser);
 		List<String> configCodeList = new ArrayList<>();
-		configCodeList.add("CREATE_USER_EMAIL_SUBJECT");
-		configCodeList.add("CREATE_USER_EMAIL_CONTENT_BODY");
+		configCodeList.add(CREATE_USER_EMAIL_SUBJECT);
+		configCodeList.add(CREATE_USER_EMAIL_CONTENT_BODY);
 		List<NoteConfiguration> configList = noteService.getConfigValue(configCodeList);
 		String subject = null;
 		String bodyText = null;
 		for (NoteConfiguration config : configList) {
-			if ("CREATE_USER_EMAIL_SUBJECT".equals(config.getConfigCode())) {
+			if (CREATE_USER_EMAIL_SUBJECT.equals(config.getConfigCode())) {
 				subject = config.getConfigValue();
-			} else if ("CREATE_USER_EMAIL_CONTENT_BODY".equals(config.getConfigCode())) {
+			} else if (CREATE_USER_EMAIL_CONTENT_BODY.equals(config.getConfigCode())) {
 				bodyText = config.getConfigValue();
 			}
 		}
@@ -149,15 +167,15 @@ public class UserRestController {
 		}
 		String resetToken = NoteUtility.encodeResetToken(inputUser.getUsername(), userModel.get().getResetToken());
 		List<String> configCodeList = new ArrayList<>();
-		configCodeList.add("FORGOT_PASSWORD_EMAIL_SUBJECT");
-		configCodeList.add("FORGOT_PASSWORD_EMAIL_CONTENT_BODY");
+		configCodeList.add(FORGOT_PASSWORD_EMAIL_SUBJECT);
+		configCodeList.add(FORGOT_PASSWORD_EMAIL_CONTENT_BODY);
 		List<NoteConfiguration> configList = noteService.getConfigValue(configCodeList);
 		String subject = null;
 		String bodyText = null;
 		for (NoteConfiguration config : configList) {
-			if ("FORGOT_PASSWORD_EMAIL_SUBJECT".equals(config.getConfigCode())) {
+			if (FORGOT_PASSWORD_EMAIL_SUBJECT.equals(config.getConfigCode())) {
 				subject = config.getConfigValue();
-			} else if ("FORGOT_PASSWORD_EMAIL_CONTENT_BODY".equals(config.getConfigCode())) {
+			} else if (FORGOT_PASSWORD_EMAIL_CONTENT_BODY.equals(config.getConfigCode())) {
 				bodyText = config.getConfigValue();
 			}
 		}

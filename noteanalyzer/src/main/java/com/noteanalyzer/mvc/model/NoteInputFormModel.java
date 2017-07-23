@@ -1,10 +1,9 @@
 package com.noteanalyzer.mvc.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonRootName;
 
 public class NoteInputFormModel implements Serializable {
 
@@ -21,14 +20,18 @@ public class NoteInputFormModel implements Serializable {
 	private PropertyTypeModel selPropType;
 	private AddressModel addressModel;
 	private String noteDate;
-	private String upb;
-	private String rate;
-	private String pdiPayment;
-	private String tdiPayment;
-	private String originalTerm;
-	private String originalPrincipleBalance;
+	private BigDecimal upb;
+	private BigDecimal rate;
+	private BigDecimal pdiPayment;
+	private BigDecimal tdiPayment;
+	private BigDecimal originalTerm;
+	private BigDecimal originalPrincipleBalance;
 	private String paymentHistory;
-	private String noOfPaymentRemaining;
+	private BigDecimal noOfPaymentRemaining;
+	private BigDecimal salePrice;
+	private String selPerforming;
+	private int notePosition;
+	private BigDecimal userScore;
 
 	/**
 	 * @return the noteTypeList
@@ -135,109 +138,86 @@ public class NoteInputFormModel implements Serializable {
 	/**
 	 * @return the upb
 	 */
-	public String getUpb() {
+	public BigDecimal getUpb() {
 		return upb;
 	}
 
 	/**
-	 * @param upb
-	 *            the upb to set
+	 * @param upb the upb to set
 	 */
-	public void setUpb(String upb) {
+	public void setUpb(BigDecimal upb) {
 		this.upb = upb;
 	}
 
 	/**
 	 * @return the rate
 	 */
-	public String getRate() {
+	public BigDecimal getRate() {
 		return rate;
 	}
 
 	/**
-	 * @param rate
-	 *            the rate to set
+	 * @param rate the rate to set
 	 */
-	public void setRate(String rate) {
+	public void setRate(BigDecimal rate) {
 		this.rate = rate;
 	}
 
 	/**
 	 * @return the pdiPayment
 	 */
-	public String getPdiPayment() {
+	public BigDecimal getPdiPayment() {
 		return pdiPayment;
 	}
 
 	/**
-	 * @param pdiPayment
-	 *            the pdiPayment to set
+	 * @param pdiPayment the pdiPayment to set
 	 */
-	public void setPdiPayment(String pdiPayment) {
+	public void setPdiPayment(BigDecimal pdiPayment) {
 		this.pdiPayment = pdiPayment;
 	}
 
 	/**
 	 * @return the tdiPayment
 	 */
-	public String getTdiPayment() {
+	public BigDecimal getTdiPayment() {
 		return tdiPayment;
 	}
 
 	/**
-	 * @param tdiPayment
-	 *            the tdiPayment to set
+	 * @param tdiPayment the tdiPayment to set
 	 */
-	public void setTdiPayment(String tdiPayment) {
+	public void setTdiPayment(BigDecimal tdiPayment) {
 		this.tdiPayment = tdiPayment;
 	}
 
 	/**
 	 * @return the originalTerm
 	 */
-	public String getOriginalTerm() {
+	public BigDecimal getOriginalTerm() {
 		return originalTerm;
 	}
 
 	/**
-	 * @param originalTerm
-	 *            the originalTerm to set
+	 * @param originalTerm the originalTerm to set
 	 */
-	public void setOriginalTerm(String originalTerm) {
+	public void setOriginalTerm(BigDecimal originalTerm) {
 		this.originalTerm = originalTerm;
 	}
-	
-	
 
-	/**
-	 * @return the addressModel
-	 *//*
-	public AddressModel getAddressModel() {
-		return addressModel;
-	}
-
-	*//**
-	 * @param addressModel the addressModel to set
-	 *//*
-	public void setAddressModel(AddressModel addressModel) {
-		this.addressModel = addressModel;
-	}
-*/
 	/**
 	 * @return the originalPrincipleBalance
 	 */
-	public String getOriginalPrincipleBalance() {
+	public BigDecimal getOriginalPrincipleBalance() {
 		return originalPrincipleBalance;
 	}
 
 	/**
 	 * @param originalPrincipleBalance the originalPrincipleBalance to set
 	 */
-	public void setOriginalPrincipleBalance(String originalPrincipleBalance) {
+	public void setOriginalPrincipleBalance(BigDecimal originalPrincipleBalance) {
 		this.originalPrincipleBalance = originalPrincipleBalance;
 	}
-	
-	
 
 	/**
 	 * @return the paymentHistory
@@ -256,28 +236,75 @@ public class NoteInputFormModel implements Serializable {
 	/**
 	 * @return the noOfPaymentRemaining
 	 */
-	public String getNoOfPaymentRemaining() {
+	public BigDecimal getNoOfPaymentRemaining() {
 		return noOfPaymentRemaining;
 	}
 
 	/**
 	 * @param noOfPaymentRemaining the noOfPaymentRemaining to set
 	 */
-	public void setNoOfPaymentRemaining(String noOfPaymentRemaining) {
+	public void setNoOfPaymentRemaining(BigDecimal noOfPaymentRemaining) {
 		this.noOfPaymentRemaining = noOfPaymentRemaining;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
+	/**
+	 * @return the salePrice
 	 */
-	@Override
-	public String toString() {
-		return "NoteInputFormModel [noteTypeList=" + noteTypeList + ", selNoteType=" + selNoteType + ", propTypeList="
-				+ propTypeList + ", selPropType=" + selPropType + ", address=" + addressModel + ", noteDate=" + noteDate
-				+ ", upb=" + upb + ", rate=" + rate + ", pdiPayment=" + pdiPayment + ", tdiPayment=" + tdiPayment
-				+ ", originalTerm=" + originalTerm + "]";
+	public BigDecimal getSalePrice() {
+		return salePrice;
 	}
+
+	/**
+	 * @param salePrice the salePrice to set
+	 */
+	public void setSalePrice(BigDecimal salePrice) {
+		this.salePrice = salePrice;
+	}
+	
+	
+
+	/**
+	 * @return the selPerforming
+	 */
+	public String getSelPerforming() {
+		return selPerforming;
+	}
+
+	/**
+	 * @param selPerforming the selPerforming to set
+	 */
+	public void setSelPerforming(String selPerforming) {
+		this.selPerforming = selPerforming;
+	}
+
+	/**
+	 * @return the notePosition
+	 */
+	public int getNotePosition() {
+		return notePosition;
+	}
+
+	/**
+	 * @param notePosition the notePosition to set
+	 */
+	public void setNotePosition(int notePosition) {
+		this.notePosition = notePosition;
+	}
+
+	/**
+	 * @return the userScore
+	 */
+	public BigDecimal getUserScore() {
+		return userScore;
+	}
+
+	/**
+	 * @param userScore the userScore to set
+	 */
+	public void setUserScore(BigDecimal userScore) {
+		this.userScore = userScore;
+	}
+
+
 
 }

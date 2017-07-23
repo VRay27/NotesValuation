@@ -1,5 +1,5 @@
 
-var noteApp = angular.module('NoteApp', ['ngResource', 'xeditable', 'ngMessages', 'ngAnimate', 'toastr', 'ui.router', 'ngAnimate', 'ui.grid', 'ui.grid.moveColumns', 'ui.grid.selection', 'ui.grid.resizeColumns', 'ui.bootstrap', 'ui.grid.edit', 'btorfs.multiselect','ui.grid.pagination']);
+var noteApp = angular.module('NoteApp', ['ngResource', 'xeditable', 'ngMessages', 'ngAnimate', 'toastr', 'ui.router', 'ngAnimate', 'ui.grid', 'ui.grid.moveColumns', 'ui.grid.selection', 'ui.grid.resizeColumns', 'ui.bootstrap', 'ui.grid.edit', 'isteven-multi-select','ui.grid.pagination']);
 
 noteApp.config(function($stateProvider, $urlRouterProvider) {
 
@@ -88,10 +88,19 @@ noteApp.config(function($stateProvider, $urlRouterProvider) {
 				skipIfLoggedIn : skipIfLoggedIn
 			}
 			
+		}).state('noteEntryForm', {
+			url : '/noteEntryForm',
+			templateUrl : 'static/template/note-form-new.html',
+			controller : 'SignupCtrl',
+			cache: false,
+			resolve : {
+				skipIfLoggedIn : skipIfLoggedIn
+			}
+			
 		})
 		.state('profile', {
 			url : '/profile',
-			templateUrl : 'static/template/profile.html',
+			templateUrl : 'static/template/profile_new.html',
 			controller : 'ProfileCtrl',
 			cache: false,
 			params : {

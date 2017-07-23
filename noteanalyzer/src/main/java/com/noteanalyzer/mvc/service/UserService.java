@@ -14,4 +14,6 @@ public interface UserService {
 	Optional<UserModel> changePassword(UserModel inputUser, boolean isResetTokenRequired);
 	public Optional<UserModel> verifyUser(UserModel inputUser);
 	public String getUserStatus(String userName);
+	void updateUnsuccessfullAttempt(String loginStatus, long userId, String userEmailId);
+	
 }

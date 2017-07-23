@@ -1,5 +1,9 @@
 package com.noteanalyzer.mvc.service.impl;
 
+import static com.noteanalyzer.mvc.constant.NoteConstant.LOGIN_FAIL;
+import static com.noteanalyzer.mvc.constant.NoteConstant.LOGIN_SUCCESS;
+import static com.noteanalyzer.mvc.constant.NoteConstant.MAX_UNSUCCESSFUL_ATTEMPT;
+
 import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -13,8 +17,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.noteanalyzer.dao.GenericDao;
+import com.noteanalyzer.entity.notes.Parameters;
 import com.noteanalyzer.entity.user.User;
 import com.noteanalyzer.mvc.model.UserModel;
+import com.noteanalyzer.mvc.service.NoteService;
 import com.noteanalyzer.mvc.service.UserService;
 import com.noteanalyzer.utility.ConverterUtility;
 
@@ -23,14 +29,16 @@ import io.jsonwebtoken.lang.Collections;
 @Service("userService")
 public class UserServiceImpl implements UserService {
 
-
 	@Autowired
 	GenericDao genericDao;
 	
 	@Autowired
+	NoteService noteService;
+
+
+	@Autowired
 	private BCryptPasswordEncoder encoder;
 
-	
 	/**
 	 * @return the encoder
 	 */
@@ -47,7 +55,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public void createUser(UserModel user) {
-		genericDao.create(ConverterUtility.convertUserModelToUserEntity(user,encoder));
+		genericDao.create(ConverterUtility.convertUserModelToUserEntity(user, encoder));
 	}
 
 	public Optional<User> getActiveUser(String userName) {
@@ -59,7 +67,7 @@ public class UserServiceImpl implements UserService {
 		}
 		return Optional.of(userList.get(0));
 	}
-	
+
 	public Optional<User> getUser(String userName) {
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("userName", StringUtils.lowerCase(userName));
@@ -80,7 +88,6 @@ public class UserServiceImpl implements UserService {
 		return Optional.of(userList.get(0));
 	}
 
-	
 	@Override
 	public Optional<UserModel> getByUsername(String userName) {
 		Optional<User> userOptional = getActiveUser(userName);
@@ -88,7 +95,7 @@ public class UserServiceImpl implements UserService {
 			UserModel userModel = ConverterUtility.convertUserToUserModel(userOptional.get());
 			return Optional.of(userModel);
 		}
-		return Optional.empty();		
+		return Optional.empty();
 	}
 
 	@Override
@@ -123,10 +130,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Optional<UserModel> updateUser(UserModel inputUser) {
 		Optional<User> userOptional = getActiveUser(inputUser.getEmail());
-		if(userOptional.isPresent()){
+		if (userOptional.isPresent()) {
 			User user = userOptional.get();
 			user.setDisplayName(inputUser.getDisplayName());
-			user.setFirstName(inputUser.getEmail());
+			// user.setFirstName(inputUser.getEmail());
 			user.setContactNumber(inputUser.getPhoneNumber());
 			User updatedUser = genericDao.update(user);
 			return Optional.of(ConverterUtility.convertUserToUserModel(updatedUser));
@@ -136,7 +143,7 @@ public class UserServiceImpl implements UserService {
 
 	public Optional<UserModel> getByUsernameWithPassword(String userName) {
 		Optional<User> userOptional = getUser(userName);
-		if(userOptional.isPresent()){
+		if (userOptional.isPresent()) {
 			UserModel userModel = ConverterUtility.convertUserToUserModel(userOptional.get());
 			userModel.setPassword(userOptional.get().getPassword());
 			return Optional.of(userModel);
@@ -165,10 +172,30 @@ public class UserServiceImpl implements UserService {
 		if (userOptional.isPresent()) {
 			User user = userOptional.get();
 			return user.getIsActive();
-			}
+		}
 		return null;
 	}
 
+	@Override
+	public void updateUnsuccessfullAttempt(String loginStatus, long userId, String userEmailId) {
+		User user = genericDao.getById(User.class, userId);
+		if (user != null) {
+			Parameters param = noteService.getParameterValue("MAX_LOGIN_ATTEMPTS", userEmailId);
+			int maxAttemptAllowed =  (int) ((param != null) ? param.getParameterValue() : MAX_UNSUCCESSFUL_ATTEMPT);
+			
+			if (LOGIN_FAIL.equalsIgnoreCase(loginStatus)) {
+				long unsuccessfulLoginAttempts = user.getUnsuccessfulLoginAttempts() + 1;
+				if (unsuccessfulLoginAttempts > maxAttemptAllowed) {
+					user.setUnsuccessfulLoginAttempts(unsuccessfulLoginAttempts);
+					user.setIsActive("B");
+				} else if (LOGIN_SUCCESS.equalsIgnoreCase(loginStatus)) {
+					user.setUnsuccessfulLoginAttempts(new Long(0));
+					user.setIsActive("A");
+				}
+			}
+			genericDao.update(user);
+		}
 
+	}
 
 }

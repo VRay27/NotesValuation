@@ -25,26 +25,14 @@ public class Property extends AbstractEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="PID")
-    private Integer pId;
-
-	@Column(name="PROP_ID")
+	@Column(name="PROPERTY_ID")
     private Integer propertyId;
- 
-	@Column(name="AREA_ID")
-	private String areaID;
 	
-	@Column(name="PROP_NAME")
-    private String propertyName;
- 
 	@Column(name = "PROPERTY_TYPE")
 	private String propertyType;
 	
-	@Column(name="PROP_DESC")
-    private String propertyDescription;
-	
-	@Column(name="STREET")
-	private String street;
+	@Column(name="STREET_ADDRESS")
+	private String streetAddress;
 	
 	@Column(name="CITY")
 	private String	city;
@@ -55,192 +43,199 @@ public class Property extends AbstractEntity {
 	@Column(name="ZIP")
 	private Integer	zip;
 	
+	
 	@Column(name="AGE")
 	private Integer	age;
 	
+	
 	@Column(name="SIZE_SF")
-	private Integer	size_sf;
+	private double	sizeSF;
+	
 	
 	@Column(name="SUBDIVIDABLE")
-	private String subDividable;
+	private String subdividable;
 	
-	@Column(name="OTH_HIGH_PRIO_DEBT")
+	
+	@Column(name="OTHER_HIGH_PRIORITY_DEBT")
 	private Integer	otherHigherPriorityDebt;
 	
-	@Column(name="OTH_LOW_PRIO_DEBT")
+	@Column(name="OTHER_LOW_PRIORITY_DEBT")
 	private Integer OtherLowerPriorityDebt;
 	
-	@Column(name="OTH_MONTH_EXPENSE")
+	@Column(name="OTH_MONTH_EXPENSES")
 	private Integer otherMonthlyExpenses;
-	
-	@Column(name="MARKET_VALUE")
-    private Float marketValue;
 
-	
-	public Integer getpId() {
-		return pId;
-	}
-	public void setpId(Integer pId) {
-		this.pId = pId;
-	}
-	
+	/**
+	 * @return the propertyId
+	 */
 	public Integer getPropertyId() {
 		return propertyId;
 	}
 
+	/**
+	 * @param propertyId the propertyId to set
+	 */
 	public void setPropertyId(Integer propertyId) {
 		this.propertyId = propertyId;
 	}
 
-	public String getPropertyName() {
-		return propertyName;
-	}
-
-	public void setPropertyName(String propertyName) {
-		this.propertyName = propertyName;
-	}
-
-	public String getPropertyDescription() {
-		return propertyDescription;
-	}
-
-	public void setPropertyDescription(String propertyDescription) {
-		this.propertyDescription = propertyDescription;
-	}
-
-	
-	
-	public String getArea() {
-		return areaID;
-	}
-
-	public void setArea(String areaID) {
-		this.areaID = areaID;
-	}
-
+	/**
+	 * @return the propertyType
+	 */
 	public String getPropertyType() {
 		return propertyType;
 	}
 
+	/**
+	 * @param propertyType the propertyType to set
+	 */
 	public void setPropertyType(String propertyType) {
 		this.propertyType = propertyType;
 	}
 
-	public String getStreet() {
-		return street;
+	/**
+	 * @return the streetAddress
+	 */
+	public String getStreetAddress() {
+		return streetAddress;
 	}
 
-	public void setStreet(String street) {
-		this.street = street;
+	/**
+	 * @param streetAddress the streetAddress to set
+	 */
+	public void setStreetAddress(String streetAddress) {
+		this.streetAddress = streetAddress;
 	}
 
+	/**
+	 * @return the city
+	 */
 	public String getCity() {
 		return city;
 	}
 
+	/**
+	 * @param city the city to set
+	 */
 	public void setCity(String city) {
 		this.city = city;
 	}
 
+	/**
+	 * @return the state
+	 */
 	public String getState() {
 		return state;
 	}
 
+	/**
+	 * @param state the state to set
+	 */
 	public void setState(String state) {
 		this.state = state;
 	}
 
-	
-	/**
-	 * @return the marketValue
-	 */
-	public Float getMarketValue() {
-		return marketValue;
-	}
-	/**
-	 * @param marketValue the marketValue to set
-	 */
-	public void setMarketValue(Float marketValue) {
-		this.marketValue = marketValue;
-	}
-	/**
-	 * @return the areaID
-	 */
-	public String getAreaID() {
-		return areaID;
-	}
-	/**
-	 * @param areaID the areaID to set
-	 */
-	public void setAreaID(String areaID) {
-		this.areaID = areaID;
-	}
 	/**
 	 * @return the zip
 	 */
 	public Integer getZip() {
 		return zip;
 	}
+
 	/**
 	 * @param zip the zip to set
 	 */
 	public void setZip(Integer zip) {
 		this.zip = zip;
 	}
+
+	/**
+	 * @return the age
+	 */
 	public Integer getAge() {
 		return age;
 	}
 
+	/**
+	 * @param age the age to set
+	 */
 	public void setAge(Integer age) {
 		this.age = age;
 	}
 
-	public Integer getSize_sf() {
-		return size_sf;
+	/**
+	 * @return the sizeSF
+	 */
+	public double getSizeSF() {
+		return sizeSF;
 	}
-
-	public void setSize_sf(Integer size_sf) {
-		this.size_sf = size_sf;
-	}
-
-
 
 	/**
-	 * @return the subDividable
+	 * @param sizeSF the sizeSF to set
 	 */
-	public String getSubDividable() {
-		return subDividable;
+	public void setSizeSF(double sizeSF) {
+		this.sizeSF = sizeSF;
 	}
+
 	/**
-	 * @param subDividable the subDividable to set
+	 * @return the subdividable
 	 */
-	public void setSubDividable(String subDividable) {
-		this.subDividable = subDividable;
+	public String getSubdividable() {
+		return subdividable;
 	}
+
+	/**
+	 * @param subdividable the subdividable to set
+	 */
+	public void setSubdividable(String subdividable) {
+		this.subdividable = subdividable;
+	}
+
+	/**
+	 * @return the otherHigherPriorityDebt
+	 */
 	public Integer getOtherHigherPriorityDebt() {
 		return otherHigherPriorityDebt;
 	}
 
+	/**
+	 * @param otherHigherPriorityDebt the otherHigherPriorityDebt to set
+	 */
 	public void setOtherHigherPriorityDebt(Integer otherHigherPriorityDebt) {
 		this.otherHigherPriorityDebt = otherHigherPriorityDebt;
 	}
 
+	/**
+	 * @return the otherLowerPriorityDebt
+	 */
 	public Integer getOtherLowerPriorityDebt() {
 		return OtherLowerPriorityDebt;
 	}
 
+	/**
+	 * @param otherLowerPriorityDebt the otherLowerPriorityDebt to set
+	 */
 	public void setOtherLowerPriorityDebt(Integer otherLowerPriorityDebt) {
 		OtherLowerPriorityDebt = otherLowerPriorityDebt;
 	}
 
+	/**
+	 * @return the otherMonthlyExpenses
+	 */
 	public Integer getOtherMonthlyExpenses() {
 		return otherMonthlyExpenses;
 	}
 
+	/**
+	 * @param otherMonthlyExpenses the otherMonthlyExpenses to set
+	 */
 	public void setOtherMonthlyExpenses(Integer otherMonthlyExpenses) {
 		this.otherMonthlyExpenses = otherMonthlyExpenses;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -249,23 +244,31 @@ public class Property extends AbstractEntity {
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (!super.equals(obj))
+		}
+		if (!super.equals(obj)) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (!(obj instanceof Property)) {
 			return false;
+		}
 		Property other = (Property) obj;
 		if (propertyId == null) {
-			if (other.propertyId != null)
+			if (other.propertyId != null) {
 				return false;
-		} else if (!propertyId.equals(other.propertyId))
+			}
+		} else if (!propertyId.equals(other.propertyId)) {
 			return false;
+		}
 		return true;
 	}
-
+	
 	
  
    
