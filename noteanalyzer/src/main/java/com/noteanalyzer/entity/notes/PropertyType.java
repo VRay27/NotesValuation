@@ -14,7 +14,7 @@ import com.noteanalyzer.entity.AbstractEntity;
 import lombok.ToString;
 
 @Entity
-@Table(name="PROPERTY_TYPE")
+@Table(name="PropertyTypes")
 @ToString(callSuper = true)
 @NamedQueries({ @NamedQuery(name = "GET_PROPERTY_TYPE_BY_TYPE",query="select p from PropertyType p  where p.propertyType =:propertyType")})
 public class PropertyType extends AbstractEntity { 
@@ -25,10 +25,41 @@ public class PropertyType extends AbstractEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="P_TYPE_ID")
-    private Integer P_TYPE_ID;
+    @Column(name="Property_Type_Id")
+    private Integer propertyTypeId;
 	
-    @Column(name="PROPERTY_TYPE")
+    /* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((propertyTypeId == null) ? 0 : propertyTypeId.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PropertyType other = (PropertyType) obj;
+		if (propertyTypeId == null) {
+			if (other.propertyTypeId != null)
+				return false;
+		} else if (!propertyTypeId.equals(other.propertyTypeId))
+			return false;
+		return true;
+	}
+
+	@Column(name="PROPERTY_TYPE")
 	private String propertyType;
 	
     @Column(name="DESCRIPTION")

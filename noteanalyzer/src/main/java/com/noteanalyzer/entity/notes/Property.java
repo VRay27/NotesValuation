@@ -15,8 +15,8 @@ import lombok.ToString;
 @Entity
 @Table(name="PROPERTY")
 @ToString(callSuper = true)
-@NamedQueries({ @NamedQuery(name = Property.GET_PROPERTY_DETAILS_BY_ID,query="select p from Property p where p.propertyId =:propertyId"),
-	 			@NamedQuery(name = Property.GET_PROPERTY_DETAILS_BY_ADDRESS,query="select p from Property p where p.street =:streetAddress and p.zip =:zipCode and p.state =:state and p.city=:city")})
+@NamedQueries({ @NamedQuery(name = Property.GET_PROPERTY_DETAILS_BY_ID,query="select p from Property p where p.propertyId =:propertyId")/*,
+	 			@NamedQuery(name = Property.GET_PROPERTY_DETAILS_BY_ADDRESS,query="select p from Property p where p.street =:streetAddress and p.zip =:zipCode and p.state =:state and p.city=:city")*/})
 public class Property extends AbstractEntity {
 	private static final long serialVersionUID = 6408731281219126859L;
 

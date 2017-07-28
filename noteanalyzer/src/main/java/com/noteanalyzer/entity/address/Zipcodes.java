@@ -1,7 +1,12 @@
 package com.noteanalyzer.entity.address;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -14,8 +19,10 @@ public class Zipcodes extends AbstractEntity {
 
 	private static final long serialVersionUID = -7773399468661533735L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ZIP_ID")
-	private String zipId;
+	private int zipId;
 
 	@Column(name = "ZIP")
 	private String zip;
@@ -26,13 +33,18 @@ public class Zipcodes extends AbstractEntity {
 	@Column(name = "STATE")
 	private String state;
 
-	@OneToMany
-	@JoinColumn(name = "AREA_ID")
-	private Area area;
-
 	@Column(name = "AREA_TYPE")
 	private String areaType;
+	
+	@Column(name = "AREA_ID")
+	private String areaId;
+	
 
+	@OneToMany
+	@JoinColumn(name = "A_ID")
+	private Set<Area> area;
+
+	
 	/**
 	 * @return the zip
 	 */
@@ -41,8 +53,7 @@ public class Zipcodes extends AbstractEntity {
 	}
 
 	/**
-	 * @param zip
-	 *            the zip to set
+	 * @param zip the zip to set
 	 */
 	public void setZip(String zip) {
 		this.zip = zip;
@@ -56,8 +67,7 @@ public class Zipcodes extends AbstractEntity {
 	}
 
 	/**
-	 * @param city
-	 *            the city to set
+	 * @param city the city to set
 	 */
 	public void setCity(String city) {
 		this.city = city;
@@ -71,26 +81,10 @@ public class Zipcodes extends AbstractEntity {
 	}
 
 	/**
-	 * @param state
-	 *            the state to set
+	 * @param state the state to set
 	 */
 	public void setState(String state) {
 		this.state = state;
-	}
-
-	/**
-	 * @return the area
-	 */
-	public Area getArea() {
-		return area;
-	}
-
-	/**
-	 * @param area
-	 *            the area to set
-	 */
-	public void setArea(Area area) {
-		this.area = area;
 	}
 
 	/**
@@ -101,8 +95,7 @@ public class Zipcodes extends AbstractEntity {
 	}
 
 	/**
-	 * @param areaType
-	 *            the areaType to set
+	 * @param areaType the areaType to set
 	 */
 	public void setAreaType(String areaType) {
 		this.areaType = areaType;
@@ -111,56 +104,75 @@ public class Zipcodes extends AbstractEntity {
 	/**
 	 * @return the zipId
 	 */
-	public String getZipId() {
+	public int getZipId() {
 		return zipId;
+	}
+	
+	
+
+	/**
+	 * @return the areaId
+	 */
+	public String getAreaId() {
+		return areaId;
 	}
 
 	/**
-	 * @param zipId
-	 *            the zipId to set
+	 * @param areaId the areaId to set
 	 */
-	public void setZipId(String zipId) {
+	public void setAreaId(String areaId) {
+		this.areaId = areaId;
+	}
+
+	
+	/**
+	 * @return the area
+	 */
+	public Set<Area> getArea() {
+		return area;
+	}
+
+	/**
+	 * @param area the area to set
+	 */
+	public void setArea(Set<Area> area) {
+		this.area = area;
+	}
+
+	/**
+	 * @param zipId the zipId to set
+	 */
+	public void setZipId(int zipId) {
 		this.zipId = zipId;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((zipId == null) ? 0 : zipId.hashCode());
+		int result = super.hashCode();
+		result = prime * result + zipId;
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
-		if (obj == null) {
+		if (!super.equals(obj))
 			return false;
-		}
-		if (!(obj instanceof Zipcodes)) {
+		if (getClass() != obj.getClass())
 			return false;
-		}
 		Zipcodes other = (Zipcodes) obj;
-		if (zipId == null) {
-			if (other.zipId != null) {
-				return false;
-			}
-		} else if (!zipId.equals(other.zipId)) {
+		if (zipId != other.zipId)
 			return false;
-		}
 		return true;
 	}
 
+	
 }

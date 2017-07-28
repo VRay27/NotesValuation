@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -22,7 +25,12 @@ public class NoteType  extends AbstractEntity {
 	
 	public static final String GET_NOTE_TYPE_BY_TYPE = "GET_NOTE_TYPE_BY_TYPE";
 	
-    @Column(name="TYPE")
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="NOTE_TYPE_D")
+    private int noteTypeId;
+	
+	@Column(name="TYPE")
     private String noteType;
 
 	@Column(name="INTEREST_ADJUSTMENT_RULES")
@@ -53,8 +61,6 @@ public class NoteType  extends AbstractEntity {
 	public NoteType() {
 	}
 
-
-	
 
 	/**
 	 * @return the noteType
@@ -201,6 +207,22 @@ public class NoteType  extends AbstractEntity {
 	 */
 	public void setInterestCap(BigDecimal interestCap) {
 		this.interestCap = interestCap;
+	}
+
+
+	/**
+	 * @return the noteTypeId
+	 */
+	public int getNoteTypeId() {
+		return noteTypeId;
+	}
+
+
+	/**
+	 * @param noteTypeId the noteTypeId to set
+	 */
+	public void setNoteTypeId(int noteTypeId) {
+		this.noteTypeId = noteTypeId;
 	}
 
 

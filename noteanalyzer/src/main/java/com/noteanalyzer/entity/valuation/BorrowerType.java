@@ -9,21 +9,20 @@ import javax.persistence.Table;
 
 import com.noteanalyzer.entity.AbstractEntity;
 
-@Entity
-@Table(name="BORROWER_TYPE")
+
 public class BorrowerType  extends AbstractEntity {
 
 	private static final long serialVersionUID = 2057071124772914109L;
 
-	@Id
+	/*@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="BRW_TYPE_ID")
+    @Column(name="BRW_TYPE_ID")*/
     private Integer brrwTypeId;
 
-	@Column(name="BORROWER_TYPE")
+	//@Column(name="BORROWER_TYPE")
 	private String borrowerType;
 	
-	@Column(name="Description")
+	//@Column(name="Description")
 	private String description;
 	
 	

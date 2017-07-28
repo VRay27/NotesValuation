@@ -18,9 +18,9 @@ import lombok.ToString;
 @Entity
 @Table(name = "USER")
 @ToString(callSuper = true)
-@NamedQueries({ @NamedQuery(name = User.GET_IN_ACTIVE_USER_DETAILS, query="select u from User u where lower(u.userName) =:userName and  u.isActive !='Y'"),
-				@NamedQuery(name = User.GET_ACTIVE_USER_DETAILS, query="select u from User u where lower(u.userName) =:userName and u.isActive='Y'"),
-				@NamedQuery(name = User.GET_USER_DETAILS, query="select u from User u where lower(u.userName) =:userName")})
+@NamedQueries({ @NamedQuery(name = User.GET_IN_ACTIVE_USER_DETAILS, query="select u from User u where lower(u.emailID) =:userName and  u.isActive !='Y'"),
+				@NamedQuery(name = User.GET_ACTIVE_USER_DETAILS, query="select u from User u where lower(u.emailID) =:userName and u.isActive='Y'"),
+				@NamedQuery(name = User.GET_USER_DETAILS, query="select u from User u where lower(u.emailID) =:userName")})
 public class User extends AbstractEntity{
 
 	public static final String GET_USER_DETAILS = "GET_USER_DETAILS";

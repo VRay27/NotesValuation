@@ -16,12 +16,17 @@ import lombok.ToString;
 @Entity
 @Table(name="PARAMETERS")
 @ToString(callSuper = true)
-@NamedQueries({ @NamedQuery(name = "GET_PARAMETERS_VALUE",query="select p from Parameters p, User u  where u.user_id = p.userId and u.userId =:userId and p.parameterName =:parameterName")})
+@NamedQueries({ @NamedQuery(name = "GET_PARAMETERS_VALUE",query="select p from Parameters p, User u  where u.userId = p.userId and u.userId =:userId and p.parameterName =:parameterName")})
 public class Parameters extends AbstractEntity { 
 	
 	private static final long serialVersionUID = 3337645236789480204L;
 	
 	public static final String GET_PARAMETERS_VALUE = "GET_PARAMETERS_VALUE";
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="Parameter_Id")
+	private String parameterId;
 	
 	@Column(name="PARAMETER_NAME")
 	private String parameterName;
@@ -141,6 +146,22 @@ public class Parameters extends AbstractEntity {
 	 */
 	public void setSource(String source) {
 		this.source = source;
+	}
+	
+	
+
+	/**
+	 * @return the parameterId
+	 */
+	public String getParameterId() {
+		return parameterId;
+	}
+
+	/**
+	 * @param parameterId the parameterId to set
+	 */
+	public void setParameterId(String parameterId) {
+		this.parameterId = parameterId;
 	}
 
 	/* (non-Javadoc)

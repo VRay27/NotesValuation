@@ -23,11 +23,70 @@ public class Privileges extends AbstractEntity {
 	
 	public static final String GET_PRIVILEGE = "GET_PRIVILEGE";
 	
+	@Id
     @Column(name="PRIVILEGE_ID")
-	private String privilegeId;
+	private int privilegeId;
 	
     @Column(name="PRIVILEGE_NAME")
 	private String privilegeName;
+
+	/**
+	 * @return the privilegeId
+	 */
+	public int getPrivilegeId() {
+		return privilegeId;
+	}
+
+	/**
+	 * @param privilegeId the privilegeId to set
+	 */
+	public void setPrivilegeId(int privilegeId) {
+		this.privilegeId = privilegeId;
+	}
+
+	/**
+	 * @return the privilegeName
+	 */
+	public String getPrivilegeName() {
+		return privilegeName;
+	}
+
+	/**
+	 * @param privilegeName the privilegeName to set
+	 */
+	public void setPrivilegeName(String privilegeName) {
+		this.privilegeName = privilegeName;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + privilegeId;
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Privileges other = (Privileges) obj;
+		if (privilegeId != other.privilegeId)
+			return false;
+		return true;
+	}
+    
+    
     
     
 }

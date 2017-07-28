@@ -2,8 +2,8 @@ package com.noteanalyzer.entity.notes;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,13 +13,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.joda.time.DateTime;
-
 import com.noteanalyzer.entity.AbstractEntity;
-import com.noteanalyzer.entity.address.Area;
 
 import lombok.ToString;
 
@@ -99,7 +95,7 @@ public class Note extends AbstractEntity {
 
 	@OneToMany
 	@JoinColumn(name = "PROPERTY_ID")
-	private Property propertyId;
+	private Set<Property> propertyId;
 
 	/**
 	 * @return the noteId
@@ -368,17 +364,19 @@ public class Note extends AbstractEntity {
 		this.propertyValueAtOrigination = propertyValueAtOrigination;
 	}
 
+	
+
 	/**
 	 * @return the propertyId
 	 */
-	public Property getPropertyId() {
+	public Set<Property> getPropertyId() {
 		return propertyId;
 	}
 
 	/**
 	 * @param propertyId the propertyId to set
 	 */
-	public void setPropertyId(Property propertyId) {
+	public void setPropertyId(Set<Property> propertyId) {
 		this.propertyId = propertyId;
 	}
 
