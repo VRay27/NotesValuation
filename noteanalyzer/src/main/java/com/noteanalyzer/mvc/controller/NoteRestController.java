@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.net.URLConnection;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -76,16 +77,28 @@ public class NoteRestController {
 		if (!address.isPresent()) {
 			return new ResponseEntity<NoteInputFormModel>(HttpStatus.NOT_FOUND);
 		}
-		noteInputFormModel.setAddress(address.get());
+		AddressModel addressModel = address.get();
+		noteInputFormModel.setAddress(addressModel);
+		noteInputFormModel.setZipCode(zipCode);
+		for(String defaultCity : addressModel.getCityList()){
+			noteInputFormModel.setSelCity(defaultCity);	
+		}
+		for(String defaultState : addressModel.getStateList()){
+			noteInputFormModel.setSelCity(defaultState);	
+		}
 
 		Optional<List<NoteTypeModel>> noteTypeModelList = noteService.getNoteType();
 		if (noteTypeModelList.isPresent()) {
-			noteInputFormModel.setNoteTypeList(noteTypeModelList.get());
+			List<NoteTypeModel> noteTypeList = noteTypeModelList.get();
+			noteInputFormModel.setNoteTypeList(noteTypeList);
+			//noteInputFormModel.setSelNoteType(noteTypeList.get(0));
+			//noteInputFormModel.setOriginalTerm(BigDecimal.valueOf(Double.valueOf(noteTypeList.get(0).getTermMonths())));
 		}
 		
 		Optional<List<PropertyTypeModel>> propTypeModelList = noteService.getPropertyType();
 		if (propTypeModelList.isPresent()) {
 			noteInputFormModel.setPropTypeList(propTypeModelList.get());
+			noteInputFormModel.setSelPropType(propTypeModelList.get().get(0));
 		}
 		
 		return new ResponseEntity<NoteInputFormModel>(noteInputFormModel, HttpStatus.OK);

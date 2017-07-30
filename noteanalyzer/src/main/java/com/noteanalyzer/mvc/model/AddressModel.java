@@ -1,8 +1,9 @@
 package com.noteanalyzer.mvc.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class AddressModel implements Serializable {
 	
@@ -15,8 +16,8 @@ public class AddressModel implements Serializable {
 	private String city;
 	private String state;
 	private String zipCode;
-	private List<String> cityList = new ArrayList<>();
-	private List<String> stateList = new ArrayList<>();
+	private Set<String> cityList = new HashSet<>();
+	private Set<String> stateList = new HashSet<>();
 	
 	/**
 	 * @return the streetAddress
@@ -66,28 +67,31 @@ public class AddressModel implements Serializable {
 	public void setZipCode(String zipCode) {
 		this.zipCode = zipCode;
 	}
+	
+	
+	
 	/**
 	 * @return the cityList
 	 */
-	public List<String> getCityList() {
+	public Set<String> getCityList() {
 		return cityList;
 	}
 	/**
 	 * @param cityList the cityList to set
 	 */
-	public void setCityList(List<String> cityList) {
+	public void setCityList(Set<String> cityList) {
 		this.cityList = cityList;
 	}
 	/**
 	 * @return the stateList
 	 */
-	public List<String> getStateList() {
+	public Set<String> getStateList() {
 		return stateList;
 	}
 	/**
 	 * @param stateList the stateList to set
 	 */
-	public void setStateList(List<String> stateList) {
+	public void setStateList(Set<String> stateList) {
 		this.stateList = stateList;
 	}
 	/* (non-Javadoc)

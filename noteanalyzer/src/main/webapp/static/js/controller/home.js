@@ -4,8 +4,8 @@ noteApp.controller('HomeCtrl', function($scope, $stateParams, $state,$document, 
 		var noteInputFormModel = {};
 		noteInputFormModel.address = {};
 		 noteInputFormModel.address.zipCode = $scope.zipCode;
-		NoteService.noteAnalyze(noteInputFormModel).then(function() {
-			NoteService.noteInputFormModelService.setInputFormModel(noteInputFormModel);
+		NoteService.noteAnalyze(noteInputFormModel).then(function(response) {
+			NoteService.setInputFormModel(response);
 			$state.go('noteInputForm');
 		},function(errResponse) {
 			toastr.error('Error while fetching details for this note.');
@@ -82,9 +82,9 @@ noteApp.controller('HomeCtrl', function($scope, $stateParams, $state,$document, 
 	
 });
 
-noteApp.controller('noteInputFormController', function($scope, $rootScope, $state, $uibModalInstance, $auth, $filter,NoteService) {
+noteApp.controller('noteInputFormController', function($scope, $rootScope, $state, $auth, $filter,NoteService) {
 	
-	$scope.noteInputFormModel = NoteService.noteInputFormModelService.getInputFormModel();
+	$scope.noteInputFormModel = NoteService.getInputFormModel();
 	$scope.hasError = function(field, validation) {
 		if (validation) {
 			return ($scope.noteInputForm[field].$dirty && $scope.noteInputForm[field].$error[validation]) || ($scope.submitted && $scope.noteInputForm[field].$error[validation]);

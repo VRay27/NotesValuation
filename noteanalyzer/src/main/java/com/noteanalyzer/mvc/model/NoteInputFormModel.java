@@ -32,6 +32,11 @@ public class NoteInputFormModel implements Serializable {
 	private String selPerforming;
 	private int notePosition;
 	private BigDecimal userScore;
+	
+	private String selCity;
+	private String selState;
+	private String zipCode;
+	
 
 	/**
 	 * @return the noteTypeList
@@ -303,6 +308,48 @@ public class NoteInputFormModel implements Serializable {
 	 */
 	public void setUserScore(BigDecimal userScore) {
 		this.userScore = userScore;
+	}
+
+	/**
+	 * @return the selCity
+	 */
+	public String getSelCity() {
+		return selCity;
+	}
+
+	/**
+	 * @param selCity the selCity to set
+	 */
+	public void setSelCity(String selCity) {
+		this.selCity = selCity;
+	}
+
+	/**
+	 * @return the selState
+	 */
+	public String getSelState() {
+		return selState;
+	}
+
+	/**
+	 * @param selState the selState to set
+	 */
+	public void setSelState(String selState) {
+		this.selState = selState;
+	}
+
+	/**
+	 * @return the zipCode
+	 */
+	public String getZipCode() {
+		return zipCode;
+	}
+
+	/**
+	 * @param zipCode the zipCode to set
+	 */
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
 	}
 
 

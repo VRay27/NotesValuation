@@ -8,13 +8,13 @@
                        <div class="form-group">
                             <label class="col-lg-2 control-label requiredField">Note Type</label>
                             <div class="col-lg-3">
-                               <select class="form-control icon-text" name="noteType"	ng-model="noteInputFormModel.selNoteType"
+                               <select class="form-control icon-text" name="noteType" ng-init="noteInputFormModel.selNoteType=noteInputFormModel.noteTypeList[0]" 	ng-model="noteInputFormModel.selNoteType"
 					ng-options="noteType.noteTypeValue for noteType in noteInputFormModel.noteTypeList">
                                 </select><span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="There are 3 types of notes: performing, sub-performing and non-performing"></span>
                             </div>
                              <label class="col-lg-2 control-label requiredField">Original Term</label>
                             <div class="col-lg-3">
-                                <input type="text" class="form-control icon-text" name="originalTerm" readonly ng-model="noteInputFormModel.originalTerm"/>
+                                <input type="text" class="form-control icon-text" name="originalTerm" readonly ng-model="noteInputFormModel.selNoteType.termMonths"/>
                                 <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Original term depends upon the note type selection. "></span>
                             </div>
                         </div>
@@ -22,12 +22,14 @@
 						 <div class="form-group">
                             <label class="col-lg-2 control-label requiredField">Zip Code</label>
                             <div class="col-lg-3">
-                                <input type="text" class="form-control icon-text" name="zipCode"  placeholder="Enter Zip Code" />
+                                <input type="text" class="form-control icon-text" name="zipCode" ng-model="noteInputFormModel.zipCode"  placeholder="Enter Zip Code" />
                              <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Enter zip code"></span>
                             </div>
                            <label class="col-lg-2 control-label requiredField">City</label>
                             <div class="col-lg-3">
-                                <select class="form-control icon-text" name="city" readonly ng-model="noteInputFormModel.selCity"
+                                <select class="form-control icon-text" name="city"  
+                                ng-init="noteInputFormModel.selCity=noteInputFormModel.address.cityList[0]"
+                                ng-model="noteInputFormModel.selCity"
                                 ng-options="city for city in noteInputFormModel.address.cityList">
                                 </select><span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Select city"></span>
                             </div> 
@@ -41,7 +43,9 @@
                             </div>
                             <label class="col-lg-2 control-label requiredField">State</label>
                              <div class="col-lg-3">
-                                <select class="form-control icon-text" name="state" readonly ng-model="noteInputFormModel.selState"
+                                <select class="form-control icon-text" name="state"  
+                                ng-init="noteInputFormModel.selState=noteInputFormModel.address.stateList[0]"
+                                ng-model="noteInputFormModel.selState"
                                 ng-options="state for state in noteInputFormModel.address.stateList">>
                                 </select><span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Select state"></span>
                             </div>
@@ -49,13 +53,13 @@
                         <div class="form-group">
                             <label class="col-lg-2 control-label requiredField">Property Type</label>
                             <div class="col-lg-3">
-                               <select class="form-control icon-text" name="propertyType"ng-model="noteInputFormModel.selPropType"
-					ng-options="propType.propertyTypeValue for propType in noteInputFormModel.propTypeList">
+                               <select class="form-control icon-text" name="propertyType"
+                               ng-init="noteInputFormModel.selPropType=noteInputFormModel.propTypeList[0]"
+                               ng-model="noteInputFormModel.selPropType"
+							   ng-options="propType.propertyTypeValue for propType in noteInputFormModel.propTypeList">
                                 </select><span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Select property type"></span>
                             </div>
-                        </div>
-                       <div class="form-group">
-                            <label class="col-lg-2 control-label requiredField">Note Date</label>
+                             <label class="col-lg-2 control-label requiredField">Note Date</label>
                             <div class="col-lg-3">
                                 <input type="text" class="form-control icon-text" name="noteDate" placeholder="Note Date(MM/DD/YYYY)" uib-datepicker-popup="MM/dd/yyyy" ng-model="noteInputFormModel.noteDate" is-open="noteDate.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
                                 
@@ -65,7 +69,6 @@
           						<span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Select note date"></span>
                             </div>
                         </div>
-                        
                           
                         <div class="form-group">
                             <label class="col-lg-2 control-label requiredField">UPB</label>
@@ -256,7 +259,7 @@ $(document).ready(function() {
                     },
                     date: {
                         format: 'MM/DD/YYYY',
-                        message: 'The birthday is not valid'
+                        message: 'The note date is not in valid format'
                     }
                 }
             },

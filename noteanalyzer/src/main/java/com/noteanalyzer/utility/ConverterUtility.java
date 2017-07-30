@@ -1,12 +1,13 @@
 package com.noteanalyzer.utility;
 
-import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -141,8 +142,8 @@ public class ConverterUtility {
 	}
 
 	public static AddressModel convertZipCodeWithAddress(List<Zipcodes> zipcodeDetailsList) {
-		List<String> cityList =  new ArrayList<>();
-		List<String> stateList =  new ArrayList<>();
+		Set<String> cityList =  new HashSet<>();
+		Set<String> stateList =  new HashSet<>();
 		AddressModel model  = new AddressModel();
 		for(Zipcodes zip : zipcodeDetailsList){
 			
