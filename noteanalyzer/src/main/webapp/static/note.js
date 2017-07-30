@@ -88,10 +88,10 @@ noteApp.config(function($stateProvider, $urlRouterProvider) {
 				skipIfLoggedIn : skipIfLoggedIn
 			}
 			
-		}).state('noteEntryForm', {
-			url : '/noteEntryForm',
+		}).state('noteInputForm', {
+			url : '/noteInputForm',
 			templateUrl : 'static/template/note-form-new.html',
-			controller : 'SignupCtrl',
+			controller : 'noteInputFormController',
 			cache: false,
 			resolve : {
 				skipIfLoggedIn : skipIfLoggedIn
@@ -202,11 +202,11 @@ noteApp.factory('$auth', function($window,$state,toastr) {
 	};
 	
 	auth.checkLoginFromServer = function(status) {
-		if(status===401){
+		/*if(status===401){
 			auth.logout();
 			toastr.error('Your session has been invalid. Please login again.');
 			$state.go('login');
-		}
+		}*/
 	};
 	
 

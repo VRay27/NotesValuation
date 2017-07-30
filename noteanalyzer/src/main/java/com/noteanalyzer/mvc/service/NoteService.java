@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import com.noteanalyzer.entity.notes.NoteConfiguration;
 import com.noteanalyzer.entity.notes.Parameters;
+import com.noteanalyzer.mvc.model.AddressModel;
 import com.noteanalyzer.mvc.model.NoteInputFormModel;
 import com.noteanalyzer.mvc.model.NoteSummaryModel;
 import com.noteanalyzer.mvc.model.NoteTypeModel;
@@ -29,6 +30,7 @@ public interface NoteService {
 	public List<NoteConfiguration> getConfigValue(@NonNull List<String> configCode);
 
 	Parameters getParameterValue(String parameterName, String userEmailId);
+	public Optional<AddressModel> getZipCodeDetails(String zipCode);
 	
 	/*User findById(long id);
 	

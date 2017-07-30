@@ -13,8 +13,8 @@ public class NoteTypeModel implements Serializable {
 	private String noteTypeValue;
 	private String interestAdjustmentRules;
 	private String termMonths;
-	private long interestOnlyMonths;
-	private long baloonAfterMonths;
+	private Long interestOnlyMonths;
+	private Long baloonAfterMonths;
 	private String armIndexName;
 	private BigDecimal margin;
 	private BigDecimal interestCap;
@@ -83,32 +83,31 @@ public class NoteTypeModel implements Serializable {
 	}
 
 	
-	
 	/**
 	 * @return the interestOnlyMonths
 	 */
-	public long getInterestOnlyMonths() {
+	public Long getInterestOnlyMonths() {
 		return interestOnlyMonths;
 	}
 
 	/**
 	 * @param interestOnlyMonths the interestOnlyMonths to set
 	 */
-	public void setInterestOnlyMonths(long interestOnlyMonths) {
+	public void setInterestOnlyMonths(Long interestOnlyMonths) {
 		this.interestOnlyMonths = interestOnlyMonths;
 	}
 
 	/**
 	 * @return the baloonAfterMonths
 	 */
-	public long getBaloonAfterMonths() {
+	public Long getBaloonAfterMonths() {
 		return baloonAfterMonths;
 	}
 
 	/**
 	 * @param baloonAfterMonths the baloonAfterMonths to set
 	 */
-	public void setBaloonAfterMonths(long baloonAfterMonths) {
+	public void setBaloonAfterMonths(Long baloonAfterMonths) {
 		this.baloonAfterMonths = baloonAfterMonths;
 	}
 

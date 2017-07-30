@@ -15,10 +15,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.noteanalyzer.dao.GenericDao;
+import com.noteanalyzer.entity.address.Zipcodes;
 import com.noteanalyzer.entity.notes.Parameters;
 import com.noteanalyzer.entity.user.User;
+import com.noteanalyzer.mvc.model.AddressModel;
 import com.noteanalyzer.mvc.model.UserModel;
 import com.noteanalyzer.mvc.service.NoteService;
 import com.noteanalyzer.mvc.service.UserService;

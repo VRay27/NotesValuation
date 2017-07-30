@@ -50,37 +50,44 @@ app.controller('LoginCtrl', function($scope, $rootScope, $state, $location, toas
  } 
 
 });
-app.service("loginService", function($http, $q, WaitingDialog) {
-	
-	
-  var doLogin = function(loginModel) {
-	  var deferred = $q.defer();
-	  return $http.post('api/auth/login', loginModel)
-      .then(function(response) {
-    	  deferred.resolve(response.data);
-    	  return deferred.promise;
-      }, function(response) {
-        deferred.reject(response);
-        return deferred.promise;
-      });
-	 
-  };
-  
-  var resetPassword = function(loginModel) {
-	  var deferred = $q.defer();
-	  return $http.post('resetPassword', loginModel)
-	      .then(function(response) {
-	        deferred.resolve(response.data);
-	        return deferred.promise;
-	      }, function(response) {
-	        deferred.reject(response);
-	        return deferred.promise;
-	      });
-	  
-	  };
 
-  return {
-    doLogin: doLogin,
-    resetPassword:resetPassword
-  }
+app.service("loginService", function($http, $q, WaitingDialog) {
+
+
+	var doLogin = function(loginModel) {
+		var deferred = $q.defer();
+		return $http.post('api/auth/login', loginModel)
+			.then(function(response) {
+				deferred.resolve(response.data);
+				return deferred.promise;
+			}, function(response) {
+				deferred.reject(response);
+				return deferred.promise;
+			}).then(
+			function() {
+				WaitingDialog.hide();
+			});
+
+	};
+
+	var resetPassword = function(loginModel) {
+		var deferred = $q.defer();
+		return $http.post('resetPassword', loginModel)
+			.then(function(response) {
+				deferred.resolve(response.data);
+				return deferred.promise;
+			}, function(response) {
+				deferred.reject(response);
+				return deferred.promise;
+			}).then(
+			function() {
+				WaitingDialog.hide();
+			});
+
+	};
+
+	return {
+		doLogin : doLogin,
+		resetPassword : resetPassword
+	}
 });

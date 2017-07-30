@@ -27,7 +27,7 @@ public class NoteType  extends AbstractEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="NOTE_TYPE_D")
+	@Column(name="NOTE_TYPE_ID")
     private int noteTypeId;
 	
 	@Column(name="TYPE")
@@ -43,10 +43,10 @@ public class NoteType  extends AbstractEntity {
 	private String termMonths;
 	
 	@Column(name="INTEREST_ONLY_MONTHS")
-	private long interestOnlyMonths;
+	private Long interestOnlyMonths;
 	
 	@Column(name="BALOON_AFTER_MONTHS")
-	private long baloonAfterMonths;
+	private Long baloonAfterMonths;
 	
 	@Column(name="ARM_INDEX_NAME")
 	private String armIndexName;
@@ -133,7 +133,7 @@ public class NoteType  extends AbstractEntity {
 	/**
 	 * @return the interestOnlyMonths
 	 */
-	public long getInterestOnlyMonths() {
+	public Long getInterestOnlyMonths() {
 		return interestOnlyMonths;
 	}
 
@@ -141,7 +141,7 @@ public class NoteType  extends AbstractEntity {
 	/**
 	 * @param interestOnlyMonths the interestOnlyMonths to set
 	 */
-	public void setInterestOnlyMonths(long interestOnlyMonths) {
+	public void setInterestOnlyMonths(Long interestOnlyMonths) {
 		this.interestOnlyMonths = interestOnlyMonths;
 	}
 
@@ -149,7 +149,7 @@ public class NoteType  extends AbstractEntity {
 	/**
 	 * @return the baloonAfterMonths
 	 */
-	public long getBaloonAfterMonths() {
+	public Long getBaloonAfterMonths() {
 		return baloonAfterMonths;
 	}
 
@@ -157,7 +157,7 @@ public class NoteType  extends AbstractEntity {
 	/**
 	 * @param baloonAfterMonths the baloonAfterMonths to set
 	 */
-	public void setBaloonAfterMonths(long baloonAfterMonths) {
+	public void setBaloonAfterMonths(Long baloonAfterMonths) {
 		this.baloonAfterMonths = baloonAfterMonths;
 	}
 

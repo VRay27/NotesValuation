@@ -104,7 +104,10 @@ angular.module('NoteApp').factory('UserService', ['$http', '$q','WaitingDialog',
                 console.error('Error while fetching User details');
                 deferred.reject(errResponse);
             }
-        );
+        ).then(
+				function() {
+					WaitingDialog.hide();
+				});
         return deferred.promise;
     }
 

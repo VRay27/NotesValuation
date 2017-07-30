@@ -8,16 +8,27 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.noteanalyzer.entity.AbstractEntity;
+import com.noteanalyzer.entity.notes.Note;
+
+import lombok.ToString;
 
 @Entity
 @Table(name = "ZIPCODES")
+@ToString(callSuper = true)
+@NamedQueries({
+		@NamedQuery(name = Zipcodes.GET_ZIPCODE_DETAILS_BY_ZIPCODE, query = "select z from Zipcodes z where z.zip =:zipCode")})
+
 public class Zipcodes extends AbstractEntity {
 
-	private static final long serialVersionUID = -7773399468661533735L;
+	private static final long serialVersionUID = -7382699468661533735L;
+	
+	public final static String  GET_ZIPCODE_DETAILS_BY_ZIPCODE = "GET_ZIPCODE_DETAILS_BY_ZIPCODE";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,9 +51,9 @@ public class Zipcodes extends AbstractEntity {
 	private String areaId;
 	
 
-	@OneToMany
+	/*@OneToMany
 	@JoinColumn(name = "A_ID")
-	private Set<Area> area;
+	private Set<Area> area;*/
 
 	
 	/**
@@ -127,17 +138,17 @@ public class Zipcodes extends AbstractEntity {
 	
 	/**
 	 * @return the area
-	 */
+	 *//*
 	public Set<Area> getArea() {
 		return area;
 	}
 
-	/**
+	*//**
 	 * @param area the area to set
-	 */
+	 *//*
 	public void setArea(Set<Area> area) {
 		this.area = area;
-	}
+	}*/
 
 	/**
 	 * @param zipId the zipId to set

@@ -141,3 +141,15 @@ div.block .input{
 .searchDashboard{
 	padding-top:13px;
 }
+
+.icon-text{
+	float:left;
+	width:80%;
+}
+
+.icon-img{
+	vertical-align:bottom;
+}
+.help-block {
+	float:left;
+}

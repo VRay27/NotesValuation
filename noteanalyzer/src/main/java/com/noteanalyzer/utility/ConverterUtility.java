@@ -11,6 +11,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.noteanalyzer.entity.address.Zipcodes;
 import com.noteanalyzer.entity.notes.Note;
 import com.noteanalyzer.entity.notes.NoteType;
 import com.noteanalyzer.entity.notes.PropertyType;
@@ -137,6 +138,20 @@ public class ConverterUtility {
 			}
 		}
 		return summaryModelList;
+	}
+
+	public static AddressModel convertZipCodeWithAddress(List<Zipcodes> zipcodeDetailsList) {
+		List<String> cityList =  new ArrayList<>();
+		List<String> stateList =  new ArrayList<>();
+		AddressModel model  = new AddressModel();
+		for(Zipcodes zip : zipcodeDetailsList){
+			
+			cityList.add(zip.getCity());
+			stateList.add(zip.getState());
+		}
+		 model.setStateList(stateList);
+		 model.setCityList(cityList);
+		 return model;
 	}
 
 }

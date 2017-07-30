@@ -20,12 +20,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.noteanalyzer.entity.notes.NoteConfiguration;
+import com.noteanalyzer.mvc.model.AddressModel;
 import com.noteanalyzer.mvc.model.UserModel;
 import com.noteanalyzer.mvc.service.EmailService;
 import com.noteanalyzer.mvc.service.NoteService;
@@ -186,6 +188,18 @@ public class UserRestController {
 			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
 		}
 
+	}
+	
+	
+	@RequestMapping(value = "getZipCodeDetails/{zipCode}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<AddressModel> getZipCodeDetails(@PathVariable String zipCode) {
+		System.out.println("Fetching Zip Code details with zipCode " + zipCode);
+		Optional<AddressModel> address = noteService.getZipCodeDetails(zipCode);
+		if (address.isPresent()) {
+			return new ResponseEntity<AddressModel>(address.get(), HttpStatus.OK);
+		}
+		System.out.println("ZipCode with userName " + address + " not found");
+		return new ResponseEntity<AddressModel>(HttpStatus.NOT_FOUND);
 	}
 
 }

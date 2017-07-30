@@ -10,10 +10,23 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q', '$rootScope', '$uibModa
 		editNote : editNote,
 		uploadNoteFile : uploadNoteFile,
 		noteCalculator : noteCalculator,
-		getGeoDetails : getGeoDetails
+		getGeoDetails : getGeoDetails,
+		noteInputFormModelService : noteInputFormModelService,
 	};
 
 	return factory;
+	
+	function noteInputFormModelService(){
+		var noteInputFormModel;
+		return {
+			setInputFormModel : function(model){
+				noteInputFormModel = model;
+			},
+			getInputFormModel : function(){
+				return noteInputFormModel;
+			}
+		}
+	}
 
 	function noteCalculator(noteInputFormModel) {
 		 var principal = noteInputFormModel.upb;
@@ -122,25 +135,20 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q', '$rootScope', '$uibModa
 	
 	function noteAnalyze(noteInputFormModel) {
 		WaitingDialog.show();
-		$http.post('analyzeNote' , noteInputFormModel).then(function(response) {
-			var noteInputFormModel = response.data;
-			var modalInstance = $uibModal.open({
-				templateUrl : 'static/template/note-form.html',
-				controller : 'noteInputFormController',
-				resolve : {
-					'noteInputFormModel' : noteInputFormModel
+		var deferred = $q.defer();
+		$http.post('analyzeNote' , noteInputFormModel).then(
+				function(response) {
+					deferred.resolve(response.data);
+				},
+				function(errResponse) {
+					console.error('Error while creating note');
+					deferred.reject(errResponse);
 				}
-			});
-			modalInstance.result.then(function(response) {
-				$rootScope.submitInputFormModel = response;
-			}, function() {
-				console.log('Modal dismissed at: ' + new Date());
-			});
-		}, function(response) {
-			toastr.error('Unable to process your request');
-		}).then(function() {
-			WaitingDialog.hide();
-		});
+		).then(
+				function() {
+					WaitingDialog.hide();
+				});
+		return deferred.promise;
 	}
 	
 	function uploadNoteFile(file, uploadUrl) {

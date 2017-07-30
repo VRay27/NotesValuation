@@ -1,10 +1,14 @@
 var noteApp = angular.module('NoteApp');
 noteApp.controller('HomeCtrl', function($scope, $stateParams, $state,$document, $auth, $http, $uibModal, toastr, $rootScope, noteUploadAPI, NoteService,UtilityService) {
 	$scope.noteAnalyzed = function() {
-		NoteService.getGeoDetails($scope.zipCode).then(function(noteInputFormModel){
-			NoteService.noteAnalyze(noteInputFormModel);
+		var noteInputFormModel = {};
+		noteInputFormModel.address = {};
+		 noteInputFormModel.address.zipCode = $scope.zipCode;
+		NoteService.noteAnalyze(noteInputFormModel).then(function() {
+			NoteService.noteInputFormModelService.setInputFormModel(noteInputFormModel);
+			$state.go('noteInputForm');
 		},function(errResponse) {
-			toastr.error('Error while fetching location details');
+			toastr.error('Error while fetching details for this note.');
 		});
 		
 	};
@@ -78,8 +82,9 @@ noteApp.controller('HomeCtrl', function($scope, $stateParams, $state,$document, 
 	
 });
 
-noteApp.controller('noteInputFormController', function($scope, $rootScope, $state, $uibModalInstance, noteInputFormModel, $auth, $filter,NoteService) {
-	$scope.noteInputFormModel = noteInputFormModel;
+noteApp.controller('noteInputFormController', function($scope, $rootScope, $state, $uibModalInstance, $auth, $filter,NoteService) {
+	
+	$scope.noteInputFormModel = NoteService.noteInputFormModelService.getInputFormModel();
 	$scope.hasError = function(field, validation) {
 		if (validation) {
 			return ($scope.noteInputForm[field].$dirty && $scope.noteInputForm[field].$error[validation]) || ($scope.submitted && $scope.noteInputForm[field].$error[validation]);

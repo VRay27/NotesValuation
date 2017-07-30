@@ -29,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.noteanalyzer.mvc.model.AddressModel;
 import com.noteanalyzer.mvc.model.CityModel;
 import com.noteanalyzer.mvc.model.NoteDetailModel;
 import com.noteanalyzer.mvc.model.NoteInputFormModel;
@@ -70,7 +71,12 @@ public class NoteRestController {
 		if (StringUtils.isEmpty(zipCode)) {
 			return new ResponseEntity<NoteInputFormModel>(HttpStatus.NOT_FOUND);
 		}
-
+		System.out.println("Fetching Zip Code details with zipCode " + zipCode);
+		Optional<AddressModel> address = noteService.getZipCodeDetails(zipCode);
+		if (!address.isPresent()) {
+			return new ResponseEntity<NoteInputFormModel>(HttpStatus.NOT_FOUND);
+		}
+		noteInputFormModel.setAddress(address.get());
 
 		Optional<List<NoteTypeModel>> noteTypeModelList = noteService.getNoteType();
 		if (noteTypeModelList.isPresent()) {

@@ -6,18 +6,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import com.noteanalyzer.dao.GenericDao;
+import com.noteanalyzer.entity.address.Zipcodes;
 import com.noteanalyzer.entity.notes.Note;
 import com.noteanalyzer.entity.notes.NoteConfiguration;
 import com.noteanalyzer.entity.notes.NoteType;
 import com.noteanalyzer.entity.notes.Parameters;
 import com.noteanalyzer.entity.notes.Property;
 import com.noteanalyzer.entity.notes.PropertyType;
+import com.noteanalyzer.mvc.model.AddressModel;
 import com.noteanalyzer.mvc.model.NoteInputFormModel;
 import com.noteanalyzer.mvc.model.NoteSummaryModel;
 import com.noteanalyzer.mvc.model.NoteTypeModel;
@@ -129,4 +132,18 @@ public class NoteServiceImpl implements NoteService {
 		}
 		return null;
 	}
+	
+	@Override
+	public Optional<AddressModel> getZipCodeDetails(String zipCode) {
+		Map<String, Object> parameters = new HashMap<>();
+		parameters.put("zipCode", StringUtils.lowerCase(zipCode));
+	
+		List<Zipcodes> zipcodeDetails = genericDao.getResultByNamedQuery(Zipcodes.class, Zipcodes.GET_ZIPCODE_DETAILS_BY_ZIPCODE, parameters);
+		if (!CollectionUtils.isEmpty(zipcodeDetails)) {
+			AddressModel addressModel = ConverterUtility.convertZipCodeWithAddress(zipcodeDetails);
+			return Optional.of(addressModel);
+		}
+		return Optional.empty();
+	}
+
 }
