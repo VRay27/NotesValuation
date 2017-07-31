@@ -46,6 +46,8 @@ public class ConverterUtility {
 		user.setVerificationToken(userModel.getVerificationToken());
 		user.setVerificationTokenCreationTime(ZonedDateTime.now());
 		user.setIsActive("IA");
+		user.setCreateDate(ZonedDateTime.now());
+		user.setUpdateDate(ZonedDateTime.now());
 		return user;
 	}
 

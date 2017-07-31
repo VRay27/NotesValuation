@@ -91,7 +91,7 @@ noteApp.config(function($stateProvider, $urlRouterProvider) {
 		}).state('noteInputForm', {
 			url : '/noteInputForm',
 			templateUrl : 'static/template/note-form-new.html',
-			controller : 'noteInputFormController',
+			/*controller : 'noteInputFormController',*/
 			cache: false,
 			resolve : {
 				skipIfLoggedIn : skipIfLoggedIn
@@ -185,6 +185,10 @@ noteApp.run(function($rootScope, $state, $location, $auth){
         }
     });
 });
+
+noteApp.config(['$compileProvider', function ($compileProvider) {
+	  $compileProvider.debugInfoEnabled(true);
+	}]);
 
 noteApp.factory('$auth', function($window,$state,toastr) {
 	var auth = this;

@@ -123,14 +123,20 @@ public class NoteServiceImpl implements NoteService {
 		if(userEmailId == null){
 			userEmailId = NoteUtility.getLoggedInUserName();
 		}
+		List<Parameters> param =  null;
 		parameters.put("parameterName", parameterName);
+		if(StringUtils.isNotBlank(userEmailId)){
 		parameters.put("emailId", userEmailId);
-		List<Parameters> param = genericDao.getResultByNamedQuery(Parameters.class,
-				Parameters.GET_PARAMETERS_VALUE, parameters);
-		if(param != null){
+		param = genericDao.getResultByNamedQuery(Parameters.class,
+				Parameters.GET_PARAMETERS_VALUE_USER_ID, parameters);
+		}else{
+			param = genericDao.getResultByNamedQuery(Parameters.class,
+					Parameters.GET_PARAMETERS_VALUE, parameters);
+		}
+		if(!CollectionUtils.isEmpty(param)){
 			return param.get(0);
 		}
-		return null;
+		return new Parameters();
 	}
 	
 	@Override

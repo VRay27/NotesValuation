@@ -85,12 +85,12 @@ noteApp.controller('HomeCtrl', function($scope, $stateParams, $state,$document, 
 noteApp.controller('noteInputFormController', function($scope, $rootScope, $state, $auth, $filter,NoteService) {
 	
 	$scope.noteInputFormModel = NoteService.getInputFormModel();
-	$scope.hasError = function(field, validation) {
+	/*$scope.hasError = function(field, validation) {
 		if (validation) {
 			return ($scope.noteInputForm[field].$dirty && $scope.noteInputForm[field].$error[validation]) || ($scope.submitted && $scope.noteInputForm[field].$error[validation]);
 		}
 		return ($scope.noteInputForm[field].$dirty && $scope.noteInputForm[field].$invalid) || ($scope.submitted && $scope.noteInputForm[field].$invalid);
-	};
+	};*/
 
 	$scope.populateNoteInputModelFromJS = function(){
 		var model = $scope.noteInputFormModel 
@@ -118,34 +118,29 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 	};
 	$scope.altInputFormats = ['MM/dd/yyyy'];
 	$scope.createNote = function() {
-		//$scope.populateNoteInputModelFromJS();
+		
+		
 		$scope.noteInputFormModel.noteDate = $filter('date')($scope.noteInputFormModel.noteDate, 'MM/dd/yyyy');
 
 		$scope.submitted = true;
-		if ($scope.noteInputForm.$valid) {
 
 			if ($auth.isAuthenticated()) {
 				$uibModalInstance.close();
 				createNoteService();
 
 			} else {
-				$uibModalInstance.close($scope.noteInputFormModel);
 				$state.go('login', {
 					'referer' : 'home',
 					'loginState' : 'inputNoteForm'
 				});
 			}
-		};
-	};
-	$scope.cancel = function() {
-		$uibModalInstance.dismiss('cancel');
 	};
 
 	function createNoteService() {
 		NoteService.createNote($scope.noteInputFormModel).then(function() {
 			$state.go('noteDashboard');
 		}, function(errResponse) {
-			toastr.error('Error while creating NOTE');
+			toastr.error('Error while creating note');
 		});
 	}
 

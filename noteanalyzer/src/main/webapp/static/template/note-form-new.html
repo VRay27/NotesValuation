@@ -1,10 +1,10 @@
-<div class="container">
+<div class="container" id = "noteInputFormContainer" ng-controller="noteInputFormController">
 	<div class="panel panel-default">
 		<div class="panel-heading">Note Input Form</div>
 		<div class="panel-body">
 		
     
-    <form id="noteInputForm" method="post" class="form-horizontal" ng-submit="createNote()">
+    <form id="noteInputForm"  class="form-horizontal" >
                        <div class="form-group">
                             <label class="col-lg-2 control-label requiredField">Note Type</label>
                             <div class="col-lg-3">
@@ -12,7 +12,7 @@
 					ng-options="noteType.noteTypeValue for noteType in noteInputFormModel.noteTypeList">
                                 </select><span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="There are 3 types of notes: performing, sub-performing and non-performing"></span>
                             </div>
-                             <label class="col-lg-2 control-label requiredField">Original Term</label>
+                             <label class="col-lg-2 control-label">Original Term</label>
                             <div class="col-lg-3">
                                 <input type="text" class="form-control icon-text" name="originalTerm" readonly ng-model="noteInputFormModel.originalTerm"  ng-init="noteInputFormModel.originalTerm=noteInputFormModel.noteTypeList[0].termMonths" />
                                 <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Original term depends upon the note type selection. "></span>
@@ -21,12 +21,12 @@
                        
 						 <div class="form-group">
                             <label class="col-lg-2 control-label requiredField">Zip Code</label>
-                            <div class="col-lg-3">
+                            <div class="col-lg-3 zipCode">
                                 <input type="text" class="form-control icon-text" name="zipCode" ng-model="noteInputFormModel.zipCode"  placeholder="Enter Zip Code" />
                              <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Enter zip code"></span>
                             </div>
                            <label class="col-lg-2 control-label requiredField">City</label>
-                            <div class="col-lg-3">
+                            <div class="col-lg-3 city">
                                 <select class="form-control icon-text" name="city"  
                                 ng-init="noteInputFormModel.selCity=noteInputFormModel.address.cityList[0]"
                                 ng-model="noteInputFormModel.selCity"
@@ -37,12 +37,12 @@
 						
                         <div class="form-group">
                             <label class="col-lg-2 control-label requiredField">Street Address</label>
-                            <div class="col-lg-3">
+                            <div class="col-lg-3 streetAddress">
                                 <input type="text" class="form-control icon-text" name="streetAddress" placeholder="Enter Street Address" ng-model="noteInputFormModel.address.streetAddress" />
 								<span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Enter Street Address"></span>
                             </div>
                             <label class="col-lg-2 control-label requiredField">State</label>
-                             <div class="col-lg-3">
+                             <div class="col-lg-3 state">
                                 <select class="form-control icon-text" name="state"  
                                 ng-init="noteInputFormModel.selState=noteInputFormModel.address.stateList[0]"
                                 ng-model="noteInputFormModel.selState"
@@ -60,8 +60,8 @@
                                 </select><span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Select property type"></span>
                             </div>
                              <label class="col-lg-2 control-label requiredField">Note Date</label>
-                            <div class="col-lg-3">
-                                <input type="text" class="form-control icon-text" name="noteDate" placeholder="Note Date(MM/DD/YYYY)" uib-datepicker-popup="MM/dd/yyyy" ng-model="noteInputFormModel.noteDate" is-open="noteDate.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                            <div class="col-lg-3 noteDate">
+                                <input type="text" class="form-control icon-text" id="selNoteDate" name="noteDate" placeholder="Note Date(MM/DD/YYYY)" uib-datepicker-popup="MM/dd/yyyy" ng-model="noteInputFormModel.noteDate" is-open="noteDate.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
                                 
                                    <div class="input-group-btn noteDateCalAligment">
             					<button type="button" class="btn btn-default calButton" ng-click="noteDate()"><i class="glyphicon glyphicon-calendar"></i></button>
@@ -72,13 +72,13 @@
                           
                         <div class="form-group">
                             <label class="col-lg-2 control-label requiredField">UPB</label>
-                            <div class="col-lg-3">
-                                <input type="text" class="form-control icon-text" name="upb" placeholder="Enter unpaid balance" ng-model="noteInputFormModel.upb" ng-blur="populateNoteInputModelFromJS()" />
+                            <div class="col-lg-3 upb">
+                                <input type="text" class="form-control icon-text" name="upb" id="upb" placeholder="Enter unpaid balance" ng-model="noteInputFormModel.upb" ng-blur="populateNoteInputModelFromJS()" />
                                 <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Enter unpiad balance"></span>
                             </div>
                            <label class="col-lg-2 control-label requiredField">Rate</label>
-                            <div class="col-lg-3">
-                                <input type="text" class="form-control icon-text" name="rate" placeholder="Enter annual interest rate" ng-model="noteInputFormModel.rate" ng-blur="populateNoteInputModelFromJS()"/>
+                            <div class="col-lg-3 rate">
+                                <input type="text" class="form-control icon-text" name="rate" id ="rate" placeholder="Enter annual interest rate" ng-model="noteInputFormModel.rate" ng-blur="populateNoteInputModelFromJS()"/>
                                 <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Enter annual interest rate"></span>
                             </div>
                         </div>
@@ -87,12 +87,12 @@
                           
                         <div class="form-group">
                             <label class="col-lg-2 control-label requiredField">PDI Payment</label>
-                            <div class="col-lg-3">
-                                <input type="text" class="form-control icon-text" name="pdiPayment" placeholder="Enter payment and interest" ng-model="noteInputFormModel.pdiPayment" ng-blur="populateNoteInputModelFromJS()" />
+                            <div class="col-lg-3 pdiPayment">
+                                <input type="text" class="form-control icon-text" name="pdiPayment" id ="pdiPayment" placeholder="Enter payment and interest" ng-model="noteInputFormModel.pdiPayment" ng-blur="populateNoteInputModelFromJS()" />
                                 <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Enter payment and interest"></span>
                             </div>
                            <label class="col-lg-2 control-label requiredField">TDI Payment</label>
-                            <div class="col-lg-3">
+                            <div class="col-lg-3 tdiPayment">
                                 <input type="text" class="form-control icon-text" name="tdiPayment"  placeholder="Enter tax and interest" ng-model="noteInputFormModel.tdiPayment"/>
                                 <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Enter tax and interest"></span>
                             </div>
@@ -101,19 +101,19 @@
                         
                             <div class="form-group">
                             <label class="col-lg-2 control-label requiredField">Original Principal Balance</label>
-                            <div class="col-lg-3">
+                            <div class="col-lg-3 originalPrincipalBal">
                                 <input type="text" class="form-control icon-text" name="originalPrincipalBal" placeholder="Enter Original Principal Balance" ng-model="noteInputFormModel.originalPrincipleBalance" ng-blur="populateNoteInputModelFromJS()"/>
                                 <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Enter  Original Principal Balance"></span>
                             </div>
                             <label class="col-lg-2 control-label requiredField">Sales Price</label>
-                            <div class="col-lg-3">
+                            <div class="col-lg-3 salesPrice">
                                 <input type="text" class="form-control icon-text" name="salesPrice" placeholder="Enter Sales Price" ng-model="noteInputFormModel.salePrice"  />
                                 <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Enter sales price"></span>
                             </div>
                         </div>
                         
                          <div class="form-group">
-                            <label class="col-lg-2 control-label requiredField">Number of Late Payment</label>
+                            <label class="col-lg-2 control-label">Number of Late Payment</label>
                             <div class="col-lg-3">
                                 <input type="text" class="form-control icon-text" name="noOfLatePayment" placeholder="Enter Original Principal Balance" ng-model="noteInputFormModel.noOfLatePayment" />
                                 <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Enter  Number of Late Payment"></span>
@@ -122,9 +122,10 @@
                 
                        <div class="form-group">
                             <div class="col-lg-9 col-lg-offset-2">
-                                <button type="submit" class="btn btn-lg btn-primary" id="createNoteBtn" name="createNote">Create Note</button>
-                                <button class="btn btn-lg btn-info" ng-click="populateNoteInputModelFromJS()">Calculate</button>
-                                <button class="btn btn-lg btn-info" ng-click="Cancel()">Cancel</button>
+                                <input type="button" class= "btn btn-lg btn-primary" id="createNoteBtn"  name="createNote" value="Create Note"/>
+                                <input type="button" class="btn btn-lg btn-info" ng-click="populateNoteInputModelFromJS()" value= "Calculate"/>
+                                <input type="button" class="btn btn-lg btn-info" ng-click="cancel()" value="Cancel" />
+                                 <input type="button" class= "btn" style="visibility: hidden;" id="createNoteBtnHidden"   ng-click ="createNote();" name="createNoteHidden" value="Create Note"/>
                             </div>
                         </div>
                     </form>
@@ -141,8 +142,11 @@ $(document).ready(function() {
     $('#captchaOperation').html([randomNumber(1, 100), '+', randomNumber(1, 200), '='].join(' '));
 
     $('#noteInputForm').bootstrapValidator({
-//        live: 'disabled',
+//       
         message: 'This value is not valid',
+        group:'.col-lg-3',
+        live: 'enabled',
+        excluded: [':disabled', ':hidden', ':not(:visible)'],
         feedbackIcons: {
             valid: 'glyphicon glyphicon-ok',
             invalid: 'glyphicon glyphicon-remove',
@@ -161,15 +165,7 @@ $(document).ready(function() {
                       }
                     },
                },
-            lastName: {
-                group: '.col-lg-4',
-                validators: {
-                    notEmpty: {
-                        message: 'The last name is required and cannot be empty'
-                    }
-                }
-            },
-            username: {
+           /*  username: {
                 message: 'The username is not valid',
                 validators: {
                     notEmpty: {
@@ -194,18 +190,8 @@ $(document).ready(function() {
                         message: 'The username and password cannot be the same as each other'
                     }
                 }
-            },
-            email: {
-                validators: {
-                    notEmpty: {
-                        message: 'The email address is required and can\'t be empty'
-                    },
-                    emailAddress: {
-                        message: 'The input is not a valid email address'
-                    }
-                }
-            },
-            password: {
+            }, */
+           /*  password: {
                 validators: {
                     notEmpty: {
                         message: 'The password is required and cannot be empty'
@@ -234,7 +220,7 @@ $(document).ready(function() {
                         message: 'The password cannot be the same as username'
                     }
                 }
-            },
+            }, */
             noteDate: {
                 validators: {
                      notEmpty: {
@@ -243,34 +229,6 @@ $(document).ready(function() {
                     date: {
                         format: 'MM/DD/YYYY',
                         message: 'The note date is not in valid format'
-                    }
-                }
-            },
-            noteType: {
-                validators: {
-                    notEmpty: {
-                        message: 'The note type is required and can\'t be empty.'
-                    }
-                }
-            },
-            propertyType: {
-                validators: {
-                    notEmpty: {
-                        message: 'The property type is required and can\'t be empty.'
-                    }
-                }
-            },
-            city: {
-                validators: {
-                    notEmpty: {
-                        message: 'The city is required and can\'t be empty.'
-                    }
-                }
-            },
-            state: {
-                validators: {
-                    notEmpty: {
-                        message: 'The state is required and can\'t be empty.'
                     }
                 }
             },
@@ -403,10 +361,29 @@ $(document).ready(function() {
     });
 
     // Validate the form manually
-    $('#createNoteBtn').click(function() {
-        $('#noteInputForm').bootstrapValidator('validate');
-    });
-
+   $('#createNoteBtn').click(function() {
+        if($('#noteInputForm').bootstrapValidator('validate').has('.has-error').length){
+    	alert('something woring')
+    		        	return false;
+    	}else{
+    		$("#createNoteBtnHidden").trigger( "click" );
+    	};
+        });
+    
+   $('#noteInputForm').click(function(){
+	   if($('#selNoteDate').val()!=''){
+	   	$('#noteInputForm').bootstrapValidator('revalidateField', 'noteDate');
+	   }
+	   if($('#upb').val()!=''){
+	   $('#noteInputForm').bootstrapValidator('revalidateField', 'upb');
+	   }
+	   if($('#rate').val()!=''){
+	   $('#noteInputForm').bootstrapValidator('revalidateField', 'rate');
+	   }
+	   if($('#pdiPayment').val()!=''){
+	   $('#noteInputForm').bootstrapValidator('revalidateField', 'payment');
+	   }
+	 });
   
 });
 </script>

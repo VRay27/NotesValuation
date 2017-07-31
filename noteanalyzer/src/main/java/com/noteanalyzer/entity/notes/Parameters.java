@@ -16,11 +16,13 @@ import lombok.ToString;
 @Entity
 @Table(name="PARAMETERS")
 @ToString(callSuper = true)
-@NamedQueries({ @NamedQuery(name = "GET_PARAMETERS_VALUE",query="select p from Parameters p, User u  where u.userId = p.userId and u.userId =:userId and p.parameterName =:parameterName")})
+@NamedQueries({ @NamedQuery(name = "GET_PARAMETERS_VALUE_USER_ID",query="select p from Parameters p, User u  where u.userId = p.userId and u.userId =:userId and p.parameterName =:parameterName"),
+	@NamedQuery(name = "GET_PARAMETERS_VALUE",query="select p from Parameters p  where  p.parameterName =:parameterName")})
 public class Parameters extends AbstractEntity { 
 	
 	private static final long serialVersionUID = 3337645236789480204L;
 	
+	public static final String GET_PARAMETERS_VALUE_USER_ID = "GET_PARAMETERS_VALUE_USER_ID";
 	public static final String GET_PARAMETERS_VALUE = "GET_PARAMETERS_VALUE";
 	
 	@Id
@@ -35,7 +37,7 @@ public class Parameters extends AbstractEntity {
 	private int userId;
     
     @Column(name="PARAMETER_VALUE")
-	private double parameterValue;
+	private String parameterValue;
     
     @Column(name="MODIFYABLE")
 	private String modifyable;
@@ -78,17 +80,18 @@ public class Parameters extends AbstractEntity {
 		this.userId = userId;
 	}
 
+	
 	/**
 	 * @return the parameterValue
 	 */
-	public double getParameterValue() {
+	public String getParameterValue() {
 		return parameterValue;
 	}
 
 	/**
 	 * @param parameterValue the parameterValue to set
 	 */
-	public void setParameterValue(double parameterValue) {
+	public void setParameterValue(String parameterValue) {
 		this.parameterValue = parameterValue;
 	}
 

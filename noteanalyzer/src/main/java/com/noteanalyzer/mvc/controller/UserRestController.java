@@ -92,19 +92,8 @@ public class UserRestController {
 				RandomStringUtils.randomAlphanumeric(40).toUpperCase());
 		inputUser.setVerificationToken(verificationToken);
 		userService.createUser(inputUser);
-		List<String> configCodeList = new ArrayList<>();
-		configCodeList.add(CREATE_USER_EMAIL_SUBJECT);
-		configCodeList.add(CREATE_USER_EMAIL_CONTENT_BODY);
-		List<NoteConfiguration> configList = noteService.getConfigValue(configCodeList);
-		String subject = null;
-		String bodyText = null;
-		for (NoteConfiguration config : configList) {
-			if (CREATE_USER_EMAIL_SUBJECT.equals(config.getConfigCode())) {
-				subject = config.getConfigValue();
-			} else if (CREATE_USER_EMAIL_CONTENT_BODY.equals(config.getConfigCode())) {
-				bodyText = config.getConfigValue();
-			}
-		}
+		String subject =  noteService.getParameterValue(CREATE_USER_EMAIL_SUBJECT,null).getParameterValue();
+		String bodyText =  noteService.getParameterValue(CREATE_USER_EMAIL_CONTENT_BODY,null).getParameterValue();
 		bodyText = bodyText + "<p>" + baseUrl + "/notes/verifyUser?verificationToken=" + verificationToken + "</p>";
 		if (emailService.sendEmail(inputUser.getEmail(), subject, bodyText)) {
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
@@ -168,19 +157,8 @@ public class UserRestController {
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 		}
 		String resetToken = NoteUtility.encodeResetToken(inputUser.getUsername(), userModel.get().getResetToken());
-		List<String> configCodeList = new ArrayList<>();
-		configCodeList.add(FORGOT_PASSWORD_EMAIL_SUBJECT);
-		configCodeList.add(FORGOT_PASSWORD_EMAIL_CONTENT_BODY);
-		List<NoteConfiguration> configList = noteService.getConfigValue(configCodeList);
-		String subject = null;
-		String bodyText = null;
-		for (NoteConfiguration config : configList) {
-			if (FORGOT_PASSWORD_EMAIL_SUBJECT.equals(config.getConfigCode())) {
-				subject = config.getConfigValue();
-			} else if (FORGOT_PASSWORD_EMAIL_CONTENT_BODY.equals(config.getConfigCode())) {
-				bodyText = config.getConfigValue();
-			}
-		}
+		String subject = noteService.getParameterValue(FORGOT_PASSWORD_EMAIL_SUBJECT, null).getParameterValue();
+		String bodyText = noteService.getParameterValue(FORGOT_PASSWORD_EMAIL_CONTENT_BODY, null).getParameterValue();
 		bodyText = bodyText + "<p>" + baseUrl + "/notes/#!/changePassword?resetToken=" + resetToken + "</p>";
 		if (emailService.sendEmail(inputUser.getUsername(), subject, bodyText)) {
 			return new ResponseEntity<Void>(HttpStatus.OK);
