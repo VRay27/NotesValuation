@@ -122,6 +122,9 @@ html, body {
 		<ul  class="nav navbar-nav">
 			<li><a href="/notes/#!/calculator">Calculator</a></li>
 		</ul>
+		<ul  class="nav navbar-nav">
+			<li><a href="/notes/#!/noteDetail">Note Detail</a></li>
+		</ul>
 		<!-- ng-if="isAuthenticated()" -->
 		<ul  class="nav navbar-nav pull-right">
 			<li><a href="/notes/#!/login">Login</a></li>

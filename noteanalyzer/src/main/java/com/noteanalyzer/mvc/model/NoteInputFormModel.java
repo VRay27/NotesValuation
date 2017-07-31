@@ -37,6 +37,8 @@ public class NoteInputFormModel implements Serializable {
 	private String selState;
 	private String zipCode;
 	
+	private Integer noOfLatePayment;
+	
 
 	/**
 	 * @return the noteTypeList
@@ -350,6 +352,20 @@ public class NoteInputFormModel implements Serializable {
 	 */
 	public void setZipCode(String zipCode) {
 		this.zipCode = zipCode;
+	}
+
+	/**
+	 * @return the noOfLatePayment
+	 */
+	public Integer getNoOfLatePayment() {
+		return noOfLatePayment;
+	}
+
+	/**
+	 * @param noOfLatePayment the noOfLatePayment to set
+	 */
+	public void setNoOfLatePayment(Integer noOfLatePayment) {
+		this.noOfLatePayment = noOfLatePayment;
 	}
 
 

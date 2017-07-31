@@ -98,6 +98,11 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 		$scope.noteInputFormModel = model;
 	};
 	
+	$scope.cancel = function(){
+		$scope.noteInputFormModel = {};
+		$state.go('home');
+	}
+	
 	$scope.dateOptions = {
 		formatYear : 'yy',
 		maxDate : new Date(2100, 12, 31),
@@ -112,9 +117,9 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 		$scope.noteDate.opened = true;
 	};
 	$scope.altInputFormats = ['MM/dd/yyyy'];
-	$scope.save = function() {
-		$scope.populateNoteInputModelFromJS();
-		noteInputFormModel.noteDate = $filter('date')(noteInputFormModel.noteDate, 'MM/dd/yyyy');
+	$scope.createNote = function() {
+		//$scope.populateNoteInputModelFromJS();
+		$scope.noteInputFormModel.noteDate = $filter('date')($scope.noteInputFormModel.noteDate, 'MM/dd/yyyy');
 
 		$scope.submitted = true;
 		if ($scope.noteInputForm.$valid) {

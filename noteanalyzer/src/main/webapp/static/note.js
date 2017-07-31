@@ -111,6 +111,19 @@ noteApp.config(function($stateProvider, $urlRouterProvider) {
 				loginRequired : loginRequired,
 				skipIfLoggedIn : skipIfLoggedIn
 			}
+		}).state('noteDetail', {
+			url : '/noteDetail',
+			templateUrl : 'static/template/noteDetailNew.html',
+			controller : 'noteInputFormController',
+			cache: false,
+			params : {
+				'referer' : null,
+				'loginState' : null
+			},
+			resolve : {
+				loginRequired : loginRequired,
+				skipIfLoggedIn : skipIfLoggedIn
+			}
 		}).state('calculator', {
 			url : '/calculator',
 			templateUrl : 'static/template/calculator.html',

@@ -153,3 +153,15 @@ div.block .input{
 .help-block {
 	float:left;
 }
+
+.noteDetailContainer{
+	background:white;
+}
+#accordion{
+	margin-top: 20px;
+}
+
+.panel-heading.active {
+    background-color: lightskyblue !important;
+    text-transform : none !important;
+}

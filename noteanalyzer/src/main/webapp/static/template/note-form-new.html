@@ -14,7 +14,7 @@
                             </div>
                              <label class="col-lg-2 control-label requiredField">Original Term</label>
                             <div class="col-lg-3">
-                                <input type="text" class="form-control icon-text" name="originalTerm" readonly ng-model="noteInputFormModel.selNoteType.termMonths"/>
+                                <input type="text" class="form-control icon-text" name="originalTerm" readonly ng-model="noteInputFormModel.originalTerm"  ng-init="noteInputFormModel.originalTerm=noteInputFormModel.noteTypeList[0].termMonths" />
                                 <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Original term depends upon the note type selection. "></span>
                             </div>
                         </div>
@@ -73,12 +73,12 @@
                         <div class="form-group">
                             <label class="col-lg-2 control-label requiredField">UPB</label>
                             <div class="col-lg-3">
-                                <input type="text" class="form-control icon-text" name="upb" placeholder="Enter unpaid balance" ng-model="noteInputFormModel.upb" />
+                                <input type="text" class="form-control icon-text" name="upb" placeholder="Enter unpaid balance" ng-model="noteInputFormModel.upb" ng-blur="populateNoteInputModelFromJS()" />
                                 <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Enter unpiad balance"></span>
                             </div>
                            <label class="col-lg-2 control-label requiredField">Rate</label>
                             <div class="col-lg-3">
-                                <input type="text" class="form-control icon-text" name="rate" placeholder="Enter annual interest rate" ng-model="noteInputFormModel.rate"/>
+                                <input type="text" class="form-control icon-text" name="rate" placeholder="Enter annual interest rate" ng-model="noteInputFormModel.rate" ng-blur="populateNoteInputModelFromJS()"/>
                                 <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Enter annual interest rate"></span>
                             </div>
                         </div>
@@ -88,7 +88,7 @@
                         <div class="form-group">
                             <label class="col-lg-2 control-label requiredField">PDI Payment</label>
                             <div class="col-lg-3">
-                                <input type="text" class="form-control icon-text" name="pdiPayment" placeholder="Enter payment and interest" ng-model="noteInputFormModel.pdiPayment" />
+                                <input type="text" class="form-control icon-text" name="pdiPayment" placeholder="Enter payment and interest" ng-model="noteInputFormModel.pdiPayment" ng-blur="populateNoteInputModelFromJS()" />
                                 <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Enter payment and interest"></span>
                             </div>
                            <label class="col-lg-2 control-label requiredField">TDI Payment</label>
@@ -102,7 +102,7 @@
                             <div class="form-group">
                             <label class="col-lg-2 control-label requiredField">Original Principal Balance</label>
                             <div class="col-lg-3">
-                                <input type="text" class="form-control icon-text" name="originalPrincipalBal" placeholder="Enter Original Principal Balance" ng-model="noteInputFormModel.originalPrincipleBalance" />
+                                <input type="text" class="form-control icon-text" name="originalPrincipalBal" placeholder="Enter Original Principal Balance" ng-model="noteInputFormModel.originalPrincipleBalance" ng-blur="populateNoteInputModelFromJS()"/>
                                 <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Enter  Original Principal Balance"></span>
                             </div>
                             <label class="col-lg-2 control-label requiredField">Sales Price</label>
@@ -112,35 +112,18 @@
                             </div>
                         </div>
                         
-
-                 <!--        
-                        <div class="form-group">
-                            <label class="col-lg-2 control-label requiredField">Birthday</label>
+                         <div class="form-group">
+                            <label class="col-lg-2 control-label requiredField">Number of Late Payment</label>
                             <div class="col-lg-3">
-                                <input type="text" class="form-control icon-text" name="birthday" /> (YYYY/MM/DD)
+                                <input type="text" class="form-control icon-text" name="noOfLatePayment" placeholder="Enter Original Principal Balance" ng-model="noteInputFormModel.noOfLatePayment" />
+                                <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Enter  Number of Late Payment"></span>
                             </div>
                         </div>
- -->
-                                           
-                        
-                        <!-- <div class="form-group">
-                            <label class="col-lg-2 control-label requiredField">Country</label>
-                            <div class="col-lg-3">
-                                <select class="form-control" name="country">
-                                    <option value="">-- Select a country --</option>
-                                    <option value="fr">France</option>
-                                    <option value="de">Germany</option>
-                                    <option value="it">Italy</option>
-                                    <option value="jp">Japan</option>
-                                    <option value="ru">Russia</option>
-                                    <option value="gb">United Kingdom</option>
-                                    <option value="us">United State</option>
-                                </select>
-                            </div>
-                        </div> -->
+                
                        <div class="form-group">
                             <div class="col-lg-9 col-lg-offset-2">
-                                <button type="submit" class="btn btn-lg btn-primary" id="createNoteBtn" name="createNote" >Create Note</button>
+                                <button type="submit" class="btn btn-lg btn-primary" id="createNoteBtn" name="createNote">Create Note</button>
+                                <button class="btn btn-lg btn-info" ng-click="populateNoteInputModelFromJS()">Calculate</button>
                                 <button class="btn btn-lg btn-info" ng-click="Cancel()">Cancel</button>
                             </div>
                         </div>
