@@ -16,7 +16,7 @@ import lombok.ToString;
 @Entity
 @Table(name="PARAMETERS")
 @ToString(callSuper = true)
-@NamedQueries({ @NamedQuery(name = "GET_PARAMETERS_VALUE_USER_ID",query="select p from Parameters p, User u  where u.userId = p.userId and u.userId =:userId and p.parameterName =:parameterName"),
+@NamedQueries({ @NamedQuery(name = "GET_PARAMETERS_VALUE_USER_ID",query="select p from Parameters p, User u  where u.userId = p.userId and u.emailID =:emailID and p.parameterName =:parameterName"),
 	@NamedQuery(name = "GET_PARAMETERS_VALUE",query="select p from Parameters p  where  p.parameterName =:parameterName")})
 public class Parameters extends AbstractEntity { 
 	

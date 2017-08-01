@@ -120,13 +120,13 @@ public class NoteServiceImpl implements NoteService {
 	@Override
 	public Parameters getParameterValue(String parameterName, String userEmailId){
 		Map<String, Object> parameters = new HashMap<>();
-		if(userEmailId == null){
+	/*	if(userEmailId == null){
 			userEmailId = NoteUtility.getLoggedInUserName();
-		}
+		}*/
 		List<Parameters> param =  null;
 		parameters.put("parameterName", parameterName);
 		if(StringUtils.isNotBlank(userEmailId)){
-		parameters.put("emailId", userEmailId);
+		parameters.put("emailID", userEmailId);
 		param = genericDao.getResultByNamedQuery(Parameters.class,
 				Parameters.GET_PARAMETERS_VALUE_USER_ID, parameters);
 		}else{

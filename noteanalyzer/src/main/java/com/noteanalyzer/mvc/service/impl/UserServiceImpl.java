@@ -1,5 +1,6 @@
 package com.noteanalyzer.mvc.service.impl;
 
+import static com.noteanalyzer.mvc.constant.NoteConstant.ACTIVE_USER_FLAG;
 import static com.noteanalyzer.mvc.constant.NoteConstant.LOGIN_FAIL;
 import static com.noteanalyzer.mvc.constant.NoteConstant.LOGIN_SUCCESS;
 import static com.noteanalyzer.mvc.constant.NoteConstant.MAX_UNSUCCESSFUL_ATTEMPT;
@@ -15,13 +16,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import com.noteanalyzer.dao.GenericDao;
-import com.noteanalyzer.entity.address.Zipcodes;
 import com.noteanalyzer.entity.notes.Parameters;
 import com.noteanalyzer.entity.user.User;
-import com.noteanalyzer.mvc.model.AddressModel;
 import com.noteanalyzer.mvc.model.UserModel;
 import com.noteanalyzer.mvc.service.NoteService;
 import com.noteanalyzer.mvc.service.UserService;
@@ -34,10 +32,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	GenericDao genericDao;
-	
+
 	@Autowired
 	NoteService noteService;
-
 
 	@Autowired
 	private BCryptPasswordEncoder encoder;
@@ -160,7 +157,7 @@ public class UserServiceImpl implements UserService {
 		if (userOpt.isPresent()) {
 			User user = userOpt.get();
 			if (inputUser.getVerificationToken().equals(user.getVerificationToken())) {
-				user.setIsActive("Y");
+				user.setIsActive(ACTIVE_USER_FLAG);
 				user.setVerificationTokenCreationTime(ZonedDateTime.now());
 				User updatedUser = genericDao.update(user);
 				return Optional.of(ConverterUtility.convertUserToUserModel(updatedUser));
@@ -183,9 +180,10 @@ public class UserServiceImpl implements UserService {
 	public void updateUnsuccessfullAttempt(String loginStatus, long userId, String userEmailId) {
 		User user = genericDao.getById(User.class, userId);
 		if (user != null) {
-			Parameters param = noteService.getParameterValue("MAX_LOGIN_ATTEMPTS", userEmailId);
-			int maxAttemptAllowed =  (int) ((param != null) ? param.getParameterValue() : MAX_UNSUCCESSFUL_ATTEMPT);
-			
+			Parameters param = noteService.getParameterValue("MAX_LOGIN_ATTEMPTS", null);
+			int maxAttemptAllowed = (int) ((param != null && param.getParameterValue() != null)
+					? Integer.valueOf(param.getParameterValue()).intValue() : MAX_UNSUCCESSFUL_ATTEMPT);
+
 			if (LOGIN_FAIL.equalsIgnoreCase(loginStatus)) {
 				long unsuccessfulLoginAttempts = user.getUnsuccessfulLoginAttempts() + 1;
 				if (unsuccessfulLoginAttempts > maxAttemptAllowed) {
