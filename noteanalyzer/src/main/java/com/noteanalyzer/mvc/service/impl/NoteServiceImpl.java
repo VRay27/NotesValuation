@@ -55,21 +55,29 @@ public class NoteServiceImpl implements NoteService {
 		noteAddress.setState(noteModel.getAddress().getState());
 		noteAddress.setStreetAddress(noteModel.getAddress().getStreetAddress());
 		noteAddress.setZipCode(noteModel.getAddress().getZipCode());*/
-
+		
+		Note note = ConverterUtility.convertNoteModelToEntity(noteModel);
 		Map<String, Object> parameters = new HashMap<>();
-		parameters.put("zipCode", Integer.valueOf(noteModel.getAddress().getZipCode()));
-		parameters.put("streetAddress", noteModel.getAddress().getStreetAddress());
-		parameters.put("city", noteModel.getAddress().getCity());
-		parameters.put("state", noteModel.getAddress().getState());
+		parameters.put("zipCode", Integer.valueOf(noteModel.getZipCode()));
+		parameters.put("streetAddress", noteModel.getStreetAddress());
+		parameters.put("city", noteModel.getSelCity());
+		parameters.put("state", noteModel.getSelState());
 		List<Property> propertyList = genericDao.getResultByNamedQuery(Property.class,
 				Property.GET_PROPERTY_DETAILS_BY_ADDRESS, parameters);
-		Property property = null;
-		if (!CollectionUtils.isEmpty(propertyList)) {
+		Property property;
+		if (CollectionUtils.isEmpty(propertyList)) {
+			property = new Property();
+			property.setZip(Integer.valueOf(noteModel.getZipCode()));
+			property.setStreetAddress(noteModel.getStreetAddress());
+			property.setCity(noteModel.getSelCity());
+			property.setState(noteModel.getSelState());
+			property.setPropertyType(noteModel.getSelPropType().getPropertyTypeCode());
+			
+		}else{
 			property = propertyList.get(0);
-		//	noteAddress.setProperty(property);
 		}
-		Note note = ConverterUtility.convertNoteModelToEntity(noteModel);
-		//note.setNoteAddress(noteAddress);
+		
+		note.setPropertyId(property);
 		genericDao.create(note);
 
 	}

@@ -10,16 +10,18 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import static com.noteanalyzer.mvc.constant.NoteConstant.*;
 
 import com.noteanalyzer.entity.AbstractEntity;
+import com.noteanalyzer.mvc.constant.NoteConstant;
 
 import lombok.ToString;
 
 @Entity
 @Table(name = "USER")
 @ToString(callSuper = true)
-@NamedQueries({ @NamedQuery(name = User.GET_IN_ACTIVE_USER_DETAILS, query="select u from User u where lower(u.emailID) =:userName and  u.isActive !='Y'"),
-				@NamedQuery(name = User.GET_ACTIVE_USER_DETAILS, query="select u from User u where lower(u.emailID) =:userName and u.isActive='Y'"),
+@NamedQueries({ @NamedQuery(name = User.GET_IN_ACTIVE_USER_DETAILS, query="select u from User u where lower(u.emailID) =:userName and  u.isActive !='"+ACTIVE_USER_FLAG+"'"),
+				@NamedQuery(name = User.GET_ACTIVE_USER_DETAILS, query="select u from User u where lower(u.emailID) =:userName and u.isActive='"+ACTIVE_USER_FLAG+"'"),
 				@NamedQuery(name = User.GET_USER_DETAILS, query="select u from User u where lower(u.emailID) =:userName")})
 public class User extends AbstractEntity{
 

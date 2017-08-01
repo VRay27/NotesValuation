@@ -1,9 +1,6 @@
 package com.noteanalyzer.mvc.service.impl;
 
-import static com.noteanalyzer.mvc.constant.NoteConstant.ACTIVE_USER_FLAG;
-import static com.noteanalyzer.mvc.constant.NoteConstant.LOGIN_FAIL;
-import static com.noteanalyzer.mvc.constant.NoteConstant.LOGIN_SUCCESS;
-import static com.noteanalyzer.mvc.constant.NoteConstant.MAX_UNSUCCESSFUL_ATTEMPT;
+import static com.noteanalyzer.mvc.constant.NoteConstant.*;
 
 import java.time.ZonedDateTime;
 import java.util.HashMap;
@@ -187,12 +184,12 @@ public class UserServiceImpl implements UserService {
 			if (LOGIN_FAIL.equalsIgnoreCase(loginStatus)) {
 				long unsuccessfulLoginAttempts = user.getUnsuccessfulLoginAttempts() + 1;
 				if (unsuccessfulLoginAttempts > maxAttemptAllowed) {
-					user.setUnsuccessfulLoginAttempts(unsuccessfulLoginAttempts);
-					user.setIsActive("B");
-				} else if (LOGIN_SUCCESS.equalsIgnoreCase(loginStatus)) {
-					user.setUnsuccessfulLoginAttempts(new Long(0));
-					user.setIsActive("A");
+					user.setIsActive(BLOCK_USER_FLAG);
 				}
+				user.setUnsuccessfulLoginAttempts(unsuccessfulLoginAttempts);
+			} else if (LOGIN_SUCCESS.equalsIgnoreCase(loginStatus)) {
+				user.setUnsuccessfulLoginAttempts(new Long(0));
+				user.setIsActive(ACTIVE_USER_FLAG);
 			}
 			genericDao.update(user);
 		}

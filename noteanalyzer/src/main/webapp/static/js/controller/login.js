@@ -66,6 +66,7 @@ app.service("loginService", function($http, $q, WaitingDialog) {
 			}).then(
 			function() {
 				WaitingDialog.hide();
+				return deferred.promise;
 			});
 
 	};
@@ -82,6 +83,7 @@ app.service("loginService", function($http, $q, WaitingDialog) {
 			}).then(
 			function() {
 				WaitingDialog.hide();
+				return deferred.promise;
 			});
 
 	};

@@ -15,8 +15,8 @@ import lombok.ToString;
 @Entity
 @Table(name="PROPERTY")
 @ToString(callSuper = true)
-@NamedQueries({ @NamedQuery(name = Property.GET_PROPERTY_DETAILS_BY_ID,query="select p from Property p where p.propertyId =:propertyId")/*,
-	 			@NamedQuery(name = Property.GET_PROPERTY_DETAILS_BY_ADDRESS,query="select p from Property p where p.street =:streetAddress and p.zip =:zipCode and p.state =:state and p.city=:city")*/})
+@NamedQueries({ @NamedQuery(name = Property.GET_PROPERTY_DETAILS_BY_ID,query="select p from Property p where p.propertyId =:propertyId"),
+	 			@NamedQuery(name = Property.GET_PROPERTY_DETAILS_BY_ADDRESS,query="select p from Property p where p.streetAddress =:streetAddress and p.zip =:zipCode and p.state =:state and p.city=:city")})
 public class Property extends AbstractEntity {
 	private static final long serialVersionUID = 6408731281219126859L;
 
@@ -56,13 +56,13 @@ public class Property extends AbstractEntity {
 	private String subdividable;
 	
 	
-	@Column(name="OTHER_HIGH_PRIORITY_DEBT")
+	@Column(name="OTHER_HIGHER_PRIORITY_DEBT")
 	private Integer	otherHigherPriorityDebt;
 	
-	@Column(name="OTHER_LOW_PRIORITY_DEBT")
+	@Column(name="OTHER_LOWER_PRIORITY_DEBT")
 	private Integer OtherLowerPriorityDebt;
 	
-	@Column(name="OTH_MONTH_EXPENSES")
+	@Column(name="Other_Monthly_expenses")
 	private Integer otherMonthlyExpenses;
 
 	/**

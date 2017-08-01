@@ -14,6 +14,8 @@ public class NoteInputFormModel implements Serializable {
 	 */
 	private static final long serialVersionUID = 7343742294405817564L;
 
+	private long userId;
+	
 	private List<NoteTypeModel> noteTypeList;
 	private NoteTypeModel selNoteType;
 	private List<PropertyTypeModel> propTypeList;
@@ -36,9 +38,28 @@ public class NoteInputFormModel implements Serializable {
 	private String selCity;
 	private String selState;
 	private String zipCode;
+	private String streetAddress;
 	
 	private Integer noOfLatePayment;
 	
+	private int borrowerCreditScore;
+	
+	
+	
+
+	/**
+	 * @return the borrowerCreditScore
+	 */
+	public int getBorrowerCreditScore() {
+		return borrowerCreditScore;
+	}
+
+	/**
+	 * @param borrowerCreditScore the borrowerCreditScore to set
+	 */
+	public void setBorrowerCreditScore(int borrowerCreditScore) {
+		this.borrowerCreditScore = borrowerCreditScore;
+	}
 
 	/**
 	 * @return the noteTypeList
@@ -368,6 +389,33 @@ public class NoteInputFormModel implements Serializable {
 		this.noOfLatePayment = noOfLatePayment;
 	}
 
+	/**
+	 * @return the streetAddress
+	 */
+	public String getStreetAddress() {
+		return streetAddress;
+	}
+
+	/**
+	 * @param streetAddress the streetAddress to set
+	 */
+	public void setStreetAddress(String streetAddress) {
+		this.streetAddress = streetAddress;
+	}
+
+	/**
+	 * @return the userId
+	 */
+	public long getUserId() {
+		return userId;
+	}
+
+	/**
+	 * @param userId the userId to set
+	 */
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
 
 
 }

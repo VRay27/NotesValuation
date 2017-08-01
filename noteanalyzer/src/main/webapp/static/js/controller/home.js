@@ -82,7 +82,7 @@ noteApp.controller('HomeCtrl', function($scope, $stateParams, $state,$document, 
 	
 });
 
-noteApp.controller('noteInputFormController', function($scope, $rootScope, $state, $auth, $filter,NoteService) {
+noteApp.controller('noteInputFormController', function($scope, $rootScope, $state, $auth, $filter,NoteService,toastr) {
 	
 	$scope.noteInputFormModel = NoteService.getInputFormModel();
 	/*$scope.hasError = function(field, validation) {
@@ -125,9 +125,7 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 		$scope.submitted = true;
 
 			if ($auth.isAuthenticated()) {
-				$uibModalInstance.close();
 				createNoteService();
-
 			} else {
 				$state.go('login', {
 					'referer' : 'home',

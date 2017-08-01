@@ -186,9 +186,6 @@ noteApp.run(function($rootScope, $state, $location, $auth){
     });
 });
 
-noteApp.config(['$compileProvider', function ($compileProvider) {
-	  $compileProvider.debugInfoEnabled(true);
-	}]);
 
 noteApp.factory('$auth', function($window,$state,toastr) {
 	var auth = this;

@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigDecimal;
 import java.net.URLConnection;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -38,7 +37,9 @@ import com.noteanalyzer.mvc.model.NoteSummaryModel;
 import com.noteanalyzer.mvc.model.NoteTypeModel;
 import com.noteanalyzer.mvc.model.PropertyTypeModel;
 import com.noteanalyzer.mvc.model.StateModel;
+import com.noteanalyzer.mvc.model.UserModel;
 import com.noteanalyzer.mvc.service.NoteService;
+import com.noteanalyzer.mvc.service.UserService;
 import com.noteanalyzer.utility.NoteUtility;
 
 import au.com.bytecode.opencsv.CSVReader;
@@ -50,6 +51,23 @@ public class NoteRestController {
 
 	@Autowired
 	NoteService noteService;
+	
+	@Autowired
+	UserService userService;
+
+	/**
+	 * @return the userService
+	 */
+	public UserService getUserService() {
+		return userService;
+	}
+
+	/**
+	 * @param userService the userService to set
+	 */
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
 
 	/**
 	 * @return the noteService
@@ -107,13 +125,22 @@ public class NoteRestController {
 
 	@RequestMapping(value = "/api/createNote", method = RequestMethod.POST)
 	public ResponseEntity<String> createNote(@RequestBody NoteInputFormModel noteInputFormModel) {
-
+		String userName = NoteUtility.getLoggedInUserName();
+		Optional<UserModel> loggedInuser = userService.getByUsername(userName);
+		if(loggedInuser.isPresent()){
+			noteInputFormModel.setUserId(loggedInuser.get().getUserId());
+		}else{
+			System.out.println("Error with loggedin user name and ID");
+			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		}
+		
 		System.out.println("Inside POST with ALL value " + noteInputFormModel);
 		try {
 			noteService.createNote(noteInputFormModel);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}

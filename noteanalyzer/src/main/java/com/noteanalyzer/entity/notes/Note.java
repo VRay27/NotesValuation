@@ -2,8 +2,8 @@ package com.noteanalyzer.entity.notes;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.noteanalyzer.entity.AbstractEntity;
@@ -55,9 +55,6 @@ public class Note extends AbstractEntity {
 	@Column(name = "NOTE_POSITION")
 	private Integer notePosition;
 
-	@Column(name = "PROP_TYPE")
-	private String propertyType;
-
 	@Column(name = "BORROWER_CREDIT_SCORE")
 	private String borrowerCreditScore;
 
@@ -71,7 +68,7 @@ public class Note extends AbstractEntity {
 	private BigDecimal termMonths;
 	
 	@Column(name = "LATE_PAYMENTS")
-	private BigDecimal latePayments;
+	private Integer latePayments;
 
 	@Column(name = "SEARCH_NAME")
 	private String searchName;
@@ -93,9 +90,9 @@ public class Note extends AbstractEntity {
 	private BigDecimal propertyValueAtOrigination;
 	
 
-	@OneToMany
+	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "PROPERTY_ID")
-	private Set<Property> propertyId;
+	private Property propertyId;
 
 	/**
 	 * @return the noteId
@@ -195,20 +192,7 @@ public class Note extends AbstractEntity {
 		this.notePosition = notePosition;
 	}
 
-	/**
-	 * @return the propertyType
-	 */
-	public String getPropertyType() {
-		return propertyType;
-	}
-
-	/**
-	 * @param propertyType the propertyType to set
-	 */
-	public void setPropertyType(String propertyType) {
-		this.propertyType = propertyType;
-	}
-
+	
 	/**
 	 * @return the borrowerCreditScore
 	 */
@@ -269,14 +253,14 @@ public class Note extends AbstractEntity {
 	/**
 	 * @return the latePayments
 	 */
-	public BigDecimal getLatePayments() {
+	public Integer getLatePayments() {
 		return latePayments;
 	}
 
 	/**
 	 * @param latePayments the latePayments to set
 	 */
-	public void setLatePayments(BigDecimal latePayments) {
+	public void setLatePayments(Integer latePayments) {
 		this.latePayments = latePayments;
 	}
 
@@ -369,14 +353,14 @@ public class Note extends AbstractEntity {
 	/**
 	 * @return the propertyId
 	 */
-	public Set<Property> getPropertyId() {
+	public Property getPropertyId() {
 		return propertyId;
 	}
 
 	/**
 	 * @param propertyId the propertyId to set
 	 */
-	public void setPropertyId(Set<Property> propertyId) {
+	public void setPropertyId(Property propertyId) {
 		this.propertyId = propertyId;
 	}
 

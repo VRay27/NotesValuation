@@ -74,14 +74,19 @@ public class ConverterUtility {
 	public static Note convertNoteModelToEntity(NoteInputFormModel note) throws ParseException {
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 		Note noteEntity = new Note();
+		noteEntity.setUserId(note.getUserId());
 		noteEntity.setNoteType(note.getSelNoteType().getNoteTypeCode());
-		noteEntity.setPropertyType(note.getSelPropType().getPropertyTypeCode());
+		noteEntity.setFaceValue(note.getOriginalPrincipleBalance());
 		noteEntity.setSalePrice(note.getSalePrice());
 		noteEntity.setOriginationDate(df.parse(note.getNoteDate()));
-		noteEntity.setPerforming(note.getSelPerforming());
-		noteEntity.setNotePosition(note.getNotePosition());
+		//noteEntity.setPerforming(note.getSelPerforming());
+		noteEntity.setPerforming("Y");
+		//noteEntity.setNotePosition(note.getNotePosition());
+		noteEntity.setNotePosition(new Integer(11));
 		noteEntity.setTermMonths(note.getOriginalTerm());
-		
+		noteEntity.setInterestRateInitial(note.getRate());
+		noteEntity.setBorrowerCreditScore(String.valueOf(note.getBorrowerCreditScore()));
+		noteEntity.setLatePayments(note.getNoOfLatePayment());
 		/*noteEntity.setTDI(note.getTdiPayment())));
 		noteEntity.setUnpaidPrincpalBal(BigDecimal.valueOf(Double.valueOf(note.getUpb())));
 		noteEntity.setOriginalTerm(Double.valueOf(note.getOriginalTerm()));
