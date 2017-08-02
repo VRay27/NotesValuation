@@ -79,20 +79,12 @@ public class ConverterUtility {
 		noteEntity.setFaceValue(note.getOriginalPrincipleBalance());
 		noteEntity.setSalePrice(note.getSalePrice());
 		noteEntity.setOriginationDate(df.parse(note.getNoteDate()));
-		//noteEntity.setPerforming(note.getSelPerforming());
-		noteEntity.setPerforming("Y");
-		//noteEntity.setNotePosition(note.getNotePosition());
-		noteEntity.setNotePosition(new Integer(11));
+		noteEntity.setPerforming(note.getPerforming());
+		noteEntity.setNotePosition(note.getNotePosition());
 		noteEntity.setTermMonths(note.getOriginalTerm());
 		noteEntity.setInterestRateInitial(note.getRate());
 		noteEntity.setBorrowerCreditScore(String.valueOf(note.getBorrowerCreditScore()));
 		noteEntity.setLatePayments(note.getNoOfLatePayment());
-		/*noteEntity.setTDI(note.getTdiPayment())));
-		noteEntity.setUnpaidPrincpalBal(BigDecimal.valueOf(Double.valueOf(note.getUpb())));
-		noteEntity.setOriginalTerm(Double.valueOf(note.getOriginalTerm()));
-		noteEntity.setPreDeliveryInspectionPay(BigDecimal.valueOf(Double.valueOf(note.getPdiPayment())));
-		noteEntity.setOriginalPrincipleBal(BigDecimal.valueOf(Double.valueOf(note.getOriginalPrincipleBalance())));
-		*/
 		return noteEntity;
 	}
 
@@ -141,6 +133,8 @@ public class ConverterUtility {
 				 summaryModel.setNoteId(String.valueOf(model.getNoteId()));
 				// summaryModel.setItv(NoteAnalysisService.getITV(purchasePrice, property.getMarketValue()));
 				// summaryModel.setLtv(NoteAnalysisService.getLTV(model.getUnpaidPrincpalBal(),property.getMarketValue()));
+				 summaryModel.setYield("test");
+				 summaryModel.setCrime("crime000");
 
 				summaryModelList.add(summaryModel);
 			}

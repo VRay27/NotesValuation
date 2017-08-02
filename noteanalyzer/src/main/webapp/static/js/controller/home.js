@@ -83,7 +83,7 @@ noteApp.controller('HomeCtrl', function($scope, $stateParams, $state,$document, 
 });
 
 noteApp.controller('noteInputFormController', function($scope, $rootScope, $state, $auth, $filter,NoteService,toastr) {
-	
+	//$rootScope.submitInputFormModel = {};
 	$scope.noteInputFormModel = NoteService.getInputFormModel();
 	/*$scope.hasError = function(field, validation) {
 		if (validation) {
@@ -116,6 +116,12 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 	$scope.noteDate = function() {
 		$scope.noteDate.opened = true;
 	};
+	
+	$scope.performingList = [
+	    {code : "Y", displayValue : "Performing"},
+	    {code : "N", displayValue : "Non-Performing"},
+	    {code : "U", displayValue : "Unknown"}
+	];
 	$scope.altInputFormats = ['MM/dd/yyyy'];
 	$scope.createNote = function() {
 		
@@ -127,6 +133,7 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 			if ($auth.isAuthenticated()) {
 				createNoteService();
 			} else {
+				$rootScope.submitInputFormModel = $scope.noteInputFormModel;
 				$state.go('login', {
 					'referer' : 'home',
 					'loginState' : 'inputNoteForm'

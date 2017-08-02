@@ -1,8 +1,7 @@
-<div class="container">
+<div class="container" data-ng-init="init()">
 	<div class="panel panel-default">
 		<div class="panel-heading">Notes Dashboard</div>
 		<div class="panel-body">
-	
 	<div class="container searchDashboard">
   <a type="button" data-toggle="collapse" href="#search">Click here for Search</a>
   <div id="search" class="collapse">
@@ -76,11 +75,12 @@
   </form>
   </div>
 	</div>
-				<div class="row">
+				
+				<div>
 
 					<div id="serviceGrid" ui-grid-move-columns ui-grid-selection
 						ui-grid-resize-columns ui-grid-pinning ui-grid-exporter
-						ui-grid-auto-resize ui-grid-edit ui-grid="vm.serviceGrid"></div>
+						ui-grid-auto-resize ui-grid-edit ui-grid="vm.serviceGrid" style="text-align:center"></div>
 				</div>
 				<!-- ui-grid-pagination -->
 			</div>

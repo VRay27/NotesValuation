@@ -49,6 +49,8 @@ function NoteDetailCtrl($scope, $http,$auth, $rootScope, $uibModal, RowEditor, u
 	  angular.element(document.querySelector('.collapse')).collapse("hide");
   }
   
+
+  
   vm.serviceGrid = {
     enableRowSelection: true,
     enableRowHeaderSelection: false,
@@ -56,22 +58,14 @@ function NoteDetailCtrl($scope, $http,$auth, $rootScope, $uibModal, RowEditor, u
     enableSorting: false,
     enableFiltering: false,
     enableGridMenu: false,
-    rowHeight: 100,
-  /*        enablePaginationControls:true,
-          paginationPageSizes: [10,25, 50, 75],
-          paginationPageSize: 10,
+    enablePaginationControls:true,
+    paginationPageSizes: [10,25, 50, 75],
+    paginationPageSize: 10,
           
-  */ /*rowTemplate : "<div ng-dblclick=\"grid.appScope.vm.getNoteDetail(grid, row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"*/
+    rowTemplate : "<div ng-dblclick=\"grid.appScope.vm.getNoteDetail(grid, row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
   };
 
-  vm.serviceGrid.columnDefs = [/*{
-    field: 'assetImageURL',
-    displayName: 'Asset Image',
-    enableSorting: false,
-    enableCellEdit: false,
-    enableFiltering: false,
-    cellTemplate: "<div ng-click='grid.appScope.vm.getNoteDetail(grid, row)'><img width=\"100px\" ng-src=\"{{row.entity.assetImgSrc}}\" lazy-src  class=\"img-responsive\"/></div>"
-  }, */ {
+  vm.serviceGrid.columnDefs = [{
     field: 'yield',
     displayName: 'Yield',
     enableSorting: true,
@@ -96,34 +90,39 @@ function NoteDetailCtrl($scope, $http,$auth, $rootScope, $uibModal, RowEditor, u
 	    enableCellEdit: false,
 	    cellTemplate: "<div>{{row.entity.crime}}</div>"
 	  },{
-    field: 'overAllScore',
-    displayName: 'OverAll Score',
+    field: 'marketPrice',
+    displayName: 'Market Price',
     enableSorting: true,
     enableCellEdit: false,
     sort: {
       direction: uiGridConstants.ASC,
       priority: 1,
     },
-    cellTemplate: "<div>{{row.entity.overAllScore}}</div>"
+    cellTemplate: "<div>{{row.entity.marketPrice}}</div>"
   }];
 
-  $http.get('api/fetchAllNotes').then(function(response) {
-	  $scope.vm.serviceGrid.data = response.data;
-  }, function(response) {
-	  $scope.vm.serviceGrid.data = [];
-	  $auth.checkLoginFromServer(response.status);
-  });
+  $scope.init = function(){
+	  $http.get('api/fetchAllNotes').then(function(response) {
+		  $scope.vm.serviceGrid.data = response.data;
+	  }, function(response) {
+		  $scope.vm.serviceGrid.data = [];
+		  $auth.checkLoginFromServer(response.status);
+	  });
+  }
+
 
 }
 
-RowEditor.$inject = ['$http', '$rootScope', '$uibModal','NoteService','toastr'];
-function RowEditor($http, $rootScope, $uibModal,NoteService,toastr) {
+RowEditor.$inject = ['$http', '$rootScope', '$uibModal','NoteService','toastr','$state'];
+function RowEditor($http, $rootScope, $uibModal,NoteService,toastr,$state) {
   var service = {};
   service.getNoteDetail = getNoteDetail;
 
  function getNoteDetail(grid, row) {
 	  NoteService.getNoteDetail(row.entity.noteId).then(function(response) {
-		  $uibModal.open({
+		  NoteService.setNoteDetailModel(response);
+		  $state.go('noteDetail');
+	/*	  $uibModal.open({
 		      templateUrl: 'static/template/note-detail.html',
 		      controller: ['$http','$scope', '$uibModalInstance', 'grid','noteDetailModel', 'row','NoteService','toastr', RowEditCtrl],
 		      controllerAs: 'editCtrl',
@@ -135,7 +134,7 @@ function RowEditor($http, $rootScope, $uibModal,NoteService,toastr) {
 		          return response.data;
 		        }
 		      }
-		    });
+		    });*/
 	  },function(response) {
 		  toastr.error("We are unable to find details for this note. Please try after sometime.")
 

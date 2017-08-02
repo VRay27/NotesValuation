@@ -44,8 +44,23 @@ public class NoteInputFormModel implements Serializable {
 	
 	private int borrowerCreditScore;
 	
+	private String performing;
 	
 	
+
+	/**
+	 * @return the performing
+	 */
+	public String getPerforming() {
+		return performing;
+	}
+
+	/**
+	 * @param performing the performing to set
+	 */
+	public void setPerforming(String performing) {
+		this.performing = performing;
+	}
 
 	/**
 	 * @return the borrowerCreditScore

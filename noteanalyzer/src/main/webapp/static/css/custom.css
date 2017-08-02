@@ -355,7 +355,7 @@ select.ui-grid-filter-select:hover {
   background-color: #ffffff;
 }
 .ui-grid-row:nth-child(even) .ui-grid-cell {
-  background-color: #eaf4f9;
+  
 }
 .ui-grid-row:last-child .ui-grid-cell {
   border-bottom-color: #94c0d2;

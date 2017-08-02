@@ -3,6 +3,7 @@
 
 noteApp.factory('NoteService', ['$http', 'toastr', '$q', '$rootScope', '$uibModal', 'WaitingDialog','UtilityService',function($http, toastr, $q, $rootScope, $uibModal,WaitingDialog,UtilityService) {
 	var noteInputFormModel;
+	var NoteDetailModel;
 	var factory = {
 		createNote : createNote,
 		noteAnalyze : noteAnalyze,
@@ -13,7 +14,11 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q', '$rootScope', '$uibModa
 		noteCalculator : noteCalculator,
 		getGeoDetails : getGeoDetails,
 		setInputFormModel : setInputFormModel,
-		getInputFormModel : getInputFormModel
+		getInputFormModel : getInputFormModel,
+		setNoteDetailModel : setNoteDetailModel,
+		getNoteDetailModel : getNoteDetailModel,
+		
+		
 	};
 
 	return factory;
@@ -23,6 +28,13 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q', '$rootScope', '$uibModa
 	}
 	function getInputFormModel(){
 		return noteInputFormModel;
+	}
+	
+	function setNoteDetailModel(NoteDetailModel){
+		NoteDetailModel = NoteDetailModel;
+	}
+	function getNoteDetailModel(){
+		return NoteDetailModel;
 	}
 
 

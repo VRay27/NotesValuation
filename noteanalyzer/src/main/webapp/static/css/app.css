@@ -160,8 +160,17 @@ div.block .input{
 #accordion{
 	margin-top: 20px;
 }
-
-.panel-heading.active {
-    background-color: lightskyblue !important;
+.ui-grid-row.ui-grid-row-selected > [ui-grid-row] > .ui-grid-cell{
+	background-color:skyblue;
+}
+.noteDetailClass.panel-heading  {
     text-transform : none !important;
+}
+
+.noteDetailClass.panel-heading.active {
+    background-color: #a2dfc7 !important;
+}
+
+.ui-grid-cell{
+	border: 1px solid lightgray;
 }

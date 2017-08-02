@@ -1,4 +1,4 @@
-<div class="container" id = "noteInputFormContainer" ng-controller="noteInputFormController">
+<div class="container" id = "noteInputFormContainer" >
 	<div class="panel panel-default">
 		<div class="panel-heading">Note Input Form</div>
 		<div class="panel-body">
@@ -113,14 +113,33 @@
                         </div>
                         
                          <div class="form-group">
-                            <label class="col-lg-2 control-label">Number of Late Payment</label>
+                            <label class="col-lg-2 control-label requiredField">Number of Late Payment</label>
                             <div class="col-lg-3">
-                                <input type="text" class="form-control icon-text" name="noOfLatePayment" placeholder="Enter Original Principal Balance" ng-model="noteInputFormModel.noOfLatePayment" />
+                                <input type="text" class="form-control icon-text" name="noOfLatePayment" placeholder="Enter Number of Late Payment" ng-model="noteInputFormModel.noOfLatePayment" />
                                 <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Enter  Number of Late Payment"></span>
                             </div>
-                             <label class="col-lg-2 control-label"></label>
+                             <label class="col-lg-2 control-label requiredField">Performing</label>
                             <div class="col-lg-3">
-                               
+                                  <select class="form-control icon-text" name="peforming"
+                               ng-init="noteInputFormModel.performing='Y'"
+                               ng-model="noteInputFormModel.performing">
+							  <option value="Y">Performing</option>
+                                    <option value="N">Non-Performing</option>
+                                    <option value="U">Unknown</option>
+                                </select><span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Select note Pefroming"></span>
+                            </div>
+                        </div>
+                        
+                           <div class="form-group">
+                            <label class="col-lg-2 control-label requiredField">Note Position</label>
+                            <div class="col-lg-3">
+                                <input type="text" class="form-control icon-text" name="notePosition" placeholder="Enter Note Position" ng-model="noteInputFormModel.notePosition" />
+                                <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Enter Note Position"></span>
+                            </div>
+                             <label class="col-lg-2 control-label">Borrower Credit Score</label>
+                            <div class="col-lg-3">
+                                <input type="text" class="form-control icon-text" name="borrowerCreditScore" placeholder="Enter Borrower Credit Score" ng-model="noteInputFormModel.borrowerCreditScore" />
+                                <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Enter Borrower Credit Score"></span>
                             </div>
                         </div>
                 
@@ -242,7 +261,7 @@ $(document).ready(function() {
                     },
                     date: {
                         format: 'MM/DD/YYYY',
-                        message: 'The note date is not in valid format'
+                        message: 'The note date is not in valid(MM/DD/YYYY) format'
                     }
                 }
             },
@@ -384,8 +403,7 @@ $(document).ready(function() {
     // Validate the form manually
    $('#createNoteBtn').click(function() {
         if($('#noteInputForm').bootstrapValidator('validate').has('.has-error').length){
-    	alert('something woring')
-    		        	return false;
+	       	return false;
     	}else{
     		$("#createNoteBtnHidden").trigger( "click" );
     	};

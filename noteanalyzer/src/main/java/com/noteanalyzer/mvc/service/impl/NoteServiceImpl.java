@@ -108,12 +108,14 @@ public class NoteServiceImpl implements NoteService {
 
 	@Override
 	@Transactional
-	public Optional<List<NoteSummaryModel>> getAllNotes(String loggedInUserName) {
+	public Optional<List<NoteSummaryModel>> getAllNotes(long userId) {
 		Map<String, Object> parameters = new HashMap<>();
-		parameters.put("userName", loggedInUserName);
+		parameters.put("userId", userId);
 		List<Note> noteList = genericDao.getResultByNamedQuery(Note.class, Note.GET_NOTE_DETAILS_BY_USER, parameters);
-		ConverterUtility.convertNoteToNoteSummaryModel(noteList);
-		return null;
+		if(CollectionUtils.isEmpty(noteList)){
+			return Optional.empty();
+		}
+		return Optional.of(ConverterUtility.convertNoteToNoteSummaryModel(noteList));
 	}
 
 	@Override

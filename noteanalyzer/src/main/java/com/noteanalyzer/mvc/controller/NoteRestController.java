@@ -244,24 +244,19 @@ public class NoteRestController {
 	@RequestMapping(value = "/api/fetchAllNotes", method = RequestMethod.GET)
 	public ResponseEntity<List<NoteSummaryModel>> listAllNotes() {
 		String loggedInUserName = NoteUtility.getLoggedInUserName();
-		System.out.println("Inside Arvind listAllNotes loggedInUserName" + loggedInUserName);
-		
-		Optional<List<NoteSummaryModel>> notesList = noteService.getAllNotes(loggedInUserName);
-		
-		/*//List<NoteSummaryModel> notesList = new ArrayList<>();
-		NoteSummaryModel note1 = new NoteSummaryModel("http://cdn.flaticon.com/png/256/70689.png", "ad", "ad", "adsad",
-				"adafeae", "asfasd", "asda");
-		NoteSummaryModel note2 = new NoteSummaryModel("http://cdn.flaticon.com/png/256/70689.png", "ad", "ad", "adsad",
-				"adafeae", "asfasd", "asda");
-		note1.setNoteId("1");
-		note2.setNoteId("2");
-		notesList.add(note1);
-		notesList.add(note2);*/
-
-		if (!notesList.isPresent()) {
-			return new ResponseEntity<List<NoteSummaryModel>>(HttpStatus.NO_CONTENT);// You
-		}																						// many
-		return new ResponseEntity<List<NoteSummaryModel>>(notesList.get(), HttpStatus.OK);
+		Optional<UserModel> loggedInuser = userService.getByUsername(loggedInUserName);
+		if(loggedInuser.isPresent()){
+			System.out.println("Inside Arvind listAllNotes loggedInUserName" + loggedInUserName);
+			long userId = loggedInuser.get().getUserId();
+			Optional<List<NoteSummaryModel>> notesList = noteService.getAllNotes(userId);
+			if (!notesList.isPresent()) {
+				return new ResponseEntity<List<NoteSummaryModel>>(HttpStatus.NO_CONTENT);// You
+			}
+			return new ResponseEntity<List<NoteSummaryModel>>(notesList.get(), HttpStatus.OK);
+		}else{
+			System.out.println("Error with loggedin user name and ID "+loggedInUserName);
+			return new ResponseEntity<List<NoteSummaryModel>>(HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	@RequestMapping(value = "/api/editNote", method = RequestMethod.POST)

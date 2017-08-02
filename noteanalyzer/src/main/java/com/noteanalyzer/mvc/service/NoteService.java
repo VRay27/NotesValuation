@@ -25,7 +25,7 @@ public interface NoteService {
 	
 	public Optional<NoteInputFormModel> getNoteDetail(@NonNull int noteId);
 
-	public Optional<List<NoteSummaryModel>> getAllNotes(@NonNull String loggedInUserName);
+	public Optional<List<NoteSummaryModel>> getAllNotes(@NonNull long userId);
 	
 	public List<NoteConfiguration> getConfigValue(@NonNull List<String> configCode);
 
