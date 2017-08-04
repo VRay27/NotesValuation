@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.noteanalyzer.entity.address.Zipcodes;
 import com.noteanalyzer.entity.notes.Note;
 import com.noteanalyzer.entity.notes.NoteType;
+import com.noteanalyzer.entity.notes.Property;
 import com.noteanalyzer.entity.notes.PropertyType;
 import com.noteanalyzer.entity.user.User;
 import com.noteanalyzer.mvc.model.AddressModel;
@@ -125,11 +126,10 @@ public class ConverterUtility {
 			NoteSummaryModel summaryModel = new NoteSummaryModel();
 			for (Note model : noteList) {
 				//NoteAddress noteAddress = model.getNoteAddress();
-				//Property property = noteAddress.getProperty();
-				 //summaryModel.setAssetImgSrc(IMG_SRC_PATH+noteAddress.getProperty());
-				// summaryModel.setCrime(crime);
+				Property property = model.getPropertyId();
+				summaryModel.setNoteAddress(property.getStreetAddress()+", "+property.getCity()+", "+property.getState()+", "+property.getZip());
 				// NoteAnalysisService.generateOverAllScore(weightedMap);
-				 //summaryModel.setMarketValue(String.valueOf(property.getMarketValue()));
+				// summaryModel.setMarketValue(String.valueOf(property.getMarketValue()));
 				 summaryModel.setNoteId(String.valueOf(model.getNoteId()));
 				// summaryModel.setItv(NoteAnalysisService.getITV(purchasePrice, property.getMarketValue()));
 				// summaryModel.setLtv(NoteAnalysisService.getLTV(model.getUnpaidPrincpalBal(),property.getMarketValue()));

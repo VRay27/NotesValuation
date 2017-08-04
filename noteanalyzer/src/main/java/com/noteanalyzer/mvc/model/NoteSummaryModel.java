@@ -11,7 +11,7 @@ public class NoteSummaryModel  implements Serializable{
 	
 	
 	private String noteId;
-	private String assetImgSrc;
+	private String noteAddress;
 	private String yield;
 	private String itv;
 	private String ltv;
@@ -24,17 +24,6 @@ public class NoteSummaryModel  implements Serializable{
 	}
 	
 	
-	public NoteSummaryModel(String assetImgSrc, String yield, String itv, String ltv, String marketValue, String crime,
-			String overAllScore) {
-		super();
-		this.assetImgSrc = assetImgSrc;
-		this.yield = yield;
-		this.itv = itv;
-		this.ltv = ltv;
-		this.marketValue = marketValue;
-		this.crime = crime;
-		this.overAllScore = overAllScore;
-	}
 	
 	
 	/**
@@ -53,12 +42,27 @@ public class NoteSummaryModel  implements Serializable{
 	}
 
 
-	public String getAssetImgSrc() {
-		return assetImgSrc;
+	
+	/**
+	 * @return the noteAddress
+	 */
+	public String getNoteAddress() {
+		return noteAddress;
 	}
-	public void setAssetImgSrc(String assetImgSrc) {
-		this.assetImgSrc = assetImgSrc;
+
+
+
+
+	/**
+	 * @param noteAddress the noteAddress to set
+	 */
+	public void setNoteAddress(String noteAddress) {
+		this.noteAddress = noteAddress;
 	}
+
+
+
+
 	public String getYield() {
 		return yield;
 	}
@@ -95,12 +99,6 @@ public class NoteSummaryModel  implements Serializable{
 	public void setOverAllScore(String overAllScore) {
 		this.overAllScore = overAllScore;
 	}
-	@Override
-	public String toString() {
-		return "NoteSummaryModel [assetImgSrc=" + assetImgSrc + ", yield=" + yield + ", itv=" + itv + ", ltv=" + ltv
-				+ ", marketValue=" + marketValue + ", crime=" + crime + ", overAllScore=" + overAllScore + "]";
-	}
-	
 	
 	
 

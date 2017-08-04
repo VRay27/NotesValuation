@@ -49,12 +49,6 @@ public class NoteServiceImpl implements NoteService {
 	@Override
 	@Transactional
 	public void createNote(@NonNull NoteInputFormModel noteModel) throws ParseException {
-	/*	NoteAddress noteAddress = new NoteAddress();
-		noteAddress.setCity(noteModel.getAddress().getCity());
-		noteAddress.setCountry("US");
-		noteAddress.setState(noteModel.getAddress().getState());
-		noteAddress.setStreetAddress(noteModel.getAddress().getStreetAddress());
-		noteAddress.setZipCode(noteModel.getAddress().getZipCode());*/
 		
 		Note note = ConverterUtility.convertNoteModelToEntity(noteModel);
 		Map<String, Object> parameters = new HashMap<>();
@@ -115,6 +109,7 @@ public class NoteServiceImpl implements NoteService {
 		if(CollectionUtils.isEmpty(noteList)){
 			return Optional.empty();
 		}
+		//NoteForZillow
 		return Optional.of(ConverterUtility.convertNoteToNoteSummaryModel(noteList));
 	}
 
@@ -130,9 +125,6 @@ public class NoteServiceImpl implements NoteService {
 	@Override
 	public Parameters getParameterValue(String parameterName, String userEmailId){
 		Map<String, Object> parameters = new HashMap<>();
-	/*	if(userEmailId == null){
-			userEmailId = NoteUtility.getLoggedInUserName();
-		}*/
 		List<Parameters> param =  null;
 		parameters.put("parameterName", parameterName);
 		if(StringUtils.isNotBlank(userEmailId)){
@@ -155,6 +147,17 @@ public class NoteServiceImpl implements NoteService {
 		parameters.put("zipCode", StringUtils.lowerCase(zipCode));
 	
 		List<Zipcodes> zipcodeDetails = genericDao.getResultByNamedQuery(Zipcodes.class, Zipcodes.GET_ZIPCODE_DETAILS_BY_ZIPCODE, parameters);
+		if (!CollectionUtils.isEmpty(zipcodeDetails)) {
+			AddressModel addressModel = ConverterUtility.convertZipCodeWithAddress(zipcodeDetails);
+			return Optional.of(addressModel);
+		}
+		return Optional.empty();
+	}
+	
+	@Override
+	public Optional<AddressModel> getAllLocationDetails() {
+	
+		List<Zipcodes> zipcodeDetails = genericDao.getAll(Zipcodes.class);
 		if (!CollectionUtils.isEmpty(zipcodeDetails)) {
 			AddressModel addressModel = ConverterUtility.convertZipCodeWithAddress(zipcodeDetails);
 			return Optional.of(addressModel);

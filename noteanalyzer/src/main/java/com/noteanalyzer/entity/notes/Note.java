@@ -23,8 +23,8 @@ import lombok.ToString;
 @Table(name = "NOTE")
 @ToString(callSuper = true)
 @NamedQueries({
-		@NamedQuery(name = Note.GET_NOTE_DETAILS_BY_NOTEID, query = "select n from Note n where n.noteId =:noteId"),
-		@NamedQuery(name = Note.GET_NOTE_DETAILS_BY_USER, query = "select n from Note n where n.userId =:userId")})
+		@NamedQuery(name = Note.GET_NOTE_DETAILS_BY_NOTEID, query = "select n from Note n, Property p where p.propertyId = n.propertyId and  n.noteId =:noteId"),
+		@NamedQuery(name = Note.GET_NOTE_DETAILS_BY_USER, query = "select n from Note n, Property p where p.propertyId = n.propertyId and  n.userId =:userId")})
 public class Note extends AbstractEntity {
 	private static final long serialVersionUID = -8179556227491337368L;
 

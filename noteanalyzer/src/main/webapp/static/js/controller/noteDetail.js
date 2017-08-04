@@ -4,8 +4,8 @@ app.controller('NoteDetailCtrl', NoteDetailCtrl);
 app.controller('RowEditCtrl', RowEditCtrl);
 app.service('RowEditor', RowEditor);
 
-NoteDetailCtrl.$inject = ['$scope', '$http','$auth', '$rootScope', '$uibModal', 'RowEditor', 'uiGridConstants', 'noteDetailModel','noteUploadAPI','NoteService'];
-function NoteDetailCtrl($scope, $http,$auth, $rootScope, $uibModal, RowEditor, uiGridConstants, noteDetailModel,noteUploadAPI,NoteService) {
+NoteDetailCtrl.$inject = ['$scope', '$http','$auth', '$rootScope', '$uibModal', 'RowEditor', 'uiGridConstants', 'noteDetailModel','noteUploadAPI','NoteService','WaitingDialog'];
+function NoteDetailCtrl($scope, $http,$auth, $rootScope, $uibModal, RowEditor, uiGridConstants, noteDetailModel,noteUploadAPI,NoteService,WaitingDialog) {
   var vm = this;
   $scope.noteDetailModel = noteDetailModel;
   vm.getNoteDetail = RowEditor.getNoteDetail;
@@ -17,29 +17,7 @@ function NoteDetailCtrl($scope, $http,$auth, $rootScope, $uibModal, RowEditor, u
 	  NoteService.uploadNoteFile($scope.myFile, noteUploadAPI);
   };
 
-  $scope.stateList = [
-	    {     code: "AL",              displayName: "Alabama",        selected: false  },
-	    {  name: "CAL",  displayName: "Califonia",             selected: false },
-	    {         name: "TX",            displayName: "Texas",    selected: false  },
-	    {       name: "NV",             displayName: "Nevada",                 selected: false },
-	    {               name: "NC",             displayName: "North Carolina",                selected: false  }
-	]; 
-  
-  $scope.cityList = [
-	    {     code: "CH",              displayName: "Chicago",        selected: false  },
-	    {  name: "MI",  displayName: "Miami",             selected: false },
-	    {         name: "SN",            displayName: "San fransisco",    selected: false  },
-	    {       name: "NY",             displayName: "New york",                 selected: false },
-	    {               name: "NJ",             displayName: "New Jersey",                selected: false  }
-	];
-  
   $scope.noteSearch = function(){
-	  angular.forEach( $scope.selectedStateList, function( value, key ) {    
-		   	console.log('selected'+$scope.selectedStateList);
-		   	console.log('value'+value);
-		   	console.log('key'+key);
-		});
-	  
 	  angular.forEach( $scope.selectedCityList, function( value, key ) {    
 		   	console.log('selected'+$scope.selectedCityList);
 		   	console.log('value'+value);
@@ -56,8 +34,9 @@ function NoteDetailCtrl($scope, $http,$auth, $rootScope, $uibModal, RowEditor, u
     enableRowHeaderSelection: false,
     multiSelect: false,
     enableSorting: false,
-    enableFiltering: false,
+    enableFiltering: true,
     enableGridMenu: false,
+    enableCellEdit: false,
     enablePaginationControls:true,
     paginationPageSizes: [10,25, 50, 75],
     paginationPageSize: 10,
@@ -65,35 +44,47 @@ function NoteDetailCtrl($scope, $http,$auth, $rootScope, $uibModal, RowEditor, u
     rowTemplate : "<div ng-dblclick=\"grid.appScope.vm.getNoteDetail(grid, row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
   };
 
-  vm.serviceGrid.columnDefs = [{
-    field: 'yield',
+  vm.serviceGrid.columnDefs = [
+	  {
+		    field: 'noteAddress',
+		    displayName: 'Address',
+		    enableSorting: true,
+		    enableFiltering: true,
+		    cellTemplate: "<a href =\"#\"><div ng-click=\"grid.appScope.vm.getNoteDetail(grid, row)\">{{row.entity.noteAddress}}</div></a>"
+		  },
+{    field: 'yield',
     displayName: 'Yield',
     enableSorting: true,
     enableCellEdit: false,
+    enableFiltering: false,
     cellTemplate: "<div>{{row.entity.yield}}</div>"
   }, {
     field: 'itv',
     displayName: 'ITV',
     enableSorting: true,
     enableCellEdit: false,
+    enableFiltering: false,
     cellTemplate: "<div>{{row.entity.itv}}</div>"
   }, {
     field: 'ltv',
     displayName: 'LTV',
     enableSorting: true,
     enableCellEdit: false,
+    enableFiltering: false,
     cellTemplate: "<div>{{row.entity.ltv}}</div>"
   },{
 	    field: 'crime',
 	    displayName: 'Crime',
 	    enableSorting: true,
 	    enableCellEdit: false,
+	    enableFiltering: false,
 	    cellTemplate: "<div>{{row.entity.crime}}</div>"
 	  },{
     field: 'marketPrice',
     displayName: 'Market Price',
     enableSorting: true,
     enableCellEdit: false,
+    enableFiltering: false,
     sort: {
       direction: uiGridConstants.ASC,
       priority: 1,
@@ -101,13 +92,16 @@ function NoteDetailCtrl($scope, $http,$auth, $rootScope, $uibModal, RowEditor, u
     cellTemplate: "<div>{{row.entity.marketPrice}}</div>"
   }];
 
+  $scope.cityList = [];
   $scope.init = function(){
+	  
 	  $http.get('api/fetchAllNotes').then(function(response) {
 		  $scope.vm.serviceGrid.data = response.data;
 	  }, function(response) {
 		  $scope.vm.serviceGrid.data = [];
 		  $auth.checkLoginFromServer(response.status);
 	  });
+	  
   }
 
 

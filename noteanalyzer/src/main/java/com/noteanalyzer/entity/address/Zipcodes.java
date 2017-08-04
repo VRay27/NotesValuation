@@ -22,13 +22,15 @@ import lombok.ToString;
 @Table(name = "ZIPCODES")
 @ToString(callSuper = true)
 @NamedQueries({
-		@NamedQuery(name = Zipcodes.GET_ZIPCODE_DETAILS_BY_ZIPCODE, query = "select z from Zipcodes z where z.zip =:zipCode")})
+		@NamedQuery(name = Zipcodes.GET_ZIPCODE_DETAILS_BY_ZIPCODE, query = "select z from Zipcodes z where z.zip =:zipCode"),
+		@NamedQuery(name = Zipcodes.GET_ALL_LOCATION, query = "select z from Zipcodes z")})
 
 public class Zipcodes extends AbstractEntity {
 
 	private static final long serialVersionUID = -7382699468661533735L;
 	
 	public final static String  GET_ZIPCODE_DETAILS_BY_ZIPCODE = "GET_ZIPCODE_DETAILS_BY_ZIPCODE";
+	public final static String  GET_ALL_LOCATION= "GET_ALL_LOCATION";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

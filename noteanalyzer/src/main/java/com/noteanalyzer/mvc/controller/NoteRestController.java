@@ -304,31 +304,12 @@ public class NoteRestController {
 	}
 
 	@RequestMapping(value = "/getStateCityList", method = RequestMethod.GET)
-	public ResponseEntity<List<StateModel>> getStateCityList() {
-		
-		CityModel cityModel = new CityModel();
-		cityModel.setId("1");
-		cityModel.setCityDisplayName("First City");
-		CityModel cityModel2 = new CityModel();
-		cityModel2.setId("2");
-		cityModel2.setCityDisplayName("Second City");
-		StateModel stateModel =  new StateModel();
-		stateModel.setId("1");
-		stateModel.setStateDisplayName("First State");
-		List<CityModel> cityList = new ArrayList<>();
-		cityList.add(cityModel);
-		List<CityModel> cityList2 = new ArrayList<>();
-		cityList2.add(cityModel2);
-		stateModel.setCityList(cityList);
-		StateModel stateModel2 =  new StateModel();
-		stateModel2.setId("1");
-		stateModel2.setStateDisplayName("Second State");
-		stateModel2.setCityList(cityList2);
-		
-		List<StateModel> stateList = new ArrayList<>();
-		stateList.add(stateModel2);
-		stateList.add(stateModel);
-		return new ResponseEntity<List<StateModel>>(stateList,HttpStatus.OK);
+	public ResponseEntity<AddressModel> getStateCityList() {
+		Optional<AddressModel> addressModel = noteService.getAllLocationDetails();
+		if (addressModel.isPresent()) {
+			return new ResponseEntity<AddressModel>(addressModel.get(), HttpStatus.OK);
+		}
+		return new ResponseEntity<AddressModel>(HttpStatus.NOT_FOUND);
 	}
 	
 }

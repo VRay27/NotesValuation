@@ -910,7 +910,7 @@ input[type="text"].ui-grid-filter-input:hover {
 	padding-top:13px;
 }
  
-.cityListClass, .stateListClass, .streetAddressClass{
+.searchField{
 	padding-bottom:13 px;
 	border: 1px solid lightgrey;
 }

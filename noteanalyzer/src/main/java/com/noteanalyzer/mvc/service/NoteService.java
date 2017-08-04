@@ -31,6 +31,8 @@ public interface NoteService {
 
 	Parameters getParameterValue(String parameterName, String userEmailId);
 	public Optional<AddressModel> getZipCodeDetails(String zipCode);
+
+	Optional<AddressModel> getAllLocationDetails();
 	
 	/*User findById(long id);
 	
