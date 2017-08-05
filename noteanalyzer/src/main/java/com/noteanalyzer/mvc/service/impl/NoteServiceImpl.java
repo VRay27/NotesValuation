@@ -1,17 +1,23 @@
 package com.noteanalyzer.mvc.service.impl;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.logging.Logger;
+
+import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.xml.sax.SAXException;
 
+import com.noteanalyzer.appraisal.exceptions.AddressNotAvailableException;
 import com.noteanalyzer.dao.GenericDao;
 import com.noteanalyzer.entity.address.Zipcodes;
 import com.noteanalyzer.entity.notes.Note;
@@ -27,7 +33,8 @@ import com.noteanalyzer.mvc.model.NoteTypeModel;
 import com.noteanalyzer.mvc.model.PropertyTypeModel;
 import com.noteanalyzer.mvc.service.NoteService;
 import com.noteanalyzer.utility.ConverterUtility;
-import com.noteanalyzer.utility.NoteUtility;
+import com.noteanalyzer.webservice.appraisal.AppraisalPropertyBean;
+import com.noteanalyzer.webservice.appraisal.AppraisalSource;
 
 import io.jsonwebtoken.lang.Collections;
 import lombok.NonNull;
@@ -37,6 +44,25 @@ public class NoteServiceImpl implements NoteService {
 
 	@Autowired
 	GenericDao genericDao;
+
+	@Resource(name="zillowWebService")
+	AppraisalSource zillowWebService;
+	
+	private final static Logger LOG = Logger.getLogger(NoteServiceImpl.class.getName());
+	
+	/**
+	 * @return the zillowWebService
+	 */
+	public AppraisalSource getZillowWebService() {
+		return zillowWebService;
+	}
+
+	/**
+	 * @param zillowWebService the zillowWebService to set
+	 */
+	public void setZillowWebService(AppraisalSource zillowWebService) {
+		this.zillowWebService = zillowWebService;
+	}
 
 	public GenericDao getGenericDao() {
 		return genericDao;
@@ -50,7 +76,23 @@ public class NoteServiceImpl implements NoteService {
 	@Transactional
 	public void createNote(@NonNull NoteInputFormModel noteModel) throws ParseException {
 		
+		
 		Note note = ConverterUtility.convertNoteModelToEntity(noteModel);
+		AppraisalPropertyBean appraisalPropertyBean = null;
+		try {
+			 appraisalPropertyBean = zillowWebService.getPropertyDetailsWithAddress(noteModel.getStreetAddress(), noteModel.getSelCity(), noteModel.getSelState(), noteModel.getZipCode());
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (AddressNotAvailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(appraisalPropertyBean);
+		LOG.info(appraisalPropertyBean.toString());
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("zipCode", Integer.valueOf(noteModel.getZipCode()));
 		parameters.put("streetAddress", noteModel.getStreetAddress());

@@ -31,5 +31,12 @@ public class NoteConstant {
 	
 	public static final int MAX_UNSUCCESSFUL_ATTEMPT = 9;
 	
+    public static final String DEEP_SEARCH_URL = "http://www.zillow.com/webservice/GetDeepSearchResults.htm";
+
+    public static final String ZESTIMATE_URL = "http://www.zillow.com/webservice/GetZestimate.htm";
+    
+    public static final String ZWSID = "X1-ZWz1fxj5raoeff_3z9zt";
+
+	
 	
 }

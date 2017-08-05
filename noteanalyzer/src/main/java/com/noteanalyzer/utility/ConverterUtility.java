@@ -128,8 +128,7 @@ public class ConverterUtility {
 				//NoteAddress noteAddress = model.getNoteAddress();
 				Property property = model.getPropertyId();
 				summaryModel.setNoteAddress(property.getStreetAddress()+", "+property.getCity()+", "+property.getState()+", "+property.getZip());
-				// NoteAnalysisService.generateOverAllScore(weightedMap);
-				// summaryModel.setMarketValue(String.valueOf(property.getMarketValue()));
+				 //summaryModel.setMarketValue(String.valueOf(property.getMarketValue()));
 				 summaryModel.setNoteId(String.valueOf(model.getNoteId()));
 				// summaryModel.setItv(NoteAnalysisService.getITV(purchasePrice, property.getMarketValue()));
 				// summaryModel.setLtv(NoteAnalysisService.getLTV(model.getUnpaidPrincpalBal(),property.getMarketValue()));
