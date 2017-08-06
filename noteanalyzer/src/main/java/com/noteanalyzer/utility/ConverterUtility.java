@@ -1,5 +1,9 @@
 package com.noteanalyzer.utility;
 
+import static com.noteanalyzer.mvc.constant.NoteConstant.DEFAULT_DATE_FORMAT;
+import static com.noteanalyzer.mvc.constant.NoteConstant.IN_ACTIVE_USER_FLAG;
+
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,18 +28,17 @@ import com.noteanalyzer.mvc.model.NoteSummaryModel;
 import com.noteanalyzer.mvc.model.NoteTypeModel;
 import com.noteanalyzer.mvc.model.PropertyTypeModel;
 import com.noteanalyzer.mvc.model.UserModel;
+import com.noteanalyzer.webservice.appraisal.AppraisalPropertyBean;
 
 import lombok.NonNull;
 
 public class ConverterUtility {
 
-	private static String IMG_SRC_PATH = "";
-
 	public static User convertUserModelToUserEntity(@NonNull UserModel userModel, BCryptPasswordEncoder encoder) {
 
 		User user = new User();
 		user.setDisplayName(userModel.getDisplayName());
-		//user.setUserName(userModel.getEmail());
+		// user.setUserName(userModel.getEmail());
 		user.setPassword(encoder.encode(userModel.getPassword()));
 		user.setEmailID(userModel.getEmail());
 		user.setContactNumber(userModel.getPhoneNumber());
@@ -46,7 +49,7 @@ public class ConverterUtility {
 		}
 		user.setVerificationToken(userModel.getVerificationToken());
 		user.setVerificationTokenCreationTime(ZonedDateTime.now());
-		user.setIsActive("IA");
+		user.setIsActive(IN_ACTIVE_USER_FLAG);
 		user.setCreateDate(ZonedDateTime.now());
 		user.setUpdateDate(ZonedDateTime.now());
 		return user;
@@ -61,19 +64,19 @@ public class ConverterUtility {
 		userModel.setResetToken(user.getResetToken());
 		userModel.setVerificationToken(user.getVerificationToken());
 		userModel.setIsActive(user.getIsActive());
-		if(StringUtils.isNotEmpty(user.getStreet())){
+		if (StringUtils.isNotEmpty(user.getStreet())) {
 			AddressModel addressModel = new AddressModel();
 			addressModel.setStreetAddress(user.getStreet());
 			addressModel.setCity(user.getCity());
 			addressModel.setState(user.getState());
 			userModel.setAddressModel(addressModel);
 		}
-	
+
 		return userModel;
 	}
 
 	public static Note convertNoteModelToEntity(NoteInputFormModel note) throws ParseException {
-		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		DateFormat df = new SimpleDateFormat(DEFAULT_DATE_FORMAT);
 		Note noteEntity = new Note();
 		noteEntity.setUserId(note.getUserId());
 		noteEntity.setNoteType(note.getSelNoteType().getNoteTypeCode());
@@ -81,11 +84,14 @@ public class ConverterUtility {
 		noteEntity.setSalePrice(note.getSalePrice());
 		noteEntity.setOriginationDate(df.parse(note.getNoteDate()));
 		noteEntity.setPerforming(note.getPerforming());
-		noteEntity.setNotePosition(note.getNotePosition());
+		noteEntity.setNotePosition(Integer.valueOf(note.getNotePosition()));
 		noteEntity.setTermMonths(note.getOriginalTerm());
 		noteEntity.setInterestRateInitial(note.getRate());
 		noteEntity.setBorrowerCreditScore(String.valueOf(note.getBorrowerCreditScore()));
-		noteEntity.setLatePayments(note.getNoOfLatePayment());
+		noteEntity.setLatePayments(Integer.valueOf(note.getNoOfLatePayment()));
+		noteEntity.setNotePrice(BigDecimal.valueOf(Double.valueOf(note.getNoOfLatePayment())));
+		noteEntity.setOriginalPropertyValue(BigDecimal.valueOf(Double.valueOf(note.getOriginalPropertyValue())));
+		noteEntity.setRemainingNoOfPayment(Integer.valueOf(note.getRemainingNoOfPayment()));
 		return noteEntity;
 	}
 
@@ -123,17 +129,19 @@ public class ConverterUtility {
 	public static List<NoteSummaryModel> convertNoteToNoteSummaryModel(List<Note> noteList) {
 		List<NoteSummaryModel> summaryModelList = new ArrayList<>();
 		if (noteList != null) {
-			NoteSummaryModel summaryModel = new NoteSummaryModel();
+
 			for (Note model : noteList) {
-				//NoteAddress noteAddress = model.getNoteAddress();
+				NoteSummaryModel summaryModel = new NoteSummaryModel();
 				Property property = model.getPropertyId();
-				summaryModel.setNoteAddress(property.getStreetAddress()+", "+property.getCity()+", "+property.getState()+", "+property.getZip());
-				 //summaryModel.setMarketValue(String.valueOf(property.getMarketValue()));
-				 summaryModel.setNoteId(String.valueOf(model.getNoteId()));
-				// summaryModel.setItv(NoteAnalysisService.getITV(purchasePrice, property.getMarketValue()));
+				summaryModel.setNoteAddress(property.getStreetAddress() + ", " + property.getCity() + ", "
+						+ property.getState() + ", " + property.getZip());
+				// summaryModel.setMarketValue(String.valueOf(property.getMarketValue()));
+				summaryModel.setNoteId(String.valueOf(model.getNoteId()));
+				// summaryModel.setItv(NoteAnalysisService.getITV(purchasePrice,
+				// property.getMarketValue()));
 				// summaryModel.setLtv(NoteAnalysisService.getLTV(model.getUnpaidPrincpalBal(),property.getMarketValue()));
-				 summaryModel.setYield("test");
-				 summaryModel.setCrime("crime000");
+				summaryModel.setYield("test");
+				summaryModel.setCrime("crime000");
 
 				summaryModelList.add(summaryModel);
 			}
@@ -142,17 +150,46 @@ public class ConverterUtility {
 	}
 
 	public static AddressModel convertZipCodeWithAddress(List<Zipcodes> zipcodeDetailsList) {
-		Set<String> cityList =  new HashSet<>();
-		Set<String> stateList =  new HashSet<>();
-		AddressModel model  = new AddressModel();
-		for(Zipcodes zip : zipcodeDetailsList){
-			
+		Set<String> cityList = new HashSet<>();
+		Set<String> stateList = new HashSet<>();
+		AddressModel model = new AddressModel();
+		for (Zipcodes zip : zipcodeDetailsList) {
+
 			cityList.add(zip.getCity());
 			stateList.add(zip.getState());
 		}
-		 model.setStateList(stateList);
-		 model.setCityList(cityList);
-		 return model;
+		model.setStateList(stateList);
+		model.setCityList(cityList);
+		return model;
+	}
+
+	public static Property createPropertyObject(NoteInputFormModel noteModel,
+			AppraisalPropertyBean appraisalPropertyBean) {
+		Property property = new Property();
+		DateFormat df = new SimpleDateFormat(DEFAULT_DATE_FORMAT);
+		property.setZip(Integer.valueOf(noteModel.getZipCode()));
+		property.setStreetAddress(noteModel.getStreetAddress());
+		property.setCity(noteModel.getSelCity());
+		property.setState(noteModel.getSelState());
+		property.setPropertyType(noteModel.getSelPropType().getPropertyTypeCode());
+		property.setAppraisalPropertyId(appraisalPropertyBean.getApprisalPropertyId());
+		if (appraisalPropertyBean.getLastSoldDate() != null) {
+			try {
+				property.setLastSoldDate(df.parse(appraisalPropertyBean.getLastSoldDate()));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+		property.setLastSoldPrice(appraisalPropertyBean.getLastSoldPrice());
+		property.setNumberOfBathrooms(appraisalPropertyBean.getNumberOfBathrooms());
+		property.setNumberOfBedrooms(appraisalPropertyBean.getNumberOfBedrooms());
+		property.setPropertyBuiltUpSize(appraisalPropertyBean.getPropertyBuiltUpSize());
+		property.setPropertyLotSize(appraisalPropertyBean.getPropertyLotSize());
+		property.setPropertyType(noteModel.getSelPropType().getPropertyTypeCode());
+		property.setRentValue(appraisalPropertyBean.getRentValue());
+		property.setTaxAssessmentValue(appraisalPropertyBean.getTaxAssessmentValue());
+		property.setTaxAssessmentYear(appraisalPropertyBean.getTaxAssessmentYear());
+		return property;
 	}
 
 }

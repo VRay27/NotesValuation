@@ -40,6 +40,7 @@ function NoteDetailCtrl($scope, $http,$auth, $rootScope, $uibModal, RowEditor, u
     enablePaginationControls:true,
     paginationPageSizes: [10,25, 50, 75],
     paginationPageSize: 10,
+    rowHeight:40,
           
     rowTemplate : "<div ng-dblclick=\"grid.appScope.vm.getNoteDetail(grid, row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
   };
@@ -50,6 +51,9 @@ function NoteDetailCtrl($scope, $http,$auth, $rootScope, $uibModal, RowEditor, u
 		    displayName: 'Address',
 		    enableSorting: true,
 		    enableFiltering: true,
+		    headerCellClass:'addressHeaderClass',
+		    cellClass:'uiGridCellClass',
+		    width:260,
 		    cellTemplate: "<a href =\"#\"><div ng-click=\"grid.appScope.vm.getNoteDetail(grid, row)\">{{row.entity.noteAddress}}</div></a>"
 		  },
 {    field: 'yield',
@@ -57,6 +61,7 @@ function NoteDetailCtrl($scope, $http,$auth, $rootScope, $uibModal, RowEditor, u
     enableSorting: true,
     enableCellEdit: false,
     enableFiltering: false,
+    cellClass:'uiGridCellClass',
     cellTemplate: "<div>{{row.entity.yield}}</div>"
   }, {
     field: 'itv',
@@ -64,6 +69,7 @@ function NoteDetailCtrl($scope, $http,$auth, $rootScope, $uibModal, RowEditor, u
     enableSorting: true,
     enableCellEdit: false,
     enableFiltering: false,
+    cellClass:'uiGridCellClass',
     cellTemplate: "<div>{{row.entity.itv}}</div>"
   }, {
     field: 'ltv',
@@ -71,6 +77,7 @@ function NoteDetailCtrl($scope, $http,$auth, $rootScope, $uibModal, RowEditor, u
     enableSorting: true,
     enableCellEdit: false,
     enableFiltering: false,
+    cellClass:'uiGridCellClass',
     cellTemplate: "<div>{{row.entity.ltv}}</div>"
   },{
 	    field: 'crime',
@@ -78,6 +85,7 @@ function NoteDetailCtrl($scope, $http,$auth, $rootScope, $uibModal, RowEditor, u
 	    enableSorting: true,
 	    enableCellEdit: false,
 	    enableFiltering: false,
+	    cellClass:'uiGridCellClass',
 	    cellTemplate: "<div>{{row.entity.crime}}</div>"
 	  },{
     field: 'marketPrice',
@@ -85,6 +93,7 @@ function NoteDetailCtrl($scope, $http,$auth, $rootScope, $uibModal, RowEditor, u
     enableSorting: true,
     enableCellEdit: false,
     enableFiltering: false,
+    cellClass:'uiGridCellClass',
     sort: {
       direction: uiGridConstants.ASC,
       priority: 1,
@@ -92,14 +101,15 @@ function NoteDetailCtrl($scope, $http,$auth, $rootScope, $uibModal, RowEditor, u
     cellTemplate: "<div>{{row.entity.marketPrice}}</div>"
   }];
 
-  $scope.cityList = [];
   $scope.init = function(){
-	  
+    WaitingDialog.show();
 	  $http.get('api/fetchAllNotes').then(function(response) {
 		  $scope.vm.serviceGrid.data = response.data;
 	  }, function(response) {
 		  $scope.vm.serviceGrid.data = [];
 		  $auth.checkLoginFromServer(response.status);
+	  }).then(function(){
+		  WaitingDialog.hide();
 	  });
 	  
   }

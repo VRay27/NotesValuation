@@ -68,7 +68,7 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q', '$rootScope', '$uibModa
 	}
 	
 	function createNote(noteInputFormModel) {
-		WaitingDialog.show();
+		
 		var deferred = $q.defer();
 		$http.post('api/createNote', noteInputFormModel)
 			.then(
@@ -79,10 +79,7 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q', '$rootScope', '$uibModa
 					console.error('Error while creating note');
 					deferred.reject(errResponse);
 				}
-		).then(
-				function() {
-					WaitingDialog.hide();
-				});
+		)
 		return deferred.promise;
 	}
 	

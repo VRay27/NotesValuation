@@ -82,15 +82,26 @@ noteApp.controller('HomeCtrl', function($scope, $stateParams, $state,$document, 
 	
 });
 
-noteApp.controller('noteInputFormController', function($scope, $rootScope, $state, $auth, $filter,NoteService,toastr) {
-	//$rootScope.submitInputFormModel = {};
+noteApp.controller('noteInputFormController', function($scope, $rootScope, $state, $auth, $filter,NoteService,toastr,WaitingDialog) {
 	$scope.noteInputFormModel = NoteService.getInputFormModel();
-	/*$scope.hasError = function(field, validation) {
-		if (validation) {
-			return ($scope.noteInputForm[field].$dirty && $scope.noteInputForm[field].$error[validation]) || ($scope.submitted && $scope.noteInputForm[field].$error[validation]);
-		}
-		return ($scope.noteInputForm[field].$dirty && $scope.noteInputForm[field].$invalid) || ($scope.submitted && $scope.noteInputForm[field].$invalid);
-	};*/
+	
+	$scope.clearNoteInputModelFromJS = function(){
+		$scope.noteInputFormModel.streetAddress = '';
+		$scope.noteInputFormModel.noteDate = '';
+		$scope.noteInputFormModel.upb = '';
+		$scope.noteInputFormModel.rate = '';
+		$scope.noteInputFormModel.pdiPayment = '';
+		$scope.noteInputFormModel.tdiPayment = '';
+		$scope.noteInputFormModel.originalPrincipleBalance = '';
+		$scope.noteInputFormModel.salesPrice = '';
+		$scope.noteInputFormModel.noOfLatePayment = '';
+		$scope.noteInputFormModel.notePosition = '';
+		$scope.noteInputFormModel.borrowerCreditScore = '';
+		$scope.noteInputFormModel.notePrice = '';
+		$scope.noteInputFormModel.remainingNoOfPayment = '';
+		$scope.noteInputFormModel.originalPropertyValue = '';
+		
+	}
 
 	$scope.populateNoteInputModelFromJS = function(){
 		var model = $scope.noteInputFormModel 
@@ -142,11 +153,13 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 	};
 
 	function createNoteService() {
+		WaitingDialog.show();
 		NoteService.createNote($scope.noteInputFormModel).then(function() {
 			$state.go('noteDashboard');
 		}, function(errResponse) {
+			WaitingDialog.hide();
 			toastr.error('Error while creating note');
-		});
+		})
 	}
 
 

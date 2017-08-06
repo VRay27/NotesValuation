@@ -12,6 +12,11 @@ import java.io.Serializable;
  */
 public class AppraisalPropertyBean implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5492784215037887434L;
+	
 	private String apprisalPropertyId;
 	private String marketValue;
 	private String currency;

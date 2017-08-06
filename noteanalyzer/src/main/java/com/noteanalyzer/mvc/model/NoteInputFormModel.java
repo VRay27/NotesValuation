@@ -32,7 +32,7 @@ public class NoteInputFormModel implements Serializable {
 	private BigDecimal noOfPaymentRemaining;
 	private BigDecimal salePrice;
 	private String selPerforming;
-	private int notePosition;
+	private String notePosition;
 	private BigDecimal userScore;
 	
 	private String selCity;
@@ -40,11 +40,14 @@ public class NoteInputFormModel implements Serializable {
 	private String zipCode;
 	private String streetAddress;
 	
-	private Integer noOfLatePayment;
+	private String noOfLatePayment;
 	
-	private int borrowerCreditScore;
+	private String borrowerCreditScore;
+	private String notePrice;
 	
 	private String performing;
+	private String remainingNoOfPayment;
+	private String originalPropertyValue;
 	
 	
 
@@ -62,20 +65,7 @@ public class NoteInputFormModel implements Serializable {
 		this.performing = performing;
 	}
 
-	/**
-	 * @return the borrowerCreditScore
-	 */
-	public int getBorrowerCreditScore() {
-		return borrowerCreditScore;
-	}
-
-	/**
-	 * @param borrowerCreditScore the borrowerCreditScore to set
-	 */
-	public void setBorrowerCreditScore(int borrowerCreditScore) {
-		this.borrowerCreditScore = borrowerCreditScore;
-	}
-
+	
 	/**
 	 * @return the noteTypeList
 	 */
@@ -320,19 +310,7 @@ public class NoteInputFormModel implements Serializable {
 		this.selPerforming = selPerforming;
 	}
 
-	/**
-	 * @return the notePosition
-	 */
-	public int getNotePosition() {
-		return notePosition;
-	}
-
-	/**
-	 * @param notePosition the notePosition to set
-	 */
-	public void setNotePosition(int notePosition) {
-		this.notePosition = notePosition;
-	}
+	
 
 	/**
 	 * @return the userScore
@@ -390,20 +368,7 @@ public class NoteInputFormModel implements Serializable {
 		this.zipCode = zipCode;
 	}
 
-	/**
-	 * @return the noOfLatePayment
-	 */
-	public Integer getNoOfLatePayment() {
-		return noOfLatePayment;
-	}
-
-	/**
-	 * @param noOfLatePayment the noOfLatePayment to set
-	 */
-	public void setNoOfLatePayment(Integer noOfLatePayment) {
-		this.noOfLatePayment = noOfLatePayment;
-	}
-
+	
 	/**
 	 * @return the streetAddress
 	 */
@@ -430,6 +395,90 @@ public class NoteInputFormModel implements Serializable {
 	 */
 	public void setUserId(long userId) {
 		this.userId = userId;
+	}
+
+	/**
+	 * @return the notePosition
+	 */
+	public String getNotePosition() {
+		return notePosition;
+	}
+
+	/**
+	 * @param notePosition the notePosition to set
+	 */
+	public void setNotePosition(String notePosition) {
+		this.notePosition = notePosition;
+	}
+
+	/**
+	 * @return the noOfLatePayment
+	 */
+	public String getNoOfLatePayment() {
+		return noOfLatePayment;
+	}
+
+	/**
+	 * @param noOfLatePayment the noOfLatePayment to set
+	 */
+	public void setNoOfLatePayment(String noOfLatePayment) {
+		this.noOfLatePayment = noOfLatePayment;
+	}
+
+	/**
+	 * @return the borrowerCreditScore
+	 */
+	public String getBorrowerCreditScore() {
+		return borrowerCreditScore;
+	}
+
+	/**
+	 * @param borrowerCreditScore the borrowerCreditScore to set
+	 */
+	public void setBorrowerCreditScore(String borrowerCreditScore) {
+		this.borrowerCreditScore = borrowerCreditScore;
+	}
+
+	/**
+	 * @return the notePrice
+	 */
+	public String getNotePrice() {
+		return notePrice;
+	}
+
+	/**
+	 * @param notePrice the notePrice to set
+	 */
+	public void setNotePrice(String notePrice) {
+		this.notePrice = notePrice;
+	}
+
+	/**
+	 * @return the remainingNoOfPayment
+	 */
+	public String getRemainingNoOfPayment() {
+		return remainingNoOfPayment;
+	}
+
+	/**
+	 * @param remainingNoOfPayment the remainingNoOfPayment to set
+	 */
+	public void setRemainingNoOfPayment(String remainingNoOfPayment) {
+		this.remainingNoOfPayment = remainingNoOfPayment;
+	}
+
+	/**
+	 * @return the originalPropertyValue
+	 */
+	public String getOriginalPropertyValue() {
+		return originalPropertyValue;
+	}
+
+	/**
+	 * @param originalPropertyValue the originalPropertyValue to set
+	 */
+	public void setOriginalPropertyValue(String originalPropertyValue) {
+		this.originalPropertyValue = originalPropertyValue;
 	}
 
 

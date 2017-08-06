@@ -4,8 +4,10 @@ import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
 
+import com.noteanalyzer.appraisal.exceptions.AddressNotAvailableException;
 import com.noteanalyzer.entity.notes.NoteConfiguration;
 import com.noteanalyzer.entity.notes.Parameters;
+import com.noteanalyzer.entity.notes.Property;
 import com.noteanalyzer.mvc.model.AddressModel;
 import com.noteanalyzer.mvc.model.NoteInputFormModel;
 import com.noteanalyzer.mvc.model.NoteSummaryModel;
@@ -17,7 +19,7 @@ import lombok.NonNull;
 
 
 public interface NoteService {
-	public void createNote(@NonNull NoteInputFormModel note) throws ParseException;
+	public void createNote(@NonNull NoteInputFormModel note) throws ParseException, AddressNotAvailableException;
 	
 	public Optional<List<NoteTypeModel>> getNoteType();
 	
@@ -33,6 +35,8 @@ public interface NoteService {
 	public Optional<AddressModel> getZipCodeDetails(String zipCode);
 
 	Optional<AddressModel> getAllLocationDetails();
+
+	Optional<List<Property>> getPropertyByAddress(NoteInputFormModel noteModel);
 	
 	/*User findById(long id);
 	

@@ -25,11 +25,9 @@ app.controller('LoginCtrl', function($scope, $rootScope, $state, $location, toas
     	}else{
     		toastr.error('Please enter valid email and password.');	
     	}
-      
+      WaitingDialog.hide();
       $auth.logout();
-    }).then(function(){
-      	WaitingDialog.hide();
-    });
+    })
   };
   
  $scope.resetPassword = function(){
@@ -63,12 +61,7 @@ app.service("loginService", function($http, $q, WaitingDialog) {
 			}, function(response) {
 				deferred.reject(response);
 				return deferred.promise;
-			}).then(
-			function() {
-				WaitingDialog.hide();
-				return deferred.promise;
 			});
-
 	};
 
 	var resetPassword = function(loginModel) {

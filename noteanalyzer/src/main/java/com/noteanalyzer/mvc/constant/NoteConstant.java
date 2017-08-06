@@ -36,6 +36,8 @@ public class NoteConstant {
     public static final String ZESTIMATE_URL = "http://www.zillow.com/webservice/GetZestimate.htm";
     
     public static final String ZWSID = "X1-ZWz1fxj5raoeff_3z9zt";
+    
+    public static final String  DEFAULT_DATE_FORMAT = "MM/dd/yyyy";
 
 	
 	

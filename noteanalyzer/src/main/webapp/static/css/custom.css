@@ -360,6 +360,7 @@ select.ui-grid-filter-select:hover {
 .ui-grid-row:last-child .ui-grid-cell {
   border-bottom-color: #94c0d2;
   border-bottom-style: solid;
+  border-bottom-width:1px !important;
 }
 .ui-grid-no-row-overlay {
   position: absolute;

@@ -10,9 +10,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.noteanalyzer.entity.AbstractEntity;
@@ -89,8 +89,18 @@ public class Note extends AbstractEntity {
 	@Column(name = "PROPERTY_VALUE_AT_ORIGINATION")
 	private BigDecimal propertyValueAtOrigination;
 	
+	@Column(name = "NOTE_PRICE")
+	private BigDecimal notePrice;
+	
+	@Column(name = "REMAINING_NO_OF_PAYMENT")
+	private Integer remainingNoOfPayment;
+	
+	@Column(name = "ORIGINAL_PROPERTY_VALUE")
+	private BigDecimal originalPropertyValue;
+	
+	
 
-	@OneToOne(cascade=CascadeType.ALL)
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "PROPERTY_ID")
 	private Property propertyId;
 
@@ -349,6 +359,48 @@ public class Note extends AbstractEntity {
 	}
 
 	
+
+	/**
+	 * @return the notePrice
+	 */
+	public BigDecimal getNotePrice() {
+		return notePrice;
+	}
+
+	/**
+	 * @param notePrice the notePrice to set
+	 */
+	public void setNotePrice(BigDecimal notePrice) {
+		this.notePrice = notePrice;
+	}
+
+	/**
+	 * @return the remainingNoOfPayment
+	 */
+	public Integer getRemainingNoOfPayment() {
+		return remainingNoOfPayment;
+	}
+
+	/**
+	 * @param remainingNoOfPayment the remainingNoOfPayment to set
+	 */
+	public void setRemainingNoOfPayment(Integer remainingNoOfPayment) {
+		this.remainingNoOfPayment = remainingNoOfPayment;
+	}
+
+	/**
+	 * @return the originalPropertyValue
+	 */
+	public BigDecimal getOriginalPropertyValue() {
+		return originalPropertyValue;
+	}
+
+	/**
+	 * @param originalPropertyValue the originalPropertyValue to set
+	 */
+	public void setOriginalPropertyValue(BigDecimal originalPropertyValue) {
+		this.originalPropertyValue = originalPropertyValue;
+	}
 
 	/**
 	 * @return the propertyId

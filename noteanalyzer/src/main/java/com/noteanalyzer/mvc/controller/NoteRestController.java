@@ -29,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.noteanalyzer.appraisal.exceptions.AddressNotAvailableException;
 import com.noteanalyzer.mvc.model.AddressModel;
 import com.noteanalyzer.mvc.model.CityModel;
 import com.noteanalyzer.mvc.model.NoteDetailModel;
@@ -141,6 +142,10 @@ public class NoteRestController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		} catch (AddressNotAvailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			//return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}

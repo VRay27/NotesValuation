@@ -22,7 +22,7 @@
 						 <div class="form-group">
                             <label class="col-lg-2 control-label requiredField">Zip Code</label>
                             <div class="col-lg-3 zipCode">
-                                <input type="text" class="form-control icon-text" name="zipCode" ng-model="noteInputFormModel.zipCode"  placeholder="Enter Zip Code" />
+                                <input type="text" class="form-control icon-text" name="zipCode" ng-model="noteInputFormModel.zipCode"  placeholder="Enter Zip Code"  readonly/>
                              <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Enter zip code"></span>
                             </div>
                            <label class="col-lg-2 control-label requiredField">City</label>
@@ -142,11 +142,35 @@
                                 <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Enter Borrower Credit Score"></span>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label requiredField">Note Price</label>
+                            <div class="col-lg-3">
+                                <input type="text" class="form-control icon-text" name="notePrice" placeholder="Enter Note Price" ng-model="noteInputFormModel.notePrice" />
+                                <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Enter Note Price"></span>
+                            </div>
+                             <label class="col-lg-2 control-label">Remaining no of payments</label>
+                            <div class="col-lg-3">
+                                <input type="text" class="form-control icon-text" name="remainingNoOfPayment" placeholder="Remaining no of payments" ng-model="noteInputFormModel.remainingNoOfPayment" />
+                                <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Enter Remaining no of payments"></span>
+                            </div>
+                        </div>
+                        
+                         <div class="form-group">
+                            <label class="col-lg-2 control-label requiredField">Original Property Value</label>
+                            <div class="col-lg-3">
+                                <input type="text" class="form-control icon-text" name="originalPropertyValue" placeholder="Enter original property value" ng-model="noteInputFormModel.originalPropertyValue" />
+                                <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Enter original property value"></span>
+                            </div>
+                             <label class="col-lg-2 control-label"></label>
+                            <div class="col-lg-3">
+                            </div>
+                        </div>
                 
                        <div class="form-group">
                             <div class="col-lg-9 col-lg-offset-2">
-                                <input type="button" class= "btn btn-lg btn-primary" id="createNoteBtn"  name="createNote" value="Create Note"/>
+                                <input type="button" class= "btn btn-lg btn-success" id="createNoteBtn"  name="createNote" value="Create Note"/>
                                 <input type="button" class="btn btn-lg btn-info" ng-click="populateNoteInputModelFromJS()" value= "Calculate"/>
+                                <input type="button" class="btn btn-lg btn-info" ng-click="clearNoteInputModelFromJS()" value= "Reset"/>
                                 <input type="button" class="btn btn-lg btn-info" ng-click="cancel()" value="Cancel" />
                                  <input type="button" class= "btn" style="visibility: hidden;" id="createNoteBtnHidden"   ng-click ="createNote();" name="createNoteHidden" value="Create Note"/>
                             </div>
@@ -188,15 +212,7 @@ $(document).ready(function() {
                       }
                     },
                },
-          noOfLatePayment: {
-        	  	  group:'.col-lg-3',
-	        	  numeric: {
-	                  message: 'This value is not a valid number.',
-	                  // The default separators
-	                  thousandsSeparator: '',
-	                  decimalSeparator: '.'
-	              }
-          		},
+         
            /*  username: {
                 message: 'The username is not valid',
                 validators: {
@@ -289,8 +305,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
 	                     min: 1,
-	                     max: 100,
-	                     message: 'The UPB must be less than 100 characters long'
+	                     max: 20,
+	                     message: 'The UPB must be less than 20 characters long'
 	            	 },
 	            	 notEmpty: {
 	                        message: 'The upb is required and can\'t be empty.'
@@ -307,8 +323,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
 	                     min: 1,
-	                     max: 100,
-	                     message: 'The rate must be less than 100 characters long'
+	                     max: 20,
+	                     message: 'The rate must be less than 20 characters long'
 	            	 },
 	            	 notEmpty: {
 	                        message: 'The rate is required and can\'t be empty.'
@@ -325,8 +341,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
 	                     min: 1,
-	                     max: 100,
-	                     message: 'The pdi payment must be less than 100 characters long'
+	                     max: 20,
+	                     message: 'The pdi payment must be less than 20 characters long'
 	            	 },
 	            	 notEmpty: {
 	                        message: 'The pdi payment is required and can\'t be empty.'
@@ -343,8 +359,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
 	                     min: 1,
-	                     max: 100,
-	                     message: 'The tdi payment must be less than 100 characters long'
+	                     max: 20,
+	                     message: 'The tdi payment must be less than 20 characters long'
 	            	 },
 	            	 notEmpty: {
 	                        message: 'The tdi payment is required and can\'t be empty.'
@@ -361,8 +377,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
 	                     min: 1,
-	                     max: 100,
-	                     message: 'The sales price must be less than 100 characters long'
+	                     max: 20,
+	                     message: 'The sales price must be less than noteInputForm characters long'
 	            	 },
 	            	 notEmpty: {
 	                        message: 'The sales price is required and can\'t be empty.'
@@ -379,13 +395,122 @@ $(document).ready(function() {
                      },
             		 stringLength: {
 	                     min: 1,
-	                     max: 100,
-	                     message: 'The original principal bal must be less than 100 characters long'
+	                     max: 20,
+	                     message: 'The original principal bal must be less than noteInputForm characters long'
 	            	 },
 	            	 notEmpty: {
 	                        message: 'The original principal balance is required and can\'t be empty.'
 	                    }
+             }},
+             notePrice:{
+            	 group:'.col-lg-3',
+            	 validators: {
+            		 numeric: {
+                         message: 'This value is not a valid number.',
+                         // The default separators
+                         thousandsSeparator: '',
+                         decimalSeparator: '.'
+                     },
+            		 stringLength: {
+	                     min: 1,
+	                     max: 20,
+	                     message: 'The Note Price must be less than 20 characters long'
+	            	 },
+	            	 notEmpty: {
+	                        message: 'The Note Price is required and can\'t be empty.'
+	                    }
+             }},
+             originalPropertyValue:{
+            	 group:'.col-lg-3',
+            	 validators: {
+            		 numeric: {
+                         message: 'This value is not a valid number.',
+                         // The default separators
+                         thousandsSeparator: '',
+                         decimalSeparator: '.'
+                     },
+            		 stringLength: {
+	                     min: 1,
+	                     max: 20,
+	                     message: 'The original property value must be less than 20 characters long'
+	            	 },
+	            	 notEmpty: {
+	                        message: 'The original property value is required and can\'t be empty.'
+	                    }
+             }}, 
+             remainingNoOfPayment:{
+            	 group:'.col-lg-3',
+            	 validators: {
+            		 numeric: {
+                         message: 'This value is not a valid number.',
+                         // The default separators
+                         thousandsSeparator: '',
+                         decimalSeparator: '.'
+                     },
+            		 stringLength: {
+	                     min: 1,
+	                     max: 20,
+	                     message: 'The remaining no of payment must be less than 20 characters long'
+	            	 },
+	            	 notEmpty: {
+	                        message: 'The remaining no of payment value is required and can\'t be empty.'
+	                    }
+             }},
+             noOfLatePayment:{
+            	 group:'.col-lg-3',
+            	 validators: {
+            		 numeric: {
+                         message: 'This value is not a valid number.',
+                         // The default separators
+                         thousandsSeparator: '',
+                         decimalSeparator: '.'
+                     },
+            		 stringLength: {
+	                     min: 1,
+	                     max: 10,
+	                     message: 'The No of Late Payment must be less than 10 characters long'
+	            	 },
+	            	 notEmpty: {
+	                        message: 'The No of Late Payment is required and can\'t be empty.'
+	                    }
+             }},
+             notePosition:{
+            	 group:'.col-lg-3',
+            	 validators: {
+            		 numeric: {
+                         message: 'This value is not a valid number.',
+                         // The default separators
+                         thousandsSeparator: '',
+                         decimalSeparator: '.'
+                     },
+            		 stringLength: {
+	                     min: 1,
+	                     max: 10,
+	                     message: 'The note position value must be less than 10 characters long'
+	            	 },
+	            	 notEmpty: {
+	                        message: 'The note position is required and can\'t be empty.'
+	                    }
+             }}, 
+             borrowerCreditScore:{
+            	 group:'.col-lg-3',
+            	 validators: {
+            		 numeric: {
+                         message: 'This value is not a valid number.',
+                         // The default separators
+                         thousandsSeparator: '',
+                         decimalSeparator: '.'
+                     },
+            		 stringLength: {
+	                     min: 1,
+	                     max: 20,
+	                     message: 'The Borrower Credit Score must be less than 20 characters long'
+	            	 },
+	            	 notEmpty: {
+	                        message: 'The Borrower Credit Score value is required and can\'t be empty.'
+	                    }
              }}
+             
            /*  captcha: {
                 validators: {
                     callback: {

@@ -273,6 +273,7 @@ noteApp.factory('WaitingDialog', function($window,$state,toastr) {
 				'</div>' +
 			'</div></div></div>');
 	
+	var isOpen;
 
 	return {
 		// Creating modal dialog's DOM
@@ -312,12 +313,18 @@ noteApp.factory('WaitingDialog', function($window,$state,toastr) {
 			}
 			// Opening dialog
 			$dialog.modal();
+			isOpen = true;
 		},
 		/**
 		 * Closes dialog
 		 */
 		hide: function () {
 			$dialog.modal('hide');
+			isOpen = false;
+		},
+		
+		isOpen: function(){
+			return isOpen;
 		}
 	};
 

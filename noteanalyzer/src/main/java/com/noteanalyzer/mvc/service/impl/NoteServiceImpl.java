@@ -45,11 +45,11 @@ public class NoteServiceImpl implements NoteService {
 	@Autowired
 	GenericDao genericDao;
 
-	@Resource(name="zillowWebService")
+	@Resource(name = "zillowWebService")
 	AppraisalSource zillowWebService;
-	
+
 	private final static Logger LOG = Logger.getLogger(NoteServiceImpl.class.getName());
-	
+
 	/**
 	 * @return the zillowWebService
 	 */
@@ -58,7 +58,8 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	/**
-	 * @param zillowWebService the zillowWebService to set
+	 * @param zillowWebService
+	 *            the zillowWebService to set
 	 */
 	public void setZillowWebService(AppraisalSource zillowWebService) {
 		this.zillowWebService = zillowWebService;
@@ -74,25 +75,34 @@ public class NoteServiceImpl implements NoteService {
 
 	@Override
 	@Transactional
-	public void createNote(@NonNull NoteInputFormModel noteModel) throws ParseException {
-		
-		
+	public void createNote(@NonNull NoteInputFormModel noteModel) throws ParseException, AddressNotAvailableException {
+
 		Note note = ConverterUtility.convertNoteModelToEntity(noteModel);
-		AppraisalPropertyBean appraisalPropertyBean = null;
+		AppraisalPropertyBean appraisalPropertyBean = new AppraisalPropertyBean();
 		try {
-			 appraisalPropertyBean = zillowWebService.getPropertyDetailsWithAddress(noteModel.getStreetAddress(), noteModel.getSelCity(), noteModel.getSelState(), noteModel.getZipCode());
+			appraisalPropertyBean = zillowWebService.getPropertyDetailsWithAddress(noteModel.getStreetAddress(),
+					noteModel.getSelCity(), noteModel.getSelState(), noteModel.getZipCode());
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (AddressNotAvailableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println(appraisalPropertyBean);
 		LOG.info(appraisalPropertyBean.toString());
+		Optional<List<Property>> propertyList = getPropertyByAddress(noteModel);
+		Property property;
+		if (propertyList.isPresent()) {
+			property = propertyList.get().get(0);
+		} else {
+			property = ConverterUtility.createPropertyObject(noteModel, appraisalPropertyBean);
+		}
+		note.setPropertyId(property);
+		genericDao.create(note);
+
+	}
+
+	@Override
+	public Optional<List<Property>> getPropertyByAddress(NoteInputFormModel noteModel) {
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("zipCode", Integer.valueOf(noteModel.getZipCode()));
 		parameters.put("streetAddress", noteModel.getStreetAddress());
@@ -100,29 +110,17 @@ public class NoteServiceImpl implements NoteService {
 		parameters.put("state", noteModel.getSelState());
 		List<Property> propertyList = genericDao.getResultByNamedQuery(Property.class,
 				Property.GET_PROPERTY_DETAILS_BY_ADDRESS, parameters);
-		Property property;
-		if (CollectionUtils.isEmpty(propertyList)) {
-			property = new Property();
-			property.setZip(Integer.valueOf(noteModel.getZipCode()));
-			property.setStreetAddress(noteModel.getStreetAddress());
-			property.setCity(noteModel.getSelCity());
-			property.setState(noteModel.getSelState());
-			property.setPropertyType(noteModel.getSelPropType().getPropertyTypeCode());
-			
-		}else{
-			property = propertyList.get(0);
+		if (Collections.isEmpty(propertyList)) {
+			return Optional.empty();
 		}
-		
-		note.setPropertyId(property);
-		genericDao.create(note);
-
+		return Optional.of(propertyList);
 	}
 
 	@Override
 	public Optional<List<NoteTypeModel>> getNoteType() {
 		List<NoteType> noteTypeList = genericDao.getAll(NoteType.class);
 		if (Collections.isEmpty(noteTypeList)) {
-			Optional.empty();
+			return Optional.empty();
 		}
 		return Optional.of(ConverterUtility.convertNoteTypeEntityToModel(noteTypeList));
 	}
@@ -131,7 +129,7 @@ public class NoteServiceImpl implements NoteService {
 	public Optional<List<PropertyTypeModel>> getPropertyType() {
 		List<PropertyType> propTypeList = genericDao.getAll(PropertyType.class);
 		if (Collections.isEmpty(propTypeList)) {
-			Optional.empty();
+			return Optional.empty();
 		}
 		return Optional.of(ConverterUtility.convertPropertyTypeEntityToModel(propTypeList));
 	}
@@ -148,10 +146,10 @@ public class NoteServiceImpl implements NoteService {
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("userId", userId);
 		List<Note> noteList = genericDao.getResultByNamedQuery(Note.class, Note.GET_NOTE_DETAILS_BY_USER, parameters);
-		if(CollectionUtils.isEmpty(noteList)){
+		if (CollectionUtils.isEmpty(noteList)) {
 			return Optional.empty();
 		}
-		//NoteForZillow
+		// NoteForZillow
 		return Optional.of(ConverterUtility.convertNoteToNoteSummaryModel(noteList));
 	}
 
@@ -165,40 +163,40 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	@Override
-	public Parameters getParameterValue(String parameterName, String userEmailId){
+	public Parameters getParameterValue(String parameterName, String userEmailId) {
 		Map<String, Object> parameters = new HashMap<>();
-		List<Parameters> param =  null;
+		List<Parameters> param = null;
 		parameters.put("parameterName", parameterName);
-		if(StringUtils.isNotBlank(userEmailId)){
-		parameters.put("emailID", userEmailId);
-		param = genericDao.getResultByNamedQuery(Parameters.class,
-				Parameters.GET_PARAMETERS_VALUE_USER_ID, parameters);
-		}else{
-			param = genericDao.getResultByNamedQuery(Parameters.class,
-					Parameters.GET_PARAMETERS_VALUE, parameters);
+		if (StringUtils.isNotBlank(userEmailId)) {
+			parameters.put("emailID", userEmailId);
+			param = genericDao.getResultByNamedQuery(Parameters.class, Parameters.GET_PARAMETERS_VALUE_USER_ID,
+					parameters);
+		} else {
+			param = genericDao.getResultByNamedQuery(Parameters.class, Parameters.GET_PARAMETERS_VALUE, parameters);
 		}
-		if(!CollectionUtils.isEmpty(param)){
+		if (!CollectionUtils.isEmpty(param)) {
 			return param.get(0);
 		}
 		return new Parameters();
 	}
-	
+
 	@Override
 	public Optional<AddressModel> getZipCodeDetails(String zipCode) {
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("zipCode", StringUtils.lowerCase(zipCode));
-	
-		List<Zipcodes> zipcodeDetails = genericDao.getResultByNamedQuery(Zipcodes.class, Zipcodes.GET_ZIPCODE_DETAILS_BY_ZIPCODE, parameters);
+
+		List<Zipcodes> zipcodeDetails = genericDao.getResultByNamedQuery(Zipcodes.class,
+				Zipcodes.GET_ZIPCODE_DETAILS_BY_ZIPCODE, parameters);
 		if (!CollectionUtils.isEmpty(zipcodeDetails)) {
 			AddressModel addressModel = ConverterUtility.convertZipCodeWithAddress(zipcodeDetails);
 			return Optional.of(addressModel);
 		}
 		return Optional.empty();
 	}
-	
+
 	@Override
 	public Optional<AddressModel> getAllLocationDetails() {
-	
+
 		List<Zipcodes> zipcodeDetails = genericDao.getAll(Zipcodes.class);
 		if (!CollectionUtils.isEmpty(zipcodeDetails)) {
 			AddressModel addressModel = ConverterUtility.convertZipCodeWithAddress(zipcodeDetails);

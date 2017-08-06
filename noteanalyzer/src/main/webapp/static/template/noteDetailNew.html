@@ -1,7 +1,14 @@
+<div class="container" >
+	<div class="panel panel-default">
+		<div class="panel-heading">Note Details Form</div>
+		<div class="panel-body">
+
 <div class="container noteDetailContainer">
 
 		
 		<form id="noteDetailForm" method="post" class="form-horizontal" ng-submit="updateNote()">
+		 <input type="button" class="btn btn-info openall" value ="Open all" /> <input type="button" class="btn btn-info closeall" value ="Close all"/> 
+			<hr>
 		<div class="panel-group" id="accordion">
     <div class="panel panel-default">
         <div class="noteDetailClass panel-heading">
@@ -9,6 +16,7 @@
                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#panel1">Note Detail</a>
             </h4>
         </div>
+        
         <div id="panel1" class="panel-collapse collapse in">
             <div class="panel-body">
                                   <div class="form-group">
@@ -234,7 +242,7 @@
                   <div class="panel-body">
                        <div class="form-group">
                             <div class="col-lg-9 col-lg-offset-2">
-                                <button type="submit" class="btn btn-lg btn-primary" id="updateNoteBtn" name="createNote" >Update Note</button>
+                                <button type="submit" class="btn btn-lg btn-success" id="updateNoteBtn" name="createNote" >Update Note</button>
                                 <button class="btn btn-lg btn-info" ng-click="Cancel()">Cancel</button>
                             </div>
                         </div>
@@ -242,7 +250,7 @@
                     </div>
             </form>        
 </div>
-
+</div></div></div>
 <script type="text/javascript">
 $(document).ready(function() {
 	var $active = $('#accordion .panel-collapse.in').prev().addClass('active');
@@ -533,6 +541,13 @@ $(document).ready(function() {
         $('#noteDetailForm').bootstrapValidator('validate');
     });
 
-  
+    $('.closeall').click(function(){
+    	  $('.panel-collapse.in')
+    	    .collapse('hide');
+    	});
+    	$('.openall').click(function(){
+    	  $('.panel-collapse:not(".in")')
+    	    .collapse('show');
+    	});
 });
 </script>
