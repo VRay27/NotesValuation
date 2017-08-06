@@ -8,10 +8,30 @@ angular.module('NoteApp').factory('UserService', ['$http', '$q','WaitingDialog',
         updateUser:updateUser,
         getUserDetail:getUserDetail,
         changePassword:changePassword,
-        changePasswordWithLoginUser:changePasswordWithLoginUser
+        changePasswordWithLoginUser:changePasswordWithLoginUser,
+        getCityStateFromZipCode:getCityStateFromZipCode
     };
 
     return factory;
+
+    function getCityStateFromZipCode(zipCode) {
+    	WaitingDialog.show();
+        var deferred = $q.defer();
+        $http.get('getStateCityList/'+zipCode)
+            .then(
+            function (response) {
+                deferred.resolve(response.data);
+            },
+            function(errResponse){
+                console.error('Please enter valid zipcode');
+                deferred.reject(errResponse);
+            }
+        ).then(
+				function() {
+					WaitingDialog.hide();
+				});;
+        return deferred.promise;
+    }
 
 
     function createUser(user) {
@@ -73,10 +93,10 @@ angular.module('NoteApp').factory('UserService', ['$http', '$q','WaitingDialog',
     }
 
 
-    function updateUser(user) {
+    function updateUser(userModel) {
     	WaitingDialog.show();
         var deferred = $q.defer();
-        $http.post('api/updateUser', user)
+        $http.post('api/updateUser', userModel)
             .then(
             function (response) {
                 deferred.resolve(response.data);

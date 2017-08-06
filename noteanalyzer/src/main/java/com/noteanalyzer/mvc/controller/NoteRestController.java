@@ -31,13 +31,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.noteanalyzer.appraisal.exceptions.AddressNotAvailableException;
 import com.noteanalyzer.mvc.model.AddressModel;
-import com.noteanalyzer.mvc.model.CityModel;
 import com.noteanalyzer.mvc.model.NoteDetailModel;
 import com.noteanalyzer.mvc.model.NoteInputFormModel;
 import com.noteanalyzer.mvc.model.NoteSummaryModel;
 import com.noteanalyzer.mvc.model.NoteTypeModel;
 import com.noteanalyzer.mvc.model.PropertyTypeModel;
-import com.noteanalyzer.mvc.model.StateModel;
 import com.noteanalyzer.mvc.model.UserModel;
 import com.noteanalyzer.mvc.service.NoteService;
 import com.noteanalyzer.mvc.service.UserService;
@@ -308,13 +306,14 @@ public class NoteRestController {
 		return new ResponseEntity<List<PropertyTypeModel>>(HttpStatus.NOT_FOUND);
 	}
 
-	@RequestMapping(value = "/getStateCityList", method = RequestMethod.GET)
-	public ResponseEntity<AddressModel> getStateCityList() {
-		Optional<AddressModel> addressModel = noteService.getAllLocationDetails();
-		if (addressModel.isPresent()) {
-			return new ResponseEntity<AddressModel>(addressModel.get(), HttpStatus.OK);
+	@RequestMapping(value = "/getStateCityList/{zipCode}", method = RequestMethod.GET)
+	public ResponseEntity<AddressModel> getStateCityList(@PathVariable String zipCode) {
+		Optional<AddressModel> address = noteService.getZipCodeDetails(zipCode);
+		if (address.isPresent()) {
+			return new ResponseEntity<AddressModel>(address.get(), HttpStatus.OK);
 		}
-		return new ResponseEntity<AddressModel>(HttpStatus.NOT_FOUND);
+		return new ResponseEntity<AddressModel>(HttpStatus.NOT_FOUND);		
+		
 	}
 	
 }

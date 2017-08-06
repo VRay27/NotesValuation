@@ -1,12 +1,18 @@
 package com.noteanalyzer.mvc.model;
 
+import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
-public class UserModel {
+public class UserModel implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1229343341896851765L;
 
 	private long userId;
 	
@@ -16,7 +22,15 @@ public class UserModel {
 	
 	private AddressModel addressModel;
 	
+	private String zipCode;
+	
+	private String selCity;
+	
+	private String selState;
+	
 	private String email;
+	
+	private String streetAddress;
 	
 	private String phoneNumber;
 	
@@ -246,15 +260,63 @@ public class UserModel {
 		this.isActive = isActive;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
+	/**
+	 * @return the zipCode
 	 */
-	@Override
-	public String toString() {
-		return "UserModel [userId=" + userId + ", displayName=" + displayName + ", password=" + password
-				+ ", addressModel=" + addressModel + ", email=" + email + ", phoneNumber=" + phoneNumber
-				+ ", resetToken=" + resetToken + ", verificationToken=" + verificationToken + ", resetCreationTime="
-				+ resetCreationTime + ", isActive=" + isActive + ", roles=" + roles + "]";
+	public String getZipCode() {
+		return zipCode;
 	}
+
+	/**
+	 * @param zipCode the zipCode to set
+	 */
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
+	}
+
+	/**
+	 * @return the selCity
+	 */
+	public String getSelCity() {
+		return selCity;
+	}
+
+	/**
+	 * @param selCity the selCity to set
+	 */
+	public void setSelCity(String selCity) {
+		this.selCity = selCity;
+	}
+
+	/**
+	 * @return the selState
+	 */
+	public String getSelState() {
+		return selState;
+	}
+
+	/**
+	 * @param selState the selState to set
+	 */
+	public void setSelState(String selState) {
+		this.selState = selState;
+	}
+
+	/**
+	 * @return the streetAddress
+	 */
+	public String getStreetAddress() {
+		return streetAddress;
+	}
+
+	/**
+	 * @param streetAddress the streetAddress to set
+	 */
+	public void setStreetAddress(String streetAddress) {
+		this.streetAddress = streetAddress;
+	}
+	
+	
+
 
 }

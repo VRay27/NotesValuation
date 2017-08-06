@@ -13,7 +13,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.noteanalyzer.entity.address.Zipcodes;
@@ -38,15 +37,13 @@ public class ConverterUtility {
 
 		User user = new User();
 		user.setDisplayName(userModel.getDisplayName());
-		// user.setUserName(userModel.getEmail());
 		user.setPassword(encoder.encode(userModel.getPassword()));
 		user.setEmailID(userModel.getEmail());
 		user.setContactNumber(userModel.getPhoneNumber());
-		if (userModel.getAddress() != null) {
-			user.setStreet(userModel.getAddress().getStreetAddress());
-			user.setCity(userModel.getAddress().getCity());
-			user.setState(userModel.getAddress().getState());
-		}
+		user.setStreet(userModel.getStreetAddress());
+		user.setCity(userModel.getSelCity());
+		user.setState(userModel.getSelState());
+		user.setZipcode(userModel.getZipCode());
 		user.setVerificationToken(userModel.getVerificationToken());
 		user.setVerificationTokenCreationTime(ZonedDateTime.now());
 		user.setIsActive(IN_ACTIVE_USER_FLAG);
@@ -64,14 +61,10 @@ public class ConverterUtility {
 		userModel.setResetToken(user.getResetToken());
 		userModel.setVerificationToken(user.getVerificationToken());
 		userModel.setIsActive(user.getIsActive());
-		if (StringUtils.isNotEmpty(user.getStreet())) {
-			AddressModel addressModel = new AddressModel();
-			addressModel.setStreetAddress(user.getStreet());
-			addressModel.setCity(user.getCity());
-			addressModel.setState(user.getState());
-			userModel.setAddressModel(addressModel);
-		}
-
+		userModel.setStreetAddress(user.getStreet());
+		userModel.setSelCity(user.getCity());
+		userModel.setSelState(user.getState());
+		userModel.setZipCode(user.getZipcode());
 		return userModel;
 	}
 
@@ -154,7 +147,6 @@ public class ConverterUtility {
 		Set<String> stateList = new HashSet<>();
 		AddressModel model = new AddressModel();
 		for (Zipcodes zip : zipcodeDetailsList) {
-
 			cityList.add(zip.getCity());
 			stateList.add(zip.getState());
 		}

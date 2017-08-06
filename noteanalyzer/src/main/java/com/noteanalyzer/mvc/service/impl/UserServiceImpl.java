@@ -130,8 +130,11 @@ public class UserServiceImpl implements UserService {
 		if (userOptional.isPresent()) {
 			User user = userOptional.get();
 			user.setDisplayName(inputUser.getDisplayName());
-			// user.setFirstName(inputUser.getEmail());
 			user.setContactNumber(inputUser.getPhoneNumber());
+			user.setStreet(inputUser.getStreetAddress());
+			user.setCity(inputUser.getSelCity());
+			user.setState(inputUser.getSelState());
+			user.setZipcode(inputUser.getZipCode());
 			User updatedUser = genericDao.update(user);
 			return Optional.of(ConverterUtility.convertUserToUserModel(updatedUser));
 		}

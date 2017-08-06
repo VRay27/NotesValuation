@@ -5,110 +5,85 @@
 			<legend>
 				<i class="ion-clipboard"></i> Edit My Profile
 			</legend>
-    
-    <form id="regForm" method="post" class="form-horizontal" ng-submit="updateProfile()">
-                       <div class="form-group">
-                            <label class="col-lg-2 control-label">Email address</label>
-                            <div class="col-lg-3">
-                                <input type="text" class="form-control" name="email" readonly />
-                            </div>
-                        </div>
-                       
-                        <div class="form-group">
-                            <label class="col-lg-2 control-label">Full name</label>
-                            <div class="col-lg-3">
-                                <input type="text" class="form-control" name="displayName" placeholder="Enter your Full name" />
-                            </div>
-                          
-                        </div>
 
-                        <div class="form-group">
-                            <label class="col-lg-2 control-label">ZipCode</label>
-                            <div class="col-lg-3">
-                                <input type="text" class="form-control" name="zipCode" placeholder="Enter your Zip Code" />
-                            </div>
-                        </div>
-                       
-                       <div class="form-group">
-                            <label class="col-lg-2 control-label">Street Address</label>
-                            <div class="col-lg-3">
-                                <input type="text" class="form-control" name="streetAddress" placeholder="Enter your Address" />
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="col-lg-2 control-label">City</label>
-                            <div class="col-lg-2">
-                                <select class="form-control" name="city">
-                                    <option value="">-- Select a state --</option>
-                                    <option value="fr">France</option>
-                                    <option value="de">Germany</option>
-                                    <option value="it">Italy</option>
-                                    <option value="jp">Japan</option>
-                                    <option value="ru">Russia</option>
-                                    <option value="gb">United Kingdom</option>
-                                    <option value="us">United State</option>
-                                </select>
-                            </div>
-                             <label class="col-sm-1 control-label">State</label>
-                             <div class="col-lg-2">
-                                <select class="form-control" name="state">
-                                    <option value="">-- Select a state --</option>
-                                    <option value="fr">France</option>
-                                    <option value="de">Germany</option>
-                                    <option value="it">Italy</option>
-                                    <option value="jp">Japan</option>
-                                    <option value="ru">Russia</option>
-                                    <option value="gb">United Kingdom</option>
-                                    <option value="us">United State</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        
-                        
-                          <div class="form-group">
-                            <label class="col-lg-2 control-label">Phone Number</label>
-                            <div class="col-lg-3">
-                                <input type="text" class="form-control" name="phoneNumber" placeholder="Enter your Phone Number" />
-                            </div>
-                        </div>
+			<form id="regForm" method="post" class="form-horizontal">
+				<div class="form-group">
+					<label class="col-lg-2 control-label requiredField">Email Address</label>
+					<div class="col-lg-3">
+						<input type="text" class="form-control icon-text" name="email"
+							ng-model="userModel.email" readonly />
+					</div>
+				</div>
 
-                 <!--        
-                        <div class="form-group">
-                            <label class="col-lg-2 control-label">Birthday</label>
-                            <div class="col-lg-3">
-                                <input type="text" class="form-control" name="birthday" /> (YYYY/MM/DD)
-                            </div>
-                        </div>
- -->
-                                           
-                        
-                        <!-- <div class="form-group">
-                            <label class="col-lg-2 control-label">Country</label>
-                            <div class="col-lg-3">
-                                <select class="form-control" name="country">
-                                    <option value="">-- Select a country --</option>
-                                    <option value="fr">France</option>
-                                    <option value="de">Germany</option>
-                                    <option value="it">Italy</option>
-                                    <option value="jp">Japan</option>
-                                    <option value="ru">Russia</option>
-                                    <option value="gb">United Kingdom</option>
-                                    <option value="us">United State</option>
-                                </select>
-                            </div>
-                        </div> -->
-                       <div class="form-group">
-                            <div class="col-lg-9 col-lg-offset-3">
-                                <button type="submit" class="btn btn-lg btn-primary" id= "updateProfile" name="updateProfile" >Update Profile</button>
-                                <button class="btn btn-lg btn-info" ng-click="changePassword()">Change Password</button>
-                            </div>
-                        </div>
-                    </form>
-                   
-</div>
-</div>
+				<div class="form-group">
+					<label class="col-lg-2 control-label requiredField">Full Name</label>
+					<div class="col-lg-3">
+						<input type="text" class="form-control icon-text" name="displayName"
+							placeholder="Enter your Full name" ng-model="userModel.displayName" />
+					</div>
+
+				</div>
+
+				<div class="form-group">
+					<label class="col-lg-2 control-label">Zip
+						Code</label>
+					<div class="col-lg-3 zipCode">
+						<input type="text" class="form-control icon-text" name="zipCode"
+							ng-model="userModel.zipCode" placeholder="Enter Zip Code" ng-blur="populateCityState()" />
+						
+					</div>
+					<label class="col-lg-2 control-label">City</label>
+					<div class="col-lg-3 city">
+						<select class="form-control icon-text" name="city"
+							ng-model="userModel.selCity"
+							ng-options="city for city in userModel.addressModel.cityList">
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-lg-2 control-label">Street
+						Address</label>
+					<div class="col-lg-3 streetAddress">
+						<input type="text" class="form-control icon-text"
+							name="streetAddress" placeholder="Enter Street Address"
+							ng-model="userModel.streetAddress" />
+					</div>
+					<label class="col-lg-2 control-label">State</label>
+					<div class="col-lg-3 state">
+						<select class="form-control icon-text" name="state"
+							ng-model="userModel.selState"
+							ng-options="state for state in userModel.addressModel.stateList">
+						</select>
+					</div>
+				</div>
+
+
+				<div class="form-group">
+					<label class="col-lg-2 control-label">Phone Number</label>
+					<div class="col-lg-3">
+						<input type="text" class="form-control icon-text" name="phoneNumber" ng-model="userModel.phoneNumber"
+							placeholder="Enter your Phone Number" />
+					</div>
+					<label class="col-lg-2 control-label"></label>
+					<div class="col-lg-3"></div>
+				</div>
+
+				<div class="form-group">
+					 <div class="col-lg-9 col-lg-offset-2">
+						<input type="button"  class="btn btn-lg btn-success"
+							id="updateProfile" name="updateProfile" value="Update Profile"/>
+						<button class="btn btn-lg btn-info" ng-click="changePassword()">Change
+							Password</button>
+						<input type="button" class="btn" style="visibility: hidden;"
+							id="updateProfileHidden" ng-click="updateProfile();"
+							name="updateProfileHidden" value="Create Note" />
+					</div>
+				</div>
+			</form>
+
+		</div>
+	</div>
 </div>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -137,41 +112,11 @@ $(document).ready(function() {
                         min: 1,
                         max: 50,
                         message: 'The username must be more than 1 and less than 50 characters long'
-                    },
-                }
-            },
-            lastName: {
-                group: '.col-lg-4',
-                validators: {
-                    notEmpty: {
-                        message: 'The last name is required and cannot be empty'
-                    }
-                }
-            },
-            username: {
-                message: 'The username is not valid',
-                validators: {
-                    notEmpty: {
-                        message: 'The username is required and cannot be empty'
-                    },
-                    stringLength: {
-                        min: 6,
-                        max: 30,
-                        message: 'The username must be more than 6 and less than 30 characters long'
-                    },
+                    }/* ,
                     regexp: {
                         regexp: /^[a-zA-Z0-9_\.]+$/,
-                        message: 'The username can only consist of alphabetical, number, dot and underscore'
-                    },
-                    remote: {
-                        type: 'POST',
-                        url: 'remote.php',
-                        message: 'The username is not available'
-                    },
-                    different: {
-                        field: 'password,confirmPassword',
-                        message: 'The username and password cannot be the same as each other'
-                    }
+                        message: 'The display name can only consist of alphabetical, number, dot and underscore'
+                    } */
                 }
             },
             email: {
@@ -181,89 +126,6 @@ $(document).ready(function() {
                     },
                     emailAddress: {
                         message: 'The input is not a valid email address'
-                    }
-                }
-            },
-            password: {
-                validators: {
-                    notEmpty: {
-                        message: 'The password is required and cannot be empty'
-                    },
-                    identical: {
-                        field: 'confirmPassword',
-                        message: 'The password and its confirm are not the same'
-                    },
-                    different: {
-                        field: 'username',
-                        message: 'The password cannot be the same as username'
-                    }
-                }
-            },
-            confirmPassword: {
-                validators: {
-                    notEmpty: {
-                        message: 'The confirm password is required and cannot be empty'
-                    },
-                    identical: {
-                        field: 'password',
-                        message: 'The password and its confirm are not the same'
-                    },
-                    different: {
-                        field: 'username',
-                        message: 'The password cannot be the same as username'
-                    }
-                }
-            },
-            birthday: {
-                validators: {
-                     notEmpty: {
-                        message: 'The birthday field cannot be empty'
-                    },
-                    date: {
-                        format: 'YYYY/MM/DD',
-                        message: 'The birthday is not valid'
-                    }
-                }
-            },
-            gender: {
-                validators: {
-                    notEmpty: {
-                        message: 'The gender is required'
-                    }
-                }
-            },
-            'languages[]': {
-                validators: {
-                    notEmpty: {
-                        message: 'Please specify at least one language you can speak'
-                    }
-                }
-            },
-            'programs[]': {
-                validators: {
-                    choice: {
-                        min: 2,
-                        max: 4,
-                        message: 'Please choose 2 - 4 programming languages you are good at'
-                    }
-                }
-            },
-            File: {
-                validators: {
-                    notEmpty: {
-                        message: 'Please select value'
-                    },
-                    file: {
-                        extension: 'pdf',
-                        type: 'application/pdf',
-                        message: 'Please choose a pdf file.'
-                    }
-                }
-            },
-             country: {
-                validators: {
-                    notEmpty: {
-                        message: 'The country is required and can\'t be empty'
                     }
                 }
             },
@@ -277,19 +139,19 @@ $(document).ready(function() {
              },streetAddress:{
             	 validators: {
 	            	stringLength: {
-	                     min: 0,
+	                     min: 1,
 	                     max: 200,
-	                     message: 'The street Addres must be less than 200 characters long'
+	                     message: 'The street Address must be less than 200 characters long'
 	            	 }
              }},
              zipCode: {
                  validators: {
                      zipCode: {
                         country: 'US',
-                        message: 'The value is not valid %s Zip Code'                       
+                        message: 'The value is not valid %s US Zip Code'                       
                                  }
                              }
-              },
+              }/* ,
             captcha: {
                 validators: {
                     callback: {
@@ -300,15 +162,19 @@ $(document).ready(function() {
                         }
                     }
                 }
-            }
+            } */
         }
     });
 
-    // Validate the form manually
-    $('#updateProfile').click(function() {
-        $('#regForm').bootstrapValidator('validate');
-    });
+		// Validate the form manually
+		$('#updateProfile').click(function() {
+			if ($('#regForm').bootstrapValidator('validate').has('.has-error').length) {
+				return false;
+			} else {
+				$("#updateProfileHidden").trigger("click");
+			};
+		});
 
-  
-});
+
+	});
 </script>

@@ -8,8 +8,6 @@ import static com.noteanalyzer.mvc.constant.NoteConstant.FORGOT_PASSWORD_EMAIL_C
 import static com.noteanalyzer.mvc.constant.NoteConstant.FORGOT_PASSWORD_EMAIL_SUBJECT;
 import static com.noteanalyzer.mvc.constant.NoteConstant.IN_ACTIVE_USER_FLAG;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.noteanalyzer.entity.notes.NoteConfiguration;
 import com.noteanalyzer.mvc.model.AddressModel;
 import com.noteanalyzer.mvc.model.UserModel;
 import com.noteanalyzer.mvc.service.EmailService;
@@ -47,18 +44,23 @@ public class UserRestController {
 	@Autowired
 	NoteService noteService;
 
-/**
- * This method will return the user details of logged in user.
- * User name will fetched from the token passed by the browser.
- * @return
- */
+	/**
+	 * This method will return the user details of logged in user. User name
+	 * will fetched from the token passed by the browser.
+	 * 
+	 * @return
+	 */
 	@RequestMapping(value = "api/userDetail", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserModel> getUserDetail() {
 		String userName = NoteUtility.getLoggedInUserName();
 		System.out.println("Fetching User with userName " + userName);
 		Optional<UserModel> user = userService.getByUsername(userName);
 		if (user.isPresent()) {
-			return new ResponseEntity<UserModel>(user.get(), HttpStatus.OK);
+			UserModel userModel = user.get();
+			if (StringUtils.isNotBlank(userModel.getZipCode())) {
+				userModel.setAddressModel(noteService.getZipCodeDetails(userModel.getZipCode()).get());
+			}
+			return new ResponseEntity<UserModel>(userModel, HttpStatus.OK);
 		}
 		System.out.println("User with userName " + userName + " not found");
 		return new ResponseEntity<UserModel>(HttpStatus.NOT_FOUND);
@@ -92,8 +94,8 @@ public class UserRestController {
 				RandomStringUtils.randomAlphanumeric(40).toUpperCase());
 		inputUser.setVerificationToken(verificationToken);
 		userService.createUser(inputUser);
-		String subject =  noteService.getParameterValue(CREATE_USER_EMAIL_SUBJECT,null).getParameterValue();
-		String bodyText =  noteService.getParameterValue(CREATE_USER_EMAIL_CONTENT_BODY,null).getParameterValue();
+		String subject = noteService.getParameterValue(CREATE_USER_EMAIL_SUBJECT, null).getParameterValue();
+		String bodyText = noteService.getParameterValue(CREATE_USER_EMAIL_CONTENT_BODY, null).getParameterValue();
 		bodyText = bodyText + "<p>" + baseUrl + "/notes/verifyUser?verificationToken=" + verificationToken + "</p>";
 		if (emailService.sendEmail(inputUser.getEmail(), subject, bodyText)) {
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
@@ -132,7 +134,7 @@ public class UserRestController {
 
 	}
 
-	@RequestMapping(value = "api/updateUser", method = RequestMethod.POST)
+	@RequestMapping(value = "/api/updateUser", method = RequestMethod.POST)
 	public ResponseEntity<UserModel> updateUser(@RequestBody UserModel inputUser) {
 		System.out.println("Updating User " + inputUser);
 		Optional<UserModel> user = userService.updateUser(inputUser);
@@ -167,8 +169,7 @@ public class UserRestController {
 		}
 
 	}
-	
-	
+
 	@RequestMapping(value = "getZipCodeDetails/{zipCode}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AddressModel> getZipCodeDetails(@PathVariable String zipCode) {
 		System.out.println("Fetching Zip Code details with zipCode " + zipCode);
