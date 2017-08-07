@@ -39,6 +39,6 @@ public class NoteConstant {
     
     public static final String  DEFAULT_DATE_FORMAT = "MM/dd/yyyy";
 
-	
+	public static final String DEFAULT_STORE_NAME = "DEFAULT";
 	
 }

@@ -2,6 +2,7 @@ package com.noteanalyzer.utility;
 
 import static com.noteanalyzer.mvc.constant.NoteConstant.DEFAULT_DATE_FORMAT;
 import static com.noteanalyzer.mvc.constant.NoteConstant.IN_ACTIVE_USER_FLAG;
+import static com.noteanalyzer.mvc.constant.NoteConstant.DEFAULT_STORE_NAME;
 
 import java.math.BigDecimal;
 import java.text.DateFormat;
@@ -27,6 +28,7 @@ import com.noteanalyzer.mvc.model.NoteSummaryModel;
 import com.noteanalyzer.mvc.model.NoteTypeModel;
 import com.noteanalyzer.mvc.model.PropertyTypeModel;
 import com.noteanalyzer.mvc.model.UserModel;
+import com.noteanalyzer.mvc.service.NoteAnalysisService;
 import com.noteanalyzer.webservice.appraisal.AppraisalPropertyBean;
 
 import lombok.NonNull;
@@ -85,6 +87,14 @@ public class ConverterUtility {
 		noteEntity.setNotePrice(BigDecimal.valueOf(Double.valueOf(note.getNoOfLatePayment())));
 		noteEntity.setOriginalPropertyValue(BigDecimal.valueOf(Double.valueOf(note.getOriginalPropertyValue())));
 		noteEntity.setRemainingNoOfPayment(Integer.valueOf(note.getRemainingNoOfPayment()));
+		//noteEntity.setStoreName(DEFAULT_STORE_NAME);
+		//noteEntity.setSearchName(DEFAULT_STORE_NAME);
+		noteEntity.setUserScore(BigDecimal.valueOf(Double.valueOf(note.getUserScore())));
+		noteEntity.setSystemScore(null);
+		noteEntity.setOriginalLTV(NoteAnalysisService.getOriginalLTV(note.getOriginalPrincipleBalance().toString(),note.getOriginalPropertyValue()));
+		noteEntity.setEffectiveLTV(NoteAnalysisService.getEffectiveLTV(note.getNotePrice(), note.getOriginalPropertyValue()));
+		noteEntity.setRoi(NoteAnalysisService.getROI());
+		noteEntity.setYield(note.getYieldValue());
 		return noteEntity;
 	}
 

@@ -31,6 +31,7 @@ import com.noteanalyzer.mvc.model.NoteInputFormModel;
 import com.noteanalyzer.mvc.model.NoteSummaryModel;
 import com.noteanalyzer.mvc.model.NoteTypeModel;
 import com.noteanalyzer.mvc.model.PropertyTypeModel;
+import com.noteanalyzer.mvc.service.NoteAnalysisService;
 import com.noteanalyzer.mvc.service.NoteService;
 import com.noteanalyzer.utility.ConverterUtility;
 import com.noteanalyzer.webservice.appraisal.AppraisalPropertyBean;
@@ -77,25 +78,18 @@ public class NoteServiceImpl implements NoteService {
 	@Transactional
 	public void createNote(@NonNull NoteInputFormModel noteModel) throws ParseException, AddressNotAvailableException {
 
-		Note note = ConverterUtility.convertNoteModelToEntity(noteModel);
-		AppraisalPropertyBean appraisalPropertyBean = new AppraisalPropertyBean();
-		try {
-			appraisalPropertyBean = zillowWebService.getPropertyDetailsWithAddress(noteModel.getStreetAddress(),
-					noteModel.getSelCity(), noteModel.getSelState(), noteModel.getZipCode());
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		System.out.println(appraisalPropertyBean);
-		LOG.info(appraisalPropertyBean.toString());
 		Optional<List<Property>> propertyList = getPropertyByAddress(noteModel);
 		Property property;
 		if (propertyList.isPresent()) {
 			property = propertyList.get().get(0);
 		} else {
+			AppraisalPropertyBean appraisalPropertyBean = new AppraisalPropertyBean();
+				appraisalPropertyBean = zillowWebService.getPropertyDetailsWithAddress(noteModel.getStreetAddress(),
+						noteModel.getSelCity(), noteModel.getSelState(), noteModel.getZipCode());
+			LOG.info(appraisalPropertyBean.toString());
 			property = ConverterUtility.createPropertyObject(noteModel, appraisalPropertyBean);
 		}
+		Note note = ConverterUtility.convertNoteModelToEntity(noteModel);
 		note.setPropertyId(property);
 		genericDao.create(note);
 

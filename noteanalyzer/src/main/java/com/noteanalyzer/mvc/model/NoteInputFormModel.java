@@ -33,7 +33,7 @@ public class NoteInputFormModel implements Serializable {
 	private BigDecimal salePrice;
 	private String selPerforming;
 	private String notePosition;
-	private BigDecimal userScore;
+	private String userScore;
 	
 	private String selCity;
 	private String selState;
@@ -48,6 +48,10 @@ public class NoteInputFormModel implements Serializable {
 	private String performing;
 	private String remainingNoOfPayment;
 	private String originalPropertyValue;
+	
+	private BigDecimal yieldValue;
+	
+	private BigDecimal currentEffectiveLTV;
 	
 	
 
@@ -315,14 +319,14 @@ public class NoteInputFormModel implements Serializable {
 	/**
 	 * @return the userScore
 	 */
-	public BigDecimal getUserScore() {
+	public String getUserScore() {
 		return userScore;
 	}
 
 	/**
 	 * @param userScore the userScore to set
 	 */
-	public void setUserScore(BigDecimal userScore) {
+	public void setUserScore(String userScore) {
 		this.userScore = userScore;
 	}
 
@@ -479,6 +483,35 @@ public class NoteInputFormModel implements Serializable {
 	 */
 	public void setOriginalPropertyValue(String originalPropertyValue) {
 		this.originalPropertyValue = originalPropertyValue;
+	}
+
+	
+	/**
+	 * @return the yieldValue
+	 */
+	public BigDecimal getYieldValue() {
+		return yieldValue;
+	}
+
+	/**
+	 * @param yieldValue the yieldValue to set
+	 */
+	public void setYieldValue(BigDecimal yieldValue) {
+		this.yieldValue = yieldValue;
+	}
+
+	/**
+	 * @return the currentEffectiveLTV
+	 */
+	public BigDecimal getCurrentEffectiveLTV() {
+		return currentEffectiveLTV;
+	}
+
+	/**
+	 * @param currentEffectiveLTV the currentEffectiveLTV to set
+	 */
+	public void setCurrentEffectiveLTV(BigDecimal currentEffectiveLTV) {
+		this.currentEffectiveLTV = currentEffectiveLTV;
 	}
 
 

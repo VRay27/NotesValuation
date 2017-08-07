@@ -17,11 +17,17 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q', '$rootScope', '$uibModa
 		getInputFormModel : getInputFormModel,
 		setNoteDetailModel : setNoteDetailModel,
 		getNoteDetailModel : getNoteDetailModel,
+		getYield : getYield
 		
 		
 	};
 
 	return factory;
+	
+	function getYield(model){
+		var newRate = UtilityService.calculateRate(model.remainingNoOfPayment,model.pdiPayment*-1, model.notePrice) * 1200;
+		model.yieldValue = UtilityService.round(newRate,2);
+	}
 	
 	function setInputFormModel(model){
 		noteInputFormModel = model;

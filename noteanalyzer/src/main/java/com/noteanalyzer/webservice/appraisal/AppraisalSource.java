@@ -18,6 +18,6 @@ public interface AppraisalSource {
 			throws SAXException, IOException, AddressNotAvailableException;
 
 	AppraisalPropertyBean getPropertyDetailsWithAddress(String streetAddress, String city, String state, String zipCode)
-			throws SAXException, IOException, AddressNotAvailableException;
+			throws  AddressNotAvailableException;
 
 }

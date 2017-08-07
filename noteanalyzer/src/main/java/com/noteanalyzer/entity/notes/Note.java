@@ -98,7 +98,20 @@ public class Note extends AbstractEntity {
 	@Column(name = "ORIGINAL_PROPERTY_VALUE")
 	private BigDecimal originalPropertyValue;
 	
+	@Column(name = "ROI")
+	private BigDecimal roi;
 	
+	@Column(name = "YIELD")
+	private BigDecimal yield;
+	
+	@Column(name = "CURRENT_EFFECTIVE_LTV")
+	private BigDecimal currentEffectiveLTV;
+	
+	@Column(name = "EFFECTIVE_LTV")
+	private BigDecimal effectiveLTV;
+	
+	@Column(name = "ORIGINAL_LTV")
+	private BigDecimal originalLTV;
 
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "PROPERTY_ID")
@@ -414,6 +427,77 @@ public class Note extends AbstractEntity {
 	 */
 	public void setPropertyId(Property propertyId) {
 		this.propertyId = propertyId;
+	}
+	
+	
+	/**
+	 * @return the roi
+	 */
+	public BigDecimal getRoi() {
+		return roi;
+	}
+
+	/**
+	 * @param roi the roi to set
+	 */
+	public void setRoi(BigDecimal roi) {
+		this.roi = roi;
+	}
+
+	/**
+	 * @return the yield
+	 */
+	public BigDecimal getYield() {
+		return yield;
+	}
+
+	/**
+	 * @param yield the yield to set
+	 */
+	public void setYield(BigDecimal yield) {
+		this.yield = yield;
+	}
+
+	/**
+	 * @return the currentEffectiveLTV
+	 */
+	public BigDecimal getCurrentEffectiveLTV() {
+		return currentEffectiveLTV;
+	}
+
+	/**
+	 * @param currentEffectiveLTV the currentEffectiveLTV to set
+	 */
+	public void setCurrentEffectiveLTV(BigDecimal currentEffectiveLTV) {
+		this.currentEffectiveLTV = currentEffectiveLTV;
+	}
+
+	/**
+	 * @return the effectiveLTV
+	 */
+	public BigDecimal getEffectiveLTV() {
+		return effectiveLTV;
+	}
+
+	/**
+	 * @param effectiveLTV the effectiveLTV to set
+	 */
+	public void setEffectiveLTV(BigDecimal effectiveLTV) {
+		this.effectiveLTV = effectiveLTV;
+	}
+
+	/**
+	 * @return the originalLTV
+	 */
+	public BigDecimal getOriginalLTV() {
+		return originalLTV;
+	}
+
+	/**
+	 * @param originalLTV the originalLTV to set
+	 */
+	public void setOriginalLTV(BigDecimal originalLTV) {
+		this.originalLTV = originalLTV;
 	}
 
 	/* (non-Javadoc)

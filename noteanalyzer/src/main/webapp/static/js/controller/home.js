@@ -100,6 +100,7 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 		$scope.noteInputFormModel.notePrice = '';
 		$scope.noteInputFormModel.remainingNoOfPayment = '';
 		$scope.noteInputFormModel.originalPropertyValue = '';
+		$scope.noteInputFormModel.userScore = '';
 		
 	}
 
@@ -138,7 +139,7 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 		
 		
 		$scope.noteInputFormModel.noteDate = $filter('date')($scope.noteInputFormModel.noteDate, 'MM/dd/yyyy');
-
+		NoteService.getYield($scope.noteInputFormModel);
 		$scope.submitted = true;
 
 			if ($auth.isAuthenticated()) {

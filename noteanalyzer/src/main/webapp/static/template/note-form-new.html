@@ -14,7 +14,7 @@
                             </div>
                              <label class="col-lg-2 control-label">Original Term</label>
                             <div class="col-lg-3">
-                                <input type="text" class="form-control icon-text" name="originalTerm" readonly ng-model="noteInputFormModel.originalTerm"  ng-init="noteInputFormModel.originalTerm=noteInputFormModel.noteTypeList[0].termMonths" />
+                                <input type="text" class="form-control icon-text" name="originalTerm" readonly ng-model="noteInputFormModel.originalTerm=noteInputFormModel.selNoteType.termMonths"  ng-init="noteInputFormModel.originalTerm=noteInputFormModel.noteTypeList[0].termMonths" />
                                 <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Original term depends upon the note type selection. "></span>
                             </div>
                         </div>
@@ -161,8 +161,10 @@
                                 <input type="text" class="form-control icon-text" name="originalPropertyValue" placeholder="Enter original property value" ng-model="noteInputFormModel.originalPropertyValue" />
                                 <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Enter original property value"></span>
                             </div>
-                             <label class="col-lg-2 control-label"></label>
+                             <label class="col-lg-2 control-label">User Score</label>
                             <div class="col-lg-3">
+                            <input type="text" class="form-control icon-text" name="userScore" placeholder="Enter Score entered by user" ng-model="noteInputFormModel.userScore" />
+                                <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Enter Score entered by user"></span>
                             </div>
                         </div>
                 
