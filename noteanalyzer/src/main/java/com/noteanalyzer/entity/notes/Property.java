@@ -103,7 +103,21 @@ public class Property extends AbstractEntity {
 	@Column(name="TAX_ASSESSMENT_VALUE")
 	private String taxAssessmentValue;
 	
-
+	@Column(name="MARKET_VALUE")
+	private String marketValue;
+	
+	@Column(name="MARKET_VALUE_UPDATED_DATE")
+	private Date marketValueUpdatedDate;
+	
+	@Column(name="PROP_GRAPH_DATA_URL")
+	private String propertyGraphAndDataUrl;
+	
+	@Column(name="PROP_MAP_URL")
+	private String propertyMapUrl;
+	
+	@Column(name="PROP_DETAIL_URL")
+	private String propertyDetailUrl;
+	
 	/**
 	 * @return the propertyId
 	 */
@@ -426,6 +440,80 @@ public class Property extends AbstractEntity {
 	 */
 	public void setTaxAssessmentValue(String taxAssessmentValue) {
 		this.taxAssessmentValue = taxAssessmentValue;
+	}
+	
+	
+
+	/**
+	 * @return the marketValue
+	 */
+	public String getMarketValue() {
+		return marketValue;
+	}
+
+	/**
+	 * @param marketValue the marketValue to set
+	 */
+	public void setMarketValue(String marketValue) {
+		this.marketValue = marketValue;
+	}
+
+	/**
+	 * @return the marketValueUpdatedDate
+	 */
+	public Date getMarketValueUpdatedDate() {
+		return marketValueUpdatedDate;
+	}
+
+	/**
+	 * @param marketValueUpdatedDate the marketValueUpdatedDate to set
+	 */
+	public void setMarketValueUpdatedDate(Date marketValueUpdatedDate) {
+		this.marketValueUpdatedDate = marketValueUpdatedDate;
+	}
+	
+	
+
+	/**
+	 * @return the propertyGraphAndDataUrl
+	 */
+	public String getPropertyGraphAndDataUrl() {
+		return propertyGraphAndDataUrl;
+	}
+
+	/**
+	 * @param propertyGraphAndDataUrl the propertyGraphAndDataUrl to set
+	 */
+	public void setPropertyGraphAndDataUrl(String propertyGraphAndDataUrl) {
+		this.propertyGraphAndDataUrl = propertyGraphAndDataUrl;
+	}
+
+	/**
+	 * @return the propertyMapUrl
+	 */
+	public String getPropertyMapUrl() {
+		return propertyMapUrl;
+	}
+
+	/**
+	 * @param propertyMapUrl the propertyMapUrl to set
+	 */
+	public void setPropertyMapUrl(String propertyMapUrl) {
+		this.propertyMapUrl = propertyMapUrl;
+	}
+
+	/**
+	 * @return the propertyDetailUrl
+	 */
+	public String getPropertyDetailUrl() {
+		return propertyDetailUrl;
+	}
+
+	/**
+	 * @param propertyDetailUrl the propertyDetailUrl to set
+	 */
+	public void setPropertyDetailUrl(String propertyDetailUrl) {
+		this.propertyDetailUrl = propertyDetailUrl;
 	}
 
 	/* (non-Javadoc)

@@ -156,6 +156,11 @@ div.block .input{
 
 .noteDetailContainer{
 	background:white;
+	width:98%;
+}
+
+.noteDetailContainer > .panel-heading{
+	text-transform:none !important;
 }
 #accordion{
 	margin-top: 20px;
@@ -190,3 +195,10 @@ div.block .input{
     text-decoration: none !important;
 }
 
+.form-control-static{
+	float:left;
+}
+
+.panel{
+	border-color: lightskyblue !important;
+}

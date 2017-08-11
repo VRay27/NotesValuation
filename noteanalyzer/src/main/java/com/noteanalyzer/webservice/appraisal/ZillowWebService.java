@@ -105,108 +105,115 @@ public class ZillowWebService implements AppraisalSource {
 			valueDoc = docBuilder.parse(DEEP_SEARCH_URL + "?zws-id=" + ZWSID + "&address=" + streetAddress
 					+ "&citystatezip=" + city + " " + state + " " + zipCode + "&rentzestimate=true");
 
-			NodeList nodeList = valueDoc.getElementsByTagName("zestimate");
-			if (nodeList != null && nodeList.item(0) != null) {
-				Element zestimate = (Element) nodeList.item(0);
-				Element amount = (Element) zestimate.getElementsByTagName("amount").item(0);
-				propertyBean.setMarketValue(amount.getAttribute("currency") + " " + amount.getTextContent());
-				propertyBean.setCurrency(amount.getAttribute("currency"));
-			}
+			if (valueDoc != null) {
+				
+				propertyBean.setStreetAddress(streetAddress);
+				propertyBean.setCity(city);
+				propertyBean.setState(state);
+				propertyBean.setZipCode(zipCode);
+				NodeList nodeList = valueDoc.getElementsByTagName("zestimate");
+				if (nodeList != null && nodeList.item(0) != null) {
+					Element zestimate = (Element) nodeList.item(0);
+					Element amount = (Element) zestimate.getElementsByTagName("amount").item(0);
+					propertyBean.setMarketValue(amount.getAttribute("currency") + " " + amount.getTextContent());
+					propertyBean.setCurrency(amount.getAttribute("currency"));
+				}
 
-			nodeList = valueDoc.getElementsByTagName("homedetails");
-			if (nodeList != null && nodeList.item(0) != null) {
-				Element propertyDetailUrl = (Element) nodeList.item(0);
-				propertyBean.setPropertyDetailUrl(propertyDetailUrl.getTextContent());
-			}
+				nodeList = valueDoc.getElementsByTagName("homedetails");
+				if (nodeList != null && nodeList.item(0) != null) {
+					Element propertyDetailUrl = (Element) nodeList.item(0);
+					propertyBean.setPropertyDetailUrl(propertyDetailUrl.getTextContent());
+				}
 
-			nodeList = valueDoc.getElementsByTagName("graphsanddata");
-			if (nodeList != null && nodeList.item(0) != null) {
-				Element propertyGraphAndDataUrl = (Element) nodeList.item(0);
-				propertyBean.setPropertyGraphAndDataUrl(propertyGraphAndDataUrl.getTextContent());
-			}
-			nodeList = valueDoc.getElementsByTagName("mapthishome");
-			if (nodeList != null && nodeList.item(0) != null) {
-				Element mapthishome = (Element) nodeList.item(0);
-				propertyBean.setPropertyMapUrl(mapthishome.getTextContent());
-			}
+				nodeList = valueDoc.getElementsByTagName("graphsanddata");
+				if (nodeList != null && nodeList.item(0) != null) {
+					Element propertyGraphAndDataUrl = (Element) nodeList.item(0);
+					propertyBean.setPropertyGraphAndDataUrl(propertyGraphAndDataUrl.getTextContent());
+				}
+				nodeList = valueDoc.getElementsByTagName("mapthishome");
+				if (nodeList != null && nodeList.item(0) != null) {
+					Element mapthishome = (Element) nodeList.item(0);
+					propertyBean.setPropertyMapUrl(mapthishome.getTextContent());
+				}
 
-			nodeList = valueDoc.getElementsByTagName("comparables");
-			if (nodeList != null && nodeList.item(0) != null) {
-				Element comparables = (Element) nodeList.item(0);
-				propertyBean.setPropertyCompareUrl(comparables.getTextContent());
-			}
-			nodeList = valueDoc.getElementsByTagName("zpid");
-			if (nodeList != null && nodeList.item(0) != null) {
-				Element apprisalPropertyId = (Element) nodeList.item(0);
-				propertyBean.setApprisalPropertyId(apprisalPropertyId.getTextContent());
-			}
+				nodeList = valueDoc.getElementsByTagName("comparables");
+				if (nodeList != null && nodeList.item(0) != null) {
+					Element comparables = (Element) nodeList.item(0);
+					propertyBean.setPropertyCompareUrl(comparables.getTextContent());
+				}
+				nodeList = valueDoc.getElementsByTagName("zpid");
+				if (nodeList != null && nodeList.item(0) != null) {
+					Element apprisalPropertyId = (Element) nodeList.item(0);
+					propertyBean.setApprisalPropertyId(apprisalPropertyId.getTextContent());
+				}
 
-			nodeList = valueDoc.getElementsByTagName("useCode");
-			if (nodeList != null && nodeList.item(0) != null) {
-				Element propertyType = (Element) nodeList.item(0);
-				propertyBean.setPropertyType(propertyType.getTextContent());
-			}
+				nodeList = valueDoc.getElementsByTagName("useCode");
+				if (nodeList != null && nodeList.item(0) != null) {
+					Element propertyType = (Element) nodeList.item(0);
+					propertyBean.setPropertyType(propertyType.getTextContent());
+				}
 
-			nodeList = valueDoc.getElementsByTagName("taxAssessmentYear");
-			if (nodeList != null && nodeList.item(0) != null) {
-				Element taxAssessmentYear = (Element) nodeList.item(0);
-				propertyBean.setTaxAssessmentYear(taxAssessmentYear.getTextContent());
-			}
+				nodeList = valueDoc.getElementsByTagName("taxAssessmentYear");
+				if (nodeList != null && nodeList.item(0) != null) {
+					Element taxAssessmentYear = (Element) nodeList.item(0);
+					propertyBean.setTaxAssessmentYear(taxAssessmentYear.getTextContent());
+				}
 
-			nodeList = valueDoc.getElementsByTagName("taxAssessment");
-			if (nodeList != null && nodeList.item(0) != null) {
-				Element taxAssessment = (Element) nodeList.item(0);
-				propertyBean.setTaxAssessmentValue(taxAssessment.getTextContent());
-			}
+				nodeList = valueDoc.getElementsByTagName("taxAssessment");
+				if (nodeList != null && nodeList.item(0) != null) {
+					Element taxAssessment = (Element) nodeList.item(0);
+					propertyBean.setTaxAssessmentValue(taxAssessment.getTextContent());
+				}
 
-			nodeList = valueDoc.getElementsByTagName("yearBuilt");
-			if (nodeList != null && nodeList.item(0) != null) {
-				Element yearBuilt = (Element) nodeList.item(0);
-				propertyBean.setPropertyBuiltYear(yearBuilt.getTextContent());
-			}
+				nodeList = valueDoc.getElementsByTagName("yearBuilt");
+				if (nodeList != null && nodeList.item(0) != null) {
+					Element yearBuilt = (Element) nodeList.item(0);
+					propertyBean.setPropertyBuiltYear(yearBuilt.getTextContent());
+				}
 
-			nodeList = valueDoc.getElementsByTagName("lotSizeSqFt");
-			if (nodeList != null && nodeList.item(0) != null) {
-				Element lotSizeSqFt = (Element) nodeList.item(0);
-				propertyBean.setPropertyLotSize(lotSizeSqFt.getTextContent());
-			}
+				nodeList = valueDoc.getElementsByTagName("lotSizeSqFt");
+				if (nodeList != null && nodeList.item(0) != null) {
+					Element lotSizeSqFt = (Element) nodeList.item(0);
+					propertyBean.setPropertyLotSize(lotSizeSqFt.getTextContent());
+				}
 
-			nodeList = valueDoc.getElementsByTagName("finishedSqFt");
-			if (nodeList != null && nodeList.item(0) != null) {
-				Element finishedSqFt = (Element) nodeList.item(0);
-				propertyBean.setPropertyBuiltUpSize(finishedSqFt.getTextContent());
-			}
+				nodeList = valueDoc.getElementsByTagName("finishedSqFt");
+				if (nodeList != null && nodeList.item(0) != null) {
+					Element finishedSqFt = (Element) nodeList.item(0);
+					propertyBean.setPropertyBuiltUpSize(finishedSqFt.getTextContent());
+				}
 
-			nodeList = valueDoc.getElementsByTagName("bathrooms");
-			if (nodeList != null && nodeList.item(0) != null) {
-				Element bathrooms = (Element) nodeList.item(0);
-				propertyBean.setNumberOfBathrooms(bathrooms.getTextContent());
-			}
+				nodeList = valueDoc.getElementsByTagName("bathrooms");
+				if (nodeList != null && nodeList.item(0) != null) {
+					Element bathrooms = (Element) nodeList.item(0);
+					propertyBean.setNumberOfBathrooms(bathrooms.getTextContent());
+				}
 
-			nodeList = valueDoc.getElementsByTagName("bedrooms");
-			if (nodeList != null && nodeList.item(0) != null) {
-				Element bedrooms = (Element) nodeList.item(0);
-				propertyBean.setNumberOfBedrooms(bedrooms.getTextContent());
-			}
+				nodeList = valueDoc.getElementsByTagName("bedrooms");
+				if (nodeList != null && nodeList.item(0) != null) {
+					Element bedrooms = (Element) nodeList.item(0);
+					propertyBean.setNumberOfBedrooms(bedrooms.getTextContent());
+				}
 
-			nodeList = valueDoc.getElementsByTagName("lastSoldDate");
-			if (nodeList != null && nodeList.item(0) != null) {
-				Element lastSoldDate = (Element) nodeList.item(0);
-				propertyBean.setLastSoldDate(lastSoldDate.getTextContent());
-			}
+				nodeList = valueDoc.getElementsByTagName("lastSoldDate");
+				if (nodeList != null && nodeList.item(0) != null) {
+					Element lastSoldDate = (Element) nodeList.item(0);
+					propertyBean.setLastSoldDate(lastSoldDate.getTextContent());
+				}
 
-			nodeList = valueDoc.getElementsByTagName("lastSoldPrice");
-			if (nodeList != null && nodeList.item(0) != null) {
-				Element lastSoldPrice = (Element) nodeList.item(0);
-				propertyBean.setLastSoldPrice(
-						lastSoldPrice.getAttribute("currency") + " " + lastSoldPrice.getTextContent());
-			}
+				nodeList = valueDoc.getElementsByTagName("lastSoldPrice");
+				if (nodeList != null && nodeList.item(0) != null) {
+					Element lastSoldPrice = (Element) nodeList.item(0);
+					propertyBean.setLastSoldPrice(
+							lastSoldPrice.getAttribute("currency") + " " + lastSoldPrice.getTextContent());
+				}
 
-			nodeList = valueDoc.getElementsByTagName("rentzestimate");
-			if (nodeList != null && nodeList.item(0) != null) {
-				Element rentzestimate = (Element) nodeList.item(0);
-				Element amount = (Element) rentzestimate.getElementsByTagName("amount").item(0);
-				propertyBean.setRentValue(amount.getAttribute("currency") + " " + amount.getTextContent());
+				nodeList = valueDoc.getElementsByTagName("rentzestimate");
+				if (nodeList != null && nodeList.item(0) != null) {
+					Element rentzestimate = (Element) nodeList.item(0);
+					Element amount = (Element) rentzestimate.getElementsByTagName("amount").item(0);
+					propertyBean.setRentValue(amount.getAttribute("currency") + " " + amount.getTextContent());
+				}
 			}
 		} catch (SAXException e) {
 			// TODO Auto-generated catch block

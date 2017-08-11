@@ -6,9 +6,12 @@ import java.util.Optional;
 
 import com.noteanalyzer.appraisal.exceptions.AddressNotAvailableException;
 import com.noteanalyzer.entity.notes.NoteConfiguration;
+import com.noteanalyzer.entity.notes.NoteType;
 import com.noteanalyzer.entity.notes.Parameters;
 import com.noteanalyzer.entity.notes.Property;
+import com.noteanalyzer.entity.notes.PropertyType;
 import com.noteanalyzer.mvc.model.AddressModel;
+import com.noteanalyzer.mvc.model.NoteDetailModel;
 import com.noteanalyzer.mvc.model.NoteInputFormModel;
 import com.noteanalyzer.mvc.model.NoteSummaryModel;
 import com.noteanalyzer.mvc.model.NoteTypeModel;
@@ -25,7 +28,7 @@ public interface NoteService {
 	
 	public Optional<List<PropertyTypeModel>> getPropertyType();
 	
-	public Optional<NoteInputFormModel> getNoteDetail(@NonNull int noteId);
+	public Optional<NoteDetailModel> getNoteDetail(@NonNull Integer noteId);
 
 	public Optional<List<NoteSummaryModel>> getAllNotes(@NonNull long userId);
 	
@@ -37,6 +40,10 @@ public interface NoteService {
 	Optional<AddressModel> getAllLocationDetails();
 
 	Optional<List<Property>> getPropertyByAddress(NoteInputFormModel noteModel);
+
+	List<NoteType> getNoteTypeByCode(String noteTypeCode);
+
+	List<PropertyType> getPropertyTypeByCode(String propertyTypeCode);
 	
 	/*User findById(long id);
 	

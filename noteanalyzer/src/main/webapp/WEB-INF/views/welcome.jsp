@@ -6,6 +6,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta http-equiv="Expires" content="Sat, 01 Dec 1997 00:00:00 GMT">
+ <!-- https://stackoverflow.com/questions/32617947/iframe-not-loading-site-what-is-wrong -->
 <title>Note Analyzer</title>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script
@@ -185,6 +186,7 @@ html, body {
 	<script src="static/js/controller/signup.js"></script>
 	<script src="static/js/controller/logout.js"></script>
 	<script src="static/js/controller/profile.js"></script>
+	<script src="static/js/controller/noteDashboard.js"></script>
 	<script src="static/js/controller/noteDetail.js"></script>
 	<script src="static/js/service/userService.js"></script>
 	<script src="static/js/service/noteService.js"></script>

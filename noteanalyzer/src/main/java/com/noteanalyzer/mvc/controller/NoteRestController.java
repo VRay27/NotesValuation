@@ -279,12 +279,16 @@ public class NoteRestController {
 	}
 
 	@RequestMapping(value = "/api/getNoteDetail/{noteId}", method = RequestMethod.GET)
-	public ResponseEntity<String> getNoteDetail(@PathVariable String noteId) {
+	public ResponseEntity<NoteDetailModel> getNoteDetail(@PathVariable String noteId) {
 		if (StringUtils.isEmpty(noteId)) {
-			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<NoteDetailModel>(HttpStatus.BAD_REQUEST);
 		}
+		Optional<NoteDetailModel> noteDetailModel = noteService.getNoteDetail(Integer.valueOf(noteId));
+		if(noteDetailModel.isPresent()){
 		System.out.println("Inside Get Note Details with  noteDetailModel value " + noteId);
-		return new ResponseEntity<String>(HttpStatus.OK);
+		return new ResponseEntity<NoteDetailModel>(noteDetailModel.get() , HttpStatus.OK);
+		}
+		return new ResponseEntity<NoteDetailModel>(HttpStatus.NOT_FOUND);
 	}
 
 	@RequestMapping(value = "/api/getNoteType", method = RequestMethod.GET)

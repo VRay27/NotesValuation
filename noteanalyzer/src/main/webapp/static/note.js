@@ -38,7 +38,7 @@ noteApp.config(function($stateProvider, $urlRouterProvider) {
 			templateUrl : 'static/template/home.html'
 		}).state('noteDashboard', {
 		url : '/noteDashboard',
-		controller : 'NoteDetailCtrl',
+		controller : 'NoteDashboardCtrl',
 		controllerAs : 'vm',
 		cache: false,
 		params : {
@@ -114,7 +114,7 @@ noteApp.config(function($stateProvider, $urlRouterProvider) {
 		}).state('noteDetail', {
 			url : '/noteDetail',
 			templateUrl : 'static/template/noteDetailNew.html',
-			controller : 'noteInputFormController',
+			controller : 'NoteDetailCtrl',
 			cache: false,
 			params : {
 				'referer' : null,

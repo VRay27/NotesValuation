@@ -16,7 +16,7 @@ import lombok.ToString;
 @Entity
 @Table(name="PropertyTypes")
 @ToString(callSuper = true)
-@NamedQueries({ @NamedQuery(name = "GET_PROPERTY_TYPE_BY_TYPE",query="select p from PropertyType p  where p.propertyType =:propertyType")})
+@NamedQueries({ @NamedQuery(name = "GET_PROPERTY_TYPE_BY_TYPE",query="select p from PropertyType p  where p.propertyType =:propertyTypeCode")})
 public class PropertyType extends AbstractEntity { 
 	
 	private static final long serialVersionUID = 3343766906297480204L;

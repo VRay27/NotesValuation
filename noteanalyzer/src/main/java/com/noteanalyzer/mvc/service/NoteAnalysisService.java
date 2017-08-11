@@ -15,7 +15,7 @@ import java.util.Map.Entry;
 public class NoteAnalysisService {
 
 	public static BigDecimal getEffectiveLTV(String notePrice, String originalPropertyValue) {
-		if (notePrice != null && originalPropertyValue != null) {
+		if (notePrice != null && originalPropertyValue != null && !"null".equalsIgnoreCase(originalPropertyValue) && !"null".equalsIgnoreCase(notePrice)) {
 			BigDecimal notePriceVal = BigDecimal.valueOf(Double.valueOf(notePrice));
 			BigDecimal originalPropertyVal = BigDecimal.valueOf(Double.valueOf(originalPropertyValue));
 	
@@ -25,7 +25,7 @@ public class NoteAnalysisService {
 	}
 
 	public static BigDecimal getOriginalLTV(String originalPrincipalBal, String originalPropertyValue) {
-		if (originalPrincipalBal != null && originalPropertyValue != null) {
+		if (originalPrincipalBal != null && originalPropertyValue != null  && !"null".equalsIgnoreCase(originalPropertyValue) && !"null".equalsIgnoreCase(originalPrincipalBal)) {
 			BigDecimal originalPrincipalBalance = BigDecimal.valueOf(Double.valueOf(originalPrincipalBal));
 			BigDecimal originalPropertyVal = BigDecimal.valueOf(Double.valueOf(originalPropertyValue));
 			return originalPrincipalBalance.divide(originalPropertyVal,2, RoundingMode.HALF_UP);
@@ -35,7 +35,7 @@ public class NoteAnalysisService {
 
 	public static BigDecimal getCurrentEffectiveLTV(String notePrice, String marketValue) {
 		
-		if (notePrice != null && marketValue != null) {
+		if (notePrice != null && marketValue != null && !"null".equalsIgnoreCase(notePrice) && !"null".equalsIgnoreCase(marketValue)) {
 			BigDecimal notePriceVal = BigDecimal.valueOf(Double.valueOf(notePrice));
 			BigDecimal marketVal = BigDecimal.valueOf(Double.valueOf(marketValue));
 			return notePriceVal.divide(marketVal,2, RoundingMode.HALF_UP);
@@ -44,7 +44,7 @@ public class NoteAnalysisService {
 	}
 
 	public static BigDecimal getSimpleInterest(BigDecimal principleBal, BigDecimal rate, BigDecimal term) {
-		if (principleBal != null && rate != null && term != null) {
+		if (principleBal != null && rate != null && term != null ) {
 			return principleBal.multiply(term).multiply(rate);
 		}
 		return BigDecimal.ZERO;

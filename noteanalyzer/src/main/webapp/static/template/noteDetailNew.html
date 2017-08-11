@@ -1,256 +1,485 @@
-<div class="container" >
+<div class="container">
 	<div class="panel panel-default">
 		<div class="panel-heading">Note Details Form</div>
 		<div class="panel-body">
 
-<div class="container noteDetailContainer">
+			<div class="container noteDetailContainer">
 
-		
-		<form id="noteDetailForm" method="post" class="form-horizontal" ng-submit="updateNote()">
-		 <input type="button" class="btn btn-info openall" value ="Open all" /> <input type="button" class="btn btn-info closeall" value ="Close all"/> 
-			<hr>
-		<div class="panel-group" id="accordion">
-    <div class="panel panel-default">
-        <div class="noteDetailClass panel-heading">
-            <h4 class="panel-title">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#panel1">Note Detail</a>
-            </h4>
-        </div>
-        
-        <div id="panel1" class="panel-collapse collapse in">
-            <div class="panel-body">
-                                  <div class="form-group">
-                            <label class="col-lg-2 control-label">Property Address</label>
-                            <div class="col-lg-3">
-                              <span>testing, 1234</span>
-                            </div>
-                             <label class="col-lg-2 control-label requiredField">Original Balance</label>
-                            <div class="col-lg-3">
-                                <input type="text" class="form-control icon-text" name="originalBalance" readonly ng-model=""/>
-                                <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Original Balance. "></span>
-                            </div>
-                        </div>
-                       
-						 <div class="form-group">
-                            <label class="col-lg-2 control-label requiredField">Interest Rate</label>
-                            <div class="col-lg-3">
-                                <input type="text" class="form-control icon-text" name="rate" ng-model=""  placeholder="Annual Interest Rate" />
-                             <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Annual Interest Rate"></span>
-                            </div>
-                           <label class="col-lg-2 control-label requiredField">Monthly Payment</label>
-                            <div class="col-lg-3">
-                            <input type="text" class="form-control icon-text" name="payment" ng-model=""  placeholder="Monthly Payment" />
-                              <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Monthly Payment"></span>
-                            </div> 
-                        </div>
-						
-                        <div class="form-group">
-                            <label class="col-lg-2 control-label requiredField">Remaning Principal</label>
-                            <div class="col-lg-3">
-                                <input type="text" class="form-control icon-text" name="remainingPrincipal" placeholder="Remaning Principal" ng-model="" />
-								<span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Remaning Principal"></span>
-                            </div>
-                            <label class="col-lg-2 control-label requiredField">Note Price</label>
-                             <div class="col-lg-3">
-                               <input type="text" class="form-control icon-text" name="notePrice" placeholder="Note Principal" ng-model="" />
-								<span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Note Price"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-lg-2 control-label requiredField">Original Property Value</label>
-                            <div class="col-lg-3">
-                                 <input type="text" class="form-control icon-text" name="originalPropertyValue" placeholder="Note Principal" ng-model="" />
-								<span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Original Property Value"></span>
-                            </div>
-                             <label class="col-lg-2 control-label requiredField">Original LTV </label>
-                            <div class="col-lg-3">
-                                  <input type="text" class="form-control icon-text" name="originalLTV" placeholder="Original LTV" ng-model="" />
-								<span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Original LTV "></span>
-                            </div>
-                        </div>
-                           
-                        <div class="form-group">
-                            <label class="col-lg-2 control-label requiredField">Effective LTV</label>
-                            <div class="col-lg-3">
-                                  <input type="text" class="form-control icon-text" name="effectiveLTV" placeholder="Effective LTV (with orig prop. value)" ng-model="" />
-								<span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Effective LTV (with orig prop. value)"></span>
-                            </div>
-                           <label class="col-lg-2 control-label requiredField">Current Appraised Prop. Value</label>
-                            <div class="col-lg-3">
-                                <input type="text" class="form-control icon-text" name="currentAppraisedPropValue" placeholder="Current Appraised Prop. Value" ng-model=""/>
-                                <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Current Appraised Prop. Value"></span>
-                            </div>
-                        </div>
-                          
-                       
-                          
-                        <div class="form-group">
-                            <label class="col-lg-2 control-label requiredField">Current Effective LTV</label>
-                            <div class="col-lg-3">
-                                <input type="text" class="form-control icon-text" name="pdiPayment" placeholder="Enter payment and interest" ng-model="noteInputFormModel.pdiPayment" />
-                                <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Enter payment and interest"></span>
-                            </div>
-                           <label class="col-lg-2 control-label requiredField">Effective Interest rate</label>
-                            <div class="col-lg-3">
-                                <input type="text" class="form-control icon-text" name="effectiveInterestRate"  placeholder="Effective Interest rate" ng-model=""/>
-                                <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Effective Interest rate"></span>
-                            </div>
-                        </div>
-                          
-                        <div class="form-group">
-                            <label class="col-lg-2 control-label requiredField">Current Effective LTV</label>
-                            <div class="col-lg-3">
-                                <input type="text" class="form-control icon-text" name="pdiPayment" placeholder="Enter payment and interest" ng-model="noteInputFormModel.pdiPayment" />
-                                <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Enter payment and interest"></span>
-                            </div>
-                           <label class="col-lg-2 control-label requiredField">Effective Interest rate</label>
-                            <div class="col-lg-3">
-                                <input type="text" class="form-control icon-text" name="effectiveInterestRate"  placeholder="Effective Interest rate" ng-model=""/>
-                                <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Effective Interest rate"></span>
-                            </div>
-                        </div>
-                  
-                    
-                        <div class="form-group">
-                            <label class="col-lg-2 control-label requiredField">ROI</label>
-                            <div class="col-lg-3">
-                                <input type="text" class="form-control icon-text" name="roi" placeholder="return on investment" ng-model="" />
-                                <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Return on investment"></span>
-                            </div>
-                           <label class="col-lg-2 control-label requiredField">Performing</label>
-                            <div class="col-lg-3">
-                                <input type="text" class="form-control icon-text" name="performing"  placeholder="Performing" ng-model=""/>
-                                <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Effective Interest rate"></span>
-                            </div>
-                        </div>
-                        
-                         <div class="form-group">
-                            <label class="col-lg-2 control-label requiredField">Late Payment</label>
-                            <div class="col-lg-3">
-                                <input type="text" class="form-control icon-text" name="LatePaymentCount" placeholder="Number of times Late payment" ng-model="" />
-                                <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Number of times Late payment"></span>
-                            </div>
-                           
-                        </div>
-                  
-                  
-            </div>
-        </div>
-    </div>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#panel2">Property Detail</a>
-            </h4>
-        </div>
-        <div id="panel2" class="panel-collapse collapse">
-            <div class="panel-body">
-                                  <div class="form-group">
-                            <label class="col-lg-2 control-label requiredField">Picture</label>
-                            <div class="col-lg-3">
-                               <span>Get the Image</span>
-                            </div>
-                             <label class="col-lg-2 control-label requiredField">Last sold Price</label>
-                            <div class="col-lg-3">
-                               <span>Last sold Price</span>
 
-                                <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Last sold Price "></span>
-                            </div>
-                        </div>
-                       
-						 <div class="form-group">
-                            <label class="col-lg-2 control-label requiredField">Zip Code</label>
-                            <div class="col-lg-3">
-                                   <span>Last sold Date</span>
-                             <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Enter zip code"></span>
-                            </div>
-                           <label class="col-lg-2 control-label requiredField">LOT SF</label>
-                            <div class="col-lg-3">
-                                   <span>LOT SF</span><span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Select city"></span>
-                            </div> 
-                        </div>
-						
-                        <div class="form-group">
-                            <label class="col-lg-2 control-label requiredField">Building SF</label>
-                            <div class="col-lg-3">
-                               <span>BUILIDING SF</span>
-								<span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Building sf"></span>
-                            </div>
-                            <label class="col-lg-2 control-label requiredField">Property taxes/year</label>
-                             <div class="col-lg-3">
-                                 <span>Property Tax/year</span>
-                                </select><span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="property tax per year"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-lg-2 control-label requiredField">Bed/Bath</label>
-                            <div class="col-lg-3">
-                              <span>bed/bath</span>
-                               <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Bed and bathroom"></span>
-                            </div>
-                             <label class="col-lg-2 control-label requiredField">Property Type</label>
-                            <div class="col-lg-3">
-                               <span>tetsing property type</span>
-                              <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Bed and bathroom"></span>
-                            </div>
-                        </div>
-                          
-                        <div class="form-group">
-                            <label class="col-lg-2 control-label requiredField">HOA fee</label>
-                            <div class="col-lg-3">
-                             <span>HOA FEE</span>
-                                <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Hoa Fee"></span>
-                            </div>
-                        </div>
-                       
-                    
-            </div>
-        </div>
-    </div>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#panel3">Demographic Data</a>
-            </h4>
-        </div>
-        <div id="panel3" class="panel-collapse collapse">
-            <div class="panel-body">
-                                   <div class="form-group">
-                            <label class="col-lg-2 control-label requiredField">Schools score</label>
-                            <div class="col-lg-3">
-                              <span>school rate</</span><span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="There are 3 types of notes: performing, sub-performing and non-performing"></span>
-                            </div>
-                             <label class="col-lg-2 control-label requiredField">Crime Rate</label>
-                            <div class="col-lg-3">
-                               <span>crime rate</span>
-                                <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Original term depends upon the note type selection. "></span>
-                            </div>
-                        </div>
-                       
-						 <div class="form-group">
-                            <label class="col-lg-2 control-label requiredField">Foreclosure Code</label>
-                            <div class="col-lg-3">
-                                <span>foreclosuere rate</span>
-                             <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Enter zip code"></span>
-                            </div>
-                        </div>
-						
-                    </div>
-        </div>
-    </div>
+				<form id="noteDetailForm" method="post" class="form-horizontal">
+					<input type="button" class="btn btn-info openall" value="Open all" />
+					<input type="button" class="btn btn-info closeall"
+						value="Close all" />
+					<hr>
+					<div class="panel-group" id="accordion">
+						<div class="panel panel-default">
+							<div class="noteDetailClass panel-heading">
+								<h4 class="panel-title">
+									<a class="accordion-toggle" data-toggle="collapse"
+										data-parent="#accordion" style="text-transform: none"
+										href="#noteDetail">Note Detail</a>
+								</h4>
+							</div>
+
+							<div id="noteDetail" class="panel-collapse collapse in">
+								<div class="panel-body">
+									<div class="form-group">
+										<label class="col-lg-2 control-label">Property Address</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.streetAddress}},
+												{{noteDetailModel.propertyDetailModel.city}},
+												{{noteDetailModel.propertyDetailModel.state}},
+												{{noteDetailModel.propertyDetailModel.zip}}</p>
+										</div>
+										<label class="col-lg-2 control-label requiredField">Original
+											Principal Balance</label>
+										<div class="col-lg-3">
+											<input type="text" class="form-control icon-text"
+												name="originalPrincipalBalance"
+												ng-model="noteDetailModel.originalPrincipleBalance" /> <span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top"
+												uib-tooltip="Original Principal Balance. "></span>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-lg-2 control-label requiredField">Interest
+											Rate</label>
+										<div class="col-lg-3">
+											<input type="text" class="form-control icon-text" name="rate"
+												ng-model="noteDetailModel.rate"
+												placeholder="Annual Interest Rate" /> <span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Annual Interest Rate"></span>
+										</div>
+										<label class="col-lg-2 control-label requiredField">PDI
+											Payment</label>
+										<div class="col-lg-3">
+											<input type="text" class="form-control icon-text"
+												name="pdiPayment" ng-model="noteDetailModel.pdiPayment"
+												placeholder="Monthly Payment" /> <span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Monthly Payment"></span>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-lg-2 control-label requiredField">Unpaid
+											Balance</label>
+										<div class="col-lg-3">
+											<input type="text" class="form-control icon-text" name="upb"
+												placeholder="Unpaid Balance Principal"
+												ng-model="noteDetailModel.upb" /> <span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Remaning Principal"></span>
+										</div>
+										<label class="col-lg-2 control-label requiredField">Note
+											Price</label>
+										<div class="col-lg-3">
+											<input type="text" class="form-control icon-text"
+												name="notePrice" placeholder="Note Principal"
+												ng-model="noteDetailModel.notePrice" /> <span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Note Price"></span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-lg-2 control-label requiredField">Original
+											Property Value</label>
+										<div class="col-lg-3">
+											<input type="text" class="form-control icon-text"
+												name="originalPropertyValue"
+												placeholder="Original Property Value"
+												ng-model="noteDetailModel.originalPropertyValue" /> <span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top"
+												uib-tooltip="Original Property Value"></span>
+										</div>
+										<label class="col-lg-2 control-label requiredField">Original
+											LTV </label>
+										<div class="col-lg-3">
+											<input type="text" class="form-control icon-text"
+												name="originalLTV" placeholder="Original LTV"
+												ng-model="noteDetailModel.originalLTV" /> <span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Original LTV "></span>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-lg-2 control-label requiredField">Effective
+											LTV</label>
+										<div class="col-lg-3">
+											<input type="text" class="form-control icon-text"
+												name="effectiveLTV"
+												placeholder="Effective LTV (with orig prop. value)"
+												ng-model="noteDetailModel.effectiveLTV" /> <span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top"
+												uib-tooltip="Effective LTV (with orig prop. value)"></span>
+										</div>
+										<label class="col-lg-2 control-label requiredField">Market
+											Value</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.marketValue}}
+											</p>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top"
+												uib-tooltip="Current Appraised Prop. Value"></span>
+										</div>
+									</div>
+
+
+
+									<div class="form-group">
+										<label class="col-lg-2 control-label requiredField">Current
+											Effective LTV</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteDetailModel.currentEffectiveLTV}}
+											</p>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Current Effective LTV"></span>
+										</div>
+										<label class="col-lg-2 control-label requiredField">Effective
+											Interest rate</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteDetailModel.effectiveInterestRate}}
+											</p>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top"
+												uib-tooltip="Effective Interest rate"></span>
+										</div>
+									</div>
+
+
+									<div class="form-group">
+										<label class="col-lg-2 control-label requiredField">Number
+											of Late Payment</label>
+										<div class="col-lg-3">
+											<input type="text" class="form-control icon-text"
+												name="LatePaymentCount"
+												placeholder="Number of times Late payment"
+												ng-model="noteDetailModel.noOfLatePayment" /> <span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top"
+												uib-tooltip="Number of times Late payment"></span>
+										</div>
+										<label class="col-lg-2 control-label requiredField">Performing</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteDetailModel.performing}}</p>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Performing, Non-Performing, Unknown "></span>
+										</div>
+									</div>
+
+
+
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class="panel-title">
+									<a class="accordion-toggle" data-toggle="collapse"
+										data-parent="#accordion" href="#propertyDetail"
+										style="text-transform: none">Property Detail</a>
+								</h4>
+							</div>
+							<div id="propertyDetail" class="panel-collapse collapse">
+								<div class="panel-body">
+									<div class="form-group">
+										<label class="col-lg-2 control-label">Last
+											sold price</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.lastSoldPrice}}</p>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Last sold Price "></span>
+										</div>
+										<label class="col-lg-2 control-label">Last
+											sold date</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.lastSoldDate}}</p>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Last sold Date "></span>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-lg-2 control-label">LOT
+											SF</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.propertyLotSize}}</p>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Select city"></span>
+										</div>
+										<label class="col-lg-2 control-label">Building
+											SF</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.propertyBuiltUpSize}}</p>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Building sf"></span>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-lg-2 control-label">Property
+											Tax Assessment Value</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.taxAssessmentValue}}</p>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="property tax per year"></span>
+										</div>
+
+										<label class="col-lg-2 control-label">Property
+											Tax Assessment year</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.taxAssessmentYear}}</p>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="property tax per year"></span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-lg-2 control-label">No
+											of bedroom</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.numberOfBedrooms}}</p>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Number of bedroom"></span>
+										</div>
+										<label class="col-lg-2 control-label">No
+											of bathroom</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.numberOfBathrooms}}</p>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Number of bathroom"></span>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-lg-2 control-label">Property
+											Type</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteDetailModel.selPropType.propertyTypeValue}}</p>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Bed and bathroom"></span>
+										</div>
+										<label class="col-lg-2 control-label">HOA
+											fee</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.HOAFee}}</p>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Hoa Fee"></span>
+										</div>
+
+									</div>
+
+
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class="panel-title">
+									<a class="accordion-toggle" data-toggle="collapse"
+										data-parent="#accordion" style="text-transform: none"
+										href="#demographicData">Demographic Data</a>
+								</h4>
+							</div>
+							<div id="demographicData" class="panel-collapse collapse">
+								<div class="panel-body">
+									<div class="form-group">
+										<label class="col-lg-2 control-label">Schools
+											score</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteDetailModel.demoGraphicDetailModel.schoolScore}}</p>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="School Score"></span>
+										</div>
+										<label class="col-lg-2 control-label">Crime
+											Rate</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteDetailModel.demoGraphicDetailModel.crime}}</p>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Crime Rate."></span>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-lg-2 control-label">Foreclosure
+											Rate</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteDetailModel.demoGraphicDetailModel.foreClosure}}</p>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="ForeColusure Rate"></span>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class="panel-title">
+									<a class="accordion-toggle" data-toggle="collapse"
+										data-parent="#accordion" style="text-transform: none"
+										href="#apprisalSourceDetail">Apprisal Source Detail</a>
+								</h4>
+							</div>
+							<div id="apprisalSourceDetail" class="panel-collapse collapse">
+								<div class="panel-body">
+
+
+									<div class="form-group">
+										<label class="col-lg-2 control-label">Property
+											Detail Url</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">
+												<a
+													href="{{noteDetailModel.propertyDetailModel.propertyDetailUrl}}"
+													tooltip="Property Map URL">Property Detail URL</a>
+											</p>
+										</div>
+										<label class="col-lg-2 control-label">Property
+											Map URL</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">
+												<a
+													href="{{noteDetailModel.propertyDetailModel.propertyMapUrl}}"
+													tooltip="Property Map URL">Property Map URL</a>
+											</p>
+										</div>
+
+									</div>
+
+									<div class="form-group">
+
+										<label class="col-lg-2 control-label">Property Graph
+											URL</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">
+												<a
+													href="{{noteDetailModel.propertyDetailModel.propertyGraphAndDataUrl}}"
+													tooltip="Property Graph and Data URL">Property Graph
+													and Data URL</a>
+											</p>
+										</div>
+										<label class="col-lg-2 control-label"></label>
+										<div class="col-lg-3"></div>
+									</div>
+									<div class="form-group">
+										<label class="col-lg-2 control-label requiredField">Zillow
+											Search Box</label>
+										<div class="col-lg-3">
+											<div id="zillow-large-search-box-widget-container"
+												style="width: 432px; overflow: hidden; background-color: #e7f1fd; color: #555; font: normal normal normal 13px verdana, arial, sans-serif; line-height: 13px; margin: 0 auto; padding: 0; text-align: center; border: 1px solid #adcfff; letter-spacing: 0; text-transform: none;">
+												<h2
+													style="color: #d61; text-align: left; font-size: 20px; line-height: 20px; font-weight: normal; float: left; width: 200px; margin-left: 10px; margin-top: 5px; letter-spacing: 0; text-transform: none;">Find
+													Homes</h2>
+												<div style="float: right;">
+													<a href="https://www.zillow.com/" target="_blank"
+														rel="nofollow"><img
+														alt="Zillow Real Estate Information" style="border: 0;"
+														src="https://www.zillow.com/widgets/GetVersionedResource.htm?path=/static/images/powered-by-zillow.gif"></img></a>
+												</div>
+												<iframe scrolling="no"
+													src="https://www.zillow.com/widgets/search/LargeSearchBoxWidget.htm?did=zillow-large-search-box-iframe-widget&type=iframe&rgname=East+Queen+Anne+Seattle+WA&shvi=yes"
+													width="430" frameborder="0" height="400"></iframe>
+												<table id="zillow-tnc-widget-footer-links" width="100%"
+													style="font: normal normal normal 10px verdana, arial, sans-serif; text-align: left; line-height: 12px; margin: 10px 5px; padding: 0; border-spacing: 0; border-collapse: collapse;">
+													<tbody style="margin: 0; padding: 0;">
+														<tr style="margin: 0; padding: 0;">
+															<td
+																style="font-weight: bold; font-size: 10px; color: #555; text-align: left; margin: 0; padding: 0;">QUICK
+																LINKS:</td>
+														</tr>
+														<tr style="margin: 0; padding: 0;">
+															<td style="margin: 0; padding: 0;"><span
+																id="widgetFooterLink" class="regionBasedLink"><a
+																	href="https://www.zillow.com/east-queen-anne-seattle-wa/"
+																	target="_blank" rel="nofollow"
+																	style="color: #36b; font-family: verdana, arial, sans-serif; font-size: 10px; margin: 0 5px 0 0; padding: 0; text-decoration: none;"><span
+																		class="region">East Queen Anne</span> Real Estate
+																		Listing</a></span></td>
+															<td style="margin: 0; padding: 0;"><span
+																id="widgetFooterLink"><a
+																	href="https://www.zillow.com/mortgage-rates/"
+																	target="_blank" rel="nofollow"
+																	style="color: #36b; font-family: verdana, arial, sans-serif; font-size: 10px; margin: 0 5px 0 0; padding: 0; text-decoration: none;">Mortgage
+																		Rates</a></span></td>
+															<td style="margin: 0; padding: 0;"><span
+																id="widgetFooterLink"><a
+																	href="https://www.zillow.com/refinance/"
+																	target="_blank" rel="nofollow"
+																	style="color: #36b; font-family: verdana, arial, sans-serif; font-size: 10px; margin: 0 5px 0 0; padding: 0; text-decoration: none;">Refinancing</a></span></td>
+														</tr>
+														<tr style="margin: 0; padding: 0;">
+															<td style="margin: 0; padding: 0;"><span
+																id="widgetFooterLink" class="regionBasedLink"><a
+																	href="https://www.zillow.com/east-queen-anne-seattle-wa/foreclosures/"
+																	target="_blank" rel="nofollow"
+																	style="color: #36b; font-size: 10px; margin: 0 5px 0 0; padding: 0; text-decoration: none;"><span
+																		class="region">East Queen Anne</span> Foreclosures</a></span></td>
+															<td style="margin: 0; padding: 0;"><span
+																id="widgetFooterLink"><a
+																	href="https://www.zillow.com/mortgage-calculator/"
+																	target="_blank" rel="nofollow"
+																	style="color: #36b; font-size: 10px; margin: 0 5px 0 0; padding: 0; text-decoration: none;">Mortgage
+																		Calculators</a></span></td>
+															<td style="margin: 0; padding: 0;"><span
+																id="widgetFooterLink"><a
+																	href="https://www.zillow.com/mortgage-rates/"
+																	target="_blank" rel="nofollow"
+																	style="color: #36b; font-size: 10px; margin: 0 5px 0 0; padding: 0; text-decoration: none;">Purchase
+																		Loans</a></span></td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+
+
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div class="panel-body">
+						<div class="form-group">
+							<div class="col-lg-9 ">
+								<input type="button" class="btn btn-lg btn-success"
+									id="updateNoteBtn" name="updateNote" value="Update Note" />
+								<button class="btn btn-lg btn-info" ng-click="Cancel()">Cancel</button>
+								<input type="button" style="visibility: hidden;"
+									id="updateNoteHiddenBtn" ng-click="updateNote()"
+									name="updateNoteHidden" value="Update Note" />
+							</div>
+						</div>
+
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>
-                  <div class="panel-body">
-                       <div class="form-group">
-                            <div class="col-lg-9 col-lg-offset-2">
-                                <button type="submit" class="btn btn-lg btn-success" id="updateNoteBtn" name="createNote" >Update Note</button>
-                                <button class="btn btn-lg btn-info" ng-click="Cancel()">Cancel</button>
-                            </div>
-                        </div>
-                   
-                    </div>
-            </form>        
-</div>
-</div></div></div>
 <script type="text/javascript">
 $(document).ready(function() {
 	var $active = $('#accordion .panel-collapse.in').prev().addClass('active');
