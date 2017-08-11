@@ -1,9 +1,11 @@
 package com.noteanalyzer.mvc.service.impl;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -30,6 +32,7 @@ import com.noteanalyzer.mvc.model.NoteInputFormModel;
 import com.noteanalyzer.mvc.model.NoteSummaryModel;
 import com.noteanalyzer.mvc.model.NoteTypeModel;
 import com.noteanalyzer.mvc.model.PropertyTypeModel;
+import com.noteanalyzer.mvc.service.NoteAnalysisService;
 import com.noteanalyzer.mvc.service.NoteService;
 import com.noteanalyzer.utility.ConverterUtility;
 import com.noteanalyzer.webservice.appraisal.AppraisalPropertyBean;
@@ -84,7 +87,7 @@ public class NoteServiceImpl implements NoteService {
 			property = getPropertyFromZillow(noteModel.getStreetAddress(), noteModel.getSelCity(),
 					noteModel.getSelState(), noteModel.getZipCode(), noteModel.getSelPropType().getPropertyTypeCode());
 		}
-		Note note = ConverterUtility.convertNoteModelToEntity(noteModel);
+		Note note = ConverterUtility.convertNoteModelToEntity(noteModel,property);
 		note.setPropertyId(property);
 		genericDao.create(note);
 
@@ -239,5 +242,33 @@ public class NoteServiceImpl implements NoteService {
 		}
 		return Optional.empty();
 	}
+	
+	@Override
+	@Transactional
+	public Optional<NoteDetailModel> updateNote(@NonNull NoteDetailModel noteDetailModel){
+		Note noteEntity = genericDao.getById(Note.class, noteDetailModel.getNoteId());
+		if (noteEntity == null) {
+			return Optional.empty();
+		}
+		ConverterUtility.convertUpdatedNoteToEnityNote(noteEntity, noteDetailModel);
+		genericDao.update(noteEntity);
+		return Optional.of(noteDetailModel);
+		
+	}
+	
+	@Override
+	public boolean deleteNote(@NonNull NoteDetailModel noteDetailModel,String userName){
+		Map<String, Object> parameters = new HashMap<>();
+		parameters.put("emailID", userName);
+		parameters.put("noteId", noteDetailModel.getNoteId());
+		List<Note> notes = genericDao.getResultByNamedQuery(Note.class, Note.GET_NOTE_DETAILS_BY_USER_NOTE_ID, parameters);
+		if(notes !=null){
+			genericDao.deleteById(Note.class, notes.get(0).getNoteId());
+			return true;
+		}
+		System.out.println("There is No record found with logging user "+userName +" and noteDetailModel ID"+noteDetailModel.getNoteId());
+		return false;
+	}
+		
 
 }

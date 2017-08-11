@@ -43,11 +43,11 @@ public class NoteDetailModel implements Serializable {
 	private String noOfLatePayment;
 	
 	private String borrowerCreditScore;
-	private String notePrice;
+	private BigDecimal notePrice;
 	
 	private String performing;
 	private String remainingNoOfPayment;
-	private String originalPropertyValue;
+	private BigDecimal originalPropertyValue;
 	
 	private BigDecimal yieldValue;
 	
@@ -525,19 +525,7 @@ public class NoteDetailModel implements Serializable {
 		this.borrowerCreditScore = borrowerCreditScore;
 	}
 
-	/**
-	 * @return the notePrice
-	 */
-	public String getNotePrice() {
-		return notePrice;
-	}
-
-	/**
-	 * @param notePrice the notePrice to set
-	 */
-	public void setNotePrice(String notePrice) {
-		this.notePrice = notePrice;
-	}
+	
 
 	/**
 	 * @return the remainingNoOfPayment
@@ -553,21 +541,36 @@ public class NoteDetailModel implements Serializable {
 		this.remainingNoOfPayment = remainingNoOfPayment;
 	}
 
+	
+	
+	/**
+	 * @return the notePrice
+	 */
+	public BigDecimal getNotePrice() {
+		return notePrice;
+	}
+
+	/**
+	 * @param notePrice the notePrice to set
+	 */
+	public void setNotePrice(BigDecimal notePrice) {
+		this.notePrice = notePrice;
+	}
+
 	/**
 	 * @return the originalPropertyValue
 	 */
-	public String getOriginalPropertyValue() {
+	public BigDecimal getOriginalPropertyValue() {
 		return originalPropertyValue;
 	}
 
 	/**
 	 * @param originalPropertyValue the originalPropertyValue to set
 	 */
-	public void setOriginalPropertyValue(String originalPropertyValue) {
+	public void setOriginalPropertyValue(BigDecimal originalPropertyValue) {
 		this.originalPropertyValue = originalPropertyValue;
 	}
 
-	
 	/**
 	 * @return the yieldValue
 	 */

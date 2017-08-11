@@ -50,7 +50,7 @@ public class NoteRestController {
 
 	@Autowired
 	NoteService noteService;
-	
+
 	@Autowired
 	UserService userService;
 
@@ -62,7 +62,8 @@ public class NoteRestController {
 	}
 
 	/**
-	 * @param userService the userService to set
+	 * @param userService
+	 *            the userService to set
 	 */
 	public void setUserService(UserService userService) {
 		this.userService = userService;
@@ -84,7 +85,7 @@ public class NoteRestController {
 	}
 
 	@RequestMapping(value = "/analyzeNote", method = RequestMethod.POST)
-	public ResponseEntity<NoteInputFormModel> analyzeNote(@RequestBody NoteInputFormModel noteInputFormModel)  {
+	public ResponseEntity<NoteInputFormModel> analyzeNote(@RequestBody NoteInputFormModel noteInputFormModel) {
 		String zipCode = noteInputFormModel.getAddress().getZipCode();
 		if (StringUtils.isEmpty(zipCode)) {
 			return new ResponseEntity<NoteInputFormModel>(HttpStatus.NOT_FOUND);
@@ -97,27 +98,27 @@ public class NoteRestController {
 		AddressModel addressModel = address.get();
 		noteInputFormModel.setAddress(addressModel);
 		noteInputFormModel.setZipCode(zipCode);
-		for(String defaultCity : addressModel.getCityList()){
-			noteInputFormModel.setSelCity(defaultCity);	
+		for (String defaultCity : addressModel.getCityList()) {
+			noteInputFormModel.setSelCity(defaultCity);
 		}
-		for(String defaultState : addressModel.getStateList()){
-			noteInputFormModel.setSelCity(defaultState);	
+		for (String defaultState : addressModel.getStateList()) {
+			noteInputFormModel.setSelCity(defaultState);
 		}
 
 		Optional<List<NoteTypeModel>> noteTypeModelList = noteService.getNoteType();
 		if (noteTypeModelList.isPresent()) {
 			List<NoteTypeModel> noteTypeList = noteTypeModelList.get();
 			noteInputFormModel.setNoteTypeList(noteTypeList);
-			//noteInputFormModel.setSelNoteType(noteTypeList.get(0));
-			//noteInputFormModel.setOriginalTerm(BigDecimal.valueOf(Double.valueOf(noteTypeList.get(0).getTermMonths())));
+			// noteInputFormModel.setSelNoteType(noteTypeList.get(0));
+			// noteInputFormModel.setOriginalTerm(BigDecimal.valueOf(Double.valueOf(noteTypeList.get(0).getTermMonths())));
 		}
-		
+
 		Optional<List<PropertyTypeModel>> propTypeModelList = noteService.getPropertyType();
 		if (propTypeModelList.isPresent()) {
 			noteInputFormModel.setPropTypeList(propTypeModelList.get());
 			noteInputFormModel.setSelPropType(propTypeModelList.get().get(0));
 		}
-		
+
 		return new ResponseEntity<NoteInputFormModel>(noteInputFormModel, HttpStatus.OK);
 
 	}
@@ -126,13 +127,13 @@ public class NoteRestController {
 	public ResponseEntity<String> createNote(@RequestBody NoteInputFormModel noteInputFormModel) {
 		String userName = NoteUtility.getLoggedInUserName();
 		Optional<UserModel> loggedInuser = userService.getByUsername(userName);
-		if(loggedInuser.isPresent()){
+		if (loggedInuser.isPresent()) {
 			noteInputFormModel.setUserId(loggedInuser.get().getUserId());
-		}else{
+		} else {
 			System.out.println("Error with loggedin user name and ID");
 			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 		}
-		
+
 		System.out.println("Inside POST with ALL value " + noteInputFormModel);
 		try {
 			noteService.createNote(noteInputFormModel);
@@ -143,7 +144,7 @@ public class NoteRestController {
 		} catch (AddressNotAvailableException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			//return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+			// return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
@@ -248,7 +249,7 @@ public class NoteRestController {
 	public ResponseEntity<List<NoteSummaryModel>> listAllNotes() {
 		String loggedInUserName = NoteUtility.getLoggedInUserName();
 		Optional<UserModel> loggedInuser = userService.getByUsername(loggedInUserName);
-		if(loggedInuser.isPresent()){
+		if (loggedInuser.isPresent()) {
 			System.out.println("Inside Arvind listAllNotes loggedInUserName" + loggedInUserName);
 			long userId = loggedInuser.get().getUserId();
 			Optional<List<NoteSummaryModel>> notesList = noteService.getAllNotes(userId);
@@ -256,26 +257,35 @@ public class NoteRestController {
 				return new ResponseEntity<List<NoteSummaryModel>>(HttpStatus.NO_CONTENT);// You
 			}
 			return new ResponseEntity<List<NoteSummaryModel>>(notesList.get(), HttpStatus.OK);
-		}else{
-			System.out.println("Error with loggedin user name and ID "+loggedInUserName);
+		} else {
+			System.out.println("Error with loggedin user name and ID " + loggedInUserName);
 			return new ResponseEntity<List<NoteSummaryModel>>(HttpStatus.BAD_REQUEST);
 		}
 	}
 
-	@RequestMapping(value = "/api/editNote", method = RequestMethod.POST)
-	public ResponseEntity<String> editNote(@RequestBody NoteDetailModel noteDetailModel) {
+	@RequestMapping(value = "/api/updateNote", method = RequestMethod.POST)
+	public ResponseEntity<NoteDetailModel> updateNote(@RequestBody NoteDetailModel noteDetailModel) {
 
 		System.out.println("Inside POST with editNote noteDetailModel value " + noteDetailModel);
-		return new ResponseEntity<String>(HttpStatus.OK);
+		if (noteDetailModel == null) {
+			return new ResponseEntity<NoteDetailModel>(HttpStatus.BAD_REQUEST);
+		}
+		Optional<NoteDetailModel> model = noteService.updateNote(noteDetailModel);
+		return new ResponseEntity<NoteDetailModel>(model.get(), HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/api/deleteNote/{noteId}", method = RequestMethod.DELETE)
-	public ResponseEntity<String> deleteNote(@PathVariable String noteId) {
-		if (StringUtils.isEmpty(noteId)) {
+	@RequestMapping(value = "/api/deleteNote", method = RequestMethod.POST)
+	public ResponseEntity<String> deleteNote(@RequestBody NoteDetailModel noteDetailModel) {
+		if (noteDetailModel == null) {
+			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		}
+		System.out.println("Inside DELETE with deleteNote noteDetailModel value " + noteDetailModel);
+		boolean isDeleted = noteService.deleteNote(noteDetailModel, NoteUtility.getLoggedInUserName());
+		if (isDeleted) {
+			return new ResponseEntity<String>(HttpStatus.OK);
+		} else {
 			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
 		}
-		System.out.println("Inside DELETE with deleteNote noteDetailModel value " + noteId);
-		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/api/getNoteDetail/{noteId}", method = RequestMethod.GET)
@@ -284,9 +294,9 @@ public class NoteRestController {
 			return new ResponseEntity<NoteDetailModel>(HttpStatus.BAD_REQUEST);
 		}
 		Optional<NoteDetailModel> noteDetailModel = noteService.getNoteDetail(Integer.valueOf(noteId));
-		if(noteDetailModel.isPresent()){
-		System.out.println("Inside Get Note Details with  noteDetailModel value " + noteId);
-		return new ResponseEntity<NoteDetailModel>(noteDetailModel.get() , HttpStatus.OK);
+		if (noteDetailModel.isPresent()) {
+			System.out.println("Inside Get Note Details with  noteDetailModel value " + noteId);
+			return new ResponseEntity<NoteDetailModel>(noteDetailModel.get(), HttpStatus.OK);
 		}
 		return new ResponseEntity<NoteDetailModel>(HttpStatus.NOT_FOUND);
 	}
@@ -316,8 +326,8 @@ public class NoteRestController {
 		if (address.isPresent()) {
 			return new ResponseEntity<AddressModel>(address.get(), HttpStatus.OK);
 		}
-		return new ResponseEntity<AddressModel>(HttpStatus.NOT_FOUND);		
-		
+		return new ResponseEntity<AddressModel>(HttpStatus.NOT_FOUND);
+
 	}
-	
+
 }

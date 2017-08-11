@@ -44,6 +44,10 @@ public interface NoteService {
 	List<NoteType> getNoteTypeByCode(String noteTypeCode);
 
 	List<PropertyType> getPropertyTypeByCode(String propertyTypeCode);
+
+	Optional<NoteDetailModel> updateNote(NoteDetailModel noteDetailModel);
+
+	boolean deleteNote(NoteDetailModel noteDetailModel, String userName);
 	
 	/*User findById(long id);
 	

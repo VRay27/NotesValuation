@@ -96,14 +96,16 @@
 												tooltip-placement="top"
 												uib-tooltip="Original Property Value"></span>
 										</div>
-										<label class="col-lg-2 control-label requiredField">Original
-											LTV </label>
+										<label class="col-lg-2 control-label requiredField">Number
+											of Late Payment</label>
 										<div class="col-lg-3">
 											<input type="text" class="form-control icon-text"
-												name="originalLTV" placeholder="Original LTV"
-												ng-model="noteDetailModel.originalLTV" /> <span
+												name="noOfLatePayment"
+												placeholder="Number of times Late payment"
+												ng-model="noteDetailModel.noOfLatePayment" /> <span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
-												tooltip-placement="top" uib-tooltip="Original LTV "></span>
+												tooltip-placement="top"
+												uib-tooltip="Number of times Late payment"></span>
 										</div>
 									</div>
 
@@ -157,23 +159,21 @@
 
 
 									<div class="form-group">
-										<label class="col-lg-2 control-label requiredField">Number
-											of Late Payment</label>
+									<label class="col-lg-2 control-label requiredField">Original
+											LTV </label>
 										<div class="col-lg-3">
-											<input type="text" class="form-control icon-text"
-												name="LatePaymentCount"
-												placeholder="Number of times Late payment"
-												ng-model="noteDetailModel.noOfLatePayment" /> <span
+										<p class="form-control-static">{{noteDetailModel.originalLTV}}</p>
+										 <span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
-												tooltip-placement="top"
-												uib-tooltip="Number of times Late payment"></span>
+												tooltip-placement="top" uib-tooltip="Original LTV "></span>
 										</div>
 										<label class="col-lg-2 control-label requiredField">Performing</label>
 										<div class="col-lg-3">
 											<p class="form-control-static">{{noteDetailModel.performing}}</p>
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
-												tooltip-placement="top" uib-tooltip="Performing, Non-Performing, Unknown "></span>
+												tooltip-placement="top"
+												uib-tooltip="Performing, Non-Performing, Unknown "></span>
 										</div>
 									</div>
 
@@ -193,16 +193,14 @@
 							<div id="propertyDetail" class="panel-collapse collapse">
 								<div class="panel-body">
 									<div class="form-group">
-										<label class="col-lg-2 control-label">Last
-											sold price</label>
+										<label class="col-lg-2 control-label">Last sold price</label>
 										<div class="col-lg-3">
 											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.lastSoldPrice}}</p>
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Last sold Price "></span>
 										</div>
-										<label class="col-lg-2 control-label">Last
-											sold date</label>
+										<label class="col-lg-2 control-label">Last sold date</label>
 										<div class="col-lg-3">
 											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.lastSoldDate}}</p>
 											<span
@@ -212,16 +210,14 @@
 									</div>
 
 									<div class="form-group">
-										<label class="col-lg-2 control-label">LOT
-											SF</label>
+										<label class="col-lg-2 control-label">LOT SF</label>
 										<div class="col-lg-3">
 											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.propertyLotSize}}</p>
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Select city"></span>
 										</div>
-										<label class="col-lg-2 control-label">Building
-											SF</label>
+										<label class="col-lg-2 control-label">Building SF</label>
 										<div class="col-lg-3">
 											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.propertyBuiltUpSize}}</p>
 											<span
@@ -231,8 +227,8 @@
 									</div>
 
 									<div class="form-group">
-										<label class="col-lg-2 control-label">Property
-											Tax Assessment Value</label>
+										<label class="col-lg-2 control-label">Property Tax
+											Assessment Value</label>
 										<div class="col-lg-3">
 											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.taxAssessmentValue}}</p>
 											<span
@@ -240,8 +236,8 @@
 												tooltip-placement="top" uib-tooltip="property tax per year"></span>
 										</div>
 
-										<label class="col-lg-2 control-label">Property
-											Tax Assessment year</label>
+										<label class="col-lg-2 control-label">Property Tax
+											Assessment year</label>
 										<div class="col-lg-3">
 											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.taxAssessmentYear}}</p>
 											<span
@@ -250,16 +246,14 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-lg-2 control-label">No
-											of bedroom</label>
+										<label class="col-lg-2 control-label">No of bedroom</label>
 										<div class="col-lg-3">
 											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.numberOfBedrooms}}</p>
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Number of bedroom"></span>
 										</div>
-										<label class="col-lg-2 control-label">No
-											of bathroom</label>
+										<label class="col-lg-2 control-label">No of bathroom</label>
 										<div class="col-lg-3">
 											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.numberOfBathrooms}}</p>
 											<span
@@ -269,16 +263,14 @@
 									</div>
 
 									<div class="form-group">
-										<label class="col-lg-2 control-label">Property
-											Type</label>
+										<label class="col-lg-2 control-label">Property Type</label>
 										<div class="col-lg-3">
 											<p class="form-control-static">{{noteDetailModel.selPropType.propertyTypeValue}}</p>
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Bed and bathroom"></span>
 										</div>
-										<label class="col-lg-2 control-label">HOA
-											fee</label>
+										<label class="col-lg-2 control-label">HOA fee</label>
 										<div class="col-lg-3">
 											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.HOAFee}}</p>
 											<span
@@ -303,16 +295,14 @@
 							<div id="demographicData" class="panel-collapse collapse">
 								<div class="panel-body">
 									<div class="form-group">
-										<label class="col-lg-2 control-label">Schools
-											score</label>
+										<label class="col-lg-2 control-label">Schools score</label>
 										<div class="col-lg-3">
 											<p class="form-control-static">{{noteDetailModel.demoGraphicDetailModel.schoolScore}}</p>
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="School Score"></span>
 										</div>
-										<label class="col-lg-2 control-label">Crime
-											Rate</label>
+										<label class="col-lg-2 control-label">Crime Rate</label>
 										<div class="col-lg-3">
 											<p class="form-control-static">{{noteDetailModel.demoGraphicDetailModel.crime}}</p>
 											<span
@@ -322,8 +312,7 @@
 									</div>
 
 									<div class="form-group">
-										<label class="col-lg-2 control-label">Foreclosure
-											Rate</label>
+										<label class="col-lg-2 control-label">Foreclosure Rate</label>
 										<div class="col-lg-3">
 											<p class="form-control-static">{{noteDetailModel.demoGraphicDetailModel.foreClosure}}</p>
 											<span
@@ -348,8 +337,8 @@
 
 
 									<div class="form-group">
-										<label class="col-lg-2 control-label">Property
-											Detail Url</label>
+										<label class="col-lg-2 control-label">Property Detail
+											Url</label>
 										<div class="col-lg-3">
 											<p class="form-control-static">
 												<a
@@ -357,8 +346,7 @@
 													tooltip="Property Map URL">Property Detail URL</a>
 											</p>
 										</div>
-										<label class="col-lg-2 control-label">Property
-											Map URL</label>
+										<label class="col-lg-2 control-label">Property Map URL</label>
 										<div class="col-lg-3">
 											<p class="form-control-static">
 												<a
@@ -385,7 +373,7 @@
 										<div class="col-lg-3"></div>
 									</div>
 									<div class="form-group">
-										<label class="col-lg-2 control-label requiredField">Zillow
+										<label class="col-lg-2 control-label">Zillow
 											Search Box</label>
 										<div class="col-lg-3">
 											<div id="zillow-large-search-box-widget-container"
@@ -468,6 +456,8 @@
 								<input type="button" class="btn btn-lg btn-success"
 									id="updateNoteBtn" name="updateNote" value="Update Note" />
 								<button class="btn btn-lg btn-info" ng-click="Cancel()">Cancel</button>
+								<input type="button" class="btn btn-lg btn-primary" ng-click="deleteNote()"
+									id="deleteNoteBtn" name="deleteNote" value="Delete Note" />
 								<input type="button" style="visibility: hidden;"
 									id="updateNoteHiddenBtn" ng-click="updateNote()"
 									name="updateNoteHidden" value="Update Note" />
@@ -504,272 +494,164 @@ $(document).ready(function() {
     $('#captchaOperation').html([randomNumber(1, 100), '+', randomNumber(1, 200), '='].join(' '));
 
     $('#noteDetailForm').bootstrapValidator({
-//        live: 'disabled',
-        message: 'This value is not valid',
-        feedbackIcons: {
-            valid: 'glyphicon glyphicon-ok',
-            invalid: 'glyphicon glyphicon-remove',
-            validating: 'glyphicon glyphicon-refresh'
-        },
-        fields: {
-        	zipCode: {
-        		message: 'The zip code is not valid',
-                validators: {
-                    notEmpty: {
-                        message: 'The zip code is required and cannot be empty'
-                    },
-                    zipCode: {
-                        country: 'US',
-                        message: 'The value is not valid %s Zip Code'                       
-                      }
-                    },
-               },
-            lastName: {
-                group: '.col-lg-4',
-                validators: {
-                    notEmpty: {
-                        message: 'The last name is required and cannot be empty'
-                    }
-                }
-            },
-            username: {
-                message: 'The username is not valid',
-                validators: {
-                    notEmpty: {
-                        message: 'The username is required and cannot be empty'
-                    },
-                    stringLength: {
-                        min: 6,
-                        max: 30,
-                        message: 'The username must be more than 6 and less than 30 characters long'
-                    },
-                    regexp: {
-                        regexp: /^[a-zA-Z0-9_\.]+$/,
-                        message: 'The username can only consist of alphabetical, number, dot and underscore'
-                    },
-                    remote: {
-                        type: 'POST',
-                        url: 'remote.php',
-                        message: 'The username is not available'
-                    },
-                    different: {
-                        field: 'password,confirmPassword',
-                        message: 'The username and password cannot be the same as each other'
-                    }
-                }
-            },
-            email: {
-                validators: {
-                    notEmpty: {
-                        message: 'The email address is required and can\'t be empty'
-                    },
-                    emailAddress: {
-                        message: 'The input is not a valid email address'
-                    }
-                }
-            },
-            password: {
-                validators: {
-                    notEmpty: {
-                        message: 'The password is required and cannot be empty'
-                    },
-                    identical: {
-                        field: 'confirmPassword',
-                        message: 'The password and its confirm are not the same'
-                    },
-                    different: {
-                        field: 'username',
-                        message: 'The password cannot be the same as username'
-                    }
-                }
-            },
-            confirmPassword: {
-                validators: {
-                    notEmpty: {
-                        message: 'The confirm password is required and cannot be empty'
-                    },
-                    identical: {
-                        field: 'password',
-                        message: 'The password and its confirm are not the same'
-                    },
-                    different: {
-                        field: 'username',
-                        message: 'The password cannot be the same as username'
-                    }
-                }
-            },
-            noteDate: {
-                validators: {
-                     notEmpty: {
-                        message: 'The note date field cannot be empty'
-                    },
-                    date: {
-                        format: 'MM/DD/YYYY',
-                        message: 'The note date is not in valid format'
-                    }
-                }
-            },
-            noteType: {
-                validators: {
-                    notEmpty: {
-                        message: 'The note type is required and can\'t be empty.'
-                    }
-                }
-            },
-            propertyType: {
-                validators: {
-                    notEmpty: {
-                        message: 'The property type is required and can\'t be empty.'
-                    }
-                }
-            },
-            city: {
-                validators: {
-                    notEmpty: {
-                        message: 'The city is required and can\'t be empty.'
-                    }
-                }
-            },
-            state: {
-                validators: {
-                    notEmpty: {
-                        message: 'The state is required and can\'t be empty.'
-                    }
-                }
-            },
-            streetAddress: {
-                validators: {
-                    notEmpty: {
-                        message: 'The street address is required and can\'t be empty.'
+//      
+       message: 'This value is not valid',
+       live: 'enabled',
+       excluded: [':disabled', ':hidden', ':not(:visible)'],
+       feedbackIcons: {
+           valid: 'glyphicon glyphicon-ok',
+           invalid: 'glyphicon glyphicon-remove',
+           validating: 'glyphicon glyphicon-refresh'
+       },
+       fields: {
+       	zipCode: {
+       		group:'.col-lg-3',
+       		message: 'The zip code is not valid',
+               validators: {
+                   notEmpty: {
+                       message: 'The zip code is required and cannot be empty'
+                   },
+                   zipCode: {
+                       country: 'US',
+                       message: 'The value is not valid %s Zip Code'                       
+                     }
+                   },
+              },
+            upb:{
+           	 group:'.col-lg-3',
+           	 validators: {
+           		 numeric: {
+                        message: 'This value is not a valid number.',
+                        // The default separators
+                        thousandsSeparator: '',
+                        decimalSeparator: '.'
                     },
            		 stringLength: {
 	                     min: 1,
-	                     max: 200,
-	                     message: 'The UPB must be less than 200 characters long'
-	            	 }
-                }
-            },
-             upb:{
-            	 validators: {
-            		 numeric: {
-                         message: 'This value is not a valid number.',
-                         // The default separators
-                         thousandsSeparator: '',
-                         decimalSeparator: '.'
-                     },
-            		 stringLength: {
-	                     min: 1,
-	                     max: 100,
-	                     message: 'The UPB must be less than 100 characters long'
+	                     max: 20,
+	                     message: 'The unpaid balance must be less than 20 characters long'
 	            	 },
 	            	 notEmpty: {
-	                        message: 'The upb is required and can\'t be empty.'
+	                        message: 'The unpaid balance is required and can\'t be empty.'
 	                    }
-             }},
-             rate:{
-            	 validators: {
-            		 numeric: {
-                         message: 'This value is not a valid number.',
-                         // The default separators
-                         thousandsSeparator: '',
-                         decimalSeparator: '.'
-                     },
-            		 stringLength: {
+            }},
+            rate:{
+           	 group:'.col-lg-3',
+           	 validators: {
+           		 numeric: {
+                        message: 'This value is not a valid number.',
+                        // The default separators
+                        thousandsSeparator: '',
+                        decimalSeparator: '.'
+                    },
+           		 stringLength: {
 	                     min: 1,
-	                     max: 100,
-	                     message: 'The rate must be less than 100 characters long'
+	                     max: 20,
+	                     message: 'The rate must be less than 20 characters long'
 	            	 },
 	            	 notEmpty: {
 	                        message: 'The rate is required and can\'t be empty.'
 	                    }
-             }},
-             pdiPayment:{
-            	 validators: {
-            		 numeric: {
-                         message: 'This value is not a valid number.',
-                         // The default separators
-                         thousandsSeparator: '',
-                         decimalSeparator: '.'
-                     },
-            		 stringLength: {
+            }},
+            pdiPayment:{
+           	 group:'.col-lg-3',
+           	 validators: {
+           		 numeric: {
+                        message: 'This value is not a valid number.',
+                        // The default separators
+                        thousandsSeparator: '',
+                        decimalSeparator: '.'
+                    },
+           		 stringLength: {
 	                     min: 1,
-	                     max: 100,
-	                     message: 'The pdi payment must be less than 100 characters long'
+	                     max: 20,
+	                     message: 'The pdi payment must be less than 20 characters long'
 	            	 },
 	            	 notEmpty: {
 	                        message: 'The pdi payment is required and can\'t be empty.'
 	                    }
-             }},
-             tdiPayment:{
-            	 validators: {
-            		 numeric: {
-                         message: 'This value is not a valid number.',
-                         // The default separators
-                         thousandsSeparator: '',
-                         decimalSeparator: '.'
-                     },
-            		 stringLength: {
+            }},
+            originalPrincipalBalance:{
+           	 group:'.col-lg-3',
+           	 validators: {
+           		 numeric: {
+                        message: 'This value is not a valid number.',
+                        // The default separators
+                        thousandsSeparator: '',
+                        decimalSeparator: '.'
+                    },
+           		 stringLength: {
 	                     min: 1,
-	                     max: 100,
-	                     message: 'The tdi payment must be less than 100 characters long'
-	            	 },
-	            	 notEmpty: {
-	                        message: 'The tdi payment is required and can\'t be empty.'
-	                    }
-             }},
-             salesPrice:{
-            	 validators: {
-            		 numeric: {
-                         message: 'This value is not a valid number.',
-                         // The default separators
-                         thousandsSeparator: '',
-                         decimalSeparator: '.'
-                     },
-            		 stringLength: {
-	                     min: 1,
-	                     max: 100,
-	                     message: 'The sales price must be less than 100 characters long'
-	            	 },
-	            	 notEmpty: {
-	                        message: 'The sales price is required and can\'t be empty.'
-	                    }
-             }},
-             originalPrincipalBal:{
-            	 validators: {
-            		 numeric: {
-                         message: 'This value is not a valid number.',
-                         // The default separators
-                         thousandsSeparator: '',
-                         decimalSeparator: '.'
-                     },
-            		 stringLength: {
-	                     min: 1,
-	                     max: 100,
-	                     message: 'The original principal bal must be less than 100 characters long'
+	                     max: 20,
+	                     message: 'The original principal bal must be less than noteInputForm characters long'
 	            	 },
 	            	 notEmpty: {
 	                        message: 'The original principal balance is required and can\'t be empty.'
 	                    }
-             }}
-           /*  captcha: {
-                validators: {
-                    callback: {
-                        message: 'Wrong answer',
-                        callback: function(value, validator) {
-                            var items = $('#captchaOperation').html().split(' '), sum = parseInt(items[0]) + parseInt(items[2]);
-                            return value == sum;
-                        }
-                    }
-                }
-            } */
-        }
-    });
-
+            }},
+            notePrice:{
+           	 group:'.col-lg-3',
+           	 validators: {
+           		 numeric: {
+                        message: 'This value is not a valid number.',
+                        // The default separators
+                        thousandsSeparator: '',
+                        decimalSeparator: '.'
+                    },
+           		 stringLength: {
+	                     min: 1,
+	                     max: 20,
+	                     message: 'The Note Price must be less than 20 characters long'
+	            	 },
+	            	 notEmpty: {
+	                        message: 'The Note Price is required and can\'t be empty.'
+	                    }
+            }},
+            originalPropertyValue:{
+           	 group:'.col-lg-3',
+           	 validators: {
+           		 numeric: {
+                        message: 'This value is not a valid number.',
+                        // The default separators
+                        thousandsSeparator: '',
+                        decimalSeparator: '.'
+                    },
+           		 stringLength: {
+	                     min: 1,
+	                     max: 20,
+	                     message: 'The original property value must be less than 20 characters long'
+	            	 },
+	            	 notEmpty: {
+	                        message: 'The original property value is required and can\'t be empty.'
+	                    }
+            }},
+            noOfLatePayment:{
+           	 group:'.col-lg-3',
+           	 validators: {
+           		 numeric: {
+                        message: 'This value is not a valid number.',
+                        // The default separators
+                        thousandsSeparator: '',
+                        decimalSeparator: '.'
+                    },
+           		 stringLength: {
+	                     min: 1,
+	                     max: 10,
+	                     message: 'The No of Late Payment must be less than 10 characters long'
+	            	 },
+	            	 notEmpty: {
+	                        message: 'The No of Late Payment is required and can\'t be empty.'
+	                    }
+       }}}
+   });
     // Validate the form manually
     $('#updateNoteBtn').click(function() {
-        $('#noteDetailForm').bootstrapValidator('validate');
-    });
-
+         if($('#noteDetailForm').bootstrapValidator('validate').has('.has-error').length){
+ 	       	return false;
+     	}else{
+     		$("#updateNoteHiddenBtn").trigger( "click" );
+     	};
+         });
     $('.closeall').click(function(){
     	  $('.panel-collapse.in')
     	    .collapse('hide');

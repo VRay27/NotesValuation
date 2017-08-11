@@ -23,13 +23,15 @@ import lombok.ToString;
 @Table(name = "NOTE")
 @ToString(callSuper = true)
 @NamedQueries({
-		@NamedQuery(name = Note.GET_NOTE_DETAILS_BY_NOTEID, query = "select n from Note n, Property p where p.propertyId = n.propertyId and  n.noteId =:noteId"),
-		@NamedQuery(name = Note.GET_NOTE_DETAILS_BY_USER, query = "select n from Note n, Property p where p.propertyId = n.propertyId and  n.userId =:userId")})
+		@NamedQuery(name = Note.GET_NOTE_DETAILS_BY_NOTEID, query = "select n from Note n where  n.noteId =:noteId"),
+		@NamedQuery(name = Note.GET_NOTE_DETAILS_BY_USER, query = "select n from Note n where   n.userId =:userId"),
+		@NamedQuery(name = Note.GET_NOTE_DETAILS_BY_USER_NOTE_ID, query = "select n from Note n, User u where u.userId = n.userId and  n.noteId =:noteId and u.emailID =:emailID")})
 public class Note extends AbstractEntity {
 	private static final long serialVersionUID = -8179556227491337368L;
 
 	public static final String GET_NOTE_DETAILS_BY_NOTEID = "GET_NOTE_DETAILS_BY_NOTEID";
 	public static final String GET_NOTE_DETAILS_BY_USER = "GET_NOTE_DETAILS_BY_USER";
+	public static final String 	GET_NOTE_DETAILS_BY_USER_NOTE_ID = "GET_NOTE_DETAILS_BY_USER_NOTE_ID";
 
 
 	@Id
@@ -54,6 +56,13 @@ public class Note extends AbstractEntity {
 
 	@Column(name = "NOTE_POSITION")
 	private Integer notePosition;
+	
+
+	@Column(name = "PDI_PAYMENT")
+	private BigDecimal pdiPayment;
+	
+	@Column(name = "TDI_PAYMENT")
+	private BigDecimal tdiPayment;
 
 	@Column(name = "BORROWER_CREDIT_SCORE")
 	private String borrowerCreditScore;
@@ -112,6 +121,9 @@ public class Note extends AbstractEntity {
 	
 	@Column(name = "ORIGINAL_LTV")
 	private BigDecimal originalLTV;
+	
+	@Column(name = "UNPAID_BALANCE")
+	private BigDecimal unpaidBalance;
 
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "PROPERTY_ID")
@@ -498,6 +510,50 @@ public class Note extends AbstractEntity {
 	 */
 	public void setOriginalLTV(BigDecimal originalLTV) {
 		this.originalLTV = originalLTV;
+	}
+
+	
+	
+	/**
+	 * @return the unpaidBalance
+	 */
+	public BigDecimal getUnpaidBalance() {
+		return unpaidBalance;
+	}
+
+	/**
+	 * @param unpaidBalance the unpaidBalance to set
+	 */
+	public void setUnpaidBalance(BigDecimal unpaidBalance) {
+		this.unpaidBalance = unpaidBalance;
+	}
+
+	/**
+	 * @return the pdiPayment
+	 */
+	public BigDecimal getPdiPayment() {
+		return pdiPayment;
+	}
+
+	/**
+	 * @param pdiPayment the pdiPayment to set
+	 */
+	public void setPdiPayment(BigDecimal pdiPayment) {
+		this.pdiPayment = pdiPayment;
+	}
+
+	/**
+	 * @return the tdiPayment
+	 */
+	public BigDecimal getTdiPayment() {
+		return tdiPayment;
+	}
+
+	/**
+	 * @param tdiPayment the tdiPayment to set
+	 */
+	public void setTdiPayment(BigDecimal tdiPayment) {
+		this.tdiPayment = tdiPayment;
 	}
 
 	/* (non-Javadoc)

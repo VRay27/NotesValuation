@@ -9,7 +9,7 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q', '$rootScope', '$uibModa
 		noteAnalyze : noteAnalyze,
 		getNoteDetail : getNoteDetail,
 		deleteNote : deleteNote,
-		editNote : editNote,
+		updateNote : updateNote,
 		uploadNoteFile : uploadNoteFile,
 		noteCalculator : noteCalculator,
 		getGeoDetails : getGeoDetails,
@@ -89,10 +89,10 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q', '$rootScope', '$uibModa
 		return deferred.promise;
 	}
 	
-	function editNote(noteDetailModel) {
+	function updateNote(noteDetailModel) {
 		WaitingDialog.show();
 		var deferred = $q.defer();
-		$http.post('api/editNote', noteDetailModel)
+		$http.post('api/updateNote', noteDetailModel)
 			.then(
 				function(response) {
 					deferred.resolve(response.data);
@@ -108,10 +108,10 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q', '$rootScope', '$uibModa
 		return deferred.promise;
 	}
 	
-	function deleteNote(noteId) {
+	function deleteNote(noteDetailModel) {
 		WaitingDialog.show();
 		var deferred = $q.defer();
-		$http.delete('api/deleteNote/'+noteId)
+		$http.post('api/deleteNote',noteDetailModel)
 			.then(
 				function(response) {
 					deferred.resolve(response.data);

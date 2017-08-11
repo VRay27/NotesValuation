@@ -76,7 +76,7 @@ public class ConverterUtility {
 		return userModel;
 	}
 
-	public static Note convertNoteModelToEntity(NoteInputFormModel note) throws ParseException {
+	public static Note convertNoteModelToEntity(NoteInputFormModel note, Property property) throws ParseException {
 		DateFormat df = new SimpleDateFormat(DEFAULT_DATE_FORMAT);
 		Note noteEntity = new Note();
 		noteEntity.setUserId(note.getUserId());
@@ -101,8 +101,13 @@ public class ConverterUtility {
 				note.getOriginalPropertyValue()));
 		noteEntity.setEffectiveLTV(
 				NoteAnalysisService.getEffectiveLTV(note.getNotePrice(), note.getOriginalPropertyValue()));
+		note.setCurrentEffectiveLTV(NoteAnalysisService
+				.getCurrentEffectiveLTV(Objects.toString(note.getNotePrice(), null), property.getMarketValue()));
 		noteEntity.setRoi(NoteAnalysisService.getROI());
 		noteEntity.setYield(note.getYieldValue());
+		noteEntity.setPdiPayment(note.getPdiPayment());
+		noteEntity.setTdiPayment(note.getTdiPayment());
+		noteEntity.setUnpaidBalance(note.getUpb());
 		return noteEntity;
 	}
 
@@ -229,13 +234,15 @@ public class ConverterUtility {
 			}else{
 				noteDetailModel.setPerforming("Unknown");
 			}
+			noteDetailModel.setPdiPayment(note.getPdiPayment());
+			noteDetailModel.setTdiPayment(note.getTdiPayment());
 			noteDetailModel.setNotePosition(Objects.toString(note.getNotePosition(),""));
 			noteDetailModel.setOriginalTerm(note.getTermMonths());
 			noteDetailModel.setRate(note.getInterestRateInitial());
 			noteDetailModel.setBorrowerCreditScore(Objects.toString(note.getBorrowerCreditScore(),""));
 			noteDetailModel.setNoOfLatePayment(Objects.toString(note.getLatePayments(),""));
-			noteDetailModel.setNotePrice(Objects.toString(note.getNotePrice(),""));
-			noteDetailModel.setOriginalPropertyValue(Objects.toString(note.getOriginalPropertyValue(),""));
+			noteDetailModel.setNotePrice(note.getNotePrice());
+			noteDetailModel.setOriginalPropertyValue(note.getOriginalPropertyValue());
 			noteDetailModel.setRemainingNoOfPayment(Objects.toString(note.getRemainingNoOfPayment(),""));
 			noteDetailModel.setOriginalLTV(note.getOriginalLTV());
 			noteDetailModel.setEffectiveLTV(note.getEffectiveLTV());
@@ -295,6 +302,22 @@ public class ConverterUtility {
 		}
 
 		return noteDetailModel;
+	}
+
+	public static void convertUpdatedNoteToEnityNote(Note noteEntity, NoteDetailModel noteDetailModel) {
+		noteEntity.setFaceValue(noteDetailModel.getOriginalPrincipleBalance());
+		noteEntity.setInterestRateInitial(noteDetailModel.getRate());
+		noteEntity.setPdiPayment(noteDetailModel.getPdiPayment());
+		noteEntity.setUnpaidBalance(noteDetailModel.getUpb());
+		noteEntity.setNotePrice(noteDetailModel.getNotePrice());
+		noteEntity.setOriginalPropertyValue(noteDetailModel.getOriginalPropertyValue());
+		noteEntity.setCurrentEffectiveLTV(NoteAnalysisService
+				.getCurrentEffectiveLTV(Objects.toString(noteDetailModel.getNotePrice(), null), noteDetailModel.getPropertyDetailModel().getMarketValue()));
+		noteEntity.setOriginalLTV(NoteAnalysisService.getOriginalLTV(noteDetailModel.getOriginalPrincipleBalance().toString(),
+				noteDetailModel.getOriginalPropertyValue().toString()));
+		noteEntity.setEffectiveLTV(
+				NoteAnalysisService.getEffectiveLTV(noteDetailModel.getNotePrice().toString(), noteDetailModel.getOriginalPropertyValue().toString()));
+		
 	}
 
 }
