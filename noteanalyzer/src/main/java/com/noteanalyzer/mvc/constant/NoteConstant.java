@@ -41,4 +41,9 @@ public class NoteConstant {
 
 	public static final String DEFAULT_STORE_NAME = "DEFAULT";
 	
+	public static final String UNVERIFIED_USER_CODE_UI = "UnverifiedUser";
+	
+	public static final String BLOCKED_USER_CODE_UI = "BlockedUser";
+	
+	
 }

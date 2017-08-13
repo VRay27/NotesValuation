@@ -20,10 +20,12 @@ app.controller('LoginCtrl', function($scope, $rootScope, $state, $location, toas
       	WaitingDialog.hide();
       });
     }, function(response) {
-    	if(response.data && response.data.status==403){
-    		toastr.error('Please verify your email.');
+    	if(response.data && response.data.status==403 && response.data.message=='UnverifiedUser'){
+    		toastr.error('Please verify your email');
+    	}else if (response.data && response.data.status==403 && response.data.message=='BlockedUser'){
+    		toastr.error('You have been blocked. Please reset your password.');
     	}else{
-    		toastr.error('Please enter valid email and password.');	
+    		toastr.error('Please enter your valid email id and password.');	
     	}
       WaitingDialog.hide();
       $auth.logout();

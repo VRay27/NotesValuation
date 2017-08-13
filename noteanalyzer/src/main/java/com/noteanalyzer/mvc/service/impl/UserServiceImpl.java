@@ -117,6 +117,8 @@ public class UserServiceImpl implements UserService {
 			if (isResetTokenNotRequired || inputUser.getResetToken().equals(user.getResetToken())) {
 				user.setPassword(encoder.encode(inputUser.getPassword()));
 				user.setResetTokenCreationTime(ZonedDateTime.now());
+				user.setIsActive(ACTIVE_USER_FLAG);
+				user.setUnsuccessfulLoginAttempts(new Long(0));
 				User updatedUser = genericDao.update(user);
 				return Optional.of(ConverterUtility.convertUserToUserModel(updatedUser));
 			}
@@ -153,7 +155,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Optional<UserModel> verifyUser(UserModel inputUser) {
-		Optional<User> userOpt = getInActiveUser(inputUser.getEmail());
+		Optional<User> userOpt = getUser(inputUser.getEmail());
 		if (userOpt.isPresent()) {
 			User user = userOpt.get();
 			if (inputUser.getVerificationToken().equals(user.getVerificationToken())) {
@@ -183,9 +185,9 @@ public class UserServiceImpl implements UserService {
 			Parameters param = noteService.getParameterValue("MAX_LOGIN_ATTEMPTS", null);
 			int maxAttemptAllowed = (int) ((param != null && param.getParameterValue() != null)
 					? Integer.valueOf(param.getParameterValue()).intValue() : MAX_UNSUCCESSFUL_ATTEMPT);
-
+			long unsuccessfulLoginAttempts =   user.getUnsuccessfulLoginAttempts() == null ? 0 :  user.getUnsuccessfulLoginAttempts();
 			if (LOGIN_FAIL.equalsIgnoreCase(loginStatus)) {
-				long unsuccessfulLoginAttempts = user.getUnsuccessfulLoginAttempts() + 1;
+				 unsuccessfulLoginAttempts = unsuccessfulLoginAttempts + 1;
 				if (unsuccessfulLoginAttempts > maxAttemptAllowed) {
 					user.setIsActive(BLOCK_USER_FLAG);
 				}

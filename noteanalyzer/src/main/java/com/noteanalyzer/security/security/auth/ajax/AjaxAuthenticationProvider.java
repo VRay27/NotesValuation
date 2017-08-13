@@ -45,8 +45,10 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
         System.out.println("Arvind "+username+", password "+password);
 
         UserModel user = userService.getByUsernameWithPassword(username).orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
-        if(!ACTIVE_USER_FLAG.equalsIgnoreCase(user.getIsActive())){
-        	throw new UnverifiedUserException("Unverified user");
+        if(user.getIsActive() == null || IN_ACTIVE_USER_FLAG.equalsIgnoreCase(user.getIsActive())){
+        	throw new UnverifiedUserException(UNVERIFIED_USER_CODE_UI);
+        }else if(BLOCK_USER_FLAG.equalsIgnoreCase(user.getIsActive())){
+        	throw new UnverifiedUserException(BLOCKED_USER_CODE_UI);
         }
         if (!encoder.matches(password, user.getPassword())) {
         	userService.updateUnsuccessfullAttempt(LOGIN_FAIL,user.getUserId(),user.getEmail());
