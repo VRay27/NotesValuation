@@ -102,7 +102,7 @@ public class ZillowWebService implements AppraisalSource {
 
 	@Override
 	public AppraisalPropertyBean getPropertyDetailsWithAddress(String streetAddress, String city, String state,
-			String zipCode) throws AddressNotAvailableException {
+			String zipCode)  {
 
 		LOG.info("Trying to fetch the records from Zillow web service using Address as "+ streetAddress+", "+city+" ,"+state+" ,"+zipCode);
 		AppraisalPropertyBean propertyBean = new AppraisalPropertyBean();

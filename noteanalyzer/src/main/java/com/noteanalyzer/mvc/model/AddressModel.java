@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-public class AddressModel implements Serializable {
+public class AddressModel extends RequestStatusModel implements Serializable {
 	
 	/**
 	 * 

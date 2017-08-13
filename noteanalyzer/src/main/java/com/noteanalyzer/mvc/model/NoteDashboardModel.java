@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class NoteDashboardModel implements Serializable {
+public class NoteDashboardModel extends RequestStatusModel implements Serializable {
 
 	/**
 	 * 

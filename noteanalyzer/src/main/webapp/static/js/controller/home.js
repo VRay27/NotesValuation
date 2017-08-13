@@ -161,7 +161,7 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 			$state.go('noteDashboard');
 		}, function(errResponse) {
 			WaitingDialog.hide();
-			toastr.error('Error while creating note');
+			toastr.error('Error while creating note.' + errResponse);
 		})
 	}
 

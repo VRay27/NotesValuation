@@ -22,7 +22,7 @@ import lombok.NonNull;
 
 
 public interface NoteService {
-	public void createNote(@NonNull NoteInputFormModel note) throws ParseException, AddressNotAvailableException;
+	public void createNote(@NonNull NoteInputFormModel note) throws ParseException;
 	
 	public Optional<List<NoteTypeModel>> getNoteType();
 	
@@ -49,20 +49,5 @@ public interface NoteService {
 
 	boolean deleteNote(NoteDetailModel noteDetailModel, String userName);
 	
-	/*User findById(long id);
-	
-	User findByName(String name);
-	
-	void saveUser(User user);
-	
-	void updateUser(User user);
-	
-	void deleteUserById(long id);
-
-	List<User> findAllUsers(); 
-	
-	void deleteAllUsers();
-	
-	public boolean isUserExist(User user);*/
 	
 }

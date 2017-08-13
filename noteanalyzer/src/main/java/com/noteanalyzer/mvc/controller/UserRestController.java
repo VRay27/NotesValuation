@@ -9,6 +9,7 @@ import static com.noteanalyzer.mvc.constant.NoteConstant.FORGOT_PASSWORD_EMAIL_S
 import static com.noteanalyzer.mvc.constant.NoteConstant.IN_ACTIVE_USER_FLAG;
 
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -32,6 +33,11 @@ import com.noteanalyzer.mvc.service.UserService;
 import com.noteanalyzer.security.security.auth.ajax.LoginRequest;
 import com.noteanalyzer.utility.NoteUtility;
 
+/**
+ * This class is responsible for all communication with UI for user related activity. This is restful webservice can be called from any UI or third party as and when needed.
+ * @author Arvind Ray
+ *
+ */
 @RestController
 public class UserRestController {
 
@@ -43,6 +49,8 @@ public class UserRestController {
 
 	@Autowired
 	NoteService noteService;
+	
+	private final static Logger LOG = Logger.getLogger(UserRestController.class.getName());
 
 	/**
 	 * This method will return the user details of logged in user. User name
@@ -53,7 +61,7 @@ public class UserRestController {
 	@RequestMapping(value = "api/userDetail", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserModel> getUserDetail() {
 		String userName = NoteUtility.getLoggedInUserName();
-		System.out.println("Fetching User with userName " + userName);
+		LOG.info("Fetching User with userName " + userName);
 		Optional<UserModel> user = userService.getByUsername(userName);
 		if (user.isPresent()) {
 			UserModel userModel = user.get();
@@ -62,28 +70,34 @@ public class UserRestController {
 			}
 			return new ResponseEntity<UserModel>(userModel, HttpStatus.OK);
 		}
-		System.out.println("User with userName " + userName + " not found");
+		LOG.info("User with userName " + userName + " not found");
 		return new ResponseEntity<UserModel>(HttpStatus.NOT_FOUND);
 	}
 
+	/**
+	 * This method will crete an user with given input.
+	 * @param inputUser
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value = "/createUser", method = RequestMethod.POST)
 	public ResponseEntity<Void> createUser(@RequestBody UserModel inputUser, HttpServletRequest request) {
-		System.out.println("Creating User " + inputUser);
+		LOG.info("Creating User " + inputUser);
 		String userStatus = userService.getUserStatus(inputUser.getEmail());
 		if (StringUtils.isNotBlank(userStatus)) {
 			if (ACTIVE_USER_FLAG.equalsIgnoreCase(userStatus)) {
-				System.out.println("A User with name " + inputUser.getEmail() + " already exist. ");
+				LOG.info("A User with name " + inputUser.getEmail() + " already exist. ");
 				return new ResponseEntity<Void>(HttpStatus.FOUND);
 			} else if (IN_ACTIVE_USER_FLAG.equalsIgnoreCase(userStatus)) {
-				System.out.println(
+				LOG.info(
 						"A User with name " + inputUser.getEmail() + "registered with us, but not yet verified.");
 				return new ResponseEntity<Void>(HttpStatus.CONFLICT);
 			} else if (BLOCK_USER_FLAG.equalsIgnoreCase(userStatus)) {
-				System.out.println(
+				LOG.info(
 						"A User with name " + inputUser.getEmail() + "registered with us, but in blocked state.");
 				return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
 			} else {
-				System.out.println(
+				LOG.info(
 						"A User with name " + inputUser.getEmail() + "have corrupted Data in user status column");
 				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 			}
@@ -96,7 +110,9 @@ public class UserRestController {
 		userService.createUser(inputUser);
 		String subject = noteService.getParameterValue(CREATE_USER_EMAIL_SUBJECT, null).getParameterValue();
 		String bodyText = noteService.getParameterValue(CREATE_USER_EMAIL_CONTENT_BODY, null).getParameterValue();
-		bodyText = bodyText + "<p>" + baseUrl + "/notes/verifyUser?verificationToken=" + verificationToken + "</p>";
+		String verificationLink = baseUrl + "/notes/verifyUser?verificationToken=" + verificationToken;
+		bodyText = bodyText + "<p><a class='btn btn-success' href='"+verificationLink+"'>Verify User</a></p> Or <p>"
+				+ " Click on the link: "+verificationLink+"</p>";
 		if (emailService.sendEmail(inputUser.getEmail(), subject, bodyText)) {
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
 		} else {
@@ -104,10 +120,15 @@ public class UserRestController {
 		}
 	}
 
+	/**
+	 * This method will used for reset the password of non- logged in user.
+	 * @param inputUser
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value = "/changePassword", method = RequestMethod.POST)
-	public ResponseEntity<Void> changePassword(@RequestBody UserModel inputUser, HttpServletRequest request) {
-		System.out.println("Creating User " + inputUser);
-
+	public ResponseEntity<Void> resetPassword(@RequestBody UserModel inputUser, HttpServletRequest request) {
+		LOG.info("Reset password for  " + inputUser);
 		String resetToken = request.getParameter("resetToken");
 		inputUser.setEmail(NoteUtility.getUserNameFromResetToken(resetToken));
 		inputUser.setResetToken(NoteUtility.decodeResetToken(resetToken));
@@ -120,9 +141,14 @@ public class UserRestController {
 
 	}
 
+	/**
+	 * This method will be used to change the password for logged in user.
+	 * @param inputUser
+	 * @return
+	 */
 	@RequestMapping(value = "/api/changePassword", method = RequestMethod.POST)
 	public ResponseEntity<Void> changePasswordForLoginUser(@RequestBody UserModel inputUser) {
-		System.out.println("Creating User " + inputUser);
+		LOG.info("change password for  " + inputUser);
 		inputUser.setEmail(NoteUtility.getLoggedInUserName());
 		inputUser.setResetToken(null);
 		Optional<UserModel> user = userService.changePassword(inputUser, true);
@@ -134,6 +160,11 @@ public class UserRestController {
 
 	}
 
+	/**
+	 * This method will be used to update the user details.
+	 * @param inputUser
+	 * @return
+	 */
 	@RequestMapping(value = "/api/updateUser", method = RequestMethod.POST)
 	public ResponseEntity<UserModel> updateUser(@RequestBody UserModel inputUser) {
 		System.out.println("Updating User " + inputUser);
@@ -145,8 +176,14 @@ public class UserRestController {
 		return new ResponseEntity<UserModel>(user.get(), HttpStatus.OK);
 	}
 
+	/**
+	 * This method wil be  use to send reset link password.
+	 * @param inputUser
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value = "resetPassword", method = RequestMethod.POST)
-	public ResponseEntity<Void> resetPassword(@RequestBody LoginRequest inputUser, HttpServletRequest request) {
+	public ResponseEntity<Void> resetLinkPassword(@RequestBody LoginRequest inputUser, HttpServletRequest request) {
 		System.out.println("Reset Password " + inputUser + " request url " + request.getRequestURL() + " context url "
 				+ request.getContextPath());
 		StringBuffer url = request.getRequestURL();
@@ -161,7 +198,9 @@ public class UserRestController {
 		String resetToken = NoteUtility.encodeResetToken(inputUser.getUsername(), userModel.get().getResetToken());
 		String subject = noteService.getParameterValue(FORGOT_PASSWORD_EMAIL_SUBJECT, null).getParameterValue();
 		String bodyText = noteService.getParameterValue(FORGOT_PASSWORD_EMAIL_CONTENT_BODY, null).getParameterValue();
-		bodyText = bodyText + "<p>" + baseUrl + "/notes/#!/changePassword?resetToken=" + resetToken + "</p>";
+		String resetPasswordLink = baseUrl + "/notes/#!/changePassword?resetToken=" + resetToken;
+		bodyText = bodyText + "<p> <a class = 'btn btn-success' href=" + resetPasswordLink + "> Reset Password</a></p><p>"
+				+ "Or Please click on this link: "+resetPasswordLink+"</p>";
 		if (emailService.sendEmail(inputUser.getUsername(), subject, bodyText)) {
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} else {
@@ -170,14 +209,19 @@ public class UserRestController {
 
 	}
 
+	/**
+	 * This method will send the details of city and state for given zip code.
+	 * @param zipCode
+	 * @return
+	 */
 	@RequestMapping(value = "getZipCodeDetails/{zipCode}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AddressModel> getZipCodeDetails(@PathVariable String zipCode) {
-		System.out.println("Fetching Zip Code details with zipCode " + zipCode);
+		LOG.info("Fetching Zip Code details with zipCode " + zipCode);
 		Optional<AddressModel> address = noteService.getZipCodeDetails(zipCode);
 		if (address.isPresent()) {
 			return new ResponseEntity<AddressModel>(address.get(), HttpStatus.OK);
 		}
-		System.out.println("ZipCode with userName " + address + " not found");
+		LOG.info("ZipCode with userName " + address + " not found");
 		return new ResponseEntity<AddressModel>(HttpStatus.NOT_FOUND);
 	}
 

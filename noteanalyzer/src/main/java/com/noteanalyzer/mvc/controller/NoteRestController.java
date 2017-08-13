@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -29,13 +31,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.noteanalyzer.appraisal.exceptions.AddressNotAvailableException;
 import com.noteanalyzer.mvc.model.AddressModel;
+import com.noteanalyzer.mvc.model.NoteDashboardModel;
 import com.noteanalyzer.mvc.model.NoteDetailModel;
 import com.noteanalyzer.mvc.model.NoteInputFormModel;
-import com.noteanalyzer.mvc.model.NoteDashboardModel;
 import com.noteanalyzer.mvc.model.NoteTypeModel;
 import com.noteanalyzer.mvc.model.PropertyTypeModel;
+import com.noteanalyzer.mvc.model.RequestStatusModel;
 import com.noteanalyzer.mvc.model.UserModel;
 import com.noteanalyzer.mvc.service.NoteService;
 import com.noteanalyzer.mvc.service.UserService;
@@ -45,6 +47,11 @@ import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.bean.ColumnPositionMappingStrategy;
 import au.com.bytecode.opencsv.bean.CsvToBean;
 
+/**
+ * This class is responsible for all communication with UI for Notes related activity. This is restful webservice can be called from any UI or third party as and when needed.
+ * @author Arvind Ray
+ *
+ */
 @RestController
 public class NoteRestController {
 
@@ -53,6 +60,8 @@ public class NoteRestController {
 
 	@Autowired
 	UserService userService;
+
+	private final static Logger LOG = Logger.getLogger(NoteRestController.class.getName());
 
 	/**
 	 * @return the userService
@@ -84,71 +93,89 @@ public class NoteRestController {
 		this.noteService = noteService;
 	}
 
+	/**
+	 * This method will fetch the details of zipcode given by user and populate
+	 * it with city and state details. It will also give list of note type and
+	 * property type.
+	 * 
+	 * @param noteInputFormModel
+	 * @return
+	 */
 	@RequestMapping(value = "/analyzeNote", method = RequestMethod.POST)
 	public ResponseEntity<NoteInputFormModel> analyzeNote(@RequestBody NoteInputFormModel noteInputFormModel) {
 		String zipCode = noteInputFormModel.getAddress().getZipCode();
 		if (StringUtils.isEmpty(zipCode)) {
-			return new ResponseEntity<NoteInputFormModel>(HttpStatus.NOT_FOUND);
+			noteInputFormModel.setErrorMessage("Zip code is mandtory to process your request ");
+			return new ResponseEntity<NoteInputFormModel>(noteInputFormModel, HttpStatus.BAD_REQUEST);
 		}
-		System.out.println("Fetching Zip Code details with zipCode " + zipCode);
+		LOG.info("Fetching Zip Code details with zipCode " + zipCode);
 		Optional<AddressModel> address = noteService.getZipCodeDetails(zipCode);
 		if (!address.isPresent()) {
-			return new ResponseEntity<NoteInputFormModel>(HttpStatus.NOT_FOUND);
+			noteInputFormModel.setErrorMessage("Unable to find detail of zip code " + zipCode);
+			return new ResponseEntity<NoteInputFormModel>(noteInputFormModel, HttpStatus.NOT_FOUND);
 		}
 		AddressModel addressModel = address.get();
 		noteInputFormModel.setAddress(addressModel);
 		noteInputFormModel.setZipCode(zipCode);
-		for (String defaultCity : addressModel.getCityList()) {
-			noteInputFormModel.setSelCity(defaultCity);
-		}
-		for (String defaultState : addressModel.getStateList()) {
-			noteInputFormModel.setSelCity(defaultState);
-		}
 
 		Optional<List<NoteTypeModel>> noteTypeModelList = noteService.getNoteType();
 		if (noteTypeModelList.isPresent()) {
 			List<NoteTypeModel> noteTypeList = noteTypeModelList.get();
 			noteInputFormModel.setNoteTypeList(noteTypeList);
-			// noteInputFormModel.setSelNoteType(noteTypeList.get(0));
-			// noteInputFormModel.setOriginalTerm(BigDecimal.valueOf(Double.valueOf(noteTypeList.get(0).getTermMonths())));
 		}
 
 		Optional<List<PropertyTypeModel>> propTypeModelList = noteService.getPropertyType();
 		if (propTypeModelList.isPresent()) {
 			noteInputFormModel.setPropTypeList(propTypeModelList.get());
-			noteInputFormModel.setSelPropType(propTypeModelList.get().get(0));
 		}
 
 		return new ResponseEntity<NoteInputFormModel>(noteInputFormModel, HttpStatus.OK);
 
 	}
 
+	/**
+	 * This method will create note with given input details and associate it
+	 * with logged in user.
+	 * 
+	 * @param noteInputFormModel
+	 * @return
+	 */
 	@RequestMapping(value = "/api/createNote", method = RequestMethod.POST)
-	public ResponseEntity<String> createNote(@RequestBody NoteInputFormModel noteInputFormModel) {
+	public ResponseEntity<RequestStatusModel> createNote(@RequestBody NoteInputFormModel noteInputFormModel) {
+		RequestStatusModel statusModel = new RequestStatusModel();
 		String userName = NoteUtility.getLoggedInUserName();
 		Optional<UserModel> loggedInuser = userService.getByUsername(userName);
 		if (loggedInuser.isPresent()) {
 			noteInputFormModel.setUserId(loggedInuser.get().getUserId());
 		} else {
-			System.out.println("Error with loggedin user name and ID");
-			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+			LOG.severe("Invalid logged in user name");
+			statusModel.setErrorMessage("Invalid logged in user");
+			return new ResponseEntity<RequestStatusModel>(statusModel, HttpStatus.UNAUTHORIZED);
 		}
 
-		System.out.println("Inside POST with ALL value " + noteInputFormModel);
+		String errorMessage = NoteUtility.validateInputModel(noteInputFormModel);
+		if (StringUtils.isBlank(errorMessage)) {
+			statusModel.setErrorMessage(errorMessage);
+			return new ResponseEntity<RequestStatusModel>(statusModel, HttpStatus.BAD_REQUEST);
+		}
+
 		try {
 			noteService.createNote(noteInputFormModel);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
-		} catch (AddressNotAvailableException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			// return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+			LOG.log(Level.SEVERE, "Unable to parse input message", e.getCause());
+			statusModel.setErrorMessage("Unable to parse input message");
+			return new ResponseEntity<RequestStatusModel>(statusModel, HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<String>(HttpStatus.OK);
+		return new ResponseEntity<RequestStatusModel>(HttpStatus.OK);
 	}
 
+	/**
+	 * This method will enable user to download a template for bulk create note
+	 * upload.
+	 * 
+	 * @param response
+	 * @throws IOException
+	 */
 	@RequestMapping(value = "/templateDownload", method = RequestMethod.GET)
 	public void downloadFile(HttpServletResponse response) throws IOException {
 
@@ -203,10 +230,19 @@ public class NoteRestController {
 		FileCopyUtils.copy(inputStream, response.getOutputStream());
 	}
 
+	/**
+	 * This method will be used to bulk upload the note by user.
+	 * 
+	 * @param request
+	 * @param redirectAttributes
+	 * @return
+	 * @throws IOException
+	 */
 	@RequestMapping(value = "/api/noteUpload", method = RequestMethod.POST)
 	public ResponseEntity<List<NoteInputFormModel>> multiFileUpload(MultipartHttpServletRequest request,
 			RedirectAttributes redirectAttributes) throws IOException {
 
+		RequestStatusModel statusModel = new RequestStatusModel();
 		Iterator<String> iterator = request.getFileNames();
 		MultipartFile multipart = null;
 		List<NoteInputFormModel> responseList = new ArrayList<>();
@@ -245,8 +281,14 @@ public class NoteRestController {
 		}
 	}
 
+	/**
+	 * This method will return all the notes summary for logged in user.
+	 * 
+	 * @return
+	 */
 	@RequestMapping(value = "/api/fetchAllNotes", method = RequestMethod.GET)
 	public ResponseEntity<List<NoteDashboardModel>> listAllNotes() {
+
 		String loggedInUserName = NoteUtility.getLoggedInUserName();
 		Optional<UserModel> loggedInuser = userService.getByUsername(loggedInUserName);
 		if (loggedInuser.isPresent()) {
@@ -258,49 +300,82 @@ public class NoteRestController {
 			}
 			return new ResponseEntity<List<NoteDashboardModel>>(notesList.get(), HttpStatus.OK);
 		} else {
-			System.out.println("Error with loggedin user name and ID " + loggedInUserName);
-			return new ResponseEntity<List<NoteDashboardModel>>(HttpStatus.BAD_REQUEST);
+			LOG.severe("Error with loggedin user name and ID " + loggedInUserName);
+			return new ResponseEntity<List<NoteDashboardModel>>(HttpStatus.FORBIDDEN);
 		}
 	}
 
+	/**
+	 * This method will be used to update given note value and recalculate the
+	 * parameters.
+	 * 
+	 * @param noteDetailModel
+	 * @return
+	 */
 	@RequestMapping(value = "/api/updateNote", method = RequestMethod.POST)
 	public ResponseEntity<NoteDetailModel> updateNote(@RequestBody NoteDetailModel noteDetailModel) {
 
-		System.out.println("Inside POST with editNote noteDetailModel value " + noteDetailModel);
 		if (noteDetailModel == null) {
-			return new ResponseEntity<NoteDetailModel>(HttpStatus.BAD_REQUEST);
+			NoteDetailModel model = new NoteDetailModel();
+			model.setErrorMessage("Invalid input details");
+			return new ResponseEntity<NoteDetailModel>(model, HttpStatus.BAD_REQUEST);
 		}
 		Optional<NoteDetailModel> model = noteService.updateNote(noteDetailModel);
 		return new ResponseEntity<NoteDetailModel>(model.get(), HttpStatus.OK);
 	}
 
+	/**
+	 * This method will be used to delete the given note using note id for
+	 * logged in user.
+	 * 
+	 * @param noteDetailModel
+	 * @return
+	 */
 	@RequestMapping(value = "/api/deleteNote", method = RequestMethod.POST)
-	public ResponseEntity<String> deleteNote(@RequestBody NoteDetailModel noteDetailModel) {
+	public ResponseEntity<RequestStatusModel> deleteNote(@RequestBody NoteDetailModel noteDetailModel) {
 		if (noteDetailModel == null) {
-			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+			RequestStatusModel model = new RequestStatusModel();
+			model.setErrorMessage("Invalid input details");
+			return new ResponseEntity<RequestStatusModel>(model, HttpStatus.BAD_REQUEST);
 		}
-		System.out.println("Inside DELETE with deleteNote noteDetailModel value " + noteDetailModel);
+		LOG.info("Inside DELETE with deleteNote noteDetailModel value " + noteDetailModel);
 		boolean isDeleted = noteService.deleteNote(noteDetailModel, NoteUtility.getLoggedInUserName());
 		if (isDeleted) {
-			return new ResponseEntity<String>(HttpStatus.OK);
+			return new ResponseEntity<RequestStatusModel>(HttpStatus.OK);
 		} else {
-			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<RequestStatusModel>(HttpStatus.NOT_FOUND);
 		}
 	}
 
+	/**
+	 * This method will fetch the details of given note present for given logged
+	 * in user.
+	 * 
+	 * @param noteId
+	 * @return
+	 */
 	@RequestMapping(value = "/api/getNoteDetail/{noteId}", method = RequestMethod.GET)
 	public ResponseEntity<NoteDetailModel> getNoteDetail(@PathVariable String noteId) {
+		NoteDetailModel model = new NoteDetailModel();
 		if (StringUtils.isEmpty(noteId)) {
-			return new ResponseEntity<NoteDetailModel>(HttpStatus.BAD_REQUEST);
+			model.setErrorMessage("Invalid input details");
+			return new ResponseEntity<NoteDetailModel>(model, HttpStatus.BAD_REQUEST);
 		}
 		Optional<NoteDetailModel> noteDetailModel = noteService.getNoteDetail(Long.valueOf(noteId));
 		if (noteDetailModel.isPresent()) {
-			System.out.println("Inside Get Note Details with  noteDetailModel value " + noteId);
+			LOG.info("Inside Get Note Details with  noteDetailModel value " + noteId);
 			return new ResponseEntity<NoteDetailModel>(noteDetailModel.get(), HttpStatus.OK);
 		}
-		return new ResponseEntity<NoteDetailModel>(HttpStatus.NOT_FOUND);
+		model.setErrorMessage("Unable to find the details of input note");
+		return new ResponseEntity<NoteDetailModel>(model, HttpStatus.NOT_FOUND);
 	}
 
+	/**
+	 * This method will return the list of note type supported by this
+	 * application.
+	 * 
+	 * @return
+	 */
 	@RequestMapping(value = "/api/getNoteType", method = RequestMethod.GET)
 	public ResponseEntity<List<NoteTypeModel>> getNoteType() {
 		Optional<List<NoteTypeModel>> noteTypeModelList = noteService.getNoteType();
@@ -310,6 +385,12 @@ public class NoteRestController {
 		return new ResponseEntity<List<NoteTypeModel>>(HttpStatus.NOT_FOUND);
 	}
 
+	/**
+	 * This method will return the list of property type supporte by this
+	 * application.
+	 * 
+	 * @return
+	 */
 	@RequestMapping(value = "/api/getPropertyType", method = RequestMethod.GET)
 	public ResponseEntity<List<PropertyTypeModel>> getPropertyType() {
 
@@ -320,12 +401,25 @@ public class NoteRestController {
 		return new ResponseEntity<List<PropertyTypeModel>>(HttpStatus.NOT_FOUND);
 	}
 
+	/**
+	 * This method will return the list of state and city for given zip code.
+	 * 
+	 * @param zipCode
+	 * @return
+	 */
 	@RequestMapping(value = "/getStateCityList/{zipCode}", method = RequestMethod.GET)
 	public ResponseEntity<AddressModel> getStateCityList(@PathVariable String zipCode) {
+		AddressModel model = new AddressModel();
+		if (StringUtils.isEmpty(zipCode)) {
+			model.setErrorMessage("Empty zipCode");
+			return new ResponseEntity<AddressModel>(model, HttpStatus.BAD_REQUEST);
+		}
+
 		Optional<AddressModel> address = noteService.getZipCodeDetails(zipCode);
 		if (address.isPresent()) {
 			return new ResponseEntity<AddressModel>(address.get(), HttpStatus.OK);
 		}
+		model.setErrorMessage("ZipCode details not found");
 		return new ResponseEntity<AddressModel>(HttpStatus.NOT_FOUND);
 
 	}

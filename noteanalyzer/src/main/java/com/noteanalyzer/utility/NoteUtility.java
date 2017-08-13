@@ -4,8 +4,16 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,6 +22,7 @@ import com.noteanalyzer.entity.AbstractEntity;
 import com.noteanalyzer.entity.notes.Note;
 import com.noteanalyzer.entity.notes.Property;
 import com.noteanalyzer.mvc.model.NoteInputFormModel;
+import com.noteanalyzer.mvc.model.RequestStatusModel;
 import com.noteanalyzer.security.security.model.UserContext;
 
 public class NoteUtility {
@@ -54,6 +63,20 @@ public class NoteUtility {
 	        	userName = principal.toString();
 	        }
 	      return userName;  
+	}
+	
+	public static String validateInputModel(NoteInputFormModel noteInputFormModel){
+		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		Validator validator = factory.getValidator();
+		Set<ConstraintViolation<NoteInputFormModel>> violations = validator.validate(noteInputFormModel);
+		if (!violations.isEmpty()) {
+			StringBuilder errorMessage = new StringBuilder();
+			for (ConstraintViolation<NoteInputFormModel> model : violations) {
+				errorMessage.append(", ").append(model.getMessage());
+			}
+			return errorMessage.toString();
+		}
+		return null;
 	}
 	
 	

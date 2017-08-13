@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NoteDetailModel implements Serializable {
+public class NoteDetailModel  extends RequestStatusModel implements Serializable {
 
 	/**
 	 * This class will hold the data for Note input form.

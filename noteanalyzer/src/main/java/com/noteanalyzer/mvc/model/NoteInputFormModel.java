@@ -5,7 +5,14 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NoteInputFormModel implements Serializable {
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.validation.constraints.Digits;
+
+public class NoteInputFormModel  extends RequestStatusModel implements Serializable {
 
 	/**
 	 * This class will hold the data for Note input form.
@@ -21,12 +28,19 @@ public class NoteInputFormModel implements Serializable {
 	private List<PropertyTypeModel> propTypeList;
 	private PropertyTypeModel selPropType;
 	private AddressModel addressModel;
+	@NotNull(message = "Note Date cannot be null")
 	private String noteDate;
+	@NotNull(message = "Unpaid Balance cannot be null")
+	@Digits(message = "Unpaid Balance cannot be greater than 20 digit", fraction = 2, integer = 20)
 	private BigDecimal upb;
 	private BigDecimal rate;
+	@Digits(message = "PDI Payment cannot be greater than 20 digit", fraction = 2, integer = 20)
 	private BigDecimal pdiPayment;
+	@Digits(message = "TDI Payment cannot be greater than 20 digit", fraction = 2, integer = 20)
 	private BigDecimal tdiPayment;
+	@Digits(message = "Original Term cannot be greater than 20 digit", fraction = 2, integer = 20)
 	private BigDecimal originalTerm;
+	@Digits(message = "original Principle Balance cannot be greater than 20 digit", fraction = 2, integer = 20)
 	private BigDecimal originalPrincipleBalance;
 	private String paymentHistory;
 	private BigDecimal noOfPaymentRemaining;

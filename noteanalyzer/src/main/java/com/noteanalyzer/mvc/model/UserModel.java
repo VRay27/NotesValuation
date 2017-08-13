@@ -7,7 +7,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
-public class UserModel implements Serializable{
+public class UserModel extends RequestStatusModel implements Serializable{
 
 	/**
 	 * 

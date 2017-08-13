@@ -1,11 +1,9 @@
 package com.noteanalyzer.mvc.service.impl;
 
-import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -17,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import com.noteanalyzer.appraisal.exceptions.AddressNotAvailableException;
 import com.noteanalyzer.dao.GenericDao;
 import com.noteanalyzer.entity.address.Zipcodes;
 import com.noteanalyzer.entity.notes.Note;
@@ -27,12 +24,11 @@ import com.noteanalyzer.entity.notes.Parameters;
 import com.noteanalyzer.entity.notes.Property;
 import com.noteanalyzer.entity.notes.PropertyType;
 import com.noteanalyzer.mvc.model.AddressModel;
+import com.noteanalyzer.mvc.model.NoteDashboardModel;
 import com.noteanalyzer.mvc.model.NoteDetailModel;
 import com.noteanalyzer.mvc.model.NoteInputFormModel;
-import com.noteanalyzer.mvc.model.NoteDashboardModel;
 import com.noteanalyzer.mvc.model.NoteTypeModel;
 import com.noteanalyzer.mvc.model.PropertyTypeModel;
-import com.noteanalyzer.mvc.service.NoteAnalysisService;
 import com.noteanalyzer.mvc.service.NoteService;
 import com.noteanalyzer.utility.ConverterUtility;
 import com.noteanalyzer.webservice.appraisal.AppraisalPropertyBean;
@@ -77,7 +73,7 @@ public class NoteServiceImpl implements NoteService {
 
 	@Override
 	@Transactional
-	public void createNote(@NonNull NoteInputFormModel noteModel) throws ParseException, AddressNotAvailableException {
+	public void createNote(@NonNull NoteInputFormModel noteModel) throws ParseException {
 
 		Optional<List<Property>> propertyList = getPropertyByAddress(noteModel);
 		Property property = null;
@@ -87,19 +83,16 @@ public class NoteServiceImpl implements NoteService {
 			property = getPropertyFromZillow(noteModel.getStreetAddress(), noteModel.getSelCity(),
 					noteModel.getSelState(), noteModel.getZipCode(), noteModel.getSelPropType().getPropertyTypeCode());
 		}
-		Note note = ConverterUtility.convertNoteModelToEntity(noteModel,property);
+		Note note = ConverterUtility.convertNoteModelToEntity(noteModel, property);
 		note.setPropertyId(property);
 		genericDao.create(note);
 
 	}
 
 	private Property getPropertyFromZillow(String streetAddress, String city, String state, String zipcode,
-			String propertyTypeCode) throws AddressNotAvailableException {
+			String propertyTypeCode) {
 		AppraisalPropertyBean appraisalPropertyBean = zillowWebService.getPropertyDetailsWithAddress(streetAddress,
 				city, state, zipcode);
-		if (appraisalPropertyBean == null) {
-			return null;
-		}
 		LOG.info(appraisalPropertyBean.toString());
 		return ConverterUtility.createPropertyObject(appraisalPropertyBean, propertyTypeCode);
 	}
@@ -149,16 +142,12 @@ public class NoteServiceImpl implements NoteService {
 		if (property != null) {
 			propertyTypeList = getPropertyTypeByCode(property.getPropertyType());
 		}
-		try {
-			Property appraisalProperty = getPropertyFromZillow(property.getStreetAddress(), property.getCity(),
-					property.getState(), property.getZip().toString(), property.getPropertyType());
-			if (appraisalProperty != null) {
-				property = appraisalProperty;
-				note.setPropertyId(appraisalProperty);
-				genericDao.update(note);
-			}
-		} catch (AddressNotAvailableException e) {
-			e.printStackTrace();
+		Property appraisalProperty = getPropertyFromZillow(property.getStreetAddress(), property.getCity(),
+				property.getState(), property.getZip().toString(), property.getPropertyType());
+		if (appraisalProperty != null) {
+			property = appraisalProperty;
+			note.setPropertyId(appraisalProperty);
+			genericDao.update(note);
 		}
 		return Optional.of(
 				ConverterUtility.convertNoteEntityToNoteDetailModel(note, property, propertyTypeList, noteTypeList));
@@ -242,10 +231,10 @@ public class NoteServiceImpl implements NoteService {
 		}
 		return Optional.empty();
 	}
-	
+
 	@Override
 	@Transactional
-	public Optional<NoteDetailModel> updateNote(@NonNull NoteDetailModel noteDetailModel){
+	public Optional<NoteDetailModel> updateNote(@NonNull NoteDetailModel noteDetailModel) {
 		Note noteEntity = genericDao.getById(Note.class, noteDetailModel.getNoteId());
 		if (noteEntity == null) {
 			return Optional.empty();
@@ -253,22 +242,23 @@ public class NoteServiceImpl implements NoteService {
 		ConverterUtility.convertUpdatedNoteToEnityNote(noteEntity, noteDetailModel);
 		genericDao.update(noteEntity);
 		return Optional.of(noteDetailModel);
-		
+
 	}
-	
+
 	@Override
-	public boolean deleteNote(@NonNull NoteDetailModel noteDetailModel,String userName){
+	public boolean deleteNote(@NonNull NoteDetailModel noteDetailModel, String userName) {
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("emailID", userName);
 		parameters.put("noteId", noteDetailModel.getNoteId());
-		List<Note> notes = genericDao.getResultByNamedQuery(Note.class, Note.GET_NOTE_DETAILS_BY_USER_NOTE_ID, parameters);
-		if(notes !=null){
+		List<Note> notes = genericDao.getResultByNamedQuery(Note.class, Note.GET_NOTE_DETAILS_BY_USER_NOTE_ID,
+				parameters);
+		if (notes != null) {
 			genericDao.deleteById(Note.class, notes.get(0).getNoteId());
 			return true;
 		}
-		System.out.println("There is No record found with logging user "+userName +" and noteDetailModel ID"+noteDetailModel.getNoteId());
+		System.out.println("There is No record found with logging user " + userName + " and noteDetailModel ID"
+				+ noteDetailModel.getNoteId());
 		return false;
 	}
-		
 
 }

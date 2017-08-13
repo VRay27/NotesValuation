@@ -17,7 +17,6 @@ public interface AppraisalSource {
 	String getMarketValueWithApprisalSourceId(String apprsialSourcePropertyId)
 			throws SAXException, IOException, AddressNotAvailableException;
 
-	AppraisalPropertyBean getPropertyDetailsWithAddress(String streetAddress, String city, String state, String zipCode)
-			throws  AddressNotAvailableException;
+	AppraisalPropertyBean getPropertyDetailsWithAddress(String streetAddress, String city, String state, String zipCode);
 
 }
