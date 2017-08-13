@@ -37,7 +37,7 @@ public class Note extends AbstractEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "NOTE_ID")
-	private int noteId;
+	private long noteId;
 	
 	@Column(name = "USER_ID")
 	private Long userId;
@@ -55,7 +55,7 @@ public class Note extends AbstractEntity {
 	private String noteType;
 
 	@Column(name = "NOTE_POSITION")
-	private Integer notePosition;
+	private Long notePosition;
 	
 
 	@Column(name = "PDI_PAYMENT")
@@ -77,7 +77,7 @@ public class Note extends AbstractEntity {
 	private BigDecimal termMonths;
 	
 	@Column(name = "LATE_PAYMENTS")
-	private Integer latePayments;
+	private Long latePayments;
 
 	@Column(name = "SEARCH_NAME")
 	private String searchName;
@@ -132,14 +132,14 @@ public class Note extends AbstractEntity {
 	/**
 	 * @return the noteId
 	 */
-	public int getNoteId() {
+	public long getNoteId() {
 		return noteId;
 	}
 
 	/**
 	 * @param noteId the noteId to set
 	 */
-	public void setNoteId(int noteId) {
+	public void setNoteId(long noteId) {
 		this.noteId = noteId;
 	}
 
@@ -213,20 +213,6 @@ public class Note extends AbstractEntity {
 		this.noteType = noteType;
 	}
 
-	/**
-	 * @return the notePosition
-	 */
-	public Integer getNotePosition() {
-		return notePosition;
-	}
-
-	/**
-	 * @param notePosition the notePosition to set
-	 */
-	public void setNotePosition(Integer notePosition) {
-		this.notePosition = notePosition;
-	}
-
 	
 	/**
 	 * @return the borrowerCreditScore
@@ -285,17 +271,32 @@ public class Note extends AbstractEntity {
 		this.termMonths = termMonths;
 	}
 
+	
+	/**
+	 * @return the notePosition
+	 */
+	public Long getNotePosition() {
+		return notePosition;
+	}
+
+	/**
+	 * @param notePosition the notePosition to set
+	 */
+	public void setNotePosition(Long notePosition) {
+		this.notePosition = notePosition;
+	}
+
 	/**
 	 * @return the latePayments
 	 */
-	public Integer getLatePayments() {
+	public Long getLatePayments() {
 		return latePayments;
 	}
 
 	/**
 	 * @param latePayments the latePayments to set
 	 */
-	public void setLatePayments(Integer latePayments) {
+	public void setLatePayments(Long latePayments) {
 		this.latePayments = latePayments;
 	}
 
@@ -563,7 +564,7 @@ public class Note extends AbstractEntity {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + noteId;
+		result = prime * result + (int) (noteId ^ (noteId >>> 32));
 		return result;
 	}
 
@@ -572,20 +573,18 @@ public class Note extends AbstractEntity {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
-		if (!super.equals(obj)) {
+		if (!super.equals(obj))
 			return false;
-		}
-		if (!(obj instanceof Note)) {
+		if (getClass() != obj.getClass())
 			return false;
-		}
 		Note other = (Note) obj;
-		if (noteId != other.noteId) {
+		if (noteId != other.noteId)
 			return false;
-		}
 		return true;
 	}
+
+
 
 }

@@ -1,3 +1,4 @@
+
 var noteApp = angular.module('NoteApp');
 noteApp.controller('HomeCtrl', function($scope, $stateParams, $state,$document, $auth, $http, $uibModal, toastr, $rootScope, noteUploadAPI, NoteService,UtilityService) {
 	$scope.noteAnalyzed = function() {
@@ -101,6 +102,7 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 		$scope.noteInputFormModel.remainingNoOfPayment = '';
 		$scope.noteInputFormModel.originalPropertyValue = '';
 		$scope.noteInputFormModel.userScore = '';
+		$scope.noteInputFormModel.salePrice = '';
 		
 	}
 

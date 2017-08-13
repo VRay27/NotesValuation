@@ -16,7 +16,7 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state,$docu
   
   $scope.deleteNote = function(){
 	  NoteService.deleteNote($scope.noteDetailModel).then(function(response) {
-		  $state.go('dashboard');
+		  $state.go('noteDashboard');
 		  toastr.success("Note has been deleted successfully.")
 	  },function(response) {
 		  toastr.error("We are unable to delete this note. Please try after sometime.")

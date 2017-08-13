@@ -33,7 +33,7 @@ import com.noteanalyzer.appraisal.exceptions.AddressNotAvailableException;
 import com.noteanalyzer.mvc.model.AddressModel;
 import com.noteanalyzer.mvc.model.NoteDetailModel;
 import com.noteanalyzer.mvc.model.NoteInputFormModel;
-import com.noteanalyzer.mvc.model.NoteSummaryModel;
+import com.noteanalyzer.mvc.model.NoteDashboardModel;
 import com.noteanalyzer.mvc.model.NoteTypeModel;
 import com.noteanalyzer.mvc.model.PropertyTypeModel;
 import com.noteanalyzer.mvc.model.UserModel;
@@ -246,20 +246,20 @@ public class NoteRestController {
 	}
 
 	@RequestMapping(value = "/api/fetchAllNotes", method = RequestMethod.GET)
-	public ResponseEntity<List<NoteSummaryModel>> listAllNotes() {
+	public ResponseEntity<List<NoteDashboardModel>> listAllNotes() {
 		String loggedInUserName = NoteUtility.getLoggedInUserName();
 		Optional<UserModel> loggedInuser = userService.getByUsername(loggedInUserName);
 		if (loggedInuser.isPresent()) {
 			System.out.println("Inside Arvind listAllNotes loggedInUserName" + loggedInUserName);
 			long userId = loggedInuser.get().getUserId();
-			Optional<List<NoteSummaryModel>> notesList = noteService.getAllNotes(userId);
+			Optional<List<NoteDashboardModel>> notesList = noteService.getAllNotes(userId);
 			if (!notesList.isPresent()) {
-				return new ResponseEntity<List<NoteSummaryModel>>(HttpStatus.NO_CONTENT);// You
+				return new ResponseEntity<List<NoteDashboardModel>>(HttpStatus.NO_CONTENT);// You
 			}
-			return new ResponseEntity<List<NoteSummaryModel>>(notesList.get(), HttpStatus.OK);
+			return new ResponseEntity<List<NoteDashboardModel>>(notesList.get(), HttpStatus.OK);
 		} else {
 			System.out.println("Error with loggedin user name and ID " + loggedInUserName);
-			return new ResponseEntity<List<NoteSummaryModel>>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<List<NoteDashboardModel>>(HttpStatus.BAD_REQUEST);
 		}
 	}
 
@@ -293,7 +293,7 @@ public class NoteRestController {
 		if (StringUtils.isEmpty(noteId)) {
 			return new ResponseEntity<NoteDetailModel>(HttpStatus.BAD_REQUEST);
 		}
-		Optional<NoteDetailModel> noteDetailModel = noteService.getNoteDetail(Integer.valueOf(noteId));
+		Optional<NoteDetailModel> noteDetailModel = noteService.getNoteDetail(Long.valueOf(noteId));
 		if (noteDetailModel.isPresent()) {
 			System.out.println("Inside Get Note Details with  noteDetailModel value " + noteId);
 			return new ResponseEntity<NoteDetailModel>(noteDetailModel.get(), HttpStatus.OK);

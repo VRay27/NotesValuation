@@ -10,6 +10,7 @@ import static com.noteanalyzer.mvc.constant.NoteConstant.ZWSID;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Currency;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -23,6 +24,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.noteanalyzer.appraisal.exceptions.AddressNotAvailableException;
+import com.noteanalyzer.mvc.service.impl.NoteServiceImpl;
 
 /**
  * This class will fetch the value from zillow.
@@ -34,6 +36,9 @@ import com.noteanalyzer.appraisal.exceptions.AddressNotAvailableException;
 public class ZillowWebService implements AppraisalSource {
 	private static final DocumentBuilderFactory dbFac;
 	private static final DocumentBuilder docBuilder;
+	
+	private final static Logger LOG = Logger.getLogger(ZillowWebService.class.getName());
+	
 	static {
 		try {
 			dbFac = DocumentBuilderFactory.newInstance();
@@ -99,23 +104,24 @@ public class ZillowWebService implements AppraisalSource {
 	public AppraisalPropertyBean getPropertyDetailsWithAddress(String streetAddress, String city, String state,
 			String zipCode) throws AddressNotAvailableException {
 
+		LOG.info("Trying to fetch the records from Zillow web service using Address as "+ streetAddress+", "+city+" ,"+state+" ,"+zipCode);
 		AppraisalPropertyBean propertyBean = new AppraisalPropertyBean();
+		propertyBean.setStreetAddress(streetAddress);
+		propertyBean.setCity(city);
+		propertyBean.setState(state);
+		propertyBean.setZipCode(zipCode);
 		Document valueDoc = null;
 		try {
 			valueDoc = docBuilder.parse(DEEP_SEARCH_URL + "?zws-id=" + ZWSID + "&address=" + streetAddress
 					+ "&citystatezip=" + city + " " + state + " " + zipCode + "&rentzestimate=true");
 
+			
 			if (valueDoc != null) {
-				
-				propertyBean.setStreetAddress(streetAddress);
-				propertyBean.setCity(city);
-				propertyBean.setState(state);
-				propertyBean.setZipCode(zipCode);
 				NodeList nodeList = valueDoc.getElementsByTagName("zestimate");
 				if (nodeList != null && nodeList.item(0) != null) {
 					Element zestimate = (Element) nodeList.item(0);
 					Element amount = (Element) zestimate.getElementsByTagName("amount").item(0);
-					propertyBean.setMarketValue(amount.getAttribute("currency") + " " + amount.getTextContent());
+					propertyBean.setMarketValue(amount.getTextContent());
 					propertyBean.setCurrency(amount.getAttribute("currency"));
 				}
 
@@ -205,22 +211,21 @@ public class ZillowWebService implements AppraisalSource {
 				if (nodeList != null && nodeList.item(0) != null) {
 					Element lastSoldPrice = (Element) nodeList.item(0);
 					propertyBean.setLastSoldPrice(
-							lastSoldPrice.getAttribute("currency") + " " + lastSoldPrice.getTextContent());
+							lastSoldPrice.getTextContent());
 				}
 
 				nodeList = valueDoc.getElementsByTagName("rentzestimate");
 				if (nodeList != null && nodeList.item(0) != null) {
 					Element rentzestimate = (Element) nodeList.item(0);
 					Element amount = (Element) rentzestimate.getElementsByTagName("amount").item(0);
-					propertyBean.setRentValue(amount.getAttribute("currency") + " " + amount.getTextContent());
+					propertyBean.setRentValue(amount.getTextContent());
 				}
 			}
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
+			LOG.warning("Error while parsing the Zillow webservice: " +e);
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.warning("Error while fetching the Zillow webservice: " +e);
 		}
 		return propertyBean;
 	}

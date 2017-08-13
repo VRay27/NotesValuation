@@ -6,7 +6,7 @@
 			<div class="container noteDetailContainer">
 
 
-				<form id="noteDetailForm" method="post" class="form-horizontal">
+				<form id="noteDetailForm"  class="form-horizontal">
 					<input type="button" class="btn btn-info openall" value="Open all" />
 					<input type="button" class="btn btn-info closeall"
 						value="Close all" />
@@ -110,18 +110,16 @@
 									</div>
 
 									<div class="form-group">
-										<label class="col-lg-2 control-label requiredField">Effective
+										<label class="col-lg-2 control-label">Effective
 											LTV</label>
 										<div class="col-lg-3">
-											<input type="text" class="form-control icon-text"
-												name="effectiveLTV"
-												placeholder="Effective LTV (with orig prop. value)"
-												ng-model="noteDetailModel.effectiveLTV" /> <span
+											<p class="form-control-static">{{noteDetailModel.effectiveLTV}}
+											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top"
 												uib-tooltip="Effective LTV (with orig prop. value)"></span>
 										</div>
-										<label class="col-lg-2 control-label requiredField">Market
+										<label class="col-lg-2 control-label">Market
 											Value</label>
 										<div class="col-lg-3">
 											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.marketValue}}
@@ -136,7 +134,7 @@
 
 
 									<div class="form-group">
-										<label class="col-lg-2 control-label requiredField">Current
+										<label class="col-lg-2 control-label">Current
 											Effective LTV</label>
 										<div class="col-lg-3">
 											<p class="form-control-static">{{noteDetailModel.currentEffectiveLTV}}
@@ -145,7 +143,7 @@
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Current Effective LTV"></span>
 										</div>
-										<label class="col-lg-2 control-label requiredField">Effective
+										<label class="col-lg-2 control-label">Effective
 											Interest rate</label>
 										<div class="col-lg-3">
 											<p class="form-control-static">{{noteDetailModel.effectiveInterestRate}}
@@ -159,7 +157,7 @@
 
 
 									<div class="form-group">
-									<label class="col-lg-2 control-label requiredField">Original
+									<label class="col-lg-2 control-label">Original
 											LTV </label>
 										<div class="col-lg-3">
 										<p class="form-control-static">{{noteDetailModel.originalLTV}}</p>
@@ -167,7 +165,7 @@
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Original LTV "></span>
 										</div>
-										<label class="col-lg-2 control-label requiredField">Performing</label>
+										<label class="col-lg-2 control-label">Performing</label>
 										<div class="col-lg-3">
 											<p class="form-control-static">{{noteDetailModel.performing}}</p>
 											<span
@@ -455,7 +453,7 @@
 							<div class="col-lg-9 ">
 								<input type="button" class="btn btn-lg btn-success"
 									id="updateNoteBtn" name="updateNote" value="Update Note" />
-								<button class="btn btn-lg btn-info" ng-click="Cancel()">Cancel</button>
+								<input type="button"  class="btn btn-lg btn-info" ng-click="cancel()" value="Cancel"/>
 								<input type="button" class="btn btn-lg btn-primary" ng-click="deleteNote()"
 									id="deleteNoteBtn" name="deleteNote" value="Delete Note" />
 								<input type="button" style="visibility: hidden;"

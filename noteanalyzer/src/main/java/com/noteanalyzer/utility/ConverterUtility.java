@@ -9,13 +9,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.CollectionUtils;
 
@@ -27,9 +27,9 @@ import com.noteanalyzer.entity.notes.PropertyType;
 import com.noteanalyzer.entity.user.User;
 import com.noteanalyzer.mvc.model.AddressModel;
 import com.noteanalyzer.mvc.model.DemographicDetailModel;
+import com.noteanalyzer.mvc.model.NoteDashboardModel;
 import com.noteanalyzer.mvc.model.NoteDetailModel;
 import com.noteanalyzer.mvc.model.NoteInputFormModel;
-import com.noteanalyzer.mvc.model.NoteSummaryModel;
 import com.noteanalyzer.mvc.model.NoteTypeModel;
 import com.noteanalyzer.mvc.model.PropertyDetailModel;
 import com.noteanalyzer.mvc.model.PropertyTypeModel;
@@ -85,11 +85,11 @@ public class ConverterUtility {
 		noteEntity.setSalePrice(note.getSalePrice());
 		noteEntity.setOriginationDate(df.parse(note.getNoteDate()));
 		noteEntity.setPerforming(note.getPerforming());
-		noteEntity.setNotePosition(Integer.valueOf(note.getNotePosition()));
+		noteEntity.setNotePosition(Long.valueOf(note.getNotePosition()));
 		noteEntity.setTermMonths(note.getOriginalTerm());
 		noteEntity.setInterestRateInitial(note.getRate());
-		noteEntity.setBorrowerCreditScore(Objects.toString(note.getBorrowerCreditScore(),null));
-		noteEntity.setLatePayments(Integer.valueOf(note.getNoOfLatePayment()));
+		noteEntity.setBorrowerCreditScore(Objects.toString(note.getBorrowerCreditScore(), null));
+		noteEntity.setLatePayments(Long.valueOf(note.getNoOfLatePayment()));
 		noteEntity.setNotePrice(BigDecimal.valueOf(Double.valueOf(note.getNotePrice())));
 		noteEntity.setOriginalPropertyValue(BigDecimal.valueOf(Double.valueOf(note.getOriginalPropertyValue())));
 		noteEntity.setRemainingNoOfPayment(Integer.valueOf(note.getRemainingNoOfPayment()));
@@ -101,8 +101,10 @@ public class ConverterUtility {
 				note.getOriginalPropertyValue()));
 		noteEntity.setEffectiveLTV(
 				NoteAnalysisService.getEffectiveLTV(note.getNotePrice(), note.getOriginalPropertyValue()));
-		note.setCurrentEffectiveLTV(NoteAnalysisService
-				.getCurrentEffectiveLTV(Objects.toString(note.getNotePrice(), null), property.getMarketValue()));
+		if (property != null) {
+			note.setCurrentEffectiveLTV(NoteAnalysisService
+					.getCurrentEffectiveLTV(Objects.toString(note.getNotePrice(), null), property.getMarketValue()));
+		}
 		noteEntity.setRoi(NoteAnalysisService.getROI());
 		noteEntity.setYield(note.getYieldValue());
 		noteEntity.setPdiPayment(note.getPdiPayment());
@@ -142,24 +144,23 @@ public class ConverterUtility {
 
 	}
 
-	public static List<NoteSummaryModel> convertNoteToNoteSummaryModel(List<Note> noteList) {
-		List<NoteSummaryModel> summaryModelList = new ArrayList<>();
+	public static List<NoteDashboardModel> convertNoteToNoteSummaryModel(List<Note> noteList) {
+		List<NoteDashboardModel> summaryModelList = new ArrayList<>();
 		if (noteList != null) {
-
 			for (Note model : noteList) {
-				NoteSummaryModel summaryModel = new NoteSummaryModel();
+				NoteDashboardModel dashBoardModel = new NoteDashboardModel();
 				Property property = model.getPropertyId();
-				summaryModel.setNoteAddress(property.getStreetAddress() + ", " + property.getCity() + ", "
+				dashBoardModel.setNoteId(model.getNoteId());
+				dashBoardModel.setNoteAddress(property.getStreetAddress() + ", " + property.getCity() + ", "
 						+ property.getState() + ", " + property.getZip());
-				// summaryModel.setMarketValue(Objects.toString(property.getMarketValue()));
-				summaryModel.setNoteId(Objects.toString(model.getNoteId(),""));
-				// summaryModel.setItv(NoteAnalysisService.getITV(purchasePrice,
-				// property.getMarketValue()));
-				// summaryModel.setLtv(NoteAnalysisService.getLTV(model.getUnpaidPrincpalBal(),property.getMarketValue()));
-				summaryModel.setYield("test");
-				summaryModel.setCrime("crime000");
-
-				summaryModelList.add(summaryModel);
+				dashBoardModel.setMarketValue(property.getMarketValue());
+				dashBoardModel.setYield(model.getYield());
+				dashBoardModel.setEffectiveLTV(model.getEffectiveLTV());
+				dashBoardModel.setCurrentEffectiveLTV(model.getCurrentEffectiveLTV());
+				dashBoardModel.setOriginalLTV(model.getOriginalLTV());
+				dashBoardModel.setMarketUpdateDate(property.getMarketValueUpdatedDate());
+				dashBoardModel.setMarketValueAvailable(StringUtils.isNotBlank(property.getMarketValue()));
+				summaryModelList.add(dashBoardModel);
 			}
 		}
 		return summaryModelList;
@@ -207,7 +208,7 @@ public class ConverterUtility {
 		property.setPropertyMapUrl(appraisalPropertyBean.getPropertyMapUrl());
 		property.setPropertyGraphAndDataUrl(appraisalPropertyBean.getPropertyGraphAndDataUrl());
 		property.setPropertyDetailUrl(appraisalPropertyBean.getPropertyDetailUrl());
-		
+
 		return property;
 	}
 
@@ -227,30 +228,31 @@ public class ConverterUtility {
 			noteDetailModel.setOriginalPrincipleBalance(note.getFaceValue());
 			noteDetailModel.setSalePrice(note.getSalePrice());
 			noteDetailModel.setNoteDate(df.format(note.getOriginationDate()));
-			if("Y".equalsIgnoreCase(note.getPerforming())){
-				noteDetailModel.setPerforming("Performing");	
-			}else if("N".equalsIgnoreCase(note.getPerforming())){
+			if ("Y".equalsIgnoreCase(note.getPerforming())) {
+				noteDetailModel.setPerforming("Performing");
+			} else if ("N".equalsIgnoreCase(note.getPerforming())) {
 				noteDetailModel.setPerforming("Non-Performing");
-			}else{
+			} else {
 				noteDetailModel.setPerforming("Unknown");
 			}
+			noteDetailModel.setUpb(note.getUnpaidBalance());
 			noteDetailModel.setPdiPayment(note.getPdiPayment());
 			noteDetailModel.setTdiPayment(note.getTdiPayment());
-			noteDetailModel.setNotePosition(Objects.toString(note.getNotePosition(),""));
+			noteDetailModel.setNotePosition(Objects.toString(note.getNotePosition(), ""));
 			noteDetailModel.setOriginalTerm(note.getTermMonths());
 			noteDetailModel.setRate(note.getInterestRateInitial());
-			noteDetailModel.setBorrowerCreditScore(Objects.toString(note.getBorrowerCreditScore(),""));
-			noteDetailModel.setNoOfLatePayment(Objects.toString(note.getLatePayments(),""));
+			noteDetailModel.setBorrowerCreditScore(Objects.toString(note.getBorrowerCreditScore(), ""));
+			noteDetailModel.setNoOfLatePayment(Objects.toString(note.getLatePayments(), ""));
 			noteDetailModel.setNotePrice(note.getNotePrice());
 			noteDetailModel.setOriginalPropertyValue(note.getOriginalPropertyValue());
-			noteDetailModel.setRemainingNoOfPayment(Objects.toString(note.getRemainingNoOfPayment(),""));
+			noteDetailModel.setRemainingNoOfPayment(Objects.toString(note.getRemainingNoOfPayment(), ""));
 			noteDetailModel.setOriginalLTV(note.getOriginalLTV());
 			noteDetailModel.setEffectiveLTV(note.getEffectiveLTV());
 			noteDetailModel.setCurrentEffectiveLTV(note.getCurrentEffectiveLTV());
 			noteDetailModel.setROI(NoteAnalysisService.getROI());
 			noteDetailModel.setYieldValue(note.getYield());
 			PropertyDetailModel propertyDetailModel = new PropertyDetailModel();
-			
+
 			if (property != null) {
 
 				propertyDetailModel.setAge(property.getAge());
@@ -286,8 +288,8 @@ public class ConverterUtility {
 				propertyDetailModel.setPropertyGraphAndDataUrl(property.getPropertyGraphAndDataUrl());
 				propertyDetailModel.setZip(property.getZip());
 				propertyDetailModel.setMarketValue(property.getMarketValue());
-				noteDetailModel.setCurrentEffectiveLTV(NoteAnalysisService
-						.getCurrentEffectiveLTV(Objects.toString(note.getNotePrice(), null), property.getMarketValue()));
+				noteDetailModel.setCurrentEffectiveLTV(NoteAnalysisService.getCurrentEffectiveLTV(
+						Objects.toString(note.getNotePrice(), null), property.getMarketValue()));
 
 			}
 
@@ -311,13 +313,15 @@ public class ConverterUtility {
 		noteEntity.setUnpaidBalance(noteDetailModel.getUpb());
 		noteEntity.setNotePrice(noteDetailModel.getNotePrice());
 		noteEntity.setOriginalPropertyValue(noteDetailModel.getOriginalPropertyValue());
-		noteEntity.setCurrentEffectiveLTV(NoteAnalysisService
-				.getCurrentEffectiveLTV(Objects.toString(noteDetailModel.getNotePrice(), null), noteDetailModel.getPropertyDetailModel().getMarketValue()));
-		noteEntity.setOriginalLTV(NoteAnalysisService.getOriginalLTV(noteDetailModel.getOriginalPrincipleBalance().toString(),
+		noteEntity.setCurrentEffectiveLTV(
+				NoteAnalysisService.getCurrentEffectiveLTV(Objects.toString(noteDetailModel.getNotePrice(), null),
+						noteDetailModel.getPropertyDetailModel().getMarketValue()));
+		noteEntity.setOriginalLTV(
+				NoteAnalysisService.getOriginalLTV(noteDetailModel.getOriginalPrincipleBalance().toString(),
+						noteDetailModel.getOriginalPropertyValue().toString()));
+		noteEntity.setEffectiveLTV(NoteAnalysisService.getEffectiveLTV(noteDetailModel.getNotePrice().toString(),
 				noteDetailModel.getOriginalPropertyValue().toString()));
-		noteEntity.setEffectiveLTV(
-				NoteAnalysisService.getEffectiveLTV(noteDetailModel.getNotePrice().toString(), noteDetailModel.getOriginalPropertyValue().toString()));
-		
+
 	}
 
 }

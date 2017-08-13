@@ -8,13 +8,13 @@
                        <div class="form-group">
                             <label class="col-lg-2 control-label requiredField">Note Type</label>
                             <div class="col-lg-3">
-                               <select class="form-control icon-text" name="noteType" ng-init="noteInputFormModel.selNoteType=noteInputFormModel.noteTypeList[0]" 	ng-model="noteInputFormModel.selNoteType"
+                               <select class="form-control icon-text" name="noteType" ng-init="noteInputFormModel.selNoteType=noteInputFormModel.noteTypeList[0]" 	ng-model="noteInputFormModel.selNoteType"  ng-change="noteInputFormModel.originalTerm=noteInputFormModel.selNoteType.termMonths"
 					ng-options="noteType.noteTypeValue for noteType in noteInputFormModel.noteTypeList">
                                 </select><span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="There are 3 types of notes: performing, sub-performing and non-performing"></span>
                             </div>
                              <label class="col-lg-2 control-label">Original Term</label>
                             <div class="col-lg-3">
-                                <input type="text" class="form-control icon-text" name="originalTerm" readonly ng-model="noteInputFormModel.originalTerm=noteInputFormModel.selNoteType.termMonths"  ng-init="noteInputFormModel.originalTerm=noteInputFormModel.noteTypeList[0].termMonths" />
+                                <input type="text" class="form-control icon-text" name="originalTerm" readonly ng-model="noteInputFormModel.originalTerm"  ng-init="noteInputFormModel.originalTerm=noteInputFormModel.selNoteType.termMonths" />
                                 <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Original term depends upon the note type selection. "></span>
                             </div>
                         </div>
@@ -172,7 +172,7 @@
                             <div class="col-lg-9 col-lg-offset-2">
                                 <input type="button" class= "btn btn-lg btn-success" id="createNoteBtn"  name="createNote" value="Create Note"/>
                                 <input type="button" class="btn btn-lg btn-info" ng-click="populateNoteInputModelFromJS()" value= "Calculate"/>
-                                <input type="button" class="btn btn-lg btn-info" ng-click="clearNoteInputModelFromJS()" value= "Reset"/>
+                                <input type="button" class="btn btn-lg btn-info" ng-click="clearNoteInputModelFromJS()" id="resetNoteBtn" value= "Reset"/>
                                 <input type="button" class="btn btn-lg btn-info" ng-click="cancel()" value="Cancel" />
                                  <input type="button" class= "btn" style="visibility: hidden;" id="createNoteBtnHidden"   ng-click ="createNote();" name="createNoteHidden" value="Create Note"/>
                             </div>
@@ -201,77 +201,7 @@ $(document).ready(function() {
             validating: 'glyphicon glyphicon-refresh'
         },
         fields: {
-        	zipCode: {
-        		group:'.col-lg-3',
-        		message: 'The zip code is not valid',
-                validators: {
-                    notEmpty: {
-                        message: 'The zip code is required and cannot be empty'
-                    },
-                    zipCode: {
-                        country: 'US',
-                        message: 'The value is not valid %s Zip Code'                       
-                      }
-                    },
-               },
-         
-           /*  username: {
-                message: 'The username is not valid',
-                validators: {
-                    notEmpty: {
-                        message: 'The username is required and cannot be empty'
-                    },
-                    stringLength: {
-                        min: 6,
-                        max: 30,
-                        message: 'The username must be more than 6 and less than 30 characters long'
-                    },
-                    regexp: {
-                        regexp: /^[a-zA-Z0-9_\.]+$/,
-                        message: 'The username can only consist of alphabetical, number, dot and underscore'
-                    },
-                    remote: {
-                        type: 'POST',
-                        url: 'remote.php',
-                        message: 'The username is not available'
-                    },
-                    different: {
-                        field: 'password,confirmPassword',
-                        message: 'The username and password cannot be the same as each other'
-                    }
-                }
-            }, */
-           /*  password: {
-                validators: {
-                    notEmpty: {
-                        message: 'The password is required and cannot be empty'
-                    },
-                    identical: {
-                        field: 'confirmPassword',
-                        message: 'The password and its confirm are not the same'
-                    },
-                    different: {
-                        field: 'username',
-                        message: 'The password cannot be the same as username'
-                    }
-                }
-            },
-            confirmPassword: {
-                validators: {
-                    notEmpty: {
-                        message: 'The confirm password is required and cannot be empty'
-                    },
-                    identical: {
-                        field: 'password',
-                        message: 'The password and its confirm are not the same'
-                    },
-                    different: {
-                        field: 'username',
-                        message: 'The password cannot be the same as username'
-                    }
-                }
-            }, */
-            noteDate: {
+          noteDate: {
             	group:'.col-lg-3',
                 validators: {
                      notEmpty: {
@@ -535,6 +465,10 @@ $(document).ready(function() {
     		$("#createNoteBtnHidden").trigger( "click" );
     	};
         });
+    
+   $('#resetNoteBtn').click(function() {
+   	$('#noteInputForm').bootstrapValidator('resetForm', true);
+   });
     
    $('#noteInputForm').click(function(){
 	   if($('#selNoteDate').val()!=''){

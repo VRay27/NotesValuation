@@ -13,7 +13,7 @@ import com.noteanalyzer.entity.notes.PropertyType;
 import com.noteanalyzer.mvc.model.AddressModel;
 import com.noteanalyzer.mvc.model.NoteDetailModel;
 import com.noteanalyzer.mvc.model.NoteInputFormModel;
-import com.noteanalyzer.mvc.model.NoteSummaryModel;
+import com.noteanalyzer.mvc.model.NoteDashboardModel;
 import com.noteanalyzer.mvc.model.NoteTypeModel;
 import com.noteanalyzer.mvc.model.PropertyTypeModel;
 
@@ -28,9 +28,9 @@ public interface NoteService {
 	
 	public Optional<List<PropertyTypeModel>> getPropertyType();
 	
-	public Optional<NoteDetailModel> getNoteDetail(@NonNull Integer noteId);
+	public Optional<NoteDetailModel> getNoteDetail(@NonNull Long noteId);
 
-	public Optional<List<NoteSummaryModel>> getAllNotes(@NonNull long userId);
+	public Optional<List<NoteDashboardModel>> getAllNotes(@NonNull long userId);
 	
 	public List<NoteConfiguration> getConfigValue(@NonNull List<String> configCode);
 

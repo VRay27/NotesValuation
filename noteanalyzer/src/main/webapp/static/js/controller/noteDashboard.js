@@ -26,18 +26,29 @@ function NoteDashboardCtrl($scope, $http,$auth, $rootScope, $uibModal, NoteDetai
 	  angular.element(document.querySelector('.collapse')).collapse("hide");
   }
   
-
-  
+ 
+$scope.customNumberFilter =  function(searchTerm, cellValue) {
+      var searchTermValue = searchTerm.replace("\\+",'');
+      searchTermValue = searchTermValue.replace("\\-",'');
+    	if(searchTerm.includes("+")){
+    	  return cellValue > searchTermValue;
+      	}else if(searchTerm.includes("-")){
+      	  return cellValue < searchTermValue;
+      	}else{
+      		 return cellValue == searchTermValue;
+      	}
+    	
+    }
   vm.serviceGrid = {
     enableRowSelection: true,
     enableRowHeaderSelection: false,
     multiSelect: false,
-    enableSorting: false,
+    enableSorting: true,
     enableFiltering: true,
     enableGridMenu: false,
     enableCellEdit: false,
     enablePaginationControls:true,
-    paginationPageSizes: [10,25, 50, 75],
+    paginationPageSizes: [10,25, 50, 100],
     paginationPageSize: 10,
     rowHeight:40,
           
@@ -48,56 +59,76 @@ function NoteDashboardCtrl($scope, $http,$auth, $rootScope, $uibModal, NoteDetai
 	  {
 		    field: 'noteAddress',
 		    displayName: 'Address',
-		    enableSorting: true,
-		    enableFiltering: true,
 		    headerCellClass:'addressHeaderClass',
 		    cellClass:'uiGridCellClass',
 		    width:260,
-		    cellTemplate: "<a href =\"#\"><div ng-click=\"grid.appScope.vm.getNoteDetail(grid, row)\">{{row.entity.noteAddress}}</div></a>"
+		    filter: {
+		          condition: uiGridConstants.filter.STARTS_WITH
+		        },
+		    cellTemplate: "<a ng-href=\"\" style=\"cursor:pointer;\" ng-click= \"grid.appScope.vm.getNoteDetail(grid, row)\">{{row.entity.noteAddress}}</a>"
 		  },
 {    field: 'yield',
     displayName: 'Yield',
-    enableSorting: true,
-    enableCellEdit: false,
-    enableFiltering: false,
     cellClass:'uiGridCellClass',
+    headerCellClass:'addressHeaderClass',
+   filter: {
+        condition: function(searchTerm, cellValue) {
+        	return $scope.customNumberFilter(searchTerm, cellValue);
+        }
+     },
     cellTemplate: "<div>{{row.entity.yield}}</div>"
   }, {
-    field: 'itv',
-    displayName: 'ITV',
-    enableSorting: true,
-    enableCellEdit: false,
-    enableFiltering: false,
+    field: 'originalLTV',
+    displayName: 'Original LTV',
     cellClass:'uiGridCellClass',
-    cellTemplate: "<div>{{row.entity.itv}}</div>"
+    headerCellClass:'addressHeaderClass',
+    filter: {
+        condition: function(searchTerm, cellValue) {
+        	return $scope.customNumberFilter(searchTerm, cellValue);
+        }
+     },
+    cellTemplate: "<div>{{row.entity.originalLTV}}</div>"
   }, {
-    field: 'ltv',
-    displayName: 'LTV',
-    enableSorting: true,
-    enableCellEdit: false,
-    enableFiltering: false,
+    field: 'effectiveLTV',
+    displayName: 'Effective LTV',
     cellClass:'uiGridCellClass',
-    cellTemplate: "<div>{{row.entity.ltv}}</div>"
+    headerCellClass:'addressHeaderClass',
+    filter: {
+        condition: function(searchTerm, cellValue) {
+        	return $scope.customNumberFilter(searchTerm, cellValue);
+        }
+    },
+    cellTemplate: "<div>{{row.entity.effectiveLTV}}</div>"
   },{
-	    field: 'crime',
-	    displayName: 'Crime',
-	    enableSorting: true,
-	    enableCellEdit: false,
-	    enableFiltering: false,
+	    field: 'currentEffectiveLTV',
+	    displayName: 'Current Effective LTV',
 	    cellClass:'uiGridCellClass',
-	    cellTemplate: "<div>{{row.entity.crime}}</div>"
+	    headerCellClass:'addressHeaderClass',
+	    filter: {
+	        condition: function(searchTerm, cellValue) {
+	        	return $scope.customNumberFilter(searchTerm, cellValue);
+	        }
+	    },
+	    cellTemplate: "<div ng-show={{row.entity.marketValueAvailable}}><p>{{row.entity.currentEffectiveLTV}}<span class=\"glyphicon glyphicon-info-sign tooltip-color \"" +
+		"tooltip-placement=\"top\" uib-tooltip=\"Last updated date {{ row.entity.marketUpdateDate | date}}\"></span> </p></div>" +
+"<div ng-show={{!row.entity.marketValueAvailable}}><p>No data available</p></div>"
 	  },{
-    field: 'marketPrice',
-    displayName: 'Market Price',
-    enableSorting: true,
-    enableCellEdit: false,
-    enableFiltering: false,
+    field: 'marketValue',
+    displayName: 'Market Value',
     cellClass:'uiGridCellClass',
-    sort: {
+    headerCellClass:'addressHeaderClass',
+    filter: {
+        condition: function(searchTerm, cellValue) {
+        	return $scope.customNumberFilter(searchTerm, cellValue);
+        }
+    },
+   /* sort: {
       direction: uiGridConstants.ASC,
       priority: 1,
-    },
-    cellTemplate: "<div>{{row.entity.marketPrice}}</div>"
+    },*/
+    cellTemplate: "<div ng-show={{row.entity.marketValueAvailable}}><p>{{row.entity.marketValue}}<span class=\"glyphicon glyphicon-info-sign tooltip-color \"" +
+												"tooltip-placement=\"top\" uib-tooltip=\"Last updated date {{ row.entity.marketUpdateDate | date}}\"></span> </p></div>" +
+	"<div ng-show={{!row.entity.marketValueAvailable}}><p>No data available</p></div>"
   }];
 
   $scope.init = function(){

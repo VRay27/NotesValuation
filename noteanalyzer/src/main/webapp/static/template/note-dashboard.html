@@ -65,7 +65,9 @@
 
 					<div id="serviceGrid" ui-grid-move-columns ui-grid-selection  ui-grid-pagination
 						ui-grid-resize-columns ui-grid-pinning ui-grid-exporter
-						ui-grid-auto-resize ui-grid-edit ui-grid="vm.serviceGrid" ></div>
+						ui-grid-auto-resize ui-grid-edit ui-grid="vm.serviceGrid" >
+						  <div class="watermark" ng-show="!vm.serviceGrid.data.length">No data available</div>
+						</div>
 				</div>
 				<!-- ui-grid-pagination -->
 			</div>

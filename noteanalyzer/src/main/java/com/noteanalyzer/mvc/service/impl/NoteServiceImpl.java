@@ -29,7 +29,7 @@ import com.noteanalyzer.entity.notes.PropertyType;
 import com.noteanalyzer.mvc.model.AddressModel;
 import com.noteanalyzer.mvc.model.NoteDetailModel;
 import com.noteanalyzer.mvc.model.NoteInputFormModel;
-import com.noteanalyzer.mvc.model.NoteSummaryModel;
+import com.noteanalyzer.mvc.model.NoteDashboardModel;
 import com.noteanalyzer.mvc.model.NoteTypeModel;
 import com.noteanalyzer.mvc.model.PropertyTypeModel;
 import com.noteanalyzer.mvc.service.NoteAnalysisService;
@@ -138,7 +138,7 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	@Override
-	public Optional<NoteDetailModel> getNoteDetail(Integer noteId) {
+	public Optional<NoteDetailModel> getNoteDetail(Long noteId) {
 		Note note = genericDao.getById(Note.class, noteId);
 		if (note == null) {
 			return Optional.empty();
@@ -180,7 +180,7 @@ public class NoteServiceImpl implements NoteService {
 
 	@Override
 	@Transactional
-	public Optional<List<NoteSummaryModel>> getAllNotes(long userId) {
+	public Optional<List<NoteDashboardModel>> getAllNotes(long userId) {
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("userId", userId);
 		List<Note> noteList = genericDao.getResultByNamedQuery(Note.class, Note.GET_NOTE_DETAILS_BY_USER, parameters);
