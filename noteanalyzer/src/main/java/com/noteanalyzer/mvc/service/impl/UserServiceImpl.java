@@ -98,7 +98,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Optional<UserModel> resetUserPassword(String userName) {
 
-		Optional<User> userOpt = getActiveUser(userName);
+		Optional<User> userOpt = getUser(userName);
 		if (!userOpt.isPresent()) {
 			return Optional.empty();
 		}
@@ -111,7 +111,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Optional<UserModel> changePassword(UserModel inputUser, boolean isResetTokenNotRequired) {
-		Optional<User> userOpt = getActiveUser(inputUser.getEmail());
+		Optional<User> userOpt = getUser(inputUser.getEmail());
 		if (userOpt.isPresent()) {
 			User user = userOpt.get();
 			if (isResetTokenNotRequired || inputUser.getResetToken().equals(user.getResetToken())) {

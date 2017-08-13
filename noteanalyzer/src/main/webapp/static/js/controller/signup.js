@@ -23,7 +23,8 @@ angular.module('NoteApp')
     	var user = $scope.user;
     	user.password = $auth.encodeString($scope.user.password);
     	$scope.user.confirmPassword = $auth.encodeString($scope.user.confirmPassword);
-    	if($auth.isAuthenticated){
+    	var obj = $location.search();
+    	if(!obj.resetToken){
     		 UserService.changePasswordWithLoginUser(user).then(function(response){
     	      	  $state.go('login');
     	          toastr.info('You have successfully change your password. Please sign in using your email and password');
@@ -31,7 +32,6 @@ angular.module('NoteApp')
     	      		  toastr.error('We are unable to process your request. Please try after some time');
     	      	  });
     	}else{
-    	var obj = $location.search();
         UserService.changePassword(user,obj.resetToken).then(function(response){
       	  $state.go('login');
           toastr.info('You have successfully change your password. Please sign in using your email and password');
