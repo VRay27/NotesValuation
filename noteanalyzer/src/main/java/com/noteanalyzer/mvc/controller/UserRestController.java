@@ -34,7 +34,10 @@ import com.noteanalyzer.security.security.auth.ajax.LoginRequest;
 import com.noteanalyzer.utility.NoteUtility;
 
 /**
- * This class is responsible for all communication with UI for user related activity. This is restful webservice can be called from any UI or third party as and when needed.
+ * This class is responsible for all communication with UI for user related
+ * activity. This is restful webservice can be called from any UI or third party
+ * as and when needed.
+ * 
  * @author Arvind Ray
  *
  */
@@ -49,7 +52,7 @@ public class UserRestController {
 
 	@Autowired
 	NoteService noteService;
-	
+
 	private final static Logger LOG = Logger.getLogger(UserRestController.class.getName());
 
 	/**
@@ -76,6 +79,7 @@ public class UserRestController {
 
 	/**
 	 * This method will crete an user with given input.
+	 * 
 	 * @param inputUser
 	 * @param request
 	 * @return
@@ -89,16 +93,13 @@ public class UserRestController {
 				LOG.info("A User with name " + inputUser.getEmail() + " already exist. ");
 				return new ResponseEntity<Void>(HttpStatus.FOUND);
 			} else if (IN_ACTIVE_USER_FLAG.equalsIgnoreCase(userStatus)) {
-				LOG.info(
-						"A User with name " + inputUser.getEmail() + "registered with us, but not yet verified.");
+				LOG.info("A User with name " + inputUser.getEmail() + "registered with us, but not yet verified.");
 				return new ResponseEntity<Void>(HttpStatus.CONFLICT);
 			} else if (BLOCK_USER_FLAG.equalsIgnoreCase(userStatus)) {
-				LOG.info(
-						"A User with name " + inputUser.getEmail() + "registered with us, but in blocked state.");
+				LOG.info("A User with name " + inputUser.getEmail() + "registered with us, but in blocked state.");
 				return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
 			} else {
-				LOG.info(
-						"A User with name " + inputUser.getEmail() + "have corrupted Data in user status column");
+				LOG.info("A User with name " + inputUser.getEmail() + "have corrupted Data in user status column");
 				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 			}
 		}
@@ -111,8 +112,8 @@ public class UserRestController {
 		String subject = noteService.getParameterValue(CREATE_USER_EMAIL_SUBJECT, null).getParameterValue();
 		String bodyText = noteService.getParameterValue(CREATE_USER_EMAIL_CONTENT_BODY, null).getParameterValue();
 		String verificationLink = baseUrl + "/notes/verifyUser?verificationToken=" + verificationToken;
-		bodyText = bodyText + "<p><a class='btn btn-success' href='"+verificationLink+"'>Verify User</a></p> Or <p>"
-				+ " Click on the link: "+verificationLink+"</p>";
+		bodyText = bodyText + "<p><a class='btn btn-success' href='" + verificationLink + "'>Verify User</a></p> Or <p>"
+				+ " Click on the link: " + verificationLink + "</p>";
 		if (emailService.sendEmail(inputUser.getEmail(), subject, bodyText)) {
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
 		} else {
@@ -122,46 +123,61 @@ public class UserRestController {
 
 	/**
 	 * This method will used for reset the password of non- logged in user.
+	 * 
 	 * @param inputUser
 	 * @param request
 	 * @return
 	 */
 	@RequestMapping(value = "/changePassword", method = RequestMethod.POST)
-	public ResponseEntity<Void> resetPassword(@RequestBody UserModel inputUser, HttpServletRequest request) {
+	public ResponseEntity<UserModel> resetPassword(@RequestBody UserModel inputUser, HttpServletRequest request) {
 		LOG.info("Reset password for  " + inputUser);
 		String resetToken = request.getParameter("resetToken");
-		inputUser.setEmail(NoteUtility.getUserNameFromResetToken(resetToken));
-		inputUser.setResetToken(NoteUtility.decodeResetToken(resetToken));
-		Optional<UserModel> user = userService.changePassword(inputUser, false);
+		String emailId = NoteUtility.getUserNameFromResetToken(resetToken);
+		String decodedResetToken = NoteUtility.decodeResetToken(resetToken);
+		if (StringUtils.isBlank(resetToken) || StringUtils.isBlank(emailId) || StringUtils.isBlank(decodedResetToken)) {
+			return new ResponseEntity<UserModel>(HttpStatus.BAD_REQUEST);
+		}
+		inputUser.setEmail(emailId);
+		inputUser.setResetToken(decodedResetToken);
+		Optional<UserModel> user = userService.changePassword(inputUser);
 		if (user.isPresent()) {
-			return new ResponseEntity<Void>(HttpStatus.OK);
+			String statusCode = user.get().getErrorCode();
+			if ("ResetTokenExpired".equalsIgnoreCase(statusCode)) {
+				return new ResponseEntity<UserModel>(HttpStatus.FOUND);
+			}
+			return new ResponseEntity<UserModel>(HttpStatus.OK);
 		} else {
-			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<UserModel>(HttpStatus.NOT_FOUND);
 		}
 
 	}
 
 	/**
 	 * This method will be used to change the password for logged in user.
+	 * 
 	 * @param inputUser
 	 * @return
 	 */
 	@RequestMapping(value = "/api/changePassword", method = RequestMethod.POST)
-	public ResponseEntity<Void> changePasswordForLoginUser(@RequestBody UserModel inputUser) {
+	public ResponseEntity<UserModel> changePasswordForLoginUser(@RequestBody UserModel inputUser) {
 		LOG.info("change password for  " + inputUser);
-		inputUser.setEmail(NoteUtility.getLoggedInUserName());
-		inputUser.setResetToken(null);
-		Optional<UserModel> user = userService.changePassword(inputUser, true);
+		String loggedInUser = NoteUtility.getLoggedInUserName();
+		if (StringUtils.isBlank(loggedInUser)) {
+			return new ResponseEntity<UserModel>(HttpStatus.FORBIDDEN);
+		}
+		inputUser.setEmail(loggedInUser);
+		Optional<UserModel> user = userService.changePasswordForLoginUser(inputUser);
 		if (user.isPresent()) {
-			return new ResponseEntity<Void>(HttpStatus.OK);
+			return new ResponseEntity<UserModel>(HttpStatus.OK);
 		} else {
-			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<UserModel>(HttpStatus.NOT_FOUND);
 		}
 
 	}
 
 	/**
 	 * This method will be used to update the user details.
+	 * 
 	 * @param inputUser
 	 * @return
 	 */
@@ -177,7 +193,8 @@ public class UserRestController {
 	}
 
 	/**
-	 * This method wil be  use to send reset link password.
+	 * This method wil be use to send reset link password.
+	 * 
 	 * @param inputUser
 	 * @param request
 	 * @return
@@ -199,8 +216,8 @@ public class UserRestController {
 		String subject = noteService.getParameterValue(FORGOT_PASSWORD_EMAIL_SUBJECT, null).getParameterValue();
 		String bodyText = noteService.getParameterValue(FORGOT_PASSWORD_EMAIL_CONTENT_BODY, null).getParameterValue();
 		String resetPasswordLink = baseUrl + "/notes/#!/changePassword?resetToken=" + resetToken;
-		bodyText = bodyText + "<p> <a class = 'btn btn-success' href=" + resetPasswordLink + "> Reset Password</a></p><p>"
-				+ "Or Please click on this link: "+resetPasswordLink+"</p>";
+		bodyText = bodyText + "<p> <a class = 'btn btn-success' href=" + resetPasswordLink
+				+ "> Reset Password</a></p><p>" + "Or Please click on this link: " + resetPasswordLink + "</p>";
 		if (emailService.sendEmail(inputUser.getUsername(), subject, bodyText)) {
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} else {
@@ -211,6 +228,7 @@ public class UserRestController {
 
 	/**
 	 * This method will send the details of city and state for given zip code.
+	 * 
 	 * @param zipCode
 	 * @return
 	 */

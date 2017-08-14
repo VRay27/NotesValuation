@@ -1,5 +1,5 @@
 var app = angular.module('NoteApp');
-app.controller('LoginCtrl', function($scope, $rootScope, $state, $location, toastr, loginService, loginModel, $stateParams, $auth,WaitingDialog,UserService) {
+app.controller('LoginCtrl', function($scope, $rootScope, $state, $location, toastr, loginService, loginModel, $stateParams, $auth,WaitingDialog,UserService,$window) {
   $scope.login = function() {
 	WaitingDialog.show();
     loginModel.username = $scope.user.email;
@@ -8,6 +8,7 @@ app.controller('LoginCtrl', function($scope, $rootScope, $state, $location, toas
       $auth.saveToken(loginResponse.token);
       UserService.getUserDetail().then(function(userResponse){
     	  $auth.setUser(userResponse);
+    	  $rootScope.loggedInUserDisplayName = userResponse.displayName;
     	  angular.element("#welcomeUserName").html(userResponse.displayName);
     	  toastr.success('You have successfully sign in.');
       if ($stateParams.referer) {
@@ -15,7 +16,9 @@ app.controller('LoginCtrl', function($scope, $rootScope, $state, $location, toas
           'loginState': $stateParams.loginState
         });
       } else {
-        $location.path('/');
+    	  var host = $window.location.host;
+          var landingUrl = "http://" + host + "/notes/#!/";
+          $window.location.href = landingUrl;
       }}).then(function(){
       	WaitingDialog.hide();
       });

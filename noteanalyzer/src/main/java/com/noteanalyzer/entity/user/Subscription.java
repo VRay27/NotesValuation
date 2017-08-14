@@ -22,10 +22,11 @@ public class Subscription extends AbstractEntity {
 	@Column(name = "SUBSCRIPTION_ID")
 	private Integer subscriptionId;
 	
-	@Column(name = "PRIVILEDGE")
-	private String priviledge;
+	@Column(name = "USER_AGREEMENT")
+	private String userAgreement;
+	
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "STORE_NAME")
-	private NoteStore noteStore;
+	@JoinColumn(name = "subsription_name")
+	private SubscriptionPrivileges subscriptionPrivileges;
 }

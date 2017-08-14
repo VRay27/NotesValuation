@@ -1,18 +1,15 @@
 package com.noteanalyzer.entity.user;
 
-import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.noteanalyzer.entity.AbstractEntity;
-import com.noteanalyzer.entity.user.UserRole.Id;
 
 import lombok.ToString;
 
@@ -23,34 +20,66 @@ public class UserSubscriptions extends AbstractEntity  {
 	
 	private static final long serialVersionUID = -3262112354371474829L;
 
-	@Embeddable
-	public static class UserSubscriptionId implements Serializable {
-		private static final long serialVersionUID = 1322120000551624359L;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "USER_SUBSCRIPTION_ID")
+	private int userSubscriptionId;
 
-		@Column(name = "SUBSCRIPTION_ID")
-		private Integer subscriptionId;
+	@Column(name = "SUBSCRIPTION_ID")
+	private Integer subscriptionId;
 
-		@Column(name = "USER_ID")
-		private Integer userId;
-
-		public UserSubscriptionId() {
-			// TODO Auto-generated constructor stub
-		}
-
-		public UserSubscriptionId(Integer subscriptionId, Integer userId) {
-			this.subscriptionId = subscriptionId;
-			this.userId = userId;
-		}
-	}
-	 
-	@EmbeddedId
-	UserSubscriptionId userSubscriptionId = new UserSubscriptionId();
-	    
-	 
+	@Column(name = "USER_ID")
+	private Integer userId;
+	
 	@Column(name="EXPIRATION_DATE")
 	private Date expirationDate;
 
-	
+	@Column(name="UA_SIGNED_ON")
+	private Date uaSignedOn;
+
+	/**
+	 * @return the userSubscriptionId
+	 */
+	public int getUserSubscriptionId() {
+		return userSubscriptionId;
+	}
+
+	/**
+	 * @param userSubscriptionId the userSubscriptionId to set
+	 */
+	public void setUserSubscriptionId(int userSubscriptionId) {
+		this.userSubscriptionId = userSubscriptionId;
+	}
+
+	/**
+	 * @return the subscriptionId
+	 */
+	public Integer getSubscriptionId() {
+		return subscriptionId;
+	}
+
+	/**
+	 * @param subscriptionId the subscriptionId to set
+	 */
+	public void setSubscriptionId(Integer subscriptionId) {
+		this.subscriptionId = subscriptionId;
+	}
+
+	/**
+	 * @return the userId
+	 */
+	public Integer getUserId() {
+		return userId;
+	}
+
+	/**
+	 * @param userId the userId to set
+	 */
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
 	/**
 	 * @return the expirationDate
 	 */
@@ -64,7 +93,51 @@ public class UserSubscriptions extends AbstractEntity  {
 	public void setExpirationDate(Date expirationDate) {
 		this.expirationDate = expirationDate;
 	}
+
+	/**
+	 * @return the uaSignedOn
+	 */
+	public Date getUaSignedOn() {
+		return uaSignedOn;
+	}
+
+	/**
+	 * @param uaSignedOn the uaSignedOn to set
+	 */
+	public void setUaSignedOn(Date uaSignedOn) {
+		this.uaSignedOn = uaSignedOn;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + userSubscriptionId;
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UserSubscriptions other = (UserSubscriptions) obj;
+		if (userSubscriptionId != other.userSubscriptionId)
+			return false;
+		return true;
+	}
+
 	
-	
+
+
 	
 }

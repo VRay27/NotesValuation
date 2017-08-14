@@ -6,7 +6,7 @@ import org.xml.sax.SAXException;
 
 import com.noteanalyzer.appraisal.exceptions.AddressNotAvailableException;
 
-public interface AppraisalSource {
+public interface IAppraisalSource {
 
 	String getApprisalSourcePropertyId(String streetAddress, String cityStateZip)
 			throws SAXException, IOException, AddressNotAvailableException;

@@ -1,9 +1,9 @@
 package com.noteanalyzer.entity.notes;
 
+import java.util.HashSet;
+import java.util.Set;
 
-
-import java.util.Date;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,17 +11,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.noteanalyzer.entity.AbstractEntity;
 
 import lombok.ToString;
- 
+
 @Entity
-@Table(name="PROPERTY")
+@Table(name = "PROPERTY")
 @ToString(callSuper = true)
-@NamedQueries({ @NamedQuery(name = Property.GET_PROPERTY_DETAILS_BY_ID,query="select p from Property p where p.propertyId =:propertyId"),
-	 			@NamedQuery(name = Property.GET_PROPERTY_DETAILS_BY_ADDRESS,query="select p from Property p where p.streetAddress =:streetAddress and p.zip =:zipCode and p.state =:state and p.city=:city")})
+@NamedQueries({
+		@NamedQuery(name = Property.GET_PROPERTY_DETAILS_BY_ID, query = "select p from Property p where p.propertyId =:propertyId"),
+		@NamedQuery(name = Property.GET_PROPERTY_DETAILS_BY_ADDRESS, query = "select p from Property p where p.streetAddress =:streetAddress and p.zip =:zipCode and p.state =:state and p.city=:city") })
 public class Property extends AbstractEntity {
 	private static final long serialVersionUID = 6408731281219126859L;
 
@@ -30,94 +32,60 @@ public class Property extends AbstractEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="PROPERTY_ID")
-    private Integer propertyId;
-	
+	@Column(name = "PROPERTY_ID")
+	private Integer propertyId;
+
 	@Column(name = "PROPERTY_TYPE")
 	private String propertyType;
-	
-	@Column(name="STREET_ADDRESS")
+
+	@Column(name = "STREET_ADDRESS")
 	private String streetAddress;
-	
-	@Column(name="CITY")
-	private String	city;
-	
-	@Column(name="STATE")
-	private String	state;
-	
-	@Column(name="ZIP")
-	private Integer	zip;
-	
-	
-	@Column(name="AGE")
-	private Integer	age;
-	
-	
-	@Column(name="SIZE_SF")
-	private double	sizeSF;
-	
-	
-	@Column(name="SUBDIVIDABLE")
+
+	@Column(name = "CITY")
+	private String city;
+
+	@Column(name = "STATE")
+	private String state;
+
+	@Column(name = "ZIP")
+	private Integer zip;
+
+	@Column(name = "AGE")
+	private Integer age;
+
+	@Column(name = "SIZE_SF")
+	private double sizeSF;
+
+	@Column(name = "SUBDIVIDABLE")
 	private String subdividable;
-	
-	
-	@Column(name="OTHER_HIGHER_PRIORITY_DEBT")
-	private Integer	otherHigherPriorityDebt;
-	
-	@Column(name="OTHER_LOWER_PRIORITY_DEBT")
+
+	@Column(name = "OTHER_HIGHER_PRIORITY_DEBT")
+	private Integer otherHigherPriorityDebt;
+
+	@Column(name = "OTHER_LOWER_PRIORITY_DEBT")
 	private Integer OtherLowerPriorityDebt;
-	
-	@Column(name="Other_Monthly_expenses")
+
+	@Column(name = "Other_Monthly_expenses")
 	private Integer otherMonthlyExpenses;
-	
-	@Column(name="APPRAISAL_PROPERTY_ID")
-	private String appraisalPropertyId;
-	
-	@Column(name="BUILT_YEAR")
+
+	@Column(name = "BUILT_YEAR")
 	private String propertyBuiltYear;
-	
-	@Column(name="PROP_LOT_SIZE")
+
+	@Column(name = "PROP_LOT_SIZE")
 	private String propertyLotSize;
-	
-	@Column(name="PROP_LOT_FINISHED_SIZE")
+
+	@Column(name = "PROP_LOT_FINISHED_SIZE")
 	private String propertyBuiltUpSize;
-	
-	@Column(name="NO_OF_BATHROOMS")
+
+	@Column(name = "NO_OF_BATHROOMS")
 	private String numberOfBathrooms;
-	
-	@Column(name="NO_OF_BEDROOMS")
+
+	@Column(name = "NO_OF_BEDROOMS")
 	private String numberOfBedrooms;
 	
-	@Column(name="LAST_SOLD_DATE")
-	private Date lastSoldDate;
-	
-	@Column(name="LAST_SOLD_PRICE")
-	private String lastSoldPrice;
-	
-	@Column(name="RENT_VALUE")
-	private String rentValue;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "propertyId")
+	private Set<PropertyAppraisals> propertyAppraisalSet = new HashSet<PropertyAppraisals>();
 
-	@Column(name="TAX_ASSESSMENT_YEAR")
-	private String taxAssessmentYear;
-	
-	@Column(name="TAX_ASSESSMENT_VALUE")
-	private String taxAssessmentValue;
-	
-	@Column(name="MARKET_VALUE")
-	private String marketValue;
-	
-	@Column(name="MARKET_VALUE_UPDATED_DATE")
-	private Date marketValueUpdatedDate;
-	
-	@Column(name="PROP_GRAPH_DATA_URL")
-	private String propertyGraphAndDataUrl;
-	
-	@Column(name="PROP_MAP_URL")
-	private String propertyMapUrl;
-	
-	@Column(name="PROP_DETAIL_URL")
-	private String propertyDetailUrl;
-	
 	/**
 	 * @return the propertyId
 	 */
@@ -126,7 +94,8 @@ public class Property extends AbstractEntity {
 	}
 
 	/**
-	 * @param propertyId the propertyId to set
+	 * @param propertyId
+	 *            the propertyId to set
 	 */
 	public void setPropertyId(Integer propertyId) {
 		this.propertyId = propertyId;
@@ -140,7 +109,8 @@ public class Property extends AbstractEntity {
 	}
 
 	/**
-	 * @param propertyType the propertyType to set
+	 * @param propertyType
+	 *            the propertyType to set
 	 */
 	public void setPropertyType(String propertyType) {
 		this.propertyType = propertyType;
@@ -154,7 +124,8 @@ public class Property extends AbstractEntity {
 	}
 
 	/**
-	 * @param streetAddress the streetAddress to set
+	 * @param streetAddress
+	 *            the streetAddress to set
 	 */
 	public void setStreetAddress(String streetAddress) {
 		this.streetAddress = streetAddress;
@@ -168,7 +139,8 @@ public class Property extends AbstractEntity {
 	}
 
 	/**
-	 * @param city the city to set
+	 * @param city
+	 *            the city to set
 	 */
 	public void setCity(String city) {
 		this.city = city;
@@ -182,7 +154,8 @@ public class Property extends AbstractEntity {
 	}
 
 	/**
-	 * @param state the state to set
+	 * @param state
+	 *            the state to set
 	 */
 	public void setState(String state) {
 		this.state = state;
@@ -196,7 +169,8 @@ public class Property extends AbstractEntity {
 	}
 
 	/**
-	 * @param zip the zip to set
+	 * @param zip
+	 *            the zip to set
 	 */
 	public void setZip(Integer zip) {
 		this.zip = zip;
@@ -210,7 +184,8 @@ public class Property extends AbstractEntity {
 	}
 
 	/**
-	 * @param age the age to set
+	 * @param age
+	 *            the age to set
 	 */
 	public void setAge(Integer age) {
 		this.age = age;
@@ -224,7 +199,8 @@ public class Property extends AbstractEntity {
 	}
 
 	/**
-	 * @param sizeSF the sizeSF to set
+	 * @param sizeSF
+	 *            the sizeSF to set
 	 */
 	public void setSizeSF(double sizeSF) {
 		this.sizeSF = sizeSF;
@@ -238,7 +214,8 @@ public class Property extends AbstractEntity {
 	}
 
 	/**
-	 * @param subdividable the subdividable to set
+	 * @param subdividable
+	 *            the subdividable to set
 	 */
 	public void setSubdividable(String subdividable) {
 		this.subdividable = subdividable;
@@ -252,7 +229,8 @@ public class Property extends AbstractEntity {
 	}
 
 	/**
-	 * @param otherHigherPriorityDebt the otherHigherPriorityDebt to set
+	 * @param otherHigherPriorityDebt
+	 *            the otherHigherPriorityDebt to set
 	 */
 	public void setOtherHigherPriorityDebt(Integer otherHigherPriorityDebt) {
 		this.otherHigherPriorityDebt = otherHigherPriorityDebt;
@@ -266,7 +244,8 @@ public class Property extends AbstractEntity {
 	}
 
 	/**
-	 * @param otherLowerPriorityDebt the otherLowerPriorityDebt to set
+	 * @param otherLowerPriorityDebt
+	 *            the otherLowerPriorityDebt to set
 	 */
 	public void setOtherLowerPriorityDebt(Integer otherLowerPriorityDebt) {
 		OtherLowerPriorityDebt = otherLowerPriorityDebt;
@@ -280,28 +259,28 @@ public class Property extends AbstractEntity {
 	}
 
 	/**
-	 * @param otherMonthlyExpenses the otherMonthlyExpenses to set
+	 * @param otherMonthlyExpenses
+	 *            the otherMonthlyExpenses to set
 	 */
 	public void setOtherMonthlyExpenses(Integer otherMonthlyExpenses) {
 		this.otherMonthlyExpenses = otherMonthlyExpenses;
 	}
-	
-	
 
 	/**
 	 * @return the appraisalPropertyId
-	 */
+	 *//*
 	public String getAppraisalPropertyId() {
 		return appraisalPropertyId;
 	}
 
-	/**
-	 * @param appraisalPropertyId the appraisalPropertyId to set
-	 */
+	*//**
+	 * @param appraisalPropertyId
+	 *            the appraisalPropertyId to set
+	 *//*
 	public void setAppraisalPropertyId(String appraisalPropertyId) {
 		this.appraisalPropertyId = appraisalPropertyId;
 	}
-
+*/
 	/**
 	 * @return the propertyBuiltYear
 	 */
@@ -310,7 +289,8 @@ public class Property extends AbstractEntity {
 	}
 
 	/**
-	 * @param propertyBuiltYear the propertyBuiltYear to set
+	 * @param propertyBuiltYear
+	 *            the propertyBuiltYear to set
 	 */
 	public void setPropertyBuiltYear(String propertyBuiltYear) {
 		this.propertyBuiltYear = propertyBuiltYear;
@@ -324,7 +304,8 @@ public class Property extends AbstractEntity {
 	}
 
 	/**
-	 * @param propertyLotSize the propertyLotSize to set
+	 * @param propertyLotSize
+	 *            the propertyLotSize to set
 	 */
 	public void setPropertyLotSize(String propertyLotSize) {
 		this.propertyLotSize = propertyLotSize;
@@ -338,7 +319,8 @@ public class Property extends AbstractEntity {
 	}
 
 	/**
-	 * @param propertyBuiltUpSize the propertyBuiltUpSize to set
+	 * @param propertyBuiltUpSize
+	 *            the propertyBuiltUpSize to set
 	 */
 	public void setPropertyBuiltUpSize(String propertyBuiltUpSize) {
 		this.propertyBuiltUpSize = propertyBuiltUpSize;
@@ -352,7 +334,8 @@ public class Property extends AbstractEntity {
 	}
 
 	/**
-	 * @param numberOfBathrooms the numberOfBathrooms to set
+	 * @param numberOfBathrooms
+	 *            the numberOfBathrooms to set
 	 */
 	public void setNumberOfBathrooms(String numberOfBathrooms) {
 		this.numberOfBathrooms = numberOfBathrooms;
@@ -366,157 +349,32 @@ public class Property extends AbstractEntity {
 	}
 
 	/**
-	 * @param numberOfBedrooms the numberOfBedrooms to set
+	 * @param numberOfBedrooms
+	 *            the numberOfBedrooms to set
 	 */
 	public void setNumberOfBedrooms(String numberOfBedrooms) {
 		this.numberOfBedrooms = numberOfBedrooms;
 	}
-
-	/**
-	 * @return the lastSoldDate
-	 */
-	public Date getLastSoldDate() {
-		return lastSoldDate;
-	}
-
-	/**
-	 * @param lastSoldDate the lastSoldDate to set
-	 */
-	public void setLastSoldDate(Date lastSoldDate) {
-		this.lastSoldDate = lastSoldDate;
-	}
-
-	/**
-	 * @return the lastSoldPrice
-	 */
-	public String getLastSoldPrice() {
-		return lastSoldPrice;
-	}
-
-	/**
-	 * @param lastSoldPrice the lastSoldPrice to set
-	 */
-	public void setLastSoldPrice(String lastSoldPrice) {
-		this.lastSoldPrice = lastSoldPrice;
-	}
-
-	/**
-	 * @return the rentValue
-	 */
-	public String getRentValue() {
-		return rentValue;
-	}
-
-	/**
-	 * @param rentValue the rentValue to set
-	 */
-	public void setRentValue(String rentValue) {
-		this.rentValue = rentValue;
-	}
-
-	/**
-	 * @return the taxAssessmentYear
-	 */
-	public String getTaxAssessmentYear() {
-		return taxAssessmentYear;
-	}
-
-	/**
-	 * @param taxAssessmentYear the taxAssessmentYear to set
-	 */
-	public void setTaxAssessmentYear(String taxAssessmentYear) {
-		this.taxAssessmentYear = taxAssessmentYear;
-	}
-
-	/**
-	 * @return the taxAssessmentValue
-	 */
-	public String getTaxAssessmentValue() {
-		return taxAssessmentValue;
-	}
-
-	/**
-	 * @param taxAssessmentValue the taxAssessmentValue to set
-	 */
-	public void setTaxAssessmentValue(String taxAssessmentValue) {
-		this.taxAssessmentValue = taxAssessmentValue;
-	}
 	
 	
 
 	/**
-	 * @return the marketValue
+	 * @return the propertyAppraisalSet
 	 */
-	public String getMarketValue() {
-		return marketValue;
+	public Set<PropertyAppraisals> getPropertyAppraisalSet() {
+		return propertyAppraisalSet;
 	}
 
 	/**
-	 * @param marketValue the marketValue to set
+	 * @param propertyAppraisalSet the propertyAppraisalSet to set
 	 */
-	public void setMarketValue(String marketValue) {
-		this.marketValue = marketValue;
+	public void setPropertyAppraisalSet(Set<PropertyAppraisals> propertyAppraisalSet) {
+		this.propertyAppraisalSet = propertyAppraisalSet;
 	}
 
-	/**
-	 * @return the marketValueUpdatedDate
-	 */
-	public Date getMarketValueUpdatedDate() {
-		return marketValueUpdatedDate;
-	}
-
-	/**
-	 * @param marketValueUpdatedDate the marketValueUpdatedDate to set
-	 */
-	public void setMarketValueUpdatedDate(Date marketValueUpdatedDate) {
-		this.marketValueUpdatedDate = marketValueUpdatedDate;
-	}
-	
-	
-
-	/**
-	 * @return the propertyGraphAndDataUrl
-	 */
-	public String getPropertyGraphAndDataUrl() {
-		return propertyGraphAndDataUrl;
-	}
-
-	/**
-	 * @param propertyGraphAndDataUrl the propertyGraphAndDataUrl to set
-	 */
-	public void setPropertyGraphAndDataUrl(String propertyGraphAndDataUrl) {
-		this.propertyGraphAndDataUrl = propertyGraphAndDataUrl;
-	}
-
-	/**
-	 * @return the propertyMapUrl
-	 */
-	public String getPropertyMapUrl() {
-		return propertyMapUrl;
-	}
-
-	/**
-	 * @param propertyMapUrl the propertyMapUrl to set
-	 */
-	public void setPropertyMapUrl(String propertyMapUrl) {
-		this.propertyMapUrl = propertyMapUrl;
-	}
-
-	/**
-	 * @return the propertyDetailUrl
-	 */
-	public String getPropertyDetailUrl() {
-		return propertyDetailUrl;
-	}
-
-	/**
-	 * @param propertyDetailUrl the propertyDetailUrl to set
-	 */
-	public void setPropertyDetailUrl(String propertyDetailUrl) {
-		this.propertyDetailUrl = propertyDetailUrl;
-	}
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -527,7 +385,9 @@ public class Property extends AbstractEntity {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -551,8 +411,5 @@ public class Property extends AbstractEntity {
 		}
 		return true;
 	}
-	
-	
- 
-   
+
 }

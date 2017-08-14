@@ -113,27 +113,22 @@ html, body {
 				Note Analyzer</a>
 		</div>
 		<ul class="nav navbar-nav">
-			<li><a href="/notes/#!/">Home</a></li>
-			<!-- <li ng-if="isAuthenticated()"><a href="/notes/#!/profile">Profile</a></li> -->
+			<li><a href="/notes/#!/" id="homeLink">Home</a></li>
+			<li ng-if="isAuthenticated()"><a href="/notes/#!/profile">My Profile</a></li>
 		</ul>
-		<!-- ng-if="isAuthenticated()" -->
-		<ul  class="nav navbar-nav">
+		<ul  class="nav navbar-nav" ng-if="isAuthenticated()">
 			<li><a href="/notes/#!/noteDashboard">My Dashboard</a></li>
 		</ul>
 		<ul  class="nav navbar-nav">
 			<li><a href="/notes/#!/calculator">Calculator</a></li>
 		</ul>
-		<ul  class="nav navbar-nav">
-			<li><a href="/notes/#!/noteDetail">Note Detail</a></li>
-		</ul>
-		<!-- ng-if="isAuthenticated()" -->
-		<ul  class="nav navbar-nav pull-right">
+		
+		<ul  class="nav navbar-nav pull-right" ng-if="!isAuthenticated()">
 			<li><a href="/notes/#!/login">Login</a></li>
 			<li><a href="/notes/#!/signup">Sign up</a></li>
 		</ul>
-		<!-- ng-if="isAuthenticated()" -->
-		<ul  class="nav navbar-nav pull-right">
-			<li><a href="/notes/#!/profile">Welcome <span id="welcomeUserName"></span></a></li>
+		<ul  class="nav navbar-nav pull-right" ng-if="isAuthenticated()">
+			<li><a href="/notes/#!/profile">Welcome <span id="welcomeUserName">{{loggedInUserDisplayName}}</span></a></li>
 			<li><a href="/notes/#!/logout">Logout</a></li>
 		</ul>
 

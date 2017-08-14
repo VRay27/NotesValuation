@@ -110,13 +110,18 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Optional<UserModel> changePassword(UserModel inputUser, boolean isResetTokenNotRequired) {
+	public Optional<UserModel> changePassword(UserModel inputUser) {
 		Optional<User> userOpt = getUser(inputUser.getEmail());
 		if (userOpt.isPresent()) {
 			User user = userOpt.get();
-			if (isResetTokenNotRequired || inputUser.getResetToken().equals(user.getResetToken())) {
+			UserModel userModel = new UserModel();
+			if(user.getResetToken() == null){
+				userModel.setErrorCode("ResetTokenExpired");
+				return Optional.of(userModel);
+			}
+			if (inputUser.getResetToken().equals(user.getResetToken())) {
 				user.setPassword(encoder.encode(inputUser.getPassword()));
-				user.setResetTokenCreationTime(ZonedDateTime.now());
+				user.setResetToken(null);
 				user.setIsActive(ACTIVE_USER_FLAG);
 				user.setUnsuccessfulLoginAttempts(new Long(0));
 				User updatedUser = genericDao.update(user);
@@ -199,6 +204,21 @@ public class UserServiceImpl implements UserService {
 			genericDao.update(user);
 		}
 
+	}
+
+	@Override
+	public Optional<UserModel> changePasswordForLoginUser(UserModel inputUser) {
+		Optional<User> userOpt = getUser(inputUser.getEmail());
+		if (userOpt.isPresent()) {
+			User user = userOpt.get();
+			user.setPassword(encoder.encode(inputUser.getPassword()));
+			user.setResetToken(null);
+			user.setIsActive(ACTIVE_USER_FLAG);
+			user.setUnsuccessfulLoginAttempts(new Long(0));
+			User updatedUser = genericDao.update(user);
+			return Optional.of(ConverterUtility.convertUserToUserModel(updatedUser));
+		}
+		return Optional.empty();
 	}
 
 }

@@ -154,7 +154,7 @@ public class NoteRestController {
 		}
 
 		String errorMessage = NoteUtility.validateInputModel(noteInputFormModel);
-		if (StringUtils.isBlank(errorMessage)) {
+		if (StringUtils.isNotBlank(errorMessage)) {
 			statusModel.setErrorMessage(errorMessage);
 			return new ResponseEntity<RequestStatusModel>(statusModel, HttpStatus.BAD_REQUEST);
 		}

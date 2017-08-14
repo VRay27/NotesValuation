@@ -17,6 +17,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.noteanalyzer.dao.GenericDao;
 import com.noteanalyzer.entity.address.Zipcodes;
+import com.noteanalyzer.entity.appraisal.AppriasalSources;
 import com.noteanalyzer.entity.notes.Note;
 import com.noteanalyzer.entity.notes.NoteConfiguration;
 import com.noteanalyzer.entity.notes.NoteType;
@@ -32,7 +33,7 @@ import com.noteanalyzer.mvc.model.PropertyTypeModel;
 import com.noteanalyzer.mvc.service.NoteService;
 import com.noteanalyzer.utility.ConverterUtility;
 import com.noteanalyzer.webservice.appraisal.AppraisalPropertyBean;
-import com.noteanalyzer.webservice.appraisal.AppraisalSource;
+import com.noteanalyzer.webservice.appraisal.IAppraisalSource;
 
 import io.jsonwebtoken.lang.Collections;
 import lombok.NonNull;
@@ -44,14 +45,14 @@ public class NoteServiceImpl implements NoteService {
 	GenericDao genericDao;
 
 	@Resource(name = "zillowWebService")
-	AppraisalSource zillowWebService;
+	IAppraisalSource zillowWebService;
 
 	private final static Logger LOG = Logger.getLogger(NoteServiceImpl.class.getName());
 
 	/**
 	 * @return the zillowWebService
 	 */
-	public AppraisalSource getZillowWebService() {
+	public IAppraisalSource getZillowWebService() {
 		return zillowWebService;
 	}
 
@@ -59,7 +60,7 @@ public class NoteServiceImpl implements NoteService {
 	 * @param zillowWebService
 	 *            the zillowWebService to set
 	 */
-	public void setZillowWebService(AppraisalSource zillowWebService) {
+	public void setZillowWebService(IAppraisalSource zillowWebService) {
 		this.zillowWebService = zillowWebService;
 	}
 
@@ -82,19 +83,34 @@ public class NoteServiceImpl implements NoteService {
 		} else {
 			property = getPropertyFromZillow(noteModel.getStreetAddress(), noteModel.getSelCity(),
 					noteModel.getSelState(), noteModel.getZipCode(), noteModel.getSelPropType().getPropertyTypeCode());
+			property = genericDao.create(property);
 		}
 		Note note = ConverterUtility.convertNoteModelToEntity(noteModel, property);
 		note.setPropertyId(property);
 		genericDao.create(note);
 
 	}
+	
+	@Override
+	public Optional<List<AppriasalSources>> getApprisalSourceDetail(String apprisalSourceCode) {
+		Map<String, Object> parameters = new HashMap<>();
+		parameters.put("appraisalSource", apprisalSourceCode);
+		List<AppriasalSources> appriasalSourcesList = genericDao.getResultByNamedQuery(AppriasalSources.class,
+				AppriasalSources.GET_APPRAISAL_SOURCE_DETAIL, parameters);
+		if (Collections.isEmpty(appriasalSourcesList)) {
+			return Optional.empty();
+		}
+		return Optional.of(appriasalSourcesList);
+	}
+	
 
 	private Property getPropertyFromZillow(String streetAddress, String city, String state, String zipcode,
 			String propertyTypeCode) {
 		AppraisalPropertyBean appraisalPropertyBean = zillowWebService.getPropertyDetailsWithAddress(streetAddress,
 				city, state, zipcode);
 		LOG.info(appraisalPropertyBean.toString());
-		return ConverterUtility.createPropertyObject(appraisalPropertyBean, propertyTypeCode);
+		Optional<List<AppriasalSources>> apprsialSourceList = getApprisalSourceDetail("Zillow");
+		return ConverterUtility.createPropertyObject(appraisalPropertyBean, propertyTypeCode,apprsialSourceList.get().get(0));
 	}
 
 	@Override

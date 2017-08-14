@@ -187,9 +187,10 @@ noteApp.run(function($rootScope, $state, $location, $auth){
 });
 
 
-noteApp.factory('$auth', function($window,$state,toastr) {
+noteApp.factory('$auth', function($window,$state,toastr,$rootScope) {
 	var auth = this;
 	var isAuthenticated = function() {
+		$rootScope.loggedInUserDisplayName=auth.getUserDisplayName();
 		if (!auth.isAuthed()) {
 			auth.logout();
 			return false;
@@ -205,10 +206,19 @@ noteApp.factory('$auth', function($window,$state,toastr) {
 	auth.saveToken = function(token) {
 		$window.sessionStorage.setItem('token', token);
 	};
+	
+	auth.getUserDisplayName = function() {
+		if(auth.getUser()){
+			return auth.getUser().displayName;
+		}
+		return '';
+	};
 
 	auth.logout = function() {
 		$window.sessionStorage.removeItem('user');
 		$window.sessionStorage.removeItem('token');
+		angular.element("#welcomeUserName").html('');
+		$rootScope.loggedInUserDisplayName='';
 	};
 
 	auth.getToken = function() {
@@ -216,7 +226,7 @@ noteApp.factory('$auth', function($window,$state,toastr) {
 	};
 	
 	auth.checkLoginFromServer = function(status) {
-		if(status===401){
+		if(status && status===401){
 			auth.logout();
 			toastr.error('Your session has been invalid. Please login again.');
 			$state.go('login');

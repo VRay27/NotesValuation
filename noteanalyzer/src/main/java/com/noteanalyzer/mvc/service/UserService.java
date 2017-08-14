@@ -52,7 +52,7 @@ public interface UserService {
 	 * @param isResetTokenRequired
 	 * @return
 	 */
-	Optional<UserModel> changePassword(UserModel inputUser, boolean isResetTokenRequired);
+	Optional<UserModel> changePassword(UserModel inputUser);
 
 	/**
 	 * This method wil be used to verify and user and make the status as ACTIVE.
@@ -79,5 +79,13 @@ public interface UserService {
 	 * @param userEmailId
 	 */
 	void updateUnsuccessfullAttempt(String loginStatus, long userId, String userEmailId);
+
+	
+	/**
+	 * This method will be used for changing the password for logged in user.
+	 * @param inputUser
+	 * @return
+	 */
+	public Optional<UserModel> changePasswordForLoginUser(UserModel inputUser);
 
 }

@@ -11,6 +11,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -20,9 +21,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.CollectionUtils;
 
 import com.noteanalyzer.entity.address.Zipcodes;
+import com.noteanalyzer.entity.appraisal.AppriasalSources;
 import com.noteanalyzer.entity.notes.Note;
 import com.noteanalyzer.entity.notes.NoteType;
 import com.noteanalyzer.entity.notes.Property;
+import com.noteanalyzer.entity.notes.PropertyAppraisals;
 import com.noteanalyzer.entity.notes.PropertyType;
 import com.noteanalyzer.entity.user.User;
 import com.noteanalyzer.mvc.model.AddressModel;
@@ -57,6 +60,7 @@ public class ConverterUtility {
 		user.setIsActive(IN_ACTIVE_USER_FLAG);
 		user.setCreateDate(ZonedDateTime.now());
 		user.setUpdateDate(ZonedDateTime.now());
+		user.setUnsuccessfulLoginAttempts(new Long(0));
 		return user;
 	}
 
@@ -102,8 +106,15 @@ public class ConverterUtility {
 		noteEntity.setEffectiveLTV(
 				NoteAnalysisService.getEffectiveLTV(note.getNotePrice(), note.getOriginalPropertyValue()));
 		if (property != null) {
-			note.setCurrentEffectiveLTV(NoteAnalysisService
-					.getCurrentEffectiveLTV(Objects.toString(note.getNotePrice(), null), property.getMarketValue()));
+			Set<PropertyAppraisals> propertyApprisalSet = property.getPropertyAppraisalSet();
+			if (propertyApprisalSet != null) {
+				Iterator<PropertyAppraisals> itr = propertyApprisalSet.iterator();
+				if (itr.hasNext()) {
+					PropertyAppraisals propertyAppraisals = itr.next();
+					note.setCurrentEffectiveLTV(NoteAnalysisService.getCurrentEffectiveLTV(
+							Objects.toString(note.getNotePrice(), null), propertyAppraisals.getMarketValue()));
+				}
+			}
 		}
 		noteEntity.setRoi(NoteAnalysisService.getROI());
 		noteEntity.setYield(note.getYieldValue());
@@ -153,13 +164,24 @@ public class ConverterUtility {
 				dashBoardModel.setNoteId(model.getNoteId());
 				dashBoardModel.setNoteAddress(property.getStreetAddress() + ", " + property.getCity() + ", "
 						+ property.getState() + ", " + property.getZip());
-				dashBoardModel.setMarketValue(property.getMarketValue());
+
+				Set<PropertyAppraisals> propertyApprisalSet = property.getPropertyAppraisalSet();
+				if (propertyApprisalSet != null) {
+					Iterator<PropertyAppraisals> itr = propertyApprisalSet.iterator();
+					if (itr.hasNext()) {
+						PropertyAppraisals propertyAppraisals = propertyApprisalSet.iterator().next();
+						dashBoardModel.setMarketValue(propertyAppraisals.getMarketValue());
+						dashBoardModel.setMarketUpdateDate(propertyAppraisals.getMarketValueUpdatedDate());
+
+					}
+				}
+
 				dashBoardModel.setYield(model.getYield());
 				dashBoardModel.setEffectiveLTV(model.getEffectiveLTV());
 				dashBoardModel.setCurrentEffectiveLTV(model.getCurrentEffectiveLTV());
 				dashBoardModel.setOriginalLTV(model.getOriginalLTV());
-				dashBoardModel.setMarketUpdateDate(property.getMarketValueUpdatedDate());
-				dashBoardModel.setMarketValueAvailable(StringUtils.isNotBlank(property.getMarketValue()));
+				dashBoardModel.setMarketValueAvailable(StringUtils.isNotBlank(dashBoardModel.getMarketValue()));
+
 				summaryModelList.add(dashBoardModel);
 			}
 		}
@@ -179,7 +201,7 @@ public class ConverterUtility {
 		return model;
 	}
 
-	public static Property createPropertyObject(AppraisalPropertyBean appraisalPropertyBean, String propertyTypeCode) {
+	public static Property createPropertyObject(AppraisalPropertyBean appraisalPropertyBean, String propertyTypeCode,AppriasalSources appraisalsSource) {
 		Property property = new Property();
 		DateFormat df = new SimpleDateFormat(DEFAULT_DATE_FORMAT);
 		property.setZip(Integer.valueOf(appraisalPropertyBean.getZipCode()));
@@ -187,27 +209,32 @@ public class ConverterUtility {
 		property.setCity(appraisalPropertyBean.getCity());
 		property.setState(appraisalPropertyBean.getState());
 		property.setPropertyType(propertyTypeCode);
-		property.setAppraisalPropertyId(appraisalPropertyBean.getApprisalPropertyId());
+
+		PropertyAppraisals propertyAppraisals = new PropertyAppraisals();
 		if (appraisalPropertyBean.getLastSoldDate() != null) {
 			try {
-				property.setLastSoldDate(df.parse(appraisalPropertyBean.getLastSoldDate()));
+				propertyAppraisals.setLastSoldDate(df.parse(appraisalPropertyBean.getLastSoldDate()));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 		}
-		property.setLastSoldPrice(appraisalPropertyBean.getLastSoldPrice());
+		propertyAppraisals.setLastSoldPrice(appraisalPropertyBean.getLastSoldPrice());
 		property.setNumberOfBathrooms(appraisalPropertyBean.getNumberOfBathrooms());
 		property.setNumberOfBedrooms(appraisalPropertyBean.getNumberOfBedrooms());
 		property.setPropertyBuiltUpSize(appraisalPropertyBean.getPropertyBuiltUpSize());
 		property.setPropertyLotSize(appraisalPropertyBean.getPropertyLotSize());
-		property.setRentValue(appraisalPropertyBean.getRentValue());
-		property.setTaxAssessmentValue(appraisalPropertyBean.getTaxAssessmentValue());
-		property.setTaxAssessmentYear(appraisalPropertyBean.getTaxAssessmentYear());
-		property.setMarketValue(appraisalPropertyBean.getMarketValue());
-		property.setMarketValueUpdatedDate(new Date());
-		property.setPropertyMapUrl(appraisalPropertyBean.getPropertyMapUrl());
-		property.setPropertyGraphAndDataUrl(appraisalPropertyBean.getPropertyGraphAndDataUrl());
-		property.setPropertyDetailUrl(appraisalPropertyBean.getPropertyDetailUrl());
+		propertyAppraisals.setRentValue(appraisalPropertyBean.getRentValue());
+		propertyAppraisals.setTaxAssessmentValue(appraisalPropertyBean.getTaxAssessmentValue());
+		propertyAppraisals.setTaxAssessmentYear(appraisalPropertyBean.getTaxAssessmentYear());
+		propertyAppraisals.setMarketValue(appraisalPropertyBean.getMarketValue());
+		propertyAppraisals.setMarketValueUpdatedDate(new Date());
+		propertyAppraisals.setPropertyMapUrl(appraisalPropertyBean.getPropertyMapUrl());
+		propertyAppraisals.setPropertyGraphAndDataUrl(appraisalPropertyBean.getPropertyGraphAndDataUrl());
+		propertyAppraisals.setPropertyDetailUrl(appraisalPropertyBean.getPropertyDetailUrl());
+		
+		propertyAppraisals.setAppraisalsSource(appraisalsSource);
+		propertyAppraisals.setPropertyId(property);
+		property.getPropertyAppraisalSet().add(propertyAppraisals);
 
 		return property;
 	}
@@ -254,12 +281,29 @@ public class ConverterUtility {
 			PropertyDetailModel propertyDetailModel = new PropertyDetailModel();
 
 			if (property != null) {
+				Set<PropertyAppraisals> propertyApprisalSet = property.getPropertyAppraisalSet();
+				if (propertyApprisalSet != null) {
+					Iterator<PropertyAppraisals> itr = propertyApprisalSet.iterator();
+					if (itr.hasNext()) {
+						PropertyAppraisals propertyAppraisals = itr.next();
+						propertyDetailModel.setLastSoldDate(propertyAppraisals.getLastSoldDate());
+						propertyDetailModel.setLastSoldPrice(propertyAppraisals.getLastSoldPrice());
+						propertyDetailModel.setRentValue(propertyAppraisals.getRentValue());
+						propertyDetailModel.setTaxAssessmentValue(propertyAppraisals.getTaxAssessmentValue());
+						propertyDetailModel.setTaxAssessmentYear(propertyAppraisals.getTaxAssessmentYear());
+						propertyDetailModel.setPropertyDetailUrl(propertyAppraisals.getPropertyDetailUrl());
+						propertyDetailModel.setPropertyMapUrl(propertyAppraisals.getPropertyMapUrl());
+						propertyDetailModel.setPropertyGraphAndDataUrl(propertyAppraisals.getPropertyGraphAndDataUrl());
 
+						propertyDetailModel.setMarketValue(propertyAppraisals.getMarketValue());
+						noteDetailModel.setCurrentEffectiveLTV(NoteAnalysisService.getCurrentEffectiveLTV(
+								Objects.toString(note.getNotePrice(), null), propertyAppraisals.getMarketValue()));
+
+					}
+				}
+				propertyDetailModel.setZip(property.getZip());
 				propertyDetailModel.setAge(property.getAge());
-				propertyDetailModel.setAppraisalPropertyId(property.getAppraisalPropertyId());
 				propertyDetailModel.setCity(property.getCity());
-				propertyDetailModel.setLastSoldDate(property.getLastSoldDate());
-				propertyDetailModel.setLastSoldPrice(property.getLastSoldPrice());
 				propertyDetailModel.setNumberOfBathrooms(property.getNumberOfBathrooms());
 				propertyDetailModel.setNumberOfBedrooms(property.getNumberOfBedrooms());
 				propertyDetailModel.setOtherHigherPriorityDebt(property.getOtherHigherPriorityDebt());
@@ -273,24 +317,12 @@ public class ConverterUtility {
 				propertyDetailModel.setPropertyLotSize(property.getPropertyLotSize());
 
 				propertyDetailModel.setPropertyType(property.getPropertyType());
-				propertyDetailModel.setRentValue(property.getRentValue());
 
 				propertyDetailModel.setSizeSF(property.getSizeSF());
 				propertyDetailModel.setState(property.getState());
 				propertyDetailModel.setStreetAddress(property.getStreetAddress());
 
 				propertyDetailModel.setSubdividable(property.getSubdividable());
-
-				propertyDetailModel.setTaxAssessmentValue(property.getTaxAssessmentValue());
-				propertyDetailModel.setTaxAssessmentYear(property.getTaxAssessmentYear());
-				propertyDetailModel.setPropertyDetailUrl(property.getPropertyDetailUrl());
-				propertyDetailModel.setPropertyMapUrl(property.getPropertyMapUrl());
-				propertyDetailModel.setPropertyGraphAndDataUrl(property.getPropertyGraphAndDataUrl());
-				propertyDetailModel.setZip(property.getZip());
-				propertyDetailModel.setMarketValue(property.getMarketValue());
-				noteDetailModel.setCurrentEffectiveLTV(NoteAnalysisService.getCurrentEffectiveLTV(
-						Objects.toString(note.getNotePrice(), null), property.getMarketValue()));
-
 			}
 
 			noteDetailModel.setPropertyDetailModel(propertyDetailModel);

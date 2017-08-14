@@ -157,6 +157,7 @@ function NoteDetailService($http, $rootScope,NoteService,toastr,$state,$scope) {
 		  NoteService.setNoteDetailModel(response);
 		  $state.go('noteDetail');
 	  },function(response) {
+		  $auth.checkLoginFromServer(response.status);
 		  toastr.error("We are unable to find details for this note. Please try after sometime.")
 
 	  });

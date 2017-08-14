@@ -33,7 +33,7 @@ import com.noteanalyzer.mvc.service.impl.NoteServiceImpl;
  *
  */
 @Service("zillowWebService")
-public class ZillowWebService implements AppraisalSource {
+public class ZillowWebService implements IAppraisalSource {
 	private static final DocumentBuilderFactory dbFac;
 	private static final DocumentBuilder docBuilder;
 	

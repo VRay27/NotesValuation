@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.noteanalyzer.appraisal.exceptions.AddressNotAvailableException;
+import com.noteanalyzer.entity.appraisal.AppriasalSources;
 import com.noteanalyzer.entity.notes.NoteConfiguration;
 import com.noteanalyzer.entity.notes.NoteType;
 import com.noteanalyzer.entity.notes.Parameters;
@@ -123,6 +124,14 @@ public interface NoteService {
 	 * @return
 	 */
 	boolean deleteNote(NoteDetailModel noteDetailModel, String userName);
+	
+	/**
+	 * This method will return the apprisal source details for given apprisal source detail.
+	 * @param apprisalSourceCode
+	 * @return
+	 */
+
+	Optional<List<AppriasalSources>> getApprisalSourceDetail(String apprisalSourceCode);
 	
 	
 }
