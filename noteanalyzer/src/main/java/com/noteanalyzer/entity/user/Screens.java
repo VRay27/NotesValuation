@@ -2,18 +2,24 @@ package com.noteanalyzer.entity.user;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.noteanalyzer.entity.AbstractEntity;
 
 @Entity
-@Table(name = "SUBSCRIPTION")
+@Table(name = "SCREENS")
 public class Screens extends AbstractEntity {
 
 	private static final long serialVersionUID = 2383502272360951114L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "SCREEN_ID")
+	private String screenId;
+
 	@Column(name = "SCREEN_NAME")
 	private String screenName;
 
@@ -26,6 +32,23 @@ public class Screens extends AbstractEntity {
 	public String getScreenName() {
 		return screenName;
 	}
+
+	
+	/**
+	 * @return the screenId
+	 */
+	public String getScreenId() {
+		return screenId;
+	}
+
+
+	/**
+	 * @param screenId the screenId to set
+	 */
+	public void setScreenId(String screenId) {
+		this.screenId = screenId;
+	}
+
 
 	/**
 	 * @param screenName

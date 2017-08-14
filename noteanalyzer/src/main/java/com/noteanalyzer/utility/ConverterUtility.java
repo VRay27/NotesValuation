@@ -232,7 +232,8 @@ public class ConverterUtility {
 		propertyAppraisals.setPropertyGraphAndDataUrl(appraisalPropertyBean.getPropertyGraphAndDataUrl());
 		propertyAppraisals.setPropertyDetailUrl(appraisalPropertyBean.getPropertyDetailUrl());
 		
-		propertyAppraisals.setAppraisalsSource(appraisalsSource);
+		//propertyAppraisals.setAppraisalsSource(appraisalsSource);
+		propertyAppraisals.setAppraisalsSource("Zillow");
 		propertyAppraisals.setPropertyId(property);
 		property.getPropertyAppraisalSet().add(propertyAppraisals);
 

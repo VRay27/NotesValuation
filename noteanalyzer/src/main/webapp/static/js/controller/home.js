@@ -87,7 +87,7 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 	$scope.noteInputFormModel = NoteService.getInputFormModel();
 	
 	$scope.clearNoteInputModelFromJS = function(){
-		$scope.noteInputFormModel.streetAddress = '';
+		/*$scope.noteInputFormModel.streetAddress = '';
 		$scope.noteInputFormModel.noteDate = '';
 		$scope.noteInputFormModel.upb = '';
 		$scope.noteInputFormModel.rate = '';
@@ -102,7 +102,7 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 		$scope.noteInputFormModel.remainingNoOfPayment = '';
 		$scope.noteInputFormModel.originalPropertyValue = '';
 		$scope.noteInputFormModel.userScore = '';
-		$scope.noteInputFormModel.salePrice = '';
+		$scope.noteInputFormModel.salePrice = '';*/
 		
 	}
 
@@ -138,8 +138,6 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 	];
 	$scope.altInputFormats = ['MM/dd/yyyy'];
 	$scope.createNote = function() {
-		
-		
 		$scope.noteInputFormModel.noteDate = $filter('date')($scope.noteInputFormModel.noteDate, 'MM/dd/yyyy');
 		NoteService.getYield($scope.noteInputFormModel);
 		$scope.submitted = true;

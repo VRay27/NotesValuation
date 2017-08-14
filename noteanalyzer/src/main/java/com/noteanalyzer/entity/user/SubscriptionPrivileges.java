@@ -2,6 +2,8 @@ package com.noteanalyzer.entity.user;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -15,6 +17,7 @@ public class SubscriptionPrivileges extends AbstractEntity {
 
 	@Id
 	@Column(name = "subscription_privileges_ID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer subscriptionprivilegesID;
 
 	@Column(name = "privilege_id")

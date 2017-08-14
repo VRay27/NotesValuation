@@ -25,6 +25,7 @@ public class Privileges extends AbstractEntity {
 	
 	@Id
     @Column(name="PRIVILEGE_ID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int privilegeId;
 	
     @Column(name="PRIVILEGE_NAME")

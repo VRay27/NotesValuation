@@ -40,9 +40,11 @@ public class PropertyAppraisals extends AbstractEntity {
 	@JoinColumn(name = "PROPERTY_ID", nullable = false)
 	private Property propertyId;
 	
-	@ManyToOne(cascade=CascadeType.ALL,fetch= FetchType.LAZY)
+/*	@ManyToOne(cascade=CascadeType.ALL,fetch= FetchType.LAZY)
 	@JoinColumn(name = "APPRAISAL_SOURCE", nullable = false)
-   	private AppriasalSources appraisalsSource;
+	
+*/  @Column(name = "APPRAISAL_SOURCE", nullable = false)
+	private String appraisalsSource;
     
     @Column(name="APPRAISAL_VALUE")
    	private String marketValue;
@@ -248,19 +250,33 @@ public class PropertyAppraisals extends AbstractEntity {
 
 	
 	
-	/**
+/**
 	 * @return the appraisalsSource
 	 */
-	public AppriasalSources getAppraisalsSource() {
+	public String getAppraisalsSource() {
 		return appraisalsSource;
 	}
 
 	/**
 	 * @param appraisalsSource the appraisalsSource to set
 	 */
-	public void setAppraisalsSource(AppriasalSources appraisalsSource) {
+	public void setAppraisalsSource(String appraisalsSource) {
 		this.appraisalsSource = appraisalsSource;
 	}
+
+	/*	*//**
+	 * @return the appraisalsSource
+	 *//*
+	public AppriasalSources getAppraisalsSource() {
+		return appraisalsSource;
+	}
+
+	*//**
+	 * @param appraisalsSource the appraisalsSource to set
+	 *//*
+	public void setAppraisalsSource(AppriasalSources appraisalsSource) {
+		this.appraisalsSource = appraisalsSource;
+	}*/
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()

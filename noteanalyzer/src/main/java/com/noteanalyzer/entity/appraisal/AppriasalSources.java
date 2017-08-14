@@ -35,7 +35,10 @@ public class AppriasalSources extends AbstractEntity {
 	
     @Column(name="APPRAISAL_API")
 	private String appraisal_api;
-	/**
+	
+    
+    
+    /**
 	 * @return the appraisal_api
 	 */
 	public String getAppraisal_api() {
@@ -71,6 +74,8 @@ public class AppriasalSources extends AbstractEntity {
 	public void setSourceAppraisalID(String sourceAppraisalID) {
 		this.sourceAppraisalID = sourceAppraisalID;
 	}
+	
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */

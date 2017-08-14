@@ -2,6 +2,8 @@ package com.noteanalyzer.entity.user;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -14,6 +16,11 @@ public class ScreensVariation extends AbstractEntity {
 	private static final long serialVersionUID = 2383502272360951114L;
 
 	@Id
+	@Column(name = "SCREEN_VARIATIONS_ID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private String screenVariationId;
+	
+	
 	@Column(name = "SCREEN_NAME")
 	private String screenName;
 
@@ -64,6 +71,22 @@ public class ScreensVariation extends AbstractEntity {
 	 */
 	public void setScreenFileName(String screenFileName) {
 		this.screenFileName = screenFileName;
+	}
+	
+	
+
+	/**
+	 * @return the screenVariationId
+	 */
+	public String getScreenVariationId() {
+		return screenVariationId;
+	}
+
+	/**
+	 * @param screenVariationId the screenVariationId to set
+	 */
+	public void setScreenVariationId(String screenVariationId) {
+		this.screenVariationId = screenVariationId;
 	}
 
 	/* (non-Javadoc)
