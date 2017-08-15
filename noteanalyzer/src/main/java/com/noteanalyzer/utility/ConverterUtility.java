@@ -229,6 +229,16 @@ public class ConverterUtility {
 		property.setPropertyType(propertyTypeCode);
 
 		PropertyAppraisals propertyAppraisals = new PropertyAppraisals();
+		Iterator<PropertyAppraisals> itr = property.getPropertyAppraisalSet().iterator();
+		while (itr.hasNext()) {
+			PropertyAppraisals appraisalFromDB = itr.next();
+			if (propertyFromDB != null && appraisalPropertyBean.getAppraisalSource()
+					.equalsIgnoreCase(appraisalFromDB.getAppraisalsSource())) {
+				propertyAppraisals = appraisalFromDB;
+				break;
+			}
+		}
+
 		propertyAppraisals.setLastSoldDate(appraisalPropertyBean.getLastSoldDate());
 		propertyAppraisals.setLastSoldPrice(appraisalPropertyBean.getLastSoldPrice());
 		property.setNumberOfBathrooms(appraisalPropertyBean.getNumberOfBathrooms());
@@ -250,9 +260,9 @@ public class ConverterUtility {
 		property.getPropertyAppraisalSet().add(propertyAppraisals);
 		property.setUpdatedTime(ZonedDateTime.now());
 		PropertyArea propertyArea = new PropertyArea();
-		Iterator<PropertyArea> itr = property.getPropertyAreaSet().iterator();
-		if (itr.hasNext()) {
-			propertyArea = itr.next();
+		Iterator<PropertyArea> paItr = property.getPropertyAreaSet().iterator();
+		if (paItr.hasNext()) {
+			propertyArea = paItr.next();
 			if (zipCodeDetails != null) {
 				propertyArea.setAreaId(zipCodeDetails.getAreaId());
 				propertyArea.setAreaType(zipCodeDetails.getAreaType());
@@ -348,15 +358,12 @@ public class ConverterUtility {
 
 				propertyDetailModel.setSubdividable(property.getSubdividable());
 			}
-
+			DemographicDetailModel demoGraphicDetailModel = new DemographicDetailModel();
+			noteDetailModel.setDemoGraphicDetailModel(demoGraphicDetailModel);
+		
 			noteDetailModel.setPropertyDetailModel(propertyDetailModel);
 
-			DemographicDetailModel demoGraphicDetailModel = new DemographicDetailModel();
-			demoGraphicDetailModel.setCrime("1000");
-			demoGraphicDetailModel.setForeClosure("Test forecoluser");
-			demoGraphicDetailModel.setSchoolScore("School");
-
-			noteDetailModel.setDemoGraphicDetailModel(demoGraphicDetailModel);
+			
 		}
 
 		return noteDetailModel;

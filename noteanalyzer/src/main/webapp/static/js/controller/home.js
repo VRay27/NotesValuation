@@ -210,9 +210,13 @@ noteApp.controller('NavbarCtrl', function($scope, $auth) {
 
 noteApp.filter('getDefaultValueForNull', function(){
     return function(obj){
-      if(obj || obj === undefined || obj === null || Object.keys(obj).length === 0){
+    	if(obj){
+    		return obj;
+    	}
+    	return  'No data available';
+     /* if(obj === undefined || obj === null || Object.keys(obj).length === 0){
     	  return 'No data available'
       }
-      return obj;
+      return obj;*/
     }
 });

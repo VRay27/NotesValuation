@@ -28,6 +28,7 @@ import com.noteanalyzer.entity.notes.PropertyArea;
 import com.noteanalyzer.entity.notes.PropertyType;
 import com.noteanalyzer.entity.valuation.Statistics;
 import com.noteanalyzer.mvc.model.AddressModel;
+import com.noteanalyzer.mvc.model.DemographicDetailModel;
 import com.noteanalyzer.mvc.model.NoteDashboardModel;
 import com.noteanalyzer.mvc.model.NoteDetailModel;
 import com.noteanalyzer.mvc.model.NoteInputFormModel;
@@ -236,7 +237,7 @@ public class NoteServiceImpl implements NoteService {
 		if(itr.hasNext()){
 			areaId = itr.next().getAreaId();
 		}
-		Optional<List<Statistics>>  statisticsList = getStatisticsDetails("AREA",areaId);
+		Optional<List<Statistics>>  statisticsList = getStatisticsDetails(areaId,"AREA");
 		if(statisticsList.isPresent()){
 			 List<Statistics> statList =  statisticsList.get();
 			 for(Statistics stat : statList){
