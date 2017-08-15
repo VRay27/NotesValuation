@@ -135,7 +135,7 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
                     return $scope.customNumberFilter(searchTerm, cellValue);
                 }
             },
-            cellTemplate: "<div><p>{{row.entity.crimeScore | getDefaultValueForNull}}</p></div>;
+            cellTemplate: "<div><p>{{row.entity.crimeScore | getDefaultValueForNull}}</p></div>"
         }, {
             field: 'marketValue',
             displayName: 'Market Value',
