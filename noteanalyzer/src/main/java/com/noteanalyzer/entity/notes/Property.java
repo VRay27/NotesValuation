@@ -1,5 +1,6 @@
 package com.noteanalyzer.entity.notes;
 
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -85,6 +86,12 @@ public class Property extends AbstractEntity {
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "propertyId")
 	private Set<PropertyAppraisals> propertyAppraisalSet = new HashSet<PropertyAppraisals>();
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "propertyId")
+	private Set<PropertyArea> propertyAreaSet = new HashSet<PropertyArea>();
+	
+	@Column(name="UPDATED_TIME")
+	private ZonedDateTime updatedTime;
 
 	/**
 	 * @return the propertyId
@@ -370,6 +377,38 @@ public class Property extends AbstractEntity {
 	 */
 	public void setPropertyAppraisalSet(Set<PropertyAppraisals> propertyAppraisalSet) {
 		this.propertyAppraisalSet = propertyAppraisalSet;
+	}
+	
+	
+
+	/**
+	 * @return the propertyAreaSet
+	 */
+	public Set<PropertyArea> getPropertyAreaSet() {
+		return propertyAreaSet;
+	}
+
+	/**
+	 * @param propertyAreaSet the propertyAreaSet to set
+	 */
+	public void setPropertyAreaSet(Set<PropertyArea> propertyAreaSet) {
+		this.propertyAreaSet = propertyAreaSet;
+	}
+	
+	
+
+	/**
+	 * @return the updatedTime
+	 */
+	public ZonedDateTime getUpdatedTime() {
+		return updatedTime;
+	}
+
+	/**
+	 * @param updatedTime the updatedTime to set
+	 */
+	public void setUpdatedTime(ZonedDateTime updatedTime) {
+		this.updatedTime = updatedTime;
 	}
 
 	/*

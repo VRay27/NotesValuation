@@ -26,8 +26,10 @@ import com.noteanalyzer.entity.notes.Note;
 import com.noteanalyzer.entity.notes.NoteType;
 import com.noteanalyzer.entity.notes.Property;
 import com.noteanalyzer.entity.notes.PropertyAppraisals;
+import com.noteanalyzer.entity.notes.PropertyArea;
 import com.noteanalyzer.entity.notes.PropertyType;
 import com.noteanalyzer.entity.user.User;
+import com.noteanalyzer.entity.valuation.Statistics;
 import com.noteanalyzer.mvc.model.AddressModel;
 import com.noteanalyzer.mvc.model.DemographicDetailModel;
 import com.noteanalyzer.mvc.model.NoteDashboardModel;
@@ -111,7 +113,7 @@ public class ConverterUtility {
 				Iterator<PropertyAppraisals> itr = propertyApprisalSet.iterator();
 				if (itr.hasNext()) {
 					PropertyAppraisals propertyAppraisals = itr.next();
-					note.setCurrentEffectiveLTV(NoteAnalysisService.getCurrentEffectiveLTV(
+					noteEntity.setCurrentEffectiveLTV(NoteAnalysisService.getCurrentEffectiveLTV(
 							Objects.toString(note.getNotePrice(), null), propertyAppraisals.getMarketValue()));
 				}
 			}
@@ -155,7 +157,8 @@ public class ConverterUtility {
 
 	}
 
-	public static List<NoteDashboardModel> convertNoteToNoteSummaryModel(List<Note> noteList) {
+	public static List<NoteDashboardModel> convertNoteToNoteSummaryModel(List<Note> noteList,
+			List<Statistics> statisticsList) {
 		List<NoteDashboardModel> summaryModelList = new ArrayList<>();
 		if (noteList != null) {
 			for (Note model : noteList) {
@@ -175,7 +178,22 @@ public class ConverterUtility {
 
 					}
 				}
-
+				if (statisticsList != null) {
+					String areaId = null;
+					Iterator<PropertyArea> itr = property.getPropertyAreaSet().iterator();
+					if (itr.hasNext()) {
+						areaId = itr.next().getAreaId();
+					}
+					for (Statistics stat : statisticsList) {
+						if (areaId.equalsIgnoreCase(stat.getBaseId())) {
+							if ("CRIME".equalsIgnoreCase(stat.getStatType())) {
+								dashBoardModel.setCrimeScore(stat.getStatValue());
+							} else if ("SCHOOL".equalsIgnoreCase(stat.getStatType())) {
+								dashBoardModel.setSchoolScore(stat.getStatValue());
+							}
+						}
+					}
+				}
 				dashBoardModel.setYield(model.getYield());
 				dashBoardModel.setEffectiveLTV(model.getEffectiveLTV());
 				dashBoardModel.setCurrentEffectiveLTV(model.getCurrentEffectiveLTV());
@@ -201,9 +219,9 @@ public class ConverterUtility {
 		return model;
 	}
 
-	public static Property createPropertyObject(AppraisalPropertyBean appraisalPropertyBean, String propertyTypeCode,AppriasalSources appraisalsSource) {
-		Property property = new Property();
-		DateFormat df = new SimpleDateFormat(DEFAULT_DATE_FORMAT);
+	public static Property createPropertyObject(AppraisalPropertyBean appraisalPropertyBean, String propertyTypeCode,
+			AppriasalSources appraisalsSource, Property propertyFromDB, Zipcodes zipCodeDetails) {
+		Property property = propertyFromDB == null ? new Property() : propertyFromDB;
 		property.setZip(Integer.valueOf(appraisalPropertyBean.getZipCode()));
 		property.setStreetAddress(appraisalPropertyBean.getStreetAddress());
 		property.setCity(appraisalPropertyBean.getCity());
@@ -211,13 +229,7 @@ public class ConverterUtility {
 		property.setPropertyType(propertyTypeCode);
 
 		PropertyAppraisals propertyAppraisals = new PropertyAppraisals();
-		if (appraisalPropertyBean.getLastSoldDate() != null) {
-			try {
-				propertyAppraisals.setLastSoldDate(df.parse(appraisalPropertyBean.getLastSoldDate()));
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-		}
+		propertyAppraisals.setLastSoldDate(appraisalPropertyBean.getLastSoldDate());
 		propertyAppraisals.setLastSoldPrice(appraisalPropertyBean.getLastSoldPrice());
 		property.setNumberOfBathrooms(appraisalPropertyBean.getNumberOfBathrooms());
 		property.setNumberOfBedrooms(appraisalPropertyBean.getNumberOfBedrooms());
@@ -227,16 +239,27 @@ public class ConverterUtility {
 		propertyAppraisals.setTaxAssessmentValue(appraisalPropertyBean.getTaxAssessmentValue());
 		propertyAppraisals.setTaxAssessmentYear(appraisalPropertyBean.getTaxAssessmentYear());
 		propertyAppraisals.setMarketValue(appraisalPropertyBean.getMarketValue());
-		propertyAppraisals.setMarketValueUpdatedDate(new Date());
+		Date lastMarketValueUpdatedDate = appraisalPropertyBean.getLastMarketValueUpdated() == null ? new Date()
+				: appraisalPropertyBean.getLastMarketValueUpdated();
+		propertyAppraisals.setMarketValueUpdatedDate(lastMarketValueUpdatedDate);
 		propertyAppraisals.setPropertyMapUrl(appraisalPropertyBean.getPropertyMapUrl());
 		propertyAppraisals.setPropertyGraphAndDataUrl(appraisalPropertyBean.getPropertyGraphAndDataUrl());
 		propertyAppraisals.setPropertyDetailUrl(appraisalPropertyBean.getPropertyDetailUrl());
-		
-		//propertyAppraisals.setAppraisalsSource(appraisalsSource);
-		propertyAppraisals.setAppraisalsSource("Zillow");
+		propertyAppraisals.setAppraisalsSource(appraisalPropertyBean.getAppraisalSource());
 		propertyAppraisals.setPropertyId(property);
 		property.getPropertyAppraisalSet().add(propertyAppraisals);
-
+		property.setUpdatedTime(ZonedDateTime.now());
+		PropertyArea propertyArea = new PropertyArea();
+		Iterator<PropertyArea> itr = property.getPropertyAreaSet().iterator();
+		if (itr.hasNext()) {
+			propertyArea = itr.next();
+			if (zipCodeDetails != null) {
+				propertyArea.setAreaId(zipCodeDetails.getAreaId());
+				propertyArea.setAreaType(zipCodeDetails.getAreaType());
+			}
+			property.getPropertyAreaSet().add(propertyArea);
+			propertyArea.setPropertyId(property);
+		}
 		return property;
 	}
 

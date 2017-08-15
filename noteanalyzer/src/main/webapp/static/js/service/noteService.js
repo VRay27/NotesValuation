@@ -109,7 +109,6 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q', '$rootScope', '$uibModa
 	}
 	
 	function deleteNote(noteDetailModel) {
-		WaitingDialog.show();
 		var deferred = $q.defer();
 		$http.post('api/deleteNote',noteDetailModel)
 			.then(
@@ -120,10 +119,7 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q', '$rootScope', '$uibModa
 					console.error('Error while delete note '+noteId);
 					deferred.reject(errResponse);
 				}
-		).then(
-				function() {
-					WaitingDialog.hide();
-				});
+		)
 		return deferred.promise;
 	}
 	

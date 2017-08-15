@@ -2,6 +2,7 @@ package com.noteanalyzer.mvc.service.impl;
 
 import java.text.ParseException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -23,7 +24,9 @@ import com.noteanalyzer.entity.notes.NoteConfiguration;
 import com.noteanalyzer.entity.notes.NoteType;
 import com.noteanalyzer.entity.notes.Parameters;
 import com.noteanalyzer.entity.notes.Property;
+import com.noteanalyzer.entity.notes.PropertyArea;
 import com.noteanalyzer.entity.notes.PropertyType;
+import com.noteanalyzer.entity.valuation.Statistics;
 import com.noteanalyzer.mvc.model.AddressModel;
 import com.noteanalyzer.mvc.model.NoteDashboardModel;
 import com.noteanalyzer.mvc.model.NoteDetailModel;
@@ -80,17 +83,16 @@ public class NoteServiceImpl implements NoteService {
 		Property property = null;
 		if (propertyList.isPresent()) {
 			property = propertyList.get().get(0);
-		} else {
-			property = getPropertyFromZillow(noteModel.getStreetAddress(), noteModel.getSelCity(),
-					noteModel.getSelState(), noteModel.getZipCode(), noteModel.getSelPropType().getPropertyTypeCode());
-			property = genericDao.create(property);
 		}
+		property = getPropertyFromZillow(noteModel.getStreetAddress(), noteModel.getSelCity(), noteModel.getSelState(),
+				noteModel.getZipCode(), noteModel.getSelPropType().getPropertyTypeCode(), property);
+
 		Note note = ConverterUtility.convertNoteModelToEntity(noteModel, property);
 		note.setPropertyId(property);
 		genericDao.create(note);
 
 	}
-	
+
 	@Override
 	public Optional<List<AppriasalSources>> getApprisalSourceDetail(String apprisalSourceCode) {
 		Map<String, Object> parameters = new HashMap<>();
@@ -102,15 +104,76 @@ public class NoteServiceImpl implements NoteService {
 		}
 		return Optional.of(appriasalSourcesList);
 	}
-	
 
+	/**
+	 * This method will fetch the details from Zillow and create/update the property, property apprisal and property area table.
+	 * @param streetAddress
+	 * @param city
+	 * @param state
+	 * @param zipcode
+	 * @param propertyTypeCode
+	 * @param propertyFromDB
+	 * @return
+	 */
 	private Property getPropertyFromZillow(String streetAddress, String city, String state, String zipcode,
-			String propertyTypeCode) {
+			String propertyTypeCode, Property propertyFromDB) {
 		AppraisalPropertyBean appraisalPropertyBean = zillowWebService.getPropertyDetailsWithAddress(streetAddress,
 				city, state, zipcode);
 		LOG.info(appraisalPropertyBean.toString());
 		Optional<List<AppriasalSources>> apprsialSourceList = getApprisalSourceDetail("Zillow");
-		return ConverterUtility.createPropertyObject(appraisalPropertyBean, propertyTypeCode,apprsialSourceList.get().get(0));
+		Optional<List<Zipcodes>> zipcodesListDetails = getZipCodesListDetails(city, state, zipcode);
+		Zipcodes zipCodeDetails = zipcodesListDetails.isPresent() ? zipcodesListDetails.get().get(0) : null;
+		Property propertyEntity = ConverterUtility.createPropertyObject(appraisalPropertyBean, propertyTypeCode,
+				apprsialSourceList.get().get(0), propertyFromDB,zipCodeDetails);
+		
+		if (propertyFromDB != null) {
+			propertyFromDB = genericDao.update(propertyEntity);
+		} else {
+			propertyFromDB = genericDao.create(propertyEntity);
+		}
+		return propertyFromDB;
+	}
+
+	@Override
+	public Optional<List<Statistics>> getStatisticsDetails(String baseId, String baseType ) {
+		Map<String, Object> parameters = new HashMap<>();
+		parameters.put("baseId", baseId);
+		parameters.put("baseType", baseType);
+		List<Statistics> zipcodeList = genericDao.getResultByNamedQuery(Statistics.class,
+				Statistics.GET_STATISTICS_DETAILS, parameters);
+		if (Collections.isEmpty(zipcodeList)) {
+			return Optional.empty();
+		}
+		return Optional.of(zipcodeList);
+	}
+	
+
+	@Override
+	public Optional<List<Statistics>> getStatisticsDetailsByUserId(long userId ) {
+		Map<String, Object> parameters = new HashMap<>();
+		parameters.put("userId", new Long(userId));
+		List<Statistics> zipcodeList = genericDao.getResultByNamedQuery(Statistics.class,
+				Statistics.GET_STATISTICS_DETAILS_BY_USER_ID, parameters);
+		if (Collections.isEmpty(zipcodeList)) {
+			return Optional.empty();
+		}
+		return Optional.of(zipcodeList);
+	}
+	
+	
+	@Override
+	public Optional<List<Zipcodes>> getZipCodesListDetails(String city, String state,
+			String zipcode) {
+		Map<String, Object> parameters = new HashMap<>();
+		parameters.put("zipCode", zipcode);
+		parameters.put("city", city);
+		parameters.put("state", state);
+		List<Zipcodes> zipcodeList = genericDao.getResultByNamedQuery(Zipcodes.class,
+				Zipcodes.GET_LOCATION_BY_ADDRESS, parameters);
+		if (Collections.isEmpty(zipcodeList)) {
+			return Optional.empty();
+		}
+		return Optional.of(zipcodeList);
 	}
 
 	@Override
@@ -147,6 +210,7 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	@Override
+	@Transactional
 	public Optional<NoteDetailModel> getNoteDetail(Long noteId) {
 		Note note = genericDao.getById(Note.class, noteId);
 		if (note == null) {
@@ -159,15 +223,35 @@ public class NoteServiceImpl implements NoteService {
 			propertyTypeList = getPropertyTypeByCode(property.getPropertyType());
 		}
 		Property appraisalProperty = getPropertyFromZillow(property.getStreetAddress(), property.getCity(),
-				property.getState(), property.getZip().toString(), property.getPropertyType());
+				property.getState(), property.getZip().toString(), property.getPropertyType(), note.getPropertyId());
 		if (appraisalProperty != null) {
 			property = appraisalProperty;
 			note.setPropertyId(appraisalProperty);
 			genericDao.update(note);
 		}
-		return Optional.of(
-				ConverterUtility.convertNoteEntityToNoteDetailModel(note, property, propertyTypeList, noteTypeList));
+
+		NoteDetailModel noteDetailModel =ConverterUtility.convertNoteEntityToNoteDetailModel(note, property, propertyTypeList, noteTypeList);
+		String areaId = null;
+		Iterator<PropertyArea> itr = property.getPropertyAreaSet().iterator();
+		if(itr.hasNext()){
+			areaId = itr.next().getAreaId();
+		}
+		Optional<List<Statistics>>  statisticsList = getStatisticsDetails("AREA",areaId);
+		if(statisticsList.isPresent()){
+			 List<Statistics> statList =  statisticsList.get();
+			 for(Statistics stat : statList){
+				 if("CRIME".equalsIgnoreCase(stat.getStatType())){
+					 noteDetailModel.getDemoGraphicDetailModel().setCrime(stat.getStatValue());
+				 }else if("SCHOOL".equalsIgnoreCase(stat.getStatType())){
+					 noteDetailModel.getDemoGraphicDetailModel().setSchoolScore(stat.getStatValue());
+				 }
+			 }
+			
+		}
+		
+		return Optional.of(noteDetailModel);
 	}
+	
 
 	@Override
 	public List<NoteType> getNoteTypeByCode(@NonNull String noteTypeCode) {
@@ -192,8 +276,12 @@ public class NoteServiceImpl implements NoteService {
 		if (CollectionUtils.isEmpty(noteList)) {
 			return Optional.empty();
 		}
-		// NoteForZillow
-		return Optional.of(ConverterUtility.convertNoteToNoteSummaryModel(noteList));
+		Optional<List<Statistics>>  statisticsList = getStatisticsDetailsByUserId(userId);
+		 List<Statistics> statList = null;
+		if(statisticsList.isPresent()){
+			  statList =  statisticsList.get();
+		}
+		return Optional.of(ConverterUtility.convertNoteToNoteSummaryModel(noteList,statList));
 	}
 
 	@Override

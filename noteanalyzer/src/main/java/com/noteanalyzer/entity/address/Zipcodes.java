@@ -23,7 +23,8 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @NamedQueries({
 		@NamedQuery(name = Zipcodes.GET_ZIPCODE_DETAILS_BY_ZIPCODE, query = "select z from Zipcodes z where z.zip =:zipCode"),
-		@NamedQuery(name = Zipcodes.GET_ALL_LOCATION, query = "select z from Zipcodes z")})
+		@NamedQuery(name = Zipcodes.GET_ALL_LOCATION, query = "select z from Zipcodes z"),
+		@NamedQuery(name = Zipcodes.GET_LOCATION_BY_ADDRESS, query = "select z from Zipcodes z where z.city =:city and z.state =:state and z.zip =:zipCode")})
 
 public class Zipcodes extends AbstractEntity {
 
@@ -31,6 +32,7 @@ public class Zipcodes extends AbstractEntity {
 	
 	public final static String  GET_ZIPCODE_DETAILS_BY_ZIPCODE = "GET_ZIPCODE_DETAILS_BY_ZIPCODE";
 	public final static String  GET_ALL_LOCATION= "GET_ALL_LOCATION";
+	public final static String  GET_LOCATION_BY_ADDRESS= "GET_LOCATION_BY_ADDRESS";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

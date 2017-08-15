@@ -5,12 +5,14 @@ import java.util.List;
 import java.util.Optional;
 
 import com.noteanalyzer.appraisal.exceptions.AddressNotAvailableException;
+import com.noteanalyzer.entity.address.Zipcodes;
 import com.noteanalyzer.entity.appraisal.AppriasalSources;
 import com.noteanalyzer.entity.notes.NoteConfiguration;
 import com.noteanalyzer.entity.notes.NoteType;
 import com.noteanalyzer.entity.notes.Parameters;
 import com.noteanalyzer.entity.notes.Property;
 import com.noteanalyzer.entity.notes.PropertyType;
+import com.noteanalyzer.entity.valuation.Statistics;
 import com.noteanalyzer.mvc.model.AddressModel;
 import com.noteanalyzer.mvc.model.NoteDetailModel;
 import com.noteanalyzer.mvc.model.NoteInputFormModel;
@@ -132,6 +134,33 @@ public interface NoteService {
 	 */
 
 	Optional<List<AppriasalSources>> getApprisalSourceDetail(String apprisalSourceCode);
+
+	/**
+	 * Get zip code details on the basis of address provided.
+	 * @param streetAddress
+	 * @param city
+	 * @param state
+	 * @param zipcode
+	 * @return
+	 */
+	Optional<List<Zipcodes>> getZipCodesListDetails(String city, String state, String zipcode);
+	
+	/**
+	 * Get Statitcs details for given input
+	 * @param baseType
+	 * @param baseId
+	 * @param statType
+	 * @return
+	 */
+
+	Optional<List<Statistics>> getStatisticsDetails(String baseId, String baseType);
+
+	/**
+	 * Get all stattics associated with this user's note.
+	 * @param userId
+	 * @return
+	 */
+	Optional<List<Statistics>> getStatisticsDetailsByUserId(long userId);
 	
 	
 }

@@ -4,6 +4,7 @@
 package com.noteanalyzer.webservice.appraisal;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * This class will hold the property details fetch from Apprisal Source.
@@ -27,7 +28,7 @@ public class AppraisalPropertyBean implements Serializable {
 	private String propertyBuiltUpSize;
 	private String numberOfBathrooms;
 	private String numberOfBedrooms;
-	private String lastSoldDate;
+	private Date lastSoldDate;
 	private String lastSoldPrice;
 	private String rentValue;
 	private String propertyGraphAndDataUrl;
@@ -39,6 +40,8 @@ public class AppraisalPropertyBean implements Serializable {
 	private String streetAddress;
 	private String state;
 	private String zipCode;
+	private Date lastMarketValueUpdated;
+	private String appraisalSource; 
 	
 	
 	/**
@@ -149,16 +152,17 @@ public class AppraisalPropertyBean implements Serializable {
 	public void setNumberOfBedrooms(String numberOfBedrooms) {
 		this.numberOfBedrooms = numberOfBedrooms;
 	}
+	
 	/**
 	 * @return the lastSoldDate
 	 */
-	public String getLastSoldDate() {
+	public Date getLastSoldDate() {
 		return lastSoldDate;
 	}
 	/**
 	 * @param lastSoldDate the lastSoldDate to set
 	 */
-	public void setLastSoldDate(String lastSoldDate) {
+	public void setLastSoldDate(Date lastSoldDate) {
 		this.lastSoldDate = lastSoldDate;
 	}
 	/**
@@ -310,6 +314,34 @@ public class AppraisalPropertyBean implements Serializable {
 	 */
 	public void setZipCode(String zipCode) {
 		this.zipCode = zipCode;
+	}
+	
+	
+	/**
+	 * @return the lastMarketValueUpdated
+	 */
+	public Date getLastMarketValueUpdated() {
+		return lastMarketValueUpdated;
+	}
+	/**
+	 * @param lastMarketValueUpdated the lastMarketValueUpdated to set
+	 */
+	public void setLastMarketValueUpdated(Date lastMarketValueUpdated) {
+		this.lastMarketValueUpdated = lastMarketValueUpdated;
+	}
+	
+	
+	/**
+	 * @return the appraisalSource
+	 */
+	public String getAppraisalSource() {
+		return appraisalSource;
+	}
+	/**
+	 * @param appraisalSource the appraisalSource to set
+	 */
+	public void setAppraisalSource(String appraisalSource) {
+		this.appraisalSource = appraisalSource;
 	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()

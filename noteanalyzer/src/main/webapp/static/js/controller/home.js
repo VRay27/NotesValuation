@@ -159,7 +159,7 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 			$state.go('noteDashboard');
 		}, function(errResponse) {
 			WaitingDialog.hide();
-			toastr.error('Error while creating note.' + errResponse);
+			toastr.error('Error while creating note. Please try after sometime.');
 		})
 	}
 
@@ -206,4 +206,13 @@ noteApp.controller('NavbarCtrl', function($scope, $auth) {
 	$scope.isAuthenticated = function() {
 		return $auth.isAuthenticated();
 	};
+});
+
+noteApp.filter('getDefaultValueForNull', function(){
+    return function(obj){
+      if(obj || obj === undefined || obj === null || Object.keys(obj).length === 0){
+    	  return 'No data available'
+      }
+      return obj;
+    }
 });

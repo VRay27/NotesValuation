@@ -113,7 +113,7 @@
 										<label class="col-lg-2 control-label">Effective
 											LTV</label>
 										<div class="col-lg-3">
-											<p class="form-control-static">{{noteDetailModel.effectiveLTV}}
+											<p class="form-control-static">{{noteDetailModel.effectiveLTV  | getDefaultValueForNull}}
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top"
@@ -122,7 +122,7 @@
 										<label class="col-lg-2 control-label">Market
 											Value</label>
 										<div class="col-lg-3">
-											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.marketValue}}
+											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.marketValue  | getDefaultValueForNull}}
 											</p>
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
@@ -137,16 +137,16 @@
 										<label class="col-lg-2 control-label">Current
 											Effective LTV</label>
 										<div class="col-lg-3">
-											<p class="form-control-static">{{noteDetailModel.currentEffectiveLTV}}
+											<p class="form-control-static">{{noteDetailModel.currentEffectiveLTV  | getDefaultValueForNull}}
 											</p>
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Current Effective LTV"></span>
 										</div>
-										<label class="col-lg-2 control-label">Effective
-											Interest rate</label>
+										<label class="col-lg-2 control-label">Yield
+											</label>
 										<div class="col-lg-3">
-											<p class="form-control-static">{{noteDetailModel.effectiveInterestRate}}
+											<p class="form-control-static">{{noteDetailModel.yieldValue  | getDefaultValueForNull}}
 											</p>
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
@@ -160,14 +160,14 @@
 									<label class="col-lg-2 control-label">Original
 											LTV </label>
 										<div class="col-lg-3">
-										<p class="form-control-static">{{noteDetailModel.originalLTV}}</p>
+										<p class="form-control-static">{{noteDetailModel.originalLTV  | getDefaultValueForNull}}</p>
 										 <span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Original LTV "></span>
 										</div>
 										<label class="col-lg-2 control-label">Performing</label>
 										<div class="col-lg-3">
-											<p class="form-control-static">{{noteDetailModel.performing}}</p>
+											<p class="form-control-static">{{noteDetailModel.performing | getDefaultValueForNull}}</p>
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top"
@@ -193,14 +193,14 @@
 									<div class="form-group">
 										<label class="col-lg-2 control-label">Last sold price</label>
 										<div class="col-lg-3">
-											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.lastSoldPrice}}</p>
+											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.lastSoldPrice | getDefaultValueForNull}}</p>
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Last sold Price "></span>
 										</div>
 										<label class="col-lg-2 control-label">Last sold date</label>
 										<div class="col-lg-3">
-											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.lastSoldDate}}</p>
+											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.lastSoldDate | getDefaultValueForNull}}</p>
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Last sold Date "></span>
@@ -210,14 +210,14 @@
 									<div class="form-group">
 										<label class="col-lg-2 control-label">LOT SF</label>
 										<div class="col-lg-3">
-											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.propertyLotSize}}</p>
+											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.propertyLotSize | getDefaultValueForNull}}</p>
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Select city"></span>
 										</div>
 										<label class="col-lg-2 control-label">Building SF</label>
 										<div class="col-lg-3">
-											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.propertyBuiltUpSize}}</p>
+											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.propertyBuiltUpSize | getDefaultValueForNull}}</p>
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Building sf"></span>
@@ -228,7 +228,7 @@
 										<label class="col-lg-2 control-label">Property Tax
 											Assessment Value</label>
 										<div class="col-lg-3">
-											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.taxAssessmentValue}}</p>
+											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.taxAssessmentValue | getDefaultValueForNull}}</p>
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="property tax per year"></span>
@@ -237,7 +237,7 @@
 										<label class="col-lg-2 control-label">Property Tax
 											Assessment year</label>
 										<div class="col-lg-3">
-											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.taxAssessmentYear}}</p>
+											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.taxAssessmentYear | getDefaultValueForNull}}</p>
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="property tax per year"></span>
@@ -246,14 +246,14 @@
 									<div class="form-group">
 										<label class="col-lg-2 control-label">No of bedroom</label>
 										<div class="col-lg-3">
-											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.numberOfBedrooms}}</p>
+											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.numberOfBedrooms | getDefaultValueForNull}}</p>
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Number of bedroom"></span>
 										</div>
 										<label class="col-lg-2 control-label">No of bathroom</label>
 										<div class="col-lg-3">
-											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.numberOfBathrooms}}</p>
+											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.numberOfBathrooms | getDefaultValueForNull}}</p>
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Number of bathroom"></span>
@@ -263,14 +263,14 @@
 									<div class="form-group">
 										<label class="col-lg-2 control-label">Property Type</label>
 										<div class="col-lg-3">
-											<p class="form-control-static">{{noteDetailModel.selPropType.propertyTypeValue}}</p>
+											<p class="form-control-static">{{noteDetailModel.selPropType.propertyTypeValue | getDefaultValueForNull}}</p>
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Bed and bathroom"></span>
 										</div>
 										<label class="col-lg-2 control-label">HOA fee</label>
 										<div class="col-lg-3">
-											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.HOAFee}}</p>
+											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.HOAFee | getDefaultValueForNull}}</p>
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Hoa Fee"></span>
@@ -295,14 +295,14 @@
 									<div class="form-group">
 										<label class="col-lg-2 control-label">Schools score</label>
 										<div class="col-lg-3">
-											<p class="form-control-static">{{noteDetailModel.demoGraphicDetailModel.schoolScore}}</p>
+											<p class="form-control-static">{{noteDetailModel.demoGraphicDetailModel.schoolScore | getDefaultValueForNull}}</p>
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="School Score"></span>
 										</div>
 										<label class="col-lg-2 control-label">Crime Rate</label>
 										<div class="col-lg-3">
-											<p class="form-control-static">{{noteDetailModel.demoGraphicDetailModel.crime}}</p>
+											<p class="form-control-static">{{noteDetailModel.demoGraphicDetailModel.crime | getDefaultValueForNull}}</p>
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Crime Rate."></span>
@@ -312,7 +312,7 @@
 									<div class="form-group">
 										<label class="col-lg-2 control-label">Foreclosure Rate</label>
 										<div class="col-lg-3">
-											<p class="form-control-static">{{noteDetailModel.demoGraphicDetailModel.foreClosure}}</p>
+											<p class="form-control-static">{{noteDetailModel.demoGraphicDetailModel.foreClosure | getDefaultValueForNull}}</p>
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="ForeColusure Rate"></span>
@@ -339,17 +339,21 @@
 											Url</label>
 										<div class="col-lg-3">
 											<p class="form-control-static">
+											<div ng-if="noteDetailModel.propertyDetailModel.propertyDetailUrl">
 												<a
 													href="{{noteDetailModel.propertyDetailModel.propertyDetailUrl}}"
-													tooltip="Property Map URL">Property Detail URL</a>
+													tooltip="Property Map URL">Property Detail URL</a></div>
+													<div ng-if="!noteDetailModel.propertyDetailModel.propertyDetailUrl">No data available</div>
 											</p>
 										</div>
 										<label class="col-lg-2 control-label">Property Map URL</label>
 										<div class="col-lg-3">
 											<p class="form-control-static">
+												<div ng-if="noteDetailModel.propertyDetailModel.propertyMapUrl">
 												<a
 													href="{{noteDetailModel.propertyDetailModel.propertyMapUrl}}"
-													tooltip="Property Map URL">Property Map URL</a>
+													tooltip="Property Map URL">Property Map URL</a></div>
+													<div ng-if="!noteDetailModel.propertyDetailModel.propertyMapUrl">No data available</div>
 											</p>
 										</div>
 
@@ -361,10 +365,13 @@
 											URL</label>
 										<div class="col-lg-3">
 											<p class="form-control-static">
+												<div ng-if="noteDetailModel.propertyDetailModel.propertyGraphAndDataUrl">
 												<a
 													href="{{noteDetailModel.propertyDetailModel.propertyGraphAndDataUrl}}"
 													tooltip="Property Graph and Data URL">Property Graph
 													and Data URL</a>
+													</div>
+												<div ng-if="!noteDetailModel.propertyDetailModel.propertyGraphAndDataUrl">No data available</div>
 											</p>
 										</div>
 										<label class="col-lg-2 control-label"></label>

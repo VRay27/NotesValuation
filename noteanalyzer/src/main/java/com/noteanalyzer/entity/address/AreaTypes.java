@@ -2,6 +2,8 @@ package com.noteanalyzer.entity.address;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -14,6 +16,11 @@ public class AreaTypes extends AbstractEntity {
 	private static final long serialVersionUID = -7773399468661533735L;
 
 	@Id
+	@Column(name = "AREA_TYPE_ID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int areaTypeId;
+
+	
 	@Column(name = "AREA_TYPE")
 	private String areaType;
 
@@ -49,23 +56,35 @@ public class AreaTypes extends AbstractEntity {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/**
+	 * @return the areaTypeId
+	 */
+	public int getAreaTypeId() {
+		return areaTypeId;
+	}
+
+	/**
+	 * @param areaTypeId the areaTypeId to set
+	 */
+	public void setAreaTypeId(int areaTypeId) {
+		this.areaTypeId = areaTypeId;
+	}
+
+	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((areaType == null) ? 0 : areaType.hashCode());
+		result = prime * result + areaTypeId;
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -77,12 +96,11 @@ public class AreaTypes extends AbstractEntity {
 		if (getClass() != obj.getClass())
 			return false;
 		AreaTypes other = (AreaTypes) obj;
-		if (areaType == null) {
-			if (other.areaType != null)
-				return false;
-		} else if (!areaType.equals(other.areaType))
+		if (areaTypeId != other.areaTypeId)
 			return false;
 		return true;
 	}
+
+	
 
 }

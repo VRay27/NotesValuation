@@ -57,7 +57,6 @@ public class NoteDetailModel  extends RequestStatusModel implements Serializable
 	
 	private BigDecimal effectiveLTV;
 	
-	private BigDecimal effectiveInterestRate;
 	
 	
 	private BigDecimal ROI;
@@ -599,19 +598,6 @@ public class NoteDetailModel  extends RequestStatusModel implements Serializable
 		this.currentEffectiveLTV = currentEffectiveLTV;
 	}
 
-	/**
-	 * @return the effectiveInterestRate
-	 */
-	public BigDecimal getEffectiveInterestRate() {
-		return effectiveInterestRate;
-	}
-
-	/**
-	 * @param effectiveInterestRate the effectiveInterestRate to set
-	 */
-	public void setEffectiveInterestRate(BigDecimal effectiveInterestRate) {
-		this.effectiveInterestRate = effectiveInterestRate;
-	}
-
+	
 
 }

@@ -21,12 +21,41 @@ public class NoteDashboardModel extends RequestStatusModel implements Serializab
 	private BigDecimal originalLTV;
 	private Date marketUpdateDate;
 	private boolean marketValueAvailable;
+	private String schoolScore;
+	private String crimeScore;
 
 	public NoteDashboardModel() {
 	}
-	
-	
 
+	/**
+	 * @return the schoolScore
+	 */
+	public String getSchoolScore() {
+		return schoolScore;
+	}
+
+	/**
+	 * @param schoolScore
+	 *            the schoolScore to set
+	 */
+	public void setSchoolScore(String schoolScore) {
+		this.schoolScore = schoolScore;
+	}
+
+	/**
+	 * @return the crimeScore
+	 */
+	public String getCrimeScore() {
+		return crimeScore;
+	}
+
+	/**
+	 * @param crimeScore
+	 *            the crimeScore to set
+	 */
+	public void setCrimeScore(String crimeScore) {
+		this.crimeScore = crimeScore;
+	}
 
 	/**
 	 * @return the marketValueAvailable
@@ -35,18 +64,13 @@ public class NoteDashboardModel extends RequestStatusModel implements Serializab
 		return marketValueAvailable;
 	}
 
-
-
 	/**
-	 * @param marketValueAvailable the marketValueAvailable to set
+	 * @param marketValueAvailable
+	 *            the marketValueAvailable to set
 	 */
 	public void setMarketValueAvailable(boolean marketValueAvailable) {
 		this.marketValueAvailable = marketValueAvailable;
 	}
-
-
-
-
 
 	/**
 	 * @return the originalLTV

@@ -7,19 +7,28 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import com.noteanalyzer.entity.AbstractEntity;
+import com.noteanalyzer.entity.notes.Property;
 
 import lombok.ToString;
 
 @Entity
 @Table(name="statistics")
 @ToString(callSuper = true)
+@NamedQueries({
+		@NamedQuery(name = Statistics.GET_STATISTICS_DETAILS, query = "select s from Statistics s where  s.baseType =:baseType and  s.baseId =:baseId "),
+		@NamedQuery(name = Statistics.GET_STATISTICS_DETAILS_BY_USER_ID, query = "select s from Statistics s, Note n ,Property p, PropertyArea pa where  pa.areaId = s.baseId and s.baseType='AREA'  and  pa.propertyId = p.propertyId and  p.propertyId = n.propertyId and n.userId =:userId")})
+
 public class Statistics extends AbstractEntity  {
 	
 	private static final long serialVersionUID = -3262112354371474829L;
 
+	public static final String GET_STATISTICS_DETAILS = "GET_STATISTICS_DETAILS";
+	public static final String GET_STATISTICS_DETAILS_BY_USER_ID = "GET_STATISTICS_DETAILS_BY_USER_ID";
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +36,7 @@ public class Statistics extends AbstractEntity  {
 	private int statisticsId;
 
 	@Column(name = "Stat_name")
-	private Integer subscriptionId;
+	private String statName;
 
 	@Column(name = "USER_ID")
 	private Integer userId;
@@ -39,7 +48,7 @@ public class Statistics extends AbstractEntity  {
 	private String baseType;
 	
 	@Column(name = "base_ID")
-	private Integer baseId;
+	private String baseId;
 
 	@Column(name = "description")
 	private String description;
@@ -67,18 +76,19 @@ public class Statistics extends AbstractEntity  {
 		this.statisticsId = statisticsId;
 	}
 
+	
 	/**
-	 * @return the subscriptionId
+	 * @return the statName
 	 */
-	public Integer getSubscriptionId() {
-		return subscriptionId;
+	public String getStatName() {
+		return statName;
 	}
 
 	/**
-	 * @param subscriptionId the subscriptionId to set
+	 * @param statName the statName to set
 	 */
-	public void setSubscriptionId(Integer subscriptionId) {
-		this.subscriptionId = subscriptionId;
+	public void setStatName(String statName) {
+		this.statName = statName;
 	}
 
 	/**
@@ -123,17 +133,18 @@ public class Statistics extends AbstractEntity  {
 		this.baseType = baseType;
 	}
 
+	
 	/**
 	 * @return the baseId
 	 */
-	public Integer getBaseId() {
+	public String getBaseId() {
 		return baseId;
 	}
 
 	/**
 	 * @param baseId the baseId to set
 	 */
-	public void setBaseId(Integer baseId) {
+	public void setBaseId(String baseId) {
 		this.baseId = baseId;
 	}
 

@@ -1,10 +1,13 @@
 package com.noteanalyzer.entity.notes;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -31,8 +34,10 @@ public class PropertyArea extends AbstractEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String propertyAreaId;
 	
-    @Column(name="PROPERTY_ID")
-	private String propertyId;
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name = "PROPERTY_ID", nullable = false)
+	private Property propertyId;
+	
 	
     @Column(name="AREA_ID")
 	private String areaId;
@@ -51,20 +56,21 @@ public class PropertyArea extends AbstractEntity {
 	 * @param propertyAreaId the propertyAreaId to set
 	 */
 	public void setPropertyAreaId(String propertyAreaId) {
-		propertyAreaId = propertyAreaId;
+		this.propertyAreaId = propertyAreaId;
 	}
 
+	
 	/**
 	 * @return the propertyId
 	 */
-	public String getPropertyId() {
+	public Property getPropertyId() {
 		return propertyId;
 	}
 
 	/**
 	 * @param propertyId the propertyId to set
 	 */
-	public void setPropertyId(String propertyId) {
+	public void setPropertyId(Property propertyId) {
 		this.propertyId = propertyId;
 	}
 
