@@ -3,9 +3,9 @@ package com.noteanalyzer.entity.notes;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -125,8 +125,8 @@ public class Note extends AbstractEntity {
 	@Column(name = "UNPAID_BALANCE")
 	private BigDecimal unpaidBalance;
 
-	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name = "PROPERTY_ID")
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "PROPERTY_ID",referencedColumnName = "PROPERTY_ID", nullable = false)
 	private Property propertyId;
 
 	/**

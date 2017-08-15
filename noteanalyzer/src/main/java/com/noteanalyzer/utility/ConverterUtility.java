@@ -259,14 +259,10 @@ public class ConverterUtility {
 		propertyAppraisals.setPropertyId(property);
 		property.getPropertyAppraisalSet().add(propertyAppraisals);
 		property.setUpdatedTime(ZonedDateTime.now());
-		PropertyArea propertyArea = new PropertyArea();
-		Iterator<PropertyArea> paItr = property.getPropertyAreaSet().iterator();
-		if (paItr.hasNext()) {
-			propertyArea = paItr.next();
-			if (zipCodeDetails != null) {
-				propertyArea.setAreaId(zipCodeDetails.getAreaId());
-				propertyArea.setAreaType(zipCodeDetails.getAreaType());
-			}
+		if (propertyFromDB == null && zipCodeDetails != null) {
+			PropertyArea propertyArea = new PropertyArea();
+			propertyArea.setAreaId(zipCodeDetails.getAreaId());
+			propertyArea.setAreaType(zipCodeDetails.getAreaType());
 			property.getPropertyAreaSet().add(propertyArea);
 			propertyArea.setPropertyId(property);
 		}
@@ -360,10 +356,9 @@ public class ConverterUtility {
 			}
 			DemographicDetailModel demoGraphicDetailModel = new DemographicDetailModel();
 			noteDetailModel.setDemoGraphicDetailModel(demoGraphicDetailModel);
-		
+
 			noteDetailModel.setPropertyDetailModel(propertyDetailModel);
 
-			
 		}
 
 		return noteDetailModel;

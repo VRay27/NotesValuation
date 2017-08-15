@@ -2,11 +2,13 @@ package com.noteanalyzer.entity.notes;
 
 import java.time.ZonedDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -83,6 +85,9 @@ public class Property extends AbstractEntity {
 
 	@Column(name = "NO_OF_BEDROOMS")
 	private String numberOfBedrooms;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "propertyId", cascade = CascadeType.ALL)
+    private List<Note> note;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "propertyId")
 	private Set<PropertyAppraisals> propertyAppraisalSet = new HashSet<PropertyAppraisals>();
@@ -396,6 +401,20 @@ public class Property extends AbstractEntity {
 	}
 	
 	
+
+	/**
+	 * @return the note
+	 */
+	public List<Note> getNote() {
+		return note;
+	}
+
+	/**
+	 * @param note the note to set
+	 */
+	public void setNote(List<Note> note) {
+		this.note = note;
+	}
 
 	/**
 	 * @return the updatedTime
