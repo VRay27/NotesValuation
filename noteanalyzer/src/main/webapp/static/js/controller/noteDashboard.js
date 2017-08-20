@@ -111,7 +111,7 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
                 }
             },
             cellTemplate: "<div ng-show={{row.entity.marketValueAvailable}}><p>{{row.entity.currentEffectiveLTV}}<span class=\"glyphicon glyphicon-info-sign tooltip-color \"" +
-                "tooltip-placement=\"top\" uib-tooltip=\"Last updated date {{ row.entity.marketUpdateDate | date}}\"></span> </p></div>" +
+                "tooltip-placement=\"bottom\" uib-tooltip=\"Last updated date {{ row.entity.marketUpdateDate | date}}\"></span> </p></div>" +
                 "<div ng-show={{!row.entity.marketValueAvailable}}><p>No data available</p></div>"
         },
         {
@@ -151,7 +151,7 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
                priority: 1,
              },*/
             cellTemplate: "<div ng-show={{row.entity.marketValueAvailable}}><p>{{row.entity.marketValue}}<span class=\"glyphicon glyphicon-info-sign tooltip-color \"" +
-                "tooltip-placement=\"top\" uib-tooltip=\"Last updated date {{ row.entity.marketUpdateDate | date}}\"></span> </p></div>" +
+                "tooltip-placement=\"bottom\" uib-tooltip=\"Last updated date {{ row.entity.marketUpdateDate | date}}\"></span> </p></div>" +
                 "<div ng-show={{!row.entity.marketValueAvailable}}><p>No data available</p></div>"
         }
     ];
@@ -185,7 +185,6 @@ function NoteDetailService($http, $rootScope, NoteService, toastr, $state, $scop
         }, function(response) {
             $auth.checkLoginFromServer(response.status);
             toastr.error("We are unable to find details for this note. Please try after sometime.")
-
         });
     };
 

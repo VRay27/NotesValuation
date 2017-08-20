@@ -59,7 +59,8 @@ public class PropertyDetailModel implements Serializable {
 	
 	private String numberOfBedrooms;
 	
-	private Date lastSoldDate;
+	private String lastSoldDate;
+	
 	
 	private String lastSoldPrice;
 	
@@ -78,6 +79,8 @@ public class PropertyDetailModel implements Serializable {
 	private String propertyGraphAndDataUrl;
 	
 	private String propertyMapUrl;
+	
+	private String marketUpdateDate;
 	
 	
 
@@ -333,17 +336,19 @@ public class PropertyDetailModel implements Serializable {
 		this.numberOfBedrooms = numberOfBedrooms;
 	}
 
+	
+
 	/**
 	 * @return the lastSoldDate
 	 */
-	public Date getLastSoldDate() {
+	public String getLastSoldDate() {
 		return lastSoldDate;
 	}
 
 	/**
 	 * @param lastSoldDate the lastSoldDate to set
 	 */
-	public void setLastSoldDate(Date lastSoldDate) {
+	public void setLastSoldDate(String lastSoldDate) {
 		this.lastSoldDate = lastSoldDate;
 	}
 
@@ -471,6 +476,20 @@ public class PropertyDetailModel implements Serializable {
 	 */
 	public void setPropertyMapUrl(String propertyMapUrl) {
 		this.propertyMapUrl = propertyMapUrl;
+	}
+
+	/**
+	 * @return the marketUpdateDate
+	 */
+	public String getMarketUpdateDate() {
+		return marketUpdateDate;
+	}
+
+	/**
+	 * @param marketUpdateDate the marketUpdateDate to set
+	 */
+	public void setMarketUpdateDate(String marketUpdateDate) {
+		this.marketUpdateDate = marketUpdateDate;
 	}
 
 	

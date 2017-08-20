@@ -313,10 +313,11 @@ public class ConverterUtility {
 			if (property != null) {
 				Set<PropertyAppraisals> propertyApprisalSet = property.getPropertyAppraisalSet();
 				if (propertyApprisalSet != null) {
+					DateFormat zillowDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 					Iterator<PropertyAppraisals> itr = propertyApprisalSet.iterator();
 					if (itr.hasNext()) {
 						PropertyAppraisals propertyAppraisals = itr.next();
-						propertyDetailModel.setLastSoldDate(propertyAppraisals.getLastSoldDate());
+						propertyDetailModel.setLastSoldDate(zillowDateFormat.format(propertyAppraisals.getLastSoldDate()));
 						propertyDetailModel.setLastSoldPrice(propertyAppraisals.getLastSoldPrice());
 						propertyDetailModel.setRentValue(propertyAppraisals.getRentValue());
 						propertyDetailModel.setTaxAssessmentValue(propertyAppraisals.getTaxAssessmentValue());
@@ -324,8 +325,8 @@ public class ConverterUtility {
 						propertyDetailModel.setPropertyDetailUrl(propertyAppraisals.getPropertyDetailUrl());
 						propertyDetailModel.setPropertyMapUrl(propertyAppraisals.getPropertyMapUrl());
 						propertyDetailModel.setPropertyGraphAndDataUrl(propertyAppraisals.getPropertyGraphAndDataUrl());
-
 						propertyDetailModel.setMarketValue(propertyAppraisals.getMarketValue());
+						propertyDetailModel.setMarketUpdateDate(zillowDateFormat.format(propertyAppraisals.getMarketValueUpdatedDate()));
 						noteDetailModel.setCurrentEffectiveLTV(NoteAnalysisService.getCurrentEffectiveLTV(
 								Objects.toString(note.getNotePrice(), null), propertyAppraisals.getMarketValue()));
 
