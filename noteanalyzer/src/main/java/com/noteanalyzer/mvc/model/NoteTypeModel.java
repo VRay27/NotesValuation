@@ -1,170 +1,78 @@
 package com.noteanalyzer.mvc.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 public class NoteTypeModel implements Serializable {
 	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -1924873727695219842L;
-	private String noteTypeCode;
-	private String noteTypeValue;
-	private String interestAdjustmentRules;
-	private String termMonths;
-	private Long interestOnlyMonths;
-	private Long baloonAfterMonths;
-	private String armIndexName;
-	private BigDecimal margin;
-	private BigDecimal interestCap;
-	
+	private static final long serialVersionUID = -3800824063535708236L;
+	private String noteType;
+	private String description;
 	
 	public NoteTypeModel() {
 		super();
 	}
-	
-	public NoteTypeModel(String noteTypeCode, String noteTypeValue) {
-		super();
-		this.noteTypeCode = noteTypeCode;
-		this.noteTypeValue = noteTypeValue;
-	}
+
 	/**
-	 * @return the noteTypeCode
+	 * @return the noteType
 	 */
-	public String getNoteTypeCode() {
-		return noteTypeCode;
-	}
-	/**
-	 * @param noteTypeCode the noteTypeCode to set
-	 */
-	public void setNoteTypeCode(String noteTypeCode) {
-		this.noteTypeCode = noteTypeCode;
-	}
-	/**
-	 * @return the noteTypeValue
-	 */
-	public String getNoteTypeValue() {
-		return noteTypeValue;
-	}
-	/**
-	 * @param noteTypeValue the noteTypeValue to set
-	 */
-	public void setNoteTypeValue(String noteTypeValue) {
-		this.noteTypeValue = noteTypeValue;
+	public String getNoteType() {
+		return noteType;
 	}
 
 	/**
-	 * @return the interestAdjustmentRules
+	 * @param noteType the noteType to set
 	 */
-	public String getInterestAdjustmentRules() {
-		return interestAdjustmentRules;
+	public void setNoteType(String noteType) {
+		this.noteType = noteType;
 	}
 
 	/**
-	 * @param interestAdjustmentRules the interestAdjustmentRules to set
+	 * @return the description
 	 */
-	public void setInterestAdjustmentRules(String interestAdjustmentRules) {
-		this.interestAdjustmentRules = interestAdjustmentRules;
+	public String getDescription() {
+		return description;
 	}
 
 	/**
-	 * @return the termMonths
+	 * @param description the description to set
 	 */
-	public String getTermMonths() {
-		return termMonths;
-	}
-
-	/**
-	 * @param termMonths the termMonths to set
-	 */
-	public void setTermMonths(String termMonths) {
-		this.termMonths = termMonths;
-	}
-
-	
-	/**
-	 * @return the interestOnlyMonths
-	 */
-	public Long getInterestOnlyMonths() {
-		return interestOnlyMonths;
-	}
-
-	/**
-	 * @param interestOnlyMonths the interestOnlyMonths to set
-	 */
-	public void setInterestOnlyMonths(Long interestOnlyMonths) {
-		this.interestOnlyMonths = interestOnlyMonths;
-	}
-
-	/**
-	 * @return the baloonAfterMonths
-	 */
-	public Long getBaloonAfterMonths() {
-		return baloonAfterMonths;
-	}
-
-	/**
-	 * @param baloonAfterMonths the baloonAfterMonths to set
-	 */
-	public void setBaloonAfterMonths(Long baloonAfterMonths) {
-		this.baloonAfterMonths = baloonAfterMonths;
-	}
-
-	/**
-	 * @return the armIndexName
-	 */
-	public String getArmIndexName() {
-		return armIndexName;
-	}
-
-	/**
-	 * @param armIndexName the armIndexName to set
-	 */
-	public void setArmIndexName(String armIndexName) {
-		this.armIndexName = armIndexName;
-	}
-
-	/**
-	 * @return the margin
-	 */
-	public BigDecimal getMargin() {
-		return margin;
-	}
-
-	/**
-	 * @param margin the margin to set
-	 */
-	public void setMargin(BigDecimal margin) {
-		this.margin = margin;
-	}
-
-	/**
-	 * @return the interestCap
-	 */
-	public BigDecimal getInterestCap() {
-		return interestCap;
-	}
-
-	/**
-	 * @param interestCap the interestCap to set
-	 */
-	public void setInterestCap(BigDecimal interestCap) {
-		this.interestCap = interestCap;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
+	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
-	public String toString() {
-		return "NoteTypeModel [noteTypeCode=" + noteTypeCode + ", noteTypeValue=" + noteTypeValue
-				+ ", interestAdjustmentRules=" + interestAdjustmentRules + ", termMonths=" + termMonths
-				+ ", interestOnlyMonths=" + interestOnlyMonths + ", baloonAfterMonths=" + baloonAfterMonths
-				+ ", armIndexName=" + armIndexName + ", margin=" + margin + ", interestCap=" + interestCap + "]";
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((noteType == null) ? 0 : noteType.hashCode());
+		return result;
 	}
-	
-	
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		NoteTypeModel other = (NoteTypeModel) obj;
+		if (noteType == null) {
+			if (other.noteType != null)
+				return false;
+		} else if (!noteType.equals(other.noteType))
+			return false;
+		return true;
+	}
 	
 
 }

@@ -3,8 +3,7 @@ var noteApp = angular.module('NoteApp');
 noteApp.controller('HomeCtrl', function($scope, $stateParams, $state,$document, $auth, $http, $uibModal, toastr, $rootScope, noteUploadAPI, NoteService,UtilityService) {
 	$scope.noteAnalyzed = function() {
 		var noteInputFormModel = {};
-		noteInputFormModel.address = {};
-		 noteInputFormModel.address.zipCode = $scope.zipCode;
+		 noteInputFormModel.zipCode = $scope.zipCode;
 		NoteService.noteAnalyze(noteInputFormModel).then(function(response) {
 			NoteService.setInputFormModel(response);
 			$state.go('noteInputForm');
@@ -49,15 +48,15 @@ noteApp.controller('HomeCtrl', function($scope, $stateParams, $state,$document, 
 
 	$scope.populateNoteInputModelFromJS = function(inputField){
 		var model = $scope.noteInputFormModel
-		angular.element( document.querySelector('#upb')).removeClass('notesuccess noteError');
+		angular.element( document.querySelector('#originalPrincipleBalance')).removeClass('notesuccess noteError');
 		angular.element( document.querySelector('#rate')).removeClass('notesuccess noteError');
 		angular.element( document.querySelector('#originalTerm')).removeClass('notesuccess noteError');
 		angular.element( document.querySelector('#pdiPayment')).removeClass('notesuccess noteError');
-		var isAllPresent = model.upb && model.originalTerm && model.rate &&  model.pdiPayment;
+		var isAllPresent = model.originalPrincipleBalance && model.originalTerm && model.rate &&  model.pdiPayment;
 		 
 		 if(model[inputField] && isAllPresent){
 				model[inputField] ='';
-				isAllPresent =  model.upb && model.originalTerm && model.rate &&  model.pdiPayment;
+				isAllPresent =  model.originalPrincipleBalance && model.originalTerm && model.rate &&  model.pdiPayment;
 			}
 		 
 		 if(isAllPresent){
@@ -83,26 +82,32 @@ noteApp.controller('HomeCtrl', function($scope, $stateParams, $state,$document, 
 	
 });
 
-noteApp.controller('noteInputFormController', function($scope, $rootScope, $state, $auth, $filter,NoteService,toastr,WaitingDialog) {
+noteApp.controller('noteInputFormController', function($scope, $rootScope, $state, $auth, $filter,NoteService,toastr,WaitingDialog,$window) {
 	$scope.noteInputFormModel = NoteService.getInputFormModel();
+	 if($scope.noteInputFormModel && $scope.noteInputFormModel.zipCode){
+		 $window.localStorage.setItem('zipCode', $scope.noteInputFormModel.zipCode); 
+	 }else{
+		 var noteInputFormModel = {};
+		 noteInputFormModel.zipCode = $window.localStorage.getItem('zipCode');
+		 NoteService.noteAnalyze(noteInputFormModel).then(function(response) {
+	 			NoteService.setInputFormModel(response);
+	 			$state.go('noteInputForm');
+	 		},function(errResponse) {
+	 			toastr.error('Error while fetching details for this zip code.'+noteInputFormModel.zipCode);
+	 		});
+	 }
+		 
 	
-	$scope.clearNoteInputModelFromJS = function(){
-		/*$scope.noteInputFormModel.streetAddress = '';
-		$scope.noteInputFormModel.noteDate = '';
-		$scope.noteInputFormModel.upb = '';
-		$scope.noteInputFormModel.rate = '';
-		$scope.noteInputFormModel.pdiPayment = '';
-		$scope.noteInputFormModel.tdiPayment = '';
-		$scope.noteInputFormModel.originalPrincipleBalance = '';
-		$scope.noteInputFormModel.salesPrice = '';
-		$scope.noteInputFormModel.noOfLatePayment = '';
-		$scope.noteInputFormModel.notePosition = '';
-		$scope.noteInputFormModel.borrowerCreditScore = '';
-		$scope.noteInputFormModel.notePrice = '';
-		$scope.noteInputFormModel.remainingNoOfPayment = '';
-		$scope.noteInputFormModel.originalPropertyValue = '';
-		$scope.noteInputFormModel.userScore = '';
-		$scope.noteInputFormModel.salePrice = '';*/
+	$scope.sanitizeNoteInputModelFromJS = function(){
+		$scope.noteInputFormModel.rate = $filter('sanitizeInput')($scope.noteInputFormModel.rate);
+		$scope.noteInputFormModel.upb  = $filter('sanitizeInput')($scope.noteInputFormModel.upb);
+		$scope.noteInputFormModel.pdiPayment = $filter('sanitizeInput')($scope.noteInputFormModel.pdiPayment);
+		$scope.noteInputFormModel.tdiPayment = $filter('sanitizeInput')($scope.noteInputFormModel.tdiPayment);
+		$scope.noteInputFormModel.originalPrincipleBalance = $filter('sanitizeInput')($scope.noteInputFormModel.originalPrincipleBalance);
+		$scope.noteInputFormModel.notePrice = $filter('sanitizeInput')($scope.noteInputFormModel.notePrice);
+		$scope.noteInputFormModel.originalPropertyValue = $filter('sanitizeInput')($scope.noteInputFormModel.originalPropertyValue);
+		$scope.noteInputFormModel.remainingPayment = $filter('sanitizeInput')($scope.noteInputFormModel.remainingPayment);
+		$scope.noteInputFormModel.estimatedMarketValue = $filter('sanitizeInput')($scope.noteInputFormModel.estimatedMarketValue);
 		
 	}
 
@@ -131,14 +136,18 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 		$scope.noteDate.opened = true;
 	};
 	
-	$scope.performingList = [
-	    {code : "Y", displayValue : "Performing"},
-	    {code : "N", displayValue : "Non-Performing"},
-	    {code : "U", displayValue : "Unknown"}
-	];
+	$scope.lastPaymentRecievedDate = {
+			opened : false
+		};
+	$scope.lastPaymentRecievedDate = function() {
+			$scope.lastPaymentRecievedDate.opened = true;
+	};
+	
 	$scope.altInputFormats = ['MM/dd/yyyy'];
 	$scope.createNote = function() {
+		$scope.sanitizeNoteInputModelFromJS();
 		$scope.noteInputFormModel.noteDate = $filter('date')($scope.noteInputFormModel.noteDate, 'MM/dd/yyyy');
+		$scope.noteInputFormModel.lastPaymentRecievedDate = $filter('date')($scope.noteInputFormModel.lastPaymentRecievedDate, 'MM/dd/yyyy');
 		NoteService.getYield($scope.noteInputFormModel);
 		$scope.submitted = true;
 
@@ -159,6 +168,8 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 			$state.go('noteDashboard');
 		}, function(errResponse) {
 			WaitingDialog.hide();
+			$scope.lastPaymentRecievedDate.opened = false;
+			$scope.noteDate.opened = false;
 			toastr.error('Error while creating note. Please try after sometime.');
 		})
 	}
@@ -214,9 +225,16 @@ noteApp.filter('getDefaultValueForNull', function(){
     		return obj;
     	}
     	return  'No data available';
-     /* if(obj === undefined || obj === null || Object.keys(obj).length === 0){
-    	  return 'No data available'
-      }
-      return obj;*/
     }
 });
+
+noteApp.filter('sanitizeInput', function() {
+    return function(value) {
+    	if(value){
+    		var temp = value.toString().replace('$', '');
+    		 temp = temp.replace('%', '');
+    		return temp.replace(',', '');	
+    	}
+        return value;
+    }
+})

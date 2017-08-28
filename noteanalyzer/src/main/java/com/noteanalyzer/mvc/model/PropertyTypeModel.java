@@ -51,6 +51,37 @@ public class PropertyTypeModel implements Serializable {
 	public String toString() {
 		return "PropertyType [propertyTypeCode=" + propertyTypeCode + ", propertyTypeValue=" + propertyTypeValue + "]";
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((propertyTypeCode == null) ? 0 : propertyTypeCode.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PropertyTypeModel other = (PropertyTypeModel) obj;
+		if (propertyTypeCode == null) {
+			if (other.propertyTypeCode != null)
+				return false;
+		} else if (!propertyTypeCode.equals(other.propertyTypeCode))
+			return false;
+		return true;
+	}
 	
 	
 

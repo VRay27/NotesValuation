@@ -73,12 +73,15 @@
                         <div class="form-group">
                             <label class="col-lg-2 control-label requiredField">Unpaid Balance</label>
                             <div class="col-lg-3 upb">
+                            <div class="input-group">
+  								<span class="input-group-addon">$</span>
                                 <input type="text" class="form-control icon-text" name="upb" id="upb" placeholder="Enter unpaid balance" ng-model="noteInputFormModel.upb" ng-blur="populateNoteInputModelFromJS()" />
                                 <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Enter unpiad balance"></span>
+                                </div>
                             </div>
                            <label class="col-lg-2 control-label requiredField">Rate</label>
                             <div class="col-lg-3 rate">
-                                <input type="text" class="form-control icon-text" name="rate" id ="rate" placeholder="Enter annual interest rate" ng-model="noteInputFormModel.rate" ng-blur="populateNoteInputModelFromJS()"/>
+                                <input type="text" class="form-control icon-text" name="rate" id ="rate" placeholder="Enter annual interest rate" ng-model="noteInputFormModel.rate | replaceComma" ng-blur="populateNoteInputModelFromJS()"/>
                                 <span class="glyphicon glyphicon-info-sign tooltip-color icon-img" tooltip-placement="top" uib-tooltip="Enter annual interest rate"></span>
                             </div>
                         </div>
@@ -229,11 +232,9 @@ $(document).ready(function() {
              upb:{
             	 group:'.col-lg-3',
             	 validators: {
-            		 numeric: {
-                         message: 'This value is not a valid number.',
-                         // The default separators
-                         thousandsSeparator: '',
-                         decimalSeparator: '.'
+            		 regexp: {
+                         regexp: /^[-,.0-9 ]+$/i,
+                         message: 'The full name can consist of alphabetical characters and spaces only'
                      },
             		 stringLength: {
 	                     min: 1,

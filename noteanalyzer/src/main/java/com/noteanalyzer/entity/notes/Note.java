@@ -1,8 +1,8 @@
 package com.noteanalyzer.entity.notes;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -43,38 +43,42 @@ public class Note extends AbstractEntity {
 	private Long userId;
 
 	@Column(name = "FACE_VALUE")
-	private BigDecimal faceValue;
+	private Double faceValue;
 	
 	@Column(name = "SALE_PRICE")
-	private BigDecimal salePrice;
+	private Double salePrice;
 
-	@Column(name = "PERFORMING")
-	private String performing;
 
 	@Column(name = "NOTE_TYPE")
 	private String noteType;
+	
+	@Column(name = "LOAN_TYPE")
+	private String loanType;
 
 	@Column(name = "NOTE_POSITION")
 	private Long notePosition;
 	
 
 	@Column(name = "PDI_PAYMENT")
-	private BigDecimal pdiPayment;
+	private Double pdiPayment;
 	
 	@Column(name = "TDI_PAYMENT")
-	private BigDecimal tdiPayment;
+	private Double tdiPayment;
 
 	@Column(name = "BORROWER_CREDIT_SCORE")
 	private String borrowerCreditScore;
 
 	@Column(name = "INTEREST_RATE_INITIAL")
-	private BigDecimal interestRateInitial;
+	private Double interestRateInitial;
 
 	@Column(name = "ORIGINATION_DATE")
 	private Date originationDate;
+	
+	@Column(name = "last_payment_recieved_date")
+	private Date lastPaymentRecievedDate;
 
 	@Column(name = "TERM_MONTHS")
-	private BigDecimal termMonths;
+	private Double termMonths;
 	
 	@Column(name = "LATE_PAYMENTS")
 	private Long latePayments;
@@ -83,10 +87,10 @@ public class Note extends AbstractEntity {
 	private String searchName;
 
 	@Column(name = "SCORE_BY_USER")
-	private BigDecimal userScore;
+	private Double userScore;
 
 	@Column(name = "SYSTEM_ASSIGNED_SCORE")
-	private BigDecimal systemScore;
+	private Double systemScore;
 
 	
 	@Column(name = "STORE_NOTE_ID")
@@ -96,36 +100,49 @@ public class Note extends AbstractEntity {
 	private String storeName;
 	
 	@Column(name = "PROPERTY_VALUE_AT_ORIGINATION")
-	private BigDecimal propertyValueAtOrigination;
+	private Double propertyValueAtOrigination;
 	
 	@Column(name = "NOTE_PRICE")
-	private BigDecimal notePrice;
+	private Double notePrice;
 	
 	@Column(name = "REMAINING_NO_OF_PAYMENT")
 	private Integer remainingNoOfPayment;
 	
 	@Column(name = "ORIGINAL_PROPERTY_VALUE")
-	private BigDecimal originalPropertyValue;
+	private Double originalPropertyValue;
+	
+	@Column(name = "ORIGINAL_LOAN_BAL")
+	private Double originalLoanBal;
 	
 	@Column(name = "ROI")
-	private BigDecimal roi;
+	private Double roi;
 	
 	@Column(name = "YIELD")
-	private BigDecimal yield;
+	private Double yield;
 	
-	@Column(name = "CURRENT_EFFECTIVE_LTV")
-	private BigDecimal currentEffectiveLTV;
+	@Column(name = "Appraised_LTV")
+	private Double appraisedLTV;
 	
-	@Column(name = "EFFECTIVE_LTV")
-	private BigDecimal effectiveLTV;
+	@Column(name = "Appraised_ITV")
+	private Double appraisedITV;
 	
 	@Column(name = "ORIGINAL_LTV")
-	private BigDecimal originalLTV;
+	private Double estimatedLTV;
+	
+	@Column(name = "Estimated_ITV")
+	private Double estimatedITV;
 	
 	@Column(name = "UNPAID_BALANCE")
-	private BigDecimal unpaidBalance;
+	private Double unpaidBalance;
+	
+	@Column(name = "ESTIMATED_MARKET_VALUE")
+	private String estimatedMarketValue;
+	
+	@Column(name = "Borrower_Name")
+	private String borrowerName;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+
+	@ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
 	@JoinColumn(name = "PROPERTY_ID",referencedColumnName = "PROPERTY_ID", nullable = false)
 	private Property propertyId;
 
@@ -160,45 +177,32 @@ public class Note extends AbstractEntity {
 	/**
 	 * @return the faceValue
 	 */
-	public BigDecimal getFaceValue() {
+	public Double getFaceValue() {
 		return faceValue;
 	}
 
 	/**
 	 * @param faceValue the faceValue to set
 	 */
-	public void setFaceValue(BigDecimal faceValue) {
+	public void setFaceValue(Double faceValue) {
 		this.faceValue = faceValue;
 	}
 
 	/**
 	 * @return the salePrice
 	 */
-	public BigDecimal getSalePrice() {
+	public Double getSalePrice() {
 		return salePrice;
 	}
 
 	/**
 	 * @param salePrice the salePrice to set
 	 */
-	public void setSalePrice(BigDecimal salePrice) {
+	public void setSalePrice(Double salePrice) {
 		this.salePrice = salePrice;
 	}
 
-	/**
-	 * @return the performing
-	 */
-	public String getPerforming() {
-		return performing;
-	}
-
-	/**
-	 * @param performing the performing to set
-	 */
-	public void setPerforming(String performing) {
-		this.performing = performing;
-	}
-
+	
 	/**
 	 * @return the noteType
 	 */
@@ -231,14 +235,14 @@ public class Note extends AbstractEntity {
 	/**
 	 * @return the interestRateInitial
 	 */
-	public BigDecimal getInterestRateInitial() {
+	public Double getInterestRateInitial() {
 		return interestRateInitial;
 	}
 
 	/**
 	 * @param interestRateInitial the interestRateInitial to set
 	 */
-	public void setInterestRateInitial(BigDecimal interestRateInitial) {
+	public void setInterestRateInitial(Double interestRateInitial) {
 		this.interestRateInitial = interestRateInitial;
 	}
 
@@ -260,14 +264,14 @@ public class Note extends AbstractEntity {
 	/**
 	 * @return the termMonths
 	 */
-	public BigDecimal getTermMonths() {
+	public Double getTermMonths() {
 		return termMonths;
 	}
 
 	/**
 	 * @param termMonths the termMonths to set
 	 */
-	public void setTermMonths(BigDecimal termMonths) {
+	public void setTermMonths(Double termMonths) {
 		this.termMonths = termMonths;
 	}
 
@@ -317,28 +321,28 @@ public class Note extends AbstractEntity {
 	/**
 	 * @return the userScore
 	 */
-	public BigDecimal getUserScore() {
+	public Double getUserScore() {
 		return userScore;
 	}
 
 	/**
 	 * @param userScore the userScore to set
 	 */
-	public void setUserScore(BigDecimal userScore) {
+	public void setUserScore(Double userScore) {
 		this.userScore = userScore;
 	}
 
 	/**
 	 * @return the systemScore
 	 */
-	public BigDecimal getSystemScore() {
+	public Double getSystemScore() {
 		return systemScore;
 	}
 
 	/**
 	 * @param systemScore the systemScore to set
 	 */
-	public void setSystemScore(BigDecimal systemScore) {
+	public void setSystemScore(Double systemScore) {
 		this.systemScore = systemScore;
 	}
 
@@ -373,14 +377,14 @@ public class Note extends AbstractEntity {
 	/**
 	 * @return the propertyValueAtOrigination
 	 */
-	public BigDecimal getPropertyValueAtOrigination() {
+	public Double getPropertyValueAtOrigination() {
 		return propertyValueAtOrigination;
 	}
 
 	/**
 	 * @param propertyValueAtOrigination the propertyValueAtOrigination to set
 	 */
-	public void setPropertyValueAtOrigination(BigDecimal propertyValueAtOrigination) {
+	public void setPropertyValueAtOrigination(Double propertyValueAtOrigination) {
 		this.propertyValueAtOrigination = propertyValueAtOrigination;
 	}
 
@@ -389,14 +393,14 @@ public class Note extends AbstractEntity {
 	/**
 	 * @return the notePrice
 	 */
-	public BigDecimal getNotePrice() {
+	public Double getNotePrice() {
 		return notePrice;
 	}
 
 	/**
 	 * @param notePrice the notePrice to set
 	 */
-	public void setNotePrice(BigDecimal notePrice) {
+	public void setNotePrice(Double notePrice) {
 		this.notePrice = notePrice;
 	}
 
@@ -417,14 +421,14 @@ public class Note extends AbstractEntity {
 	/**
 	 * @return the originalPropertyValue
 	 */
-	public BigDecimal getOriginalPropertyValue() {
+	public Double getOriginalPropertyValue() {
 		return originalPropertyValue;
 	}
 
 	/**
 	 * @param originalPropertyValue the originalPropertyValue to set
 	 */
-	public void setOriginalPropertyValue(BigDecimal originalPropertyValue) {
+	public void setOriginalPropertyValue(Double originalPropertyValue) {
 		this.originalPropertyValue = originalPropertyValue;
 	}
 
@@ -446,115 +450,205 @@ public class Note extends AbstractEntity {
 	/**
 	 * @return the roi
 	 */
-	public BigDecimal getRoi() {
+	public Double getRoi() {
 		return roi;
 	}
 
 	/**
 	 * @param roi the roi to set
 	 */
-	public void setRoi(BigDecimal roi) {
+	public void setRoi(Double roi) {
 		this.roi = roi;
 	}
 
 	/**
 	 * @return the yield
 	 */
-	public BigDecimal getYield() {
+	public Double getYield() {
 		return yield;
 	}
 
 	/**
 	 * @param yield the yield to set
 	 */
-	public void setYield(BigDecimal yield) {
+	public void setYield(Double yield) {
 		this.yield = yield;
 	}
 
-	/**
-	 * @return the currentEffectiveLTV
-	 */
-	public BigDecimal getCurrentEffectiveLTV() {
-		return currentEffectiveLTV;
-	}
-
-	/**
-	 * @param currentEffectiveLTV the currentEffectiveLTV to set
-	 */
-	public void setCurrentEffectiveLTV(BigDecimal currentEffectiveLTV) {
-		this.currentEffectiveLTV = currentEffectiveLTV;
-	}
-
-	/**
-	 * @return the effectiveLTV
-	 */
-	public BigDecimal getEffectiveLTV() {
-		return effectiveLTV;
-	}
-
-	/**
-	 * @param effectiveLTV the effectiveLTV to set
-	 */
-	public void setEffectiveLTV(BigDecimal effectiveLTV) {
-		this.effectiveLTV = effectiveLTV;
-	}
-
-	/**
-	 * @return the originalLTV
-	 */
-	public BigDecimal getOriginalLTV() {
-		return originalLTV;
-	}
-
-	/**
-	 * @param originalLTV the originalLTV to set
-	 */
-	public void setOriginalLTV(BigDecimal originalLTV) {
-		this.originalLTV = originalLTV;
-	}
-
 	
 	
+	/**
+	 * @return the estimatedLTV
+	 */
+	public Double getEstimatedLTV() {
+		return estimatedLTV;
+	}
+
+	/**
+	 * @param estimatedLTV the estimatedLTV to set
+	 */
+	public void setEstimatedLTV(Double estimatedLTV) {
+		this.estimatedLTV = estimatedLTV;
+	}
+
+	/**
+	 * @return the appraisedLTV
+	 */
+	public Double getAppraisedLTV() {
+		return appraisedLTV;
+	}
+
+	/**
+	 * @param appraisedLTV the appraisedLTV to set
+	 */
+	public void setAppraisedLTV(Double appraisedLTV) {
+		this.appraisedLTV = appraisedLTV;
+	}
+
+	/**
+	 * @return the appraisedITV
+	 */
+	public Double getAppraisedITV() {
+		return appraisedITV;
+	}
+
+	/**
+	 * @param appraisedITV the appraisedITV to set
+	 */
+	public void setAppraisedITV(Double appraisedITV) {
+		this.appraisedITV = appraisedITV;
+	}
+
+	/**
+	 * @return the estimatedITV
+	 */
+	public Double getEstimatedITV() {
+		return estimatedITV;
+	}
+
+	/**
+	 * @param estimatedITV the estimatedITV to set
+	 */
+	public void setEstimatedITV(Double estimatedITV) {
+		this.estimatedITV = estimatedITV;
+	}
+
 	/**
 	 * @return the unpaidBalance
 	 */
-	public BigDecimal getUnpaidBalance() {
+	public Double getUnpaidBalance() {
 		return unpaidBalance;
 	}
 
 	/**
 	 * @param unpaidBalance the unpaidBalance to set
 	 */
-	public void setUnpaidBalance(BigDecimal unpaidBalance) {
+	public void setUnpaidBalance(Double unpaidBalance) {
 		this.unpaidBalance = unpaidBalance;
 	}
 
 	/**
 	 * @return the pdiPayment
 	 */
-	public BigDecimal getPdiPayment() {
+	public Double getPdiPayment() {
 		return pdiPayment;
 	}
 
 	/**
 	 * @param pdiPayment the pdiPayment to set
 	 */
-	public void setPdiPayment(BigDecimal pdiPayment) {
+	public void setPdiPayment(Double pdiPayment) {
 		this.pdiPayment = pdiPayment;
 	}
 
 	/**
 	 * @return the tdiPayment
 	 */
-	public BigDecimal getTdiPayment() {
+	public Double getTdiPayment() {
 		return tdiPayment;
 	}
 
 	/**
 	 * @param tdiPayment the tdiPayment to set
 	 */
-	public void setTdiPayment(BigDecimal tdiPayment) {
+	public void setTdiPayment(Double tdiPayment) {
 		this.tdiPayment = tdiPayment;
+	}
+	
+	
+
+	/**
+	 * @return the estimatedMarketValue
+	 */
+	public String getEstimatedMarketValue() {
+		return estimatedMarketValue;
+	}
+
+	/**
+	 * @param estimatedMarketValue the estimatedMarketValue to set
+	 */
+	public void setEstimatedMarketValue(String estimatedMarketValue) {
+		this.estimatedMarketValue = estimatedMarketValue;
+	}
+
+	
+	
+	/**
+	 * @return the lastPaymentRecievedDate
+	 */
+	public Date getLastPaymentRecievedDate() {
+		return lastPaymentRecievedDate;
+	}
+
+	/**
+	 * @param lastPaymentRecievedDate the lastPaymentRecievedDate to set
+	 */
+	public void setLastPaymentRecievedDate(Date lastPaymentRecievedDate) {
+		this.lastPaymentRecievedDate = lastPaymentRecievedDate;
+	}
+
+	/**
+	 * @return the loanType
+	 */
+	public String getLoanType() {
+		return loanType;
+	}
+
+	/**
+	 * @param loanType the loanType to set
+	 */
+	public void setLoanType(String loanType) {
+		this.loanType = loanType;
+	}
+	
+	
+
+	/**
+	 * @return the borrowerName
+	 */
+	public String getBorrowerName() {
+		return borrowerName;
+	}
+
+	/**
+	 * @param borrowerName the borrowerName to set
+	 */
+	public void setBorrowerName(String borrowerName) {
+		this.borrowerName = borrowerName;
+	}
+
+	/**
+	 * @return the originalLoanBal
+	 */
+	public Double getOriginalLoanBal() {
+		return originalLoanBal;
+	}
+
+	/**
+	 * @param originalLoanBal the originalLoanBal to set
+	 */
+	public void setOriginalLoanBal(Double originalLoanBal) {
+		this.originalLoanBal = originalLoanBal;
 	}
 
 	/* (non-Javadoc)

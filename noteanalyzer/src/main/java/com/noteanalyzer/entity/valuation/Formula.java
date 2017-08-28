@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.noteanalyzer.entity.AbstractEntity;
-import com.noteanalyzer.entity.notes.NoteType;
+import com.noteanalyzer.entity.notes.LoanType;
 import com.noteanalyzer.entity.notes.PropertyType;
 
 @Entity
@@ -28,7 +28,7 @@ public class Formula extends AbstractEntity {
 	private Integer areaId;
 	
 	@Column(name="NOTE_TYPE")
-	private NoteType noteType;
+	private LoanType loanType;
 	
 	@Column(name="PROPERTY_TYPE")
 	private PropertyType propertyType;

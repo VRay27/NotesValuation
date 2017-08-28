@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
@@ -22,6 +23,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.noteanalyzer.entity.address.Zipcodes;
 import com.noteanalyzer.entity.appraisal.AppriasalSources;
+import com.noteanalyzer.entity.notes.LoanType;
 import com.noteanalyzer.entity.notes.Note;
 import com.noteanalyzer.entity.notes.NoteType;
 import com.noteanalyzer.entity.notes.Property;
@@ -32,6 +34,7 @@ import com.noteanalyzer.entity.user.User;
 import com.noteanalyzer.entity.valuation.Statistics;
 import com.noteanalyzer.mvc.model.AddressModel;
 import com.noteanalyzer.mvc.model.DemographicDetailModel;
+import com.noteanalyzer.mvc.model.LoanTypeModel;
 import com.noteanalyzer.mvc.model.NoteDashboardModel;
 import com.noteanalyzer.mvc.model.NoteDetailModel;
 import com.noteanalyzer.mvc.model.NoteInputFormModel;
@@ -42,6 +45,7 @@ import com.noteanalyzer.mvc.model.UserModel;
 import com.noteanalyzer.mvc.service.NoteAnalysisService;
 import com.noteanalyzer.webservice.appraisal.AppraisalPropertyBean;
 
+import io.jsonwebtoken.lang.Collections;
 import lombok.NonNull;
 
 public class ConverterUtility {
@@ -82,68 +86,82 @@ public class ConverterUtility {
 		return userModel;
 	}
 
-	public static Note convertNoteModelToEntity(NoteInputFormModel note, Property property) throws ParseException {
+	public static Note convertNoteModelToEntity(NoteInputFormModel note, Property property, Note noteEntity ) throws ParseException {
 		DateFormat df = new SimpleDateFormat(DEFAULT_DATE_FORMAT);
-		Note noteEntity = new Note();
+		noteEntity = noteEntity == null ? new Note() : noteEntity;
 		noteEntity.setUserId(note.getUserId());
-		noteEntity.setNoteType(note.getSelNoteType().getNoteTypeCode());
-		noteEntity.setFaceValue(note.getOriginalPrincipleBalance());
-		noteEntity.setSalePrice(note.getSalePrice());
+		noteEntity.setNoteType(note.getSelNoteType().getNoteType());
+		noteEntity.setLoanType(note.getSelLoanType().getLoanTypeCode());
+		noteEntity.setFaceValue(Double.valueOf(note.getOriginalPrincipleBalance()));
 		noteEntity.setOriginationDate(df.parse(note.getNoteDate()));
-		noteEntity.setPerforming(note.getPerforming());
-		noteEntity.setNotePosition(Long.valueOf(note.getNotePosition()));
-		noteEntity.setTermMonths(note.getOriginalTerm());
-		noteEntity.setInterestRateInitial(note.getRate());
-		noteEntity.setBorrowerCreditScore(Objects.toString(note.getBorrowerCreditScore(), null));
+		noteEntity.setOriginalLoanBal(Double.valueOf(note.getOriginalPrincipleBalance()));
+		if(StringUtils.isNotBlank(note.getLastPaymentRecievedDate())){
+			noteEntity.setLastPaymentRecievedDate(df.parse(note.getLastPaymentRecievedDate()));
+		}
+		if(StringUtils.isNotBlank(note.getNotePosition())){
+			noteEntity.setNotePosition(Long.valueOf(note.getNotePosition()));
+		}
+		noteEntity.setTermMonths(Double.valueOf(note.getOriginalTerm()));
+		noteEntity.setInterestRateInitial(Double.valueOf(note.getRate()));
+		if(StringUtils.isNotBlank(note.getBorrowerCreditScore())){
+			noteEntity.setBorrowerCreditScore(Objects.toString(note.getBorrowerCreditScore(), null));
+		}
+		if(StringUtils.isNotBlank(note.getNoOfLatePayment())){
 		noteEntity.setLatePayments(Long.valueOf(note.getNoOfLatePayment()));
-		noteEntity.setNotePrice(BigDecimal.valueOf(Double.valueOf(note.getNotePrice())));
-		noteEntity.setOriginalPropertyValue(BigDecimal.valueOf(Double.valueOf(note.getOriginalPropertyValue())));
-		noteEntity.setRemainingNoOfPayment(Integer.valueOf(note.getRemainingNoOfPayment()));
-		// noteEntity.setStoreName(DEFAULT_STORE_NAME);
-		// noteEntity.setSearchName(DEFAULT_STORE_NAME);
-		noteEntity.setUserScore(BigDecimal.valueOf(Double.valueOf(note.getUserScore())));
+		}
+		noteEntity.setBorrowerName(note.getBorrowerName());
+		noteEntity.setNotePrice(Double.valueOf(note.getNotePrice()));
+		noteEntity.setEstimatedMarketValue(note.getEstimatedMarketValue());
+		noteEntity.setUserScore(Double.valueOf(note.getNoteScoreByUser()));
+		
 		noteEntity.setSystemScore(null);
-		noteEntity.setOriginalLTV(NoteAnalysisService.getOriginalLTV(note.getOriginalPrincipleBalance().toString(),
-				note.getOriginalPropertyValue()));
-		noteEntity.setEffectiveLTV(
-				NoteAnalysisService.getEffectiveLTV(note.getNotePrice(), note.getOriginalPropertyValue()));
+		//noteEntity.setOriginalLTV();
+		noteEntity.setAppraisedITV(NoteAnalysisService.getCurrentITV(note.getNotePrice(),note.getEstimatedMarketValue()));
+		noteEntity.setAppraisedLTV(NoteAnalysisService.getCurrentLTV(note.getUpb(),note.getEstimatedMarketValue()));
+		noteEntity.setEstimatedITV(NoteAnalysisService.getOriginalEstimatedITV(note.getNotePrice(),note.getEstimatedMarketValue()));
+		
+		
 		if (property != null) {
 			Set<PropertyAppraisals> propertyApprisalSet = property.getPropertyAppraisalSet();
 			if (propertyApprisalSet != null) {
 				Iterator<PropertyAppraisals> itr = propertyApprisalSet.iterator();
 				if (itr.hasNext()) {
 					PropertyAppraisals propertyAppraisals = itr.next();
-					noteEntity.setCurrentEffectiveLTV(NoteAnalysisService.getCurrentEffectiveLTV(
-							Objects.toString(note.getNotePrice(), null), propertyAppraisals.getMarketValue()));
+					/*noteEntity.setCurrentEffectiveLTV(NoteAnalysisService.getCurrentEffectiveLTV(
+							Objects.toString(note.getNotePrice(), null), propertyAppraisals.getMarketValue()));*/
 				}
 			}
 		}
-		noteEntity.setRoi(NoteAnalysisService.getROI());
-		noteEntity.setYield(note.getYieldValue());
-		noteEntity.setPdiPayment(note.getPdiPayment());
-		noteEntity.setTdiPayment(note.getTdiPayment());
-		noteEntity.setUnpaidBalance(note.getUpb());
+		//noteEntity.setRoi(NoteAnalysisService.getROI());
+		if(StringUtils.isNotBlank(note.getYieldValue())){
+		noteEntity.setYield(Double.valueOf(note.getYieldValue()));
+		}
+		noteEntity.setPdiPayment(Double.valueOf(note.getPdiPayment()));
+		if(StringUtils.isNotBlank(note.getTdiPayment())){
+			noteEntity.setTdiPayment(Double.valueOf(note.getTdiPayment()));
+		}
+		noteEntity.setUnpaidBalance(Double.valueOf(note.getUpb()));
 		return noteEntity;
 	}
 
-	public static List<NoteTypeModel> convertNoteTypeEntityToModel(List<NoteType> noteTypeList) {
-		List<NoteTypeModel> noteTypeModelList = new ArrayList<>();
-		if (noteTypeList != null) {
-			for (NoteType noteType : noteTypeList) {
-				NoteTypeModel model = new NoteTypeModel();
-				model.setArmIndexName(noteType.getArmIndexName());
-				model.setBaloonAfterMonths(noteType.getBaloonAfterMonths());
-				model.setInterestAdjustmentRules(noteType.getInterestAdjustmentRules());
-				model.setInterestCap(noteType.getInterestCap());
-				model.setInterestOnlyMonths(noteType.getInterestOnlyMonths());
-				model.setMargin(noteType.getMargin());
-				model.setNoteTypeCode(noteType.getNoteType());
-				model.setNoteTypeValue(noteType.getDescription());
-				model.setTermMonths(noteType.getTermMonths());
-				noteTypeModelList.add(model);
+	public static List<LoanTypeModel> convertLoanTypeEntityToModel(List<LoanType> loanTypeList) {
+		List<LoanTypeModel> loanTypeModelList = new ArrayList<>();
+		if (loanTypeList != null) {
+			for (LoanType loanType : loanTypeList) {
+				LoanTypeModel model = new LoanTypeModel();
+				model.setArmIndexName(loanType.getArmIndexName());
+				model.setBaloonAfterMonths(loanType.getBaloonAfterMonths());
+				model.setInterestAdjustmentRules(loanType.getInterestAdjustmentRules());
+				model.setInterestCap(loanType.getInterestCap());
+				model.setInterestOnlyMonths(loanType.getInterestOnlyMonths());
+				model.setMargin(loanType.getMargin());
+				model.setLoanTypeCode(loanType.getLoanType());
+				model.setLoanTypeValue(loanType.getDescription());
+				model.setTermMonths(loanType.getTermMonths());
+				loanTypeModelList.add(model);
 			}
 		}
-		return noteTypeModelList;
+		return loanTypeModelList;
 	}
 
 	public static List<PropertyTypeModel> convertPropertyTypeEntityToModel(List<PropertyType> propTypeList) {
@@ -179,7 +197,7 @@ public class ConverterUtility {
 					}
 				}
 				if (statisticsList != null) {
-					String areaId = null;
+					String areaId = "";
 					Iterator<PropertyArea> itr = property.getPropertyAreaSet().iterator();
 					if (itr.hasNext()) {
 						areaId = itr.next().getAreaId();
@@ -194,10 +212,11 @@ public class ConverterUtility {
 						}
 					}
 				}
-				dashBoardModel.setYield(model.getYield());
-				dashBoardModel.setEffectiveLTV(model.getEffectiveLTV());
-				dashBoardModel.setCurrentEffectiveLTV(model.getCurrentEffectiveLTV());
-				dashBoardModel.setOriginalLTV(model.getOriginalLTV());
+				dashBoardModel.setYield(Objects.toString(model.getYield()));
+				dashBoardModel.setOriginalEstimatedITV(Objects.toString(model.getEstimatedITV(),""));
+				dashBoardModel.setCurrentITV(Objects.toString(model.getAppraisedITV(),""));
+				dashBoardModel.setCurrentLTV(Objects.toString(model.getAppraisedLTV(),""));
+				dashBoardModel.setEstimatedLTV(Objects.toString(model.getEstimatedLTV(),""));
 				dashBoardModel.setMarketValueAvailable(StringUtils.isNotBlank(dashBoardModel.getMarketValue()));
 
 				summaryModelList.add(dashBoardModel);
@@ -270,44 +289,39 @@ public class ConverterUtility {
 	}
 
 	public static NoteDetailModel convertNoteEntityToNoteDetailModel(Note note, Property property,
-			List<PropertyType> propertyTypeList, List<NoteType> noteTypeList) {
+			List<PropertyType> propertyTypeList, List<LoanType> noteTypeList) {
 		NoteDetailModel noteDetailModel = new NoteDetailModel();
 		if (note != null) {
 			DateFormat df = new SimpleDateFormat(DEFAULT_DATE_FORMAT);
 			noteDetailModel.setNoteId(note.getNoteId());
 			noteDetailModel.setUserId(note.getUserId());
 			if (!CollectionUtils.isEmpty(noteTypeList)) {
-				noteDetailModel.setSelNoteType(convertNoteTypeEntityToModel(noteTypeList).get(0));
+				noteDetailModel.setSelNoteType(convertLoanTypeEntityToModel(noteTypeList).get(0));
 			}
 			if (!CollectionUtils.isEmpty(propertyTypeList)) {
 				noteDetailModel.setSelPropType(convertPropertyTypeEntityToModel(propertyTypeList).get(0));
 			}
-			noteDetailModel.setOriginalPrincipleBalance(note.getFaceValue());
-			noteDetailModel.setSalePrice(note.getSalePrice());
+			noteDetailModel.setOriginalPrincipleBalance(Objects.toString(note.getFaceValue(),""));
+			noteDetailModel.setSalePrice(Objects.toString(note.getSalePrice(),""));
 			noteDetailModel.setNoteDate(df.format(note.getOriginationDate()));
-			if ("Y".equalsIgnoreCase(note.getPerforming())) {
-				noteDetailModel.setPerforming("Performing");
-			} else if ("N".equalsIgnoreCase(note.getPerforming())) {
-				noteDetailModel.setPerforming("Non-Performing");
-			} else {
-				noteDetailModel.setPerforming("Unknown");
-			}
-			noteDetailModel.setUpb(note.getUnpaidBalance());
-			noteDetailModel.setPdiPayment(note.getPdiPayment());
-			noteDetailModel.setTdiPayment(note.getTdiPayment());
+			
+			noteDetailModel.setUpb(Objects.toString(note.getUnpaidBalance(),""));
+			noteDetailModel.setPdiPayment(Objects.toString(note.getPdiPayment(),""));
+			noteDetailModel.setTdiPayment(Objects.toString(note.getTdiPayment(),""));
 			noteDetailModel.setNotePosition(Objects.toString(note.getNotePosition(), ""));
-			noteDetailModel.setOriginalTerm(note.getTermMonths());
-			noteDetailModel.setRate(note.getInterestRateInitial());
+			noteDetailModel.setOriginalTerm(Objects.toString(note.getTermMonths()));
+			noteDetailModel.setRate(Objects.toString(note.getInterestRateInitial(),""));
 			noteDetailModel.setBorrowerCreditScore(Objects.toString(note.getBorrowerCreditScore(), ""));
 			noteDetailModel.setNoOfLatePayment(Objects.toString(note.getLatePayments(), ""));
-			noteDetailModel.setNotePrice(note.getNotePrice());
-			noteDetailModel.setOriginalPropertyValue(note.getOriginalPropertyValue());
+			noteDetailModel.setNotePrice(Objects.toString(note.getNotePrice(),""));
+			noteDetailModel.setOriginalPropertyValue(Objects.toString(note.getOriginalPropertyValue(),""));
 			noteDetailModel.setRemainingNoOfPayment(Objects.toString(note.getRemainingNoOfPayment(), ""));
-			noteDetailModel.setOriginalLTV(note.getOriginalLTV());
-			noteDetailModel.setEffectiveLTV(note.getEffectiveLTV());
-			noteDetailModel.setCurrentEffectiveLTV(note.getCurrentEffectiveLTV());
-			noteDetailModel.setROI(NoteAnalysisService.getROI());
-			noteDetailModel.setYieldValue(note.getYield());
+			noteDetailModel.setEstimatedLTV(Objects.toString(note.getEstimatedLTV(),""));
+			noteDetailModel.setCurrentLTV(Objects.toString(note.getAppraisedLTV(),""));
+			noteDetailModel.setCurrentITV(Objects.toString(note.getAppraisedITV(),""));
+			noteDetailModel.setEstimatedITV(Objects.toString(note.getEstimatedITV(),""));
+			noteDetailModel.setROI(Objects.toString(NoteAnalysisService.getROI(note.getPdiPayment(),note.getNotePrice()),""));
+			noteDetailModel.setYieldValue(Objects.toString(note.getYield(),""));
 			PropertyDetailModel propertyDetailModel = new PropertyDetailModel();
 
 			if (property != null) {
@@ -317,7 +331,9 @@ public class ConverterUtility {
 					Iterator<PropertyAppraisals> itr = propertyApprisalSet.iterator();
 					if (itr.hasNext()) {
 						PropertyAppraisals propertyAppraisals = itr.next();
-						propertyDetailModel.setLastSoldDate(zillowDateFormat.format(propertyAppraisals.getLastSoldDate()));
+						if(propertyAppraisals.getLastSoldDate() !=null){
+							propertyDetailModel.setLastSoldDate(zillowDateFormat.format(propertyAppraisals.getLastSoldDate()));
+						}
 						propertyDetailModel.setLastSoldPrice(propertyAppraisals.getLastSoldPrice());
 						propertyDetailModel.setRentValue(propertyAppraisals.getRentValue());
 						propertyDetailModel.setTaxAssessmentValue(propertyAppraisals.getTaxAssessmentValue());
@@ -327,12 +343,12 @@ public class ConverterUtility {
 						propertyDetailModel.setPropertyGraphAndDataUrl(propertyAppraisals.getPropertyGraphAndDataUrl());
 						propertyDetailModel.setMarketValue(propertyAppraisals.getMarketValue());
 						propertyDetailModel.setMarketUpdateDate(zillowDateFormat.format(propertyAppraisals.getMarketValueUpdatedDate()));
-						noteDetailModel.setCurrentEffectiveLTV(NoteAnalysisService.getCurrentEffectiveLTV(
-								Objects.toString(note.getNotePrice(), null), propertyAppraisals.getMarketValue()));
+						/*noteDetailModel.setCurrentEffectiveLTV(NoteAnalysisService.getCurrentEffectiveLTV(
+								Objects.toString(note.getNotePrice(), null), propertyAppraisals.getMarketValue()));*/
 
 					}
 				}
-				propertyDetailModel.setZip(property.getZip());
+				propertyDetailModel.setZip(Objects.toString(property.getZip(),""));
 				propertyDetailModel.setAge(property.getAge());
 				propertyDetailModel.setCity(property.getCity());
 				propertyDetailModel.setNumberOfBathrooms(property.getNumberOfBathrooms());
@@ -366,21 +382,118 @@ public class ConverterUtility {
 	}
 
 	public static void convertUpdatedNoteToEnityNote(Note noteEntity, NoteDetailModel noteDetailModel) {
-		noteEntity.setFaceValue(noteDetailModel.getOriginalPrincipleBalance());
-		noteEntity.setInterestRateInitial(noteDetailModel.getRate());
-		noteEntity.setPdiPayment(noteDetailModel.getPdiPayment());
-		noteEntity.setUnpaidBalance(noteDetailModel.getUpb());
-		noteEntity.setNotePrice(noteDetailModel.getNotePrice());
-		noteEntity.setOriginalPropertyValue(noteDetailModel.getOriginalPropertyValue());
-		noteEntity.setCurrentEffectiveLTV(
+		noteEntity.setFaceValue(Double.valueOf(noteDetailModel.getOriginalPrincipleBalance()));
+		noteEntity.setInterestRateInitial(Double.valueOf(noteDetailModel.getRate()));
+		noteEntity.setPdiPayment(Double.valueOf(noteDetailModel.getPdiPayment()));
+		noteEntity.setUnpaidBalance(Double.valueOf(noteDetailModel.getUpb()));
+		noteEntity.setNotePrice(Double.valueOf(noteDetailModel.getNotePrice()));
+		noteEntity.setOriginalPropertyValue(Double.valueOf(noteDetailModel.getOriginalPropertyValue()));
+	/*	noteEntity.setCurrentEffectiveLTV(
 				NoteAnalysisService.getCurrentEffectiveLTV(Objects.toString(noteDetailModel.getNotePrice(), null),
 						noteDetailModel.getPropertyDetailModel().getMarketValue()));
 		noteEntity.setOriginalLTV(
 				NoteAnalysisService.getOriginalLTV(noteDetailModel.getOriginalPrincipleBalance().toString(),
 						noteDetailModel.getOriginalPropertyValue().toString()));
 		noteEntity.setEffectiveLTV(NoteAnalysisService.getEffectiveLTV(noteDetailModel.getNotePrice().toString(),
-				noteDetailModel.getOriginalPropertyValue().toString()));
+				noteDetailModel.getOriginalPropertyValue().toString()));*/
 
+	}
+
+	public static List<NoteTypeModel> convertNoteTypeEntityToNoteTypeModel(List<NoteType> noteTypeList) {
+		List<NoteTypeModel> noteTypeModelList  =  new ArrayList<>();
+		if(Collections.isEmpty(noteTypeList)){
+			return noteTypeModelList;
+		}
+		
+		for(NoteType noteType : noteTypeList){
+			NoteTypeModel model = new NoteTypeModel();
+			model.setNoteType(noteType.getNoteType());
+			model.setDescription(noteType.getDescription());
+			noteTypeModelList.add(model);
+		}
+		return noteTypeModelList;
+	}
+
+	public static NoteInputFormModel convertNoteEntityToNoteInputFormModel(Note note, NoteInputFormModel model) {
+		 model = model == null ? new NoteInputFormModel() : model;
+
+		DateFormat df = new SimpleDateFormat(DEFAULT_DATE_FORMAT);
+		model.setNoteId(note.getNoteId());
+		model.setUserId(note.getUserId());
+		model.setOriginalPrincipleBalance(Objects.toString(note.getFaceValue(),""));
+		model.setNoteDate(df.format(note.getOriginationDate()));
+		model.setUpb(Objects.toString(note.getUnpaidBalance(),""));
+		model.setPdiPayment(Objects.toString(note.getPdiPayment(),""));
+		model.setTdiPayment(Objects.toString(note.getTdiPayment(),""));
+		model.setNotePosition(Objects.toString(note.getNotePosition(), ""));
+		model.setOriginalTerm(Objects.toString(note.getTermMonths()));
+		model.setRate(Objects.toString(note.getInterestRateInitial(),""));
+		model.setBorrowerCreditScore(Objects.toString(note.getBorrowerCreditScore(), ""));
+		model.setNoOfLatePayment(Objects.toString(note.getLatePayments(), ""));
+		model.setNotePrice(Objects.toString(note.getNotePrice(),""));
+		model.setRemainingPayment(Objects.toString(note.getRemainingNoOfPayment(), ""));
+		model.setEstimatedLTV(Objects.toString(note.getEstimatedLTV(),""));
+		model.setCurrentLTV(Objects.toString(note.getAppraisedLTV(),""));
+		model.setCurrentITV(Objects.toString(note.getAppraisedITV(),""));
+		model.setEstimatedITV(Objects.toString(note.getEstimatedITV(),""));
+		model.setROI(Objects.toString(NoteAnalysisService.getROI(note.getPdiPayment(),note.getNotePrice()),""));
+		model.setYieldValue(Objects.toString(note.getYield(),""));
+		PropertyDetailModel propertyDetailModel = new PropertyDetailModel();
+		Property property = note.getPropertyId();
+		if (property != null) {
+			Set<PropertyAppraisals> propertyApprisalSet = property.getPropertyAppraisalSet();
+			if (propertyApprisalSet != null) {
+				DateFormat zillowDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				Iterator<PropertyAppraisals> itr = propertyApprisalSet.iterator();
+				if (itr.hasNext()) {
+					PropertyAppraisals propertyAppraisals = itr.next();
+					if(propertyAppraisals.getLastSoldDate() !=null){
+						propertyDetailModel.setLastSoldDate(zillowDateFormat.format(propertyAppraisals.getLastSoldDate()));
+					}
+					propertyDetailModel.setLastSoldPrice(propertyAppraisals.getLastSoldPrice());
+					propertyDetailModel.setRentValue(propertyAppraisals.getRentValue());
+					propertyDetailModel.setTaxAssessmentValue(propertyAppraisals.getTaxAssessmentValue());
+					propertyDetailModel.setTaxAssessmentYear(propertyAppraisals.getTaxAssessmentYear());
+					propertyDetailModel.setPropertyDetailUrl(propertyAppraisals.getPropertyDetailUrl());
+					propertyDetailModel.setPropertyMapUrl(propertyAppraisals.getPropertyMapUrl());
+					propertyDetailModel.setPropertyGraphAndDataUrl(propertyAppraisals.getPropertyGraphAndDataUrl());
+					propertyDetailModel.setMarketValue(propertyAppraisals.getMarketValue());
+					propertyDetailModel.setMarketUpdateDate(zillowDateFormat.format(propertyAppraisals.getMarketValueUpdatedDate()));
+					/*model.setCurrentEffectiveLTV(NoteAnalysisService.getCurrentEffectiveLTV(
+							Objects.toString(note.getNotePrice(), null), propertyAppraisals.getMarketValue()));*/
+
+				}
+			}
+			propertyDetailModel.setZip(Objects.toString(property.getZip(),""));
+			propertyDetailModel.setAge(property.getAge());
+			propertyDetailModel.setCity(property.getCity());
+			propertyDetailModel.setNumberOfBathrooms(property.getNumberOfBathrooms());
+			propertyDetailModel.setNumberOfBedrooms(property.getNumberOfBedrooms());
+			propertyDetailModel.setOtherHigherPriorityDebt(property.getOtherHigherPriorityDebt());
+			propertyDetailModel.setOtherLowerPriorityDebt(property.getOtherLowerPriorityDebt());
+			propertyDetailModel.setOtherMonthlyExpenses(property.getOtherMonthlyExpenses());
+
+			propertyDetailModel.setPropertyBuiltUpSize(property.getPropertyBuiltUpSize());
+			propertyDetailModel.setPropertyBuiltYear(property.getPropertyBuiltYear());
+			propertyDetailModel.setPropertyId(property.getPropertyId());
+
+			propertyDetailModel.setPropertyLotSize(property.getPropertyLotSize());
+
+			propertyDetailModel.setPropertyType(property.getPropertyType());
+
+			propertyDetailModel.setSizeSF(property.getSizeSF());
+			propertyDetailModel.setState(property.getState());
+			propertyDetailModel.setStreetAddress(property.getStreetAddress());
+
+			propertyDetailModel.setSubdividable(property.getSubdividable());
+		}
+		DemographicDetailModel demoGraphicDetailModel = new DemographicDetailModel();
+		model.setDemoGraphicDetailModel(demoGraphicDetailModel);
+
+		model.setPropertyDetailModel(propertyDetailModel);
+
+	
+		return model;
 	}
 
 }

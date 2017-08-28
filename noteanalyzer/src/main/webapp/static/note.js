@@ -88,9 +88,18 @@ noteApp.config(function($stateProvider, $urlRouterProvider) {
 				skipIfLoggedIn : skipIfLoggedIn
 			}
 			
+		}).state('noteInputFormOld', {
+			url : '/noteInputFormOld',
+			templateUrl : 'static/template/note-form-new.html',
+			controller : 'noteInputFormController',
+			cache: false,
+			resolve : {
+				skipIfLoggedIn : skipIfLoggedIn
+			}
+			
 		}).state('noteInputForm', {
 			url : '/noteInputForm',
-			templateUrl : 'static/template/note-form-new.html',
+			templateUrl : 'static/template/noteInputFormNew.html',
 			controller : 'noteInputFormController',
 			cache: false,
 			resolve : {
@@ -102,6 +111,19 @@ noteApp.config(function($stateProvider, $urlRouterProvider) {
 			url : '/profile',
 			templateUrl : 'static/template/profile_new.html',
 			controller : 'ProfileCtrl',
+			cache: false,
+			params : {
+				'referer' : null,
+				'loginState' : null
+			},
+			resolve : {
+				loginRequired : loginRequired,
+				skipIfLoggedIn : skipIfLoggedIn
+			}
+		}).state('noteDetailOld', {
+			url : '/noteDetailOld',
+			templateUrl : 'static/template/noteDetailOld.html',
+			controller : 'NoteDetailCtrl',
 			cache: false,
 			params : {
 				'referer' : null,

@@ -9,6 +9,7 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
     var vm = this;
     $scope.noteDetailModel = noteDetailModel;
     vm.getNoteDetail = NoteDetailService.getNoteDetail;
+    vm.updateMarketValue = NoteDetailService.updateMarketValue;
     vm.noteAnalyzer = function() {
         NoteService.noteAnalyze(vm.inputZipCode);
     };
@@ -152,7 +153,8 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
              },*/
             cellTemplate: "<div ng-show={{row.entity.marketValueAvailable}}><p>{{row.entity.marketValue}}<span class=\"glyphicon glyphicon-info-sign tooltip-color \"" +
                 "tooltip-placement=\"bottom\" uib-tooltip=\"Last updated date {{ row.entity.marketUpdateDate | date}}\"></span> </p></div>" +
-                "<div ng-show={{!row.entity.marketValueAvailable}}><p>No data available</p></div>"
+                "<a ng-show={{!row.entity.marketValueAvailable}} ng-href=\"\" style=\"cursor:pointer;\" ng-click= \"grid.appScope.vm.updateMarketValue(grid, row)\">Get Current Market Value</a>"
+           
         }
     ];
 
@@ -172,12 +174,13 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
 
 }
 
-NoteDetailService.$inject = ['$http', '$rootScope', 'NoteService', 'toastr', '$state'];
+NoteDetailService.$inject = ['$http', '$rootScope', 'NoteService', 'toastr', '$state','$auth'];
 
-function NoteDetailService($http, $rootScope, NoteService, toastr, $state, $scope) {
+function NoteDetailService($http, $rootScope, NoteService, toastr, $state, $auth) {
     var service = {};
     service.getNoteDetail = getNoteDetail;
-
+    service.updateMarketValue = updateMarketValue;
+    
     function getNoteDetail(grid, row) {
         NoteService.getNoteDetail(row.entity.noteId).then(function(response) {
             NoteService.setNoteDetailModel(response);
@@ -185,6 +188,16 @@ function NoteDetailService($http, $rootScope, NoteService, toastr, $state, $scop
         }, function(response) {
             $auth.checkLoginFromServer(response.status);
             toastr.error("We are unable to find details for this note. Please try after sometime.")
+        });
+    };
+    
+    function updateMarketValue(grid, row) {
+        NoteService.getNoteDetail(row.entity.noteId).then(function(response) {
+            NoteService.setNoteDetailModel(response);
+            $state.go('noteDashboard');
+        }, function(response) {
+            $auth.checkLoginFromServer(response.status);
+            toastr.error("We are unable to find details for this note ID. Please try after sometime.")
         });
     };
 

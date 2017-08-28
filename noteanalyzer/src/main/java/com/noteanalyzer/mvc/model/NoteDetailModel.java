@@ -1,7 +1,6 @@
 package com.noteanalyzer.mvc.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,20 +16,20 @@ public class NoteDetailModel  extends RequestStatusModel implements Serializable
 	private long userId;
 	private long noteId;
 	
-	private List<NoteTypeModel> noteTypeList;
-	private NoteTypeModel selNoteType;
+	private List<LoanTypeModel> noteTypeList;
+	private LoanTypeModel selNoteType;
 	private List<PropertyTypeModel> propTypeList;
 	private PropertyTypeModel selPropType;
 	private String noteDate;
-	private BigDecimal upb;
-	private BigDecimal rate;
-	private BigDecimal pdiPayment;
-	private BigDecimal tdiPayment;
-	private BigDecimal originalTerm;
-	private BigDecimal originalPrincipleBalance;
+	private String upb;
+	private String rate;
+	private String pdiPayment;
+	private String tdiPayment;
+	private String originalTerm;
+	private String originalPrincipleBalance;
 	private String paymentHistory;
-	private BigDecimal noOfPaymentRemaining;
-	private BigDecimal salePrice;
+	private String noOfPaymentRemaining;
+	private String salePrice;
 	private String selPerforming;
 	private String notePosition;
 	private String userScore;
@@ -43,23 +42,23 @@ public class NoteDetailModel  extends RequestStatusModel implements Serializable
 	private String noOfLatePayment;
 	
 	private String borrowerCreditScore;
-	private BigDecimal notePrice;
+	private String notePrice;
 	
 	private String performing;
 	private String remainingNoOfPayment;
-	private BigDecimal originalPropertyValue;
+	private String originalPropertyValue;
 	
-	private BigDecimal yieldValue;
+	private String yieldValue;
 	
-	private BigDecimal currentEffectiveLTV;
+	private String currentLTV;
+	private String estimatedITV;
+	private String currentITV;
+	private String estimatedLTV;
+	private String borrowerName;
 	
-	private BigDecimal originalLTV;
+	private boolean isSubscribe;
 	
-	private BigDecimal effectiveLTV;
-	
-	
-	
-	private BigDecimal ROI;
+	private String ROI;
 	
 	private PropertyDetailModel propertyDetailModel;
 	
@@ -67,6 +66,76 @@ public class NoteDetailModel  extends RequestStatusModel implements Serializable
 	private DemographicDetailModel demoGraphicDetailModel;
 	
 	
+
+	/**
+	 * @return the borrowerName
+	 */
+	public String getBorrowerName() {
+		return borrowerName;
+	}
+
+	/**
+	 * @param borrowerName the borrowerName to set
+	 */
+	public void setBorrowerName(String borrowerName) {
+		this.borrowerName = borrowerName;
+	}
+
+	/**
+	 * @return the isSubscribe
+	 */
+	public boolean isSubscribe() {
+		return isSubscribe;
+	}
+
+	/**
+	 * @param isSubscribe the isSubscribe to set
+	 */
+	public void setSubscribe(boolean isSubscribe) {
+		this.isSubscribe = isSubscribe;
+	}
+
+	/**
+	 * @return the currentLTV
+	 */
+	public String getCurrentLTV() {
+		return currentLTV;
+	}
+
+	/**
+	 * @param currentLTV the currentLTV to set
+	 */
+	public void setCurrentLTV(String currentLTV) {
+		this.currentLTV = currentLTV;
+	}
+
+	/**
+	 * @return the estimatedITV
+	 */
+	public String getEstimatedITV() {
+		return estimatedITV;
+	}
+
+	/**
+	 * @param estimatedITV the estimatedITV to set
+	 */
+	public void setEstimatedITV(String estimatedITV) {
+		this.estimatedITV = estimatedITV;
+	}
+
+	/**
+	 * @return the currentITV
+	 */
+	public String getCurrentITV() {
+		return currentITV;
+	}
+
+	/**
+	 * @param currentITV the currentITV to set
+	 */
+	public void setCurrentITV(String currentITV) {
+		this.currentITV = currentITV;
+	}
 
 	/**
 	 * @return the propertyDetailModel
@@ -100,43 +169,30 @@ public class NoteDetailModel  extends RequestStatusModel implements Serializable
 	/**
 	 * @return the rOI
 	 */
-	public BigDecimal getROI() {
+	public String getROI() {
 		return ROI;
 	}
 
 	/**
 	 * @param rOI the rOI to set
 	 */
-	public void setROI(BigDecimal rOI) {
+	public void setROI(String rOI) {
 		ROI = rOI;
 	}
 
+
 	/**
-	 * @return the effectiveLTV
+	 * @return the estimatedLTV
 	 */
-	public BigDecimal getEffectiveLTV() {
-		return effectiveLTV;
+	public String getEstimatedLTV() {
+		return estimatedLTV;
 	}
 
 	/**
-	 * @param effectiveLTV the effectiveLTV to set
+	 * @param estimatedLTV the estimatedLTV to set
 	 */
-	public void setEffectiveLTV(BigDecimal effectiveLTV) {
-		this.effectiveLTV = effectiveLTV;
-	}
-
-	/**
-	 * @return the originalLTV
-	 */
-	public BigDecimal getOriginalLTV() {
-		return originalLTV;
-	}
-
-	/**
-	 * @param originalLTV the originalLTV to set
-	 */
-	public void setOriginalLTV(BigDecimal originalLTV) {
-		this.originalLTV = originalLTV;
+	public void setEstimatedLTV(String estimatedLTV) {
+		this.estimatedLTV = estimatedLTV;
 	}
 
 	/**
@@ -171,9 +227,9 @@ public class NoteDetailModel  extends RequestStatusModel implements Serializable
 	/**
 	 * @return the noteTypeList
 	 */
-	public List<NoteTypeModel> getNoteTypeList() {
+	public List<LoanTypeModel> getNoteTypeList() {
 		if (noteTypeList == null) {
-			noteTypeList = new ArrayList<NoteTypeModel>();
+			noteTypeList = new ArrayList<LoanTypeModel>();
 		}
 		return noteTypeList;
 	}
@@ -182,16 +238,16 @@ public class NoteDetailModel  extends RequestStatusModel implements Serializable
 	 * @param noteTypeList
 	 *            the noteTypeList to set
 	 */
-	public void setNoteTypeList(List<NoteTypeModel> noteTypeList) {
+	public void setNoteTypeList(List<LoanTypeModel> noteTypeList) {
 		this.noteTypeList = noteTypeList;
 	}
 
 	/**
 	 * @return the selNoteType
 	 */
-	public NoteTypeModel getSelNoteType() {
+	public LoanTypeModel getSelNoteType() {
 		if (selNoteType == null) {
-			selNoteType = new NoteTypeModel();
+			selNoteType = new LoanTypeModel();
 		}
 		return selNoteType;
 	}
@@ -200,7 +256,7 @@ public class NoteDetailModel  extends RequestStatusModel implements Serializable
 	 * @param selNoteType
 	 *            the selNoteType to set
 	 */
-	public void setSelNoteType(NoteTypeModel selNoteType) {
+	public void setSelNoteType(LoanTypeModel selNoteType) {
 		this.selNoteType = selNoteType;
 	}
 
@@ -256,84 +312,84 @@ public class NoteDetailModel  extends RequestStatusModel implements Serializable
 	/**
 	 * @return the upb
 	 */
-	public BigDecimal getUpb() {
+	public String getUpb() {
 		return upb;
 	}
 
 	/**
 	 * @param upb the upb to set
 	 */
-	public void setUpb(BigDecimal upb) {
+	public void setUpb(String upb) {
 		this.upb = upb;
 	}
 
 	/**
 	 * @return the rate
 	 */
-	public BigDecimal getRate() {
+	public String getRate() {
 		return rate;
 	}
 
 	/**
 	 * @param rate the rate to set
 	 */
-	public void setRate(BigDecimal rate) {
+	public void setRate(String rate) {
 		this.rate = rate;
 	}
 
 	/**
 	 * @return the pdiPayment
 	 */
-	public BigDecimal getPdiPayment() {
+	public String getPdiPayment() {
 		return pdiPayment;
 	}
 
 	/**
 	 * @param pdiPayment the pdiPayment to set
 	 */
-	public void setPdiPayment(BigDecimal pdiPayment) {
+	public void setPdiPayment(String pdiPayment) {
 		this.pdiPayment = pdiPayment;
 	}
 
 	/**
 	 * @return the tdiPayment
 	 */
-	public BigDecimal getTdiPayment() {
+	public String getTdiPayment() {
 		return tdiPayment;
 	}
 
 	/**
 	 * @param tdiPayment the tdiPayment to set
 	 */
-	public void setTdiPayment(BigDecimal tdiPayment) {
+	public void setTdiPayment(String tdiPayment) {
 		this.tdiPayment = tdiPayment;
 	}
 
 	/**
 	 * @return the originalTerm
 	 */
-	public BigDecimal getOriginalTerm() {
+	public String getOriginalTerm() {
 		return originalTerm;
 	}
 
 	/**
 	 * @param originalTerm the originalTerm to set
 	 */
-	public void setOriginalTerm(BigDecimal originalTerm) {
+	public void setOriginalTerm(String originalTerm) {
 		this.originalTerm = originalTerm;
 	}
 
 	/**
 	 * @return the originalPrincipleBalance
 	 */
-	public BigDecimal getOriginalPrincipleBalance() {
+	public String getOriginalPrincipleBalance() {
 		return originalPrincipleBalance;
 	}
 
 	/**
 	 * @param originalPrincipleBalance the originalPrincipleBalance to set
 	 */
-	public void setOriginalPrincipleBalance(BigDecimal originalPrincipleBalance) {
+	public void setOriginalPrincipleBalance(String originalPrincipleBalance) {
 		this.originalPrincipleBalance = originalPrincipleBalance;
 	}
 
@@ -354,28 +410,28 @@ public class NoteDetailModel  extends RequestStatusModel implements Serializable
 	/**
 	 * @return the noOfPaymentRemaining
 	 */
-	public BigDecimal getNoOfPaymentRemaining() {
+	public String getNoOfPaymentRemaining() {
 		return noOfPaymentRemaining;
 	}
 
 	/**
 	 * @param noOfPaymentRemaining the noOfPaymentRemaining to set
 	 */
-	public void setNoOfPaymentRemaining(BigDecimal noOfPaymentRemaining) {
+	public void setNoOfPaymentRemaining(String noOfPaymentRemaining) {
 		this.noOfPaymentRemaining = noOfPaymentRemaining;
 	}
 
 	/**
 	 * @return the salePrice
 	 */
-	public BigDecimal getSalePrice() {
+	public String getSalePrice() {
 		return salePrice;
 	}
 
 	/**
 	 * @param salePrice the salePrice to set
 	 */
-	public void setSalePrice(BigDecimal salePrice) {
+	public void setSalePrice(String salePrice) {
 		this.salePrice = salePrice;
 	}
 	
@@ -545,57 +601,43 @@ public class NoteDetailModel  extends RequestStatusModel implements Serializable
 	/**
 	 * @return the notePrice
 	 */
-	public BigDecimal getNotePrice() {
+	public String getNotePrice() {
 		return notePrice;
 	}
 
 	/**
 	 * @param notePrice the notePrice to set
 	 */
-	public void setNotePrice(BigDecimal notePrice) {
+	public void setNotePrice(String notePrice) {
 		this.notePrice = notePrice;
 	}
 
 	/**
 	 * @return the originalPropertyValue
 	 */
-	public BigDecimal getOriginalPropertyValue() {
+	public String getOriginalPropertyValue() {
 		return originalPropertyValue;
 	}
 
 	/**
 	 * @param originalPropertyValue the originalPropertyValue to set
 	 */
-	public void setOriginalPropertyValue(BigDecimal originalPropertyValue) {
+	public void setOriginalPropertyValue(String originalPropertyValue) {
 		this.originalPropertyValue = originalPropertyValue;
 	}
 
 	/**
 	 * @return the yieldValue
 	 */
-	public BigDecimal getYieldValue() {
+	public String getYieldValue() {
 		return yieldValue;
 	}
 
 	/**
 	 * @param yieldValue the yieldValue to set
 	 */
-	public void setYieldValue(BigDecimal yieldValue) {
+	public void setYieldValue(String yieldValue) {
 		this.yieldValue = yieldValue;
-	}
-
-	/**
-	 * @return the currentEffectiveLTV
-	 */
-	public BigDecimal getCurrentEffectiveLTV() {
-		return currentEffectiveLTV;
-	}
-
-	/**
-	 * @param currentEffectiveLTV the currentEffectiveLTV to set
-	 */
-	public void setCurrentEffectiveLTV(BigDecimal currentEffectiveLTV) {
-		this.currentEffectiveLTV = currentEffectiveLTV;
 	}
 
 	

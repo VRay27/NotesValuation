@@ -29,7 +29,7 @@ public class PropertyDetailModel implements Serializable {
 	
 	private String	state;
 	
-	private Integer	zip;
+	private String	zip;
 	
 	
 	private Integer	age;
@@ -157,14 +157,14 @@ public class PropertyDetailModel implements Serializable {
 	/**
 	 * @return the zip
 	 */
-	public Integer getZip() {
+	public String getZip() {
 		return zip;
 	}
 
 	/**
 	 * @param zip the zip to set
 	 */
-	public void setZip(Integer zip) {
+	public void setZip(String zip) {
 		this.zip = zip;
 	}
 

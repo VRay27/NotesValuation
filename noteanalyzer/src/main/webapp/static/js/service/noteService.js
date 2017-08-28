@@ -1,7 +1,7 @@
 'use strict';
 
 
-noteApp.factory('NoteService', ['$http', 'toastr', '$q', '$rootScope', '$uibModal', 'WaitingDialog','UtilityService',function($http, toastr, $q, $rootScope, $uibModal,WaitingDialog,UtilityService) {
+noteApp.factory('NoteService', ['$http', 'toastr', '$q','$filter', '$rootScope', '$uibModal', 'WaitingDialog','UtilityService',function($http, toastr, $q, $filter,$rootScope, $uibModal,WaitingDialog,UtilityService) {
 	var noteInputFormModel;
 	var noteDetailModel;
 	var factory = {
@@ -17,16 +17,19 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q', '$rootScope', '$uibModa
 		getInputFormModel : getInputFormModel,
 		setNoteDetailModel : setNoteDetailModel,
 		getNoteDetailModel : getNoteDetailModel,
-		getYield : getYield
-		
+		getYield : getYield,
+		updateMarketValue : updateMarketValue,
+		subscribeNote : subscribeNote
 		
 	};
 
 	return factory;
 	
 	function getYield(model){
-		var newRate = UtilityService.calculateRate(model.remainingNoOfPayment,model.pdiPayment*-1, model.notePrice) * 1200;
-		model.yieldValue = UtilityService.round(newRate,2);
+		if(model.selNoteType.noteType == 'P'){
+			var newRate = UtilityService.calculateRate(model.remainingPayment,model.pdiPayment*-1,model.notePrice) * 1200;
+			model.yieldValue = UtilityService.round(newRate,2);
+		}
 	}
 	
 	function setInputFormModel(model){
@@ -45,10 +48,10 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q', '$rootScope', '$uibModa
 
 
 	function noteCalculator(noteInputFormModel) {
-		 var principal = noteInputFormModel.upb;
-		 var term  = noteInputFormModel.originalTerm;
-		 var interestRate   = noteInputFormModel.rate;
-		 var payment = noteInputFormModel.pdiPayment;
+		 var principal = $filter('sanitizeInput')(noteInputFormModel.originalPrincipleBalance);
+		 var term  = $filter('sanitizeInput')(noteInputFormModel.originalTerm);
+		 var interestRate   = $filter('sanitizeInput')(noteInputFormModel.rate);
+		 var payment = $filter('sanitizeInput')(noteInputFormModel.pdiPayment);
 		 var isAllPresent = principal && term && interestRate && payment;
 		 if(!(isAllPresent)) {
 			 	interestRate = interestRate / 1200;
@@ -67,8 +70,8 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q', '$rootScope', '$uibModa
 					return 'originalTerm';
 				} else if (term && interestRate && payment) {
 					var newPrinciple = UtilityService.getPV(interestRate, term, payment);
-					noteInputFormModel.upb = UtilityService.round(newPrinciple, 2);
-					return 'upb';
+					noteInputFormModel.originalPrincipleBalance = UtilityService.round(newPrinciple, 2);
+					return 'originalPrincipleBalance';
 				}
 			}
 	}
@@ -108,6 +111,25 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q', '$rootScope', '$uibModa
 		return deferred.promise;
 	}
 	
+	function subscribeNote(noteDetailModel) {
+		WaitingDialog.show();
+		var deferred = $q.defer();
+		$http.post('api/updateNote', noteDetailModel)
+			.then(
+				function(response) {
+					deferred.resolve(response.data);
+				},
+				function(errResponse) {
+					console.error('Error while edit note');
+					deferred.reject(errResponse);
+				}
+		).then(
+				function() {
+					WaitingDialog.hide();
+				});
+		return deferred.promise;
+	}
+	
 	function deleteNote(noteDetailModel) {
 		var deferred = $q.defer();
 		$http.post('api/deleteNote',noteDetailModel)
@@ -127,6 +149,25 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q', '$rootScope', '$uibModa
 		WaitingDialog.show();
 		var deferred = $q.defer();
 		$http.get('api/getNoteDetail/'+noteId)
+			.then(
+				function(response) {
+					deferred.resolve(response.data);
+				},
+				function(errResponse) {
+					console.error('Error while fetching note '+noteId);
+					deferred.reject(errResponse);
+				}
+		).then(
+				function() {
+					WaitingDialog.hide();
+				});
+		return deferred.promise;
+	}
+	
+	function updateMarketValue(noteId) {
+		WaitingDialog.show();
+		var deferred = $q.defer();
+		$http.get('api/updateMarketValue/'+noteId)
 			.then(
 				function(response) {
 					deferred.resolve(response.data);

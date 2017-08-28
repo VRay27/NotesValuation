@@ -32,6 +32,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.noteanalyzer.mvc.model.AddressModel;
+import com.noteanalyzer.mvc.model.LoanTypeModel;
 import com.noteanalyzer.mvc.model.NoteDashboardModel;
 import com.noteanalyzer.mvc.model.NoteDetailModel;
 import com.noteanalyzer.mvc.model.NoteInputFormModel;
@@ -103,7 +104,7 @@ public class NoteRestController {
 	 */
 	@RequestMapping(value = "/analyzeNote", method = RequestMethod.POST)
 	public ResponseEntity<NoteInputFormModel> analyzeNote(@RequestBody NoteInputFormModel noteInputFormModel) {
-		String zipCode = noteInputFormModel.getAddress().getZipCode();
+		String zipCode = noteInputFormModel.getZipCode();
 		if (StringUtils.isEmpty(zipCode)) {
 			noteInputFormModel.setErrorMessage("Zip code is mandtory to process your request ");
 			return new ResponseEntity<NoteInputFormModel>(noteInputFormModel, HttpStatus.BAD_REQUEST);
@@ -115,10 +116,16 @@ public class NoteRestController {
 			return new ResponseEntity<NoteInputFormModel>(noteInputFormModel, HttpStatus.NOT_FOUND);
 		}
 		AddressModel addressModel = address.get();
-		noteInputFormModel.setAddress(addressModel);
+		noteInputFormModel.setAddressModel(addressModel);
 		noteInputFormModel.setZipCode(zipCode);
 
-		Optional<List<NoteTypeModel>> noteTypeModelList = noteService.getNoteType();
+		Optional<List<LoanTypeModel>> loanTypeModelList = noteService.getLoanType();
+		if (loanTypeModelList.isPresent()) {
+			List<LoanTypeModel> loanTypeList = loanTypeModelList.get();
+			noteInputFormModel.setLoanTypeList(loanTypeList);
+		}
+		
+		Optional<List<NoteTypeModel>> noteTypeModelList = noteService.getAllNoteType();
 		if (noteTypeModelList.isPresent()) {
 			List<NoteTypeModel> noteTypeList = noteTypeModelList.get();
 			noteInputFormModel.setNoteTypeList(noteTypeList);
@@ -323,6 +330,27 @@ public class NoteRestController {
 		Optional<NoteDetailModel> model = noteService.updateNote(noteDetailModel);
 		return new ResponseEntity<NoteDetailModel>(model.get(), HttpStatus.OK);
 	}
+	
+	/**
+	 * This method will be used to update given note value and recalculate the
+	 * parameters.
+	 * 
+	 * @param noteDetailModel
+	 * @return
+	 * @throws ParseException 
+	 */
+	@RequestMapping(value = "/api/updateNoteNew", method = RequestMethod.POST)
+	public ResponseEntity<NoteInputFormModel> updateNote(@RequestBody NoteInputFormModel noteModel) throws ParseException {
+
+		if (noteModel == null) {
+			NoteInputFormModel model = new NoteInputFormModel();
+			model.setErrorMessage("Invalid input details");
+			return new ResponseEntity<NoteInputFormModel>(model, HttpStatus.BAD_REQUEST);
+		}
+		Optional<NoteInputFormModel> model = noteService.updateNote(noteModel);
+		return new ResponseEntity<NoteInputFormModel>(model.get(), HttpStatus.OK);
+	}
+
 
 	/**
 	 * This method will be used to delete the given note using note id for
@@ -354,8 +382,8 @@ public class NoteRestController {
 	 * @param noteId
 	 * @return
 	 */
-	@RequestMapping(value = "/api/getNoteDetail/{noteId}", method = RequestMethod.GET)
-	public ResponseEntity<NoteDetailModel> getNoteDetail(@PathVariable String noteId) {
+	@RequestMapping(value = "/api/getNoteDetailOld/{noteId}", method = RequestMethod.GET)
+	public ResponseEntity<NoteDetailModel> getNoteDetailOld(@PathVariable String noteId) {
 		NoteDetailModel model = new NoteDetailModel();
 		if (StringUtils.isEmpty(noteId)) {
 			model.setErrorMessage("Invalid input details");
@@ -371,20 +399,59 @@ public class NoteRestController {
 	}
 
 	/**
+	 * This method will fetch the details of given note present for given logged
+	 * in user.
+	 * 
+	 * @param noteId
+	 * @return
+	 */
+	@RequestMapping(value = "/api/getNoteDetail/{noteId}", method = RequestMethod.GET)
+	public ResponseEntity<NoteInputFormModel> getNoteDetail(@PathVariable String noteId) {
+		NoteInputFormModel model = new NoteInputFormModel();
+		if (StringUtils.isEmpty(noteId)) {
+			model.setErrorMessage("Invalid input details");
+			return new ResponseEntity<NoteInputFormModel>(model, HttpStatus.BAD_REQUEST);
+		}
+		Optional<NoteInputFormModel> noteDetailModel = noteService.getNoteDetailNew(Long.valueOf(noteId));
+		if (noteDetailModel.isPresent()) {
+			LOG.info("Inside Get Note Details with  noteDetailModel value " + noteId);
+			return new ResponseEntity<NoteInputFormModel>(noteDetailModel.get(), HttpStatus.OK);
+		}
+		model.setErrorMessage("Unable to find the details of input note");
+		return new ResponseEntity<NoteInputFormModel>(model, HttpStatus.NOT_FOUND);
+	}
+
+	/**
 	 * This method will return the list of note type supported by this
+	 * application.
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/api/getLoanType", method = RequestMethod.GET)
+	public ResponseEntity<List<LoanTypeModel>> getLoanType() {
+		Optional<List<LoanTypeModel>> loanTypeModelList = noteService.getLoanType();
+		if (loanTypeModelList.isPresent()) {
+			return new ResponseEntity<List<LoanTypeModel>>(loanTypeModelList.get(), HttpStatus.OK);
+		}
+		return new ResponseEntity<List<LoanTypeModel>>(HttpStatus.NOT_FOUND);
+	}
+
+	/**
+	 * This method will return the list of property type supporte by this
 	 * application.
 	 * 
 	 * @return
 	 */
 	@RequestMapping(value = "/api/getNoteType", method = RequestMethod.GET)
 	public ResponseEntity<List<NoteTypeModel>> getNoteType() {
-		Optional<List<NoteTypeModel>> noteTypeModelList = noteService.getNoteType();
+		Optional<List<NoteTypeModel>> noteTypeModelList = noteService.getAllNoteType();
 		if (noteTypeModelList.isPresent()) {
 			return new ResponseEntity<List<NoteTypeModel>>(noteTypeModelList.get(), HttpStatus.OK);
 		}
 		return new ResponseEntity<List<NoteTypeModel>>(HttpStatus.NOT_FOUND);
 	}
 
+	
 	/**
 	 * This method will return the list of property type supporte by this
 	 * application.

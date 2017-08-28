@@ -9,14 +9,14 @@
 				
 				<div class="form-group">
 					<label class="control-label"><i class="ion-person"></i>
-						Unpaid Balance</label> 
+						 Balance</label> 
 						<div class="input-group calcInput">
-						<input type="text" id="upb" class="form-control "  autofocus ng-model="noteInputFormModel.upb"
-						maxlength="90"  pattern="[0-9.]+" title="This field can contain only  numeric characters."  placeholder="Enter unpaid balance." />
-						<span class="input-group-addon" ng-click="populateNoteInputModelFromJS('upb')">
+						<input type="text" id="originalPrincipleBalance" class="form-control "  autofocus ng-model="noteInputFormModel.originalPrincipleBalance"
+						maxlength="90"  pattern="[0-9.]+" title="This field can contain only  numeric characters."  placeholder="Enter  balance." />
+						<span class="input-group-addon" ng-click="populateNoteInputModelFromJS('originalPrincipleBalance')">
     					    <i class="glyphicon glyphicon-search"></i>
     					</span>
-						<span class="input-group-addon" ng-click="clearCalcField('upb')">
+						<span class="input-group-addon" ng-click="clearCalcField('originalPrincipleBalance')">
         					<i class="glyphicon glyphicon-remove"></i>
     					</span>	
     					</div>	 		

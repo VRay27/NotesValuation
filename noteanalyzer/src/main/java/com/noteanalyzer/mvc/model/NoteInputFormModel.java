@@ -22,99 +22,194 @@ public class NoteInputFormModel  extends RequestStatusModel implements Serializa
 	private static final long serialVersionUID = 7343742294405817564L;
 
 	private long userId;
+	private long noteId;
 	
+	private AddressModel addressModel;
+	private List<LoanTypeModel> loanTypeList;
 	private List<NoteTypeModel> noteTypeList;
+	private LoanTypeModel selLoanType;
 	private NoteTypeModel selNoteType;
 	private List<PropertyTypeModel> propTypeList;
 	private PropertyTypeModel selPropType;
-	private AddressModel addressModel;
 	@NotNull(message = "Note Date cannot be null")
 	private String noteDate;
 	@NotNull(message = "Unpaid Balance cannot be null")
 	@Digits(message = "Unpaid Balance cannot be greater than 20 digit", fraction = 2, integer = 20)
-	private BigDecimal upb;
-	private BigDecimal rate;
+	private String upb;
+	private String rate;
 	@Digits(message = "PDI Payment cannot be greater than 20 digit", fraction = 2, integer = 20)
-	private BigDecimal pdiPayment;
+	private String pdiPayment;
 	@Digits(message = "TDI Payment cannot be greater than 20 digit", fraction = 2, integer = 20)
-	private BigDecimal tdiPayment;
+	private String tdiPayment;
 	@Digits(message = "Original Term cannot be greater than 20 digit", fraction = 2, integer = 20)
-	private BigDecimal originalTerm;
+	private String originalTerm;
 	@Digits(message = "original Principle Balance cannot be greater than 20 digit", fraction = 2, integer = 20)
-	private BigDecimal originalPrincipleBalance;
-	private String paymentHistory;
-	private BigDecimal noOfPaymentRemaining;
-	private BigDecimal salePrice;
-	private String selPerforming;
+	private String originalPrincipleBalance;
 	private String notePosition;
-	private String userScore;
-	
+	private String noteScoreByUser;
+	private String estimatedMarketValue="";
+	private String remainingPayment="";
 	private String selCity;
 	private String selState;
 	private String zipCode;
 	private String streetAddress;
-	
+	private String lastPaymentRecievedDate;
 	private String noOfLatePayment;
+	private String noOfUnits;
 	
 	private String borrowerCreditScore;
 	private String notePrice;
+	private String hoaFees;
+	private String borrowerName;
+	private boolean isSubscribe;
+	private String yieldValue;
 	
-	private String performing;
-	private String remainingNoOfPayment;
-	private String originalPropertyValue;
-	
-	private BigDecimal yieldValue;
-	
-	private BigDecimal currentEffectiveLTV;
-	
-	
+	private String currentLTV;
+	private String estimatedITV;
+	private String currentITV;
+	private String estimatedLTV;
+	private String ROI;
+	private PropertyDetailModel propertyDetailModel;
+	private DemographicDetailModel demoGraphicDetailModel;
 
+	
+	
+	
 	/**
-	 * @return the performing
+	 * @return the propertyDetailModel
 	 */
-	public String getPerforming() {
-		return performing;
+	public PropertyDetailModel getPropertyDetailModel() {
+		return propertyDetailModel;
 	}
 
 	/**
-	 * @param performing the performing to set
+	 * @param propertyDetailModel the propertyDetailModel to set
 	 */
-	public void setPerforming(String performing) {
-		this.performing = performing;
+	public void setPropertyDetailModel(PropertyDetailModel propertyDetailModel) {
+		this.propertyDetailModel = propertyDetailModel;
 	}
 
-	
+	/**
+	 * @return the demoGraphicDetailModel
+	 */
+	public DemographicDetailModel getDemoGraphicDetailModel() {
+		return demoGraphicDetailModel;
+	}
+
+	/**
+	 * @param demoGraphicDetailModel the demoGraphicDetailModel to set
+	 */
+	public void setDemoGraphicDetailModel(DemographicDetailModel demoGraphicDetailModel) {
+		this.demoGraphicDetailModel = demoGraphicDetailModel;
+	}
+
+	/**
+	 * @return the rOI
+	 */
+	public String getROI() {
+		return ROI;
+	}
+
+	/**
+	 * @param rOI the rOI to set
+	 */
+	public void setROI(String rOI) {
+		ROI = rOI;
+	}
+
+	/**
+	 * @return the isSubscribe
+	 */
+	public boolean isSubscribe() {
+		return isSubscribe;
+	}
+
+	/**
+	 * @param isSubscribe the isSubscribe to set
+	 */
+	public void setSubscribe(boolean isSubscribe) {
+		this.isSubscribe = isSubscribe;
+	}
+
+	/**
+	 * @return the addressModel
+	 */
+	public AddressModel getAddressModel() {
+		return addressModel;
+	}
+
+	/**
+	 * @param addressModel the addressModel to set
+	 */
+	public void setAddressModel(AddressModel addressModel) {
+		this.addressModel = addressModel;
+	}
+
+	/**
+	 * @return the userId
+	 */
+	public long getUserId() {
+		return userId;
+	}
+
+	/**
+	 * @param userId the userId to set
+	 */
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
+
+	/**
+	 * @return the loanTypeList
+	 */
+	public List<LoanTypeModel> getLoanTypeList() {
+		return loanTypeList;
+	}
+
+	/**
+	 * @param loanTypeList the loanTypeList to set
+	 */
+	public void setLoanTypeList(List<LoanTypeModel> loanTypeList) {
+		this.loanTypeList = loanTypeList;
+	}
+
 	/**
 	 * @return the noteTypeList
 	 */
 	public List<NoteTypeModel> getNoteTypeList() {
-		if (noteTypeList == null) {
-			noteTypeList = new ArrayList<NoteTypeModel>();
-		}
 		return noteTypeList;
 	}
 
 	/**
-	 * @param noteTypeList
-	 *            the noteTypeList to set
+	 * @param noteTypeList the noteTypeList to set
 	 */
 	public void setNoteTypeList(List<NoteTypeModel> noteTypeList) {
 		this.noteTypeList = noteTypeList;
 	}
 
 	/**
+	 * @return the selLoanType
+	 */
+	public LoanTypeModel getSelLoanType() {
+		return selLoanType;
+	}
+
+	/**
+	 * @param selLoanType the selLoanType to set
+	 */
+	public void setSelLoanType(LoanTypeModel selLoanType) {
+		this.selLoanType = selLoanType;
+	}
+
+	/**
 	 * @return the selNoteType
 	 */
 	public NoteTypeModel getSelNoteType() {
-		if (selNoteType == null) {
-			selNoteType = new NoteTypeModel();
-		}
 		return selNoteType;
 	}
 
 	/**
-	 * @param selNoteType
-	 *            the selNoteType to set
+	 * @param selNoteType the selNoteType to set
 	 */
 	public void setSelNoteType(NoteTypeModel selNoteType) {
 		this.selNoteType = selNoteType;
@@ -124,15 +219,11 @@ public class NoteInputFormModel  extends RequestStatusModel implements Serializa
 	 * @return the propTypeList
 	 */
 	public List<PropertyTypeModel> getPropTypeList() {
-		if (propTypeList == null) {
-			propTypeList = new ArrayList<PropertyTypeModel>();
-		}
 		return propTypeList;
 	}
 
 	/**
-	 * @param propTypeList
-	 *            the propTypeList to set
+	 * @param propTypeList the propTypeList to set
 	 */
 	public void setPropTypeList(List<PropertyTypeModel> propTypeList) {
 		this.propTypeList = propTypeList;
@@ -146,29 +237,10 @@ public class NoteInputFormModel  extends RequestStatusModel implements Serializa
 	}
 
 	/**
-	 * @param selPropType
-	 *            the selPropType to set
+	 * @param selPropType the selPropType to set
 	 */
 	public void setSelPropType(PropertyTypeModel selPropType) {
 		this.selPropType = selPropType;
-	}
-
-	/**
-	 * @return the selAddress
-	 */
-	public AddressModel getAddress() {
-		if (addressModel == null) {
-			addressModel = new AddressModel();
-		}
-		return addressModel;
-	}
-
-	/**
-	 * @param selAddress
-	 *            the selAddress to set
-	 */
-	public void setAddress(AddressModel addressModel) {
-		this.addressModel = addressModel;
 	}
 
 	/**
@@ -179,8 +251,7 @@ public class NoteInputFormModel  extends RequestStatusModel implements Serializa
 	}
 
 	/**
-	 * @param noteDate
-	 *            the noteDate to set
+	 * @param noteDate the noteDate to set
 	 */
 	public void setNoteDate(String noteDate) {
 		this.noteDate = noteDate;
@@ -189,159 +260,141 @@ public class NoteInputFormModel  extends RequestStatusModel implements Serializa
 	/**
 	 * @return the upb
 	 */
-	public BigDecimal getUpb() {
+	public String getUpb() {
 		return upb;
 	}
 
 	/**
 	 * @param upb the upb to set
 	 */
-	public void setUpb(BigDecimal upb) {
+	public void setUpb(String upb) {
 		this.upb = upb;
 	}
 
 	/**
 	 * @return the rate
 	 */
-	public BigDecimal getRate() {
+	public String getRate() {
 		return rate;
 	}
 
 	/**
 	 * @param rate the rate to set
 	 */
-	public void setRate(BigDecimal rate) {
+	public void setRate(String rate) {
 		this.rate = rate;
 	}
 
 	/**
 	 * @return the pdiPayment
 	 */
-	public BigDecimal getPdiPayment() {
+	public String getPdiPayment() {
 		return pdiPayment;
 	}
 
 	/**
 	 * @param pdiPayment the pdiPayment to set
 	 */
-	public void setPdiPayment(BigDecimal pdiPayment) {
+	public void setPdiPayment(String pdiPayment) {
 		this.pdiPayment = pdiPayment;
 	}
 
 	/**
 	 * @return the tdiPayment
 	 */
-	public BigDecimal getTdiPayment() {
+	public String getTdiPayment() {
 		return tdiPayment;
 	}
 
 	/**
 	 * @param tdiPayment the tdiPayment to set
 	 */
-	public void setTdiPayment(BigDecimal tdiPayment) {
+	public void setTdiPayment(String tdiPayment) {
 		this.tdiPayment = tdiPayment;
 	}
 
 	/**
 	 * @return the originalTerm
 	 */
-	public BigDecimal getOriginalTerm() {
+	public String getOriginalTerm() {
 		return originalTerm;
 	}
 
 	/**
 	 * @param originalTerm the originalTerm to set
 	 */
-	public void setOriginalTerm(BigDecimal originalTerm) {
+	public void setOriginalTerm(String originalTerm) {
 		this.originalTerm = originalTerm;
 	}
 
 	/**
 	 * @return the originalPrincipleBalance
 	 */
-	public BigDecimal getOriginalPrincipleBalance() {
+	public String getOriginalPrincipleBalance() {
 		return originalPrincipleBalance;
 	}
 
 	/**
 	 * @param originalPrincipleBalance the originalPrincipleBalance to set
 	 */
-	public void setOriginalPrincipleBalance(BigDecimal originalPrincipleBalance) {
+	public void setOriginalPrincipleBalance(String originalPrincipleBalance) {
 		this.originalPrincipleBalance = originalPrincipleBalance;
 	}
 
 	/**
-	 * @return the paymentHistory
+	 * @return the notePosition
 	 */
-	public String getPaymentHistory() {
-		return paymentHistory;
+	public String getNotePosition() {
+		return notePosition;
 	}
 
 	/**
-	 * @param paymentHistory the paymentHistory to set
+	 * @param notePosition the notePosition to set
 	 */
-	public void setPaymentHistory(String paymentHistory) {
-		this.paymentHistory = paymentHistory;
+	public void setNotePosition(String notePosition) {
+		this.notePosition = notePosition;
 	}
 
 	/**
-	 * @return the noOfPaymentRemaining
+	 * @return the noteScoreByUser
 	 */
-	public BigDecimal getNoOfPaymentRemaining() {
-		return noOfPaymentRemaining;
+	public String getNoteScoreByUser() {
+		return noteScoreByUser;
 	}
 
 	/**
-	 * @param noOfPaymentRemaining the noOfPaymentRemaining to set
+	 * @param noteScoreByUser the noteScoreByUser to set
 	 */
-	public void setNoOfPaymentRemaining(BigDecimal noOfPaymentRemaining) {
-		this.noOfPaymentRemaining = noOfPaymentRemaining;
+	public void setNoteScoreByUser(String noteScoreByUser) {
+		this.noteScoreByUser = noteScoreByUser;
 	}
 
 	/**
-	 * @return the salePrice
+	 * @return the estimatedMarketValue
 	 */
-	public BigDecimal getSalePrice() {
-		return salePrice;
+	public String getEstimatedMarketValue() {
+		return estimatedMarketValue;
 	}
 
 	/**
-	 * @param salePrice the salePrice to set
+	 * @param estimatedMarketValue the estimatedMarketValue to set
 	 */
-	public void setSalePrice(BigDecimal salePrice) {
-		this.salePrice = salePrice;
-	}
-	
-	
-
-	/**
-	 * @return the selPerforming
-	 */
-	public String getSelPerforming() {
-		return selPerforming;
+	public void setEstimatedMarketValue(String estimatedMarketValue) {
+		this.estimatedMarketValue = estimatedMarketValue;
 	}
 
 	/**
-	 * @param selPerforming the selPerforming to set
+	 * @return the remainingPayment
 	 */
-	public void setSelPerforming(String selPerforming) {
-		this.selPerforming = selPerforming;
-	}
-
-	
-
-	/**
-	 * @return the userScore
-	 */
-	public String getUserScore() {
-		return userScore;
+	public String getRemainingPayment() {
+		return remainingPayment;
 	}
 
 	/**
-	 * @param userScore the userScore to set
+	 * @param remainingPayment the remainingPayment to set
 	 */
-	public void setUserScore(String userScore) {
-		this.userScore = userScore;
+	public void setRemainingPayment(String remainingPayment) {
+		this.remainingPayment = remainingPayment;
 	}
 
 	/**
@@ -386,7 +439,6 @@ public class NoteInputFormModel  extends RequestStatusModel implements Serializa
 		this.zipCode = zipCode;
 	}
 
-	
 	/**
 	 * @return the streetAddress
 	 */
@@ -402,31 +454,17 @@ public class NoteInputFormModel  extends RequestStatusModel implements Serializa
 	}
 
 	/**
-	 * @return the userId
+	 * @return the lastPaymentRecievedDate
 	 */
-	public long getUserId() {
-		return userId;
+	public String getLastPaymentRecievedDate() {
+		return lastPaymentRecievedDate;
 	}
 
 	/**
-	 * @param userId the userId to set
+	 * @param lastPaymentRecievedDate the lastPaymentRecievedDate to set
 	 */
-	public void setUserId(long userId) {
-		this.userId = userId;
-	}
-
-	/**
-	 * @return the notePosition
-	 */
-	public String getNotePosition() {
-		return notePosition;
-	}
-
-	/**
-	 * @param notePosition the notePosition to set
-	 */
-	public void setNotePosition(String notePosition) {
-		this.notePosition = notePosition;
+	public void setLastPaymentRecievedDate(String lastPaymentRecievedDate) {
+		this.lastPaymentRecievedDate = lastPaymentRecievedDate;
 	}
 
 	/**
@@ -441,6 +479,20 @@ public class NoteInputFormModel  extends RequestStatusModel implements Serializa
 	 */
 	public void setNoOfLatePayment(String noOfLatePayment) {
 		this.noOfLatePayment = noOfLatePayment;
+	}
+
+	/**
+	 * @return the noOfUnits
+	 */
+	public String getNoOfUnits() {
+		return noOfUnits;
+	}
+
+	/**
+	 * @param noOfUnits the noOfUnits to set
+	 */
+	public void setNoOfUnits(String noOfUnits) {
+		this.noOfUnits = noOfUnits;
 	}
 
 	/**
@@ -472,61 +524,119 @@ public class NoteInputFormModel  extends RequestStatusModel implements Serializa
 	}
 
 	/**
-	 * @return the remainingNoOfPayment
+	 * @return the hoaFees
 	 */
-	public String getRemainingNoOfPayment() {
-		return remainingNoOfPayment;
+	public String getHoaFees() {
+		return hoaFees;
 	}
 
 	/**
-	 * @param remainingNoOfPayment the remainingNoOfPayment to set
+	 * @param hoaFees the hoaFees to set
 	 */
-	public void setRemainingNoOfPayment(String remainingNoOfPayment) {
-		this.remainingNoOfPayment = remainingNoOfPayment;
+	public void setHoaFees(String hoaFees) {
+		this.hoaFees = hoaFees;
 	}
 
 	/**
-	 * @return the originalPropertyValue
+	 * @return the borrowerName
 	 */
-	public String getOriginalPropertyValue() {
-		return originalPropertyValue;
+	public String getBorrowerName() {
+		return borrowerName;
 	}
 
 	/**
-	 * @param originalPropertyValue the originalPropertyValue to set
+	 * @param borrowerName the borrowerName to set
 	 */
-	public void setOriginalPropertyValue(String originalPropertyValue) {
-		this.originalPropertyValue = originalPropertyValue;
+	public void setBorrowerName(String borrowerName) {
+		this.borrowerName = borrowerName;
 	}
 
-	
 	/**
 	 * @return the yieldValue
 	 */
-	public BigDecimal getYieldValue() {
+	public String getYieldValue() {
 		return yieldValue;
 	}
 
 	/**
 	 * @param yieldValue the yieldValue to set
 	 */
-	public void setYieldValue(BigDecimal yieldValue) {
+	public void setYieldValue(String yieldValue) {
 		this.yieldValue = yieldValue;
 	}
 
+	
+
 	/**
-	 * @return the currentEffectiveLTV
+	 * @return the currentLTV
 	 */
-	public BigDecimal getCurrentEffectiveLTV() {
-		return currentEffectiveLTV;
+	public String getCurrentLTV() {
+		return currentLTV;
 	}
 
 	/**
-	 * @param currentEffectiveLTV the currentEffectiveLTV to set
+	 * @param currentLTV the currentLTV to set
 	 */
-	public void setCurrentEffectiveLTV(BigDecimal currentEffectiveLTV) {
-		this.currentEffectiveLTV = currentEffectiveLTV;
+	public void setCurrentLTV(String currentLTV) {
+		this.currentLTV = currentLTV;
 	}
 
+	/**
+	 * @return the estimatedITV
+	 */
+	public String getEstimatedITV() {
+		return estimatedITV;
+	}
 
+	/**
+	 * @param estimatedITV the estimatedITV to set
+	 */
+	public void setEstimatedITV(String estimatedITV) {
+		this.estimatedITV = estimatedITV;
+	}
+
+	/**
+	 * @return the currentITV
+	 */
+	public String getCurrentITV() {
+		return currentITV;
+	}
+
+	/**
+	 * @param currentITV the currentITV to set
+	 */
+	public void setCurrentITV(String currentITV) {
+		this.currentITV = currentITV;
+	}
+
+	/**
+	 * @return the estimatedLTV
+	 */
+	public String getEstimatedLTV() {
+		return estimatedLTV;
+	}
+
+	/**
+	 * @param estimatedLTV the estimatedLTV to set
+	 */
+	public void setEstimatedLTV(String estimatedLTV) {
+		this.estimatedLTV = estimatedLTV;
+	}
+
+	/**
+	 * @return the noteId
+	 */
+	public long getNoteId() {
+		return noteId;
+	}
+
+	/**
+	 * @param noteId the noteId to set
+	 */
+	public void setNoteId(long noteId) {
+		this.noteId = noteId;
+	}
+	
+	
+	
 }

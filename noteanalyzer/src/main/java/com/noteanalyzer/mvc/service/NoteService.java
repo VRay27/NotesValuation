@@ -8,7 +8,7 @@ import com.noteanalyzer.appraisal.exceptions.AddressNotAvailableException;
 import com.noteanalyzer.entity.address.Zipcodes;
 import com.noteanalyzer.entity.appraisal.AppriasalSources;
 import com.noteanalyzer.entity.notes.NoteConfiguration;
-import com.noteanalyzer.entity.notes.NoteType;
+import com.noteanalyzer.entity.notes.LoanType;
 import com.noteanalyzer.entity.notes.Parameters;
 import com.noteanalyzer.entity.notes.Property;
 import com.noteanalyzer.entity.notes.PropertyType;
@@ -16,8 +16,9 @@ import com.noteanalyzer.entity.valuation.Statistics;
 import com.noteanalyzer.mvc.model.AddressModel;
 import com.noteanalyzer.mvc.model.NoteDetailModel;
 import com.noteanalyzer.mvc.model.NoteInputFormModel;
-import com.noteanalyzer.mvc.model.NoteDashboardModel;
 import com.noteanalyzer.mvc.model.NoteTypeModel;
+import com.noteanalyzer.mvc.model.NoteDashboardModel;
+import com.noteanalyzer.mvc.model.LoanTypeModel;
 import com.noteanalyzer.mvc.model.PropertyTypeModel;
 
 import lombok.NonNull;
@@ -38,10 +39,10 @@ public interface NoteService {
 	public void createNote(@NonNull NoteInputFormModel note) throws ParseException;
 	
 	/**
-	 * This method will return all type of notes supported by this application.
+	 * This method will return all type of Loan supported by this application.
 	 * @return List of note types.
 	 */
-	public Optional<List<NoteTypeModel>> getNoteType();
+	public Optional<List<LoanTypeModel>> getLoanType();
 	
 	/**
 	 * This method will return all type of property supported by this application.
@@ -103,7 +104,7 @@ public interface NoteService {
 	 * @param noteTypeCode
 	 * @return
 	 */
-	List<NoteType> getNoteTypeByCode(String noteTypeCode);
+	List<LoanType> getNoteTypeByCode(String noteTypeCode);
 
 	/**
 	 * This method will return the property type details for give property type code.
@@ -118,6 +119,15 @@ public interface NoteService {
 	 * @return
 	 */
 	Optional<NoteDetailModel> updateNote(NoteDetailModel noteDetailModel);
+	
+	/**
+	 * This method will update the note value with given note details. It will also update the property details from apprisal source.
+	 * @param noteDetailModel
+	 * @return
+	 * @throws ParseException 
+	 */
+	Optional<NoteInputFormModel> updateNote(NoteInputFormModel model) throws ParseException;
+
 
 	/**
 	 * This method will delete the note associated with logged in user.
@@ -161,6 +171,14 @@ public interface NoteService {
 	 * @return
 	 */
 	Optional<List<Statistics>> getStatisticsDetailsByUserId(long userId);
+
+	/**
+	 * This method will return all note type present in DB.
+	 * @return
+	 */
+	Optional<List<NoteTypeModel>>  getAllNoteType();
+
+	Optional<NoteInputFormModel> getNoteDetailNew(Long noteId);
 	
 	
 }

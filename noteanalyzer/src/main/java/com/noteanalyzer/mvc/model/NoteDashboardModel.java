@@ -1,7 +1,6 @@
 package com.noteanalyzer.mvc.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class NoteDashboardModel extends RequestStatusModel implements Serializable {
@@ -13,19 +12,38 @@ public class NoteDashboardModel extends RequestStatusModel implements Serializab
 
 	private long noteId;
 	private String noteAddress;
-	private BigDecimal yield;
+	private String yield;
 	private String marketValue;
 	private String crime;
-	private BigDecimal effectiveLTV;
-	private BigDecimal currentEffectiveLTV;
-	private BigDecimal originalLTV;
+	private String originalEstimatedITV;
+	private String currentITV;
+	private String currentLTV;
+	private String estimatedLTV;
 	private Date marketUpdateDate;
 	private boolean marketValueAvailable;
 	private String schoolScore;
 	private String crimeScore;
+	private String roi;
 
 	public NoteDashboardModel() {
 	}
+
+	
+	/**
+	 * @return the roi
+	 */
+	public String getRoi() {
+		return roi;
+	}
+
+
+	/**
+	 * @param roi the roi to set
+	 */
+	public void setRoi(String roi) {
+		this.roi = roi;
+	}
+
 
 	/**
 	 * @return the schoolScore
@@ -72,20 +90,23 @@ public class NoteDashboardModel extends RequestStatusModel implements Serializab
 		this.marketValueAvailable = marketValueAvailable;
 	}
 
-	/**
-	 * @return the originalLTV
-	 */
-	public BigDecimal getOriginalLTV() {
-		return originalLTV;
-	}
+	
 
 	/**
-	 * @param originalLTV
-	 *            the originalLTV to set
+	 * @return the estimatedLTV
 	 */
-	public void setOriginalLTV(BigDecimal originalLTV) {
-		this.originalLTV = originalLTV;
+	public String getEstimatedLTV() {
+		return estimatedLTV;
 	}
+
+
+	/**
+	 * @param estimatedLTV the estimatedLTV to set
+	 */
+	public void setEstimatedLTV(String estimatedLTV) {
+		this.estimatedLTV = estimatedLTV;
+	}
+
 
 	/**
 	 * @return the marketUpdateDate
@@ -102,34 +123,47 @@ public class NoteDashboardModel extends RequestStatusModel implements Serializab
 		this.marketUpdateDate = marketUpdateDate;
 	}
 
+
 	/**
-	 * @return the effectiveLTV
+	 * @return the originalEstimatedITV
 	 */
-	public BigDecimal getEffectiveLTV() {
-		return effectiveLTV;
+	public String getOriginalEstimatedITV() {
+		return originalEstimatedITV;
 	}
 
 	/**
-	 * @param effectiveLTV
-	 *            the effectiveLTV to set
+	 * @param originalEstimatedITV the originalEstimatedITV to set
 	 */
-	public void setEffectiveLTV(BigDecimal effectiveLTV) {
-		this.effectiveLTV = effectiveLTV;
+	public void setOriginalEstimatedITV(String originalEstimatedITV) {
+		this.originalEstimatedITV = originalEstimatedITV;
 	}
 
 	/**
-	 * @return the currentEffectiveLTV
+	 * @return the currentITV
 	 */
-	public BigDecimal getCurrentEffectiveLTV() {
-		return currentEffectiveLTV;
+	public String getCurrentITV() {
+		return currentITV;
 	}
 
 	/**
-	 * @param currentEffectiveLTV
-	 *            the currentEffectiveLTV to set
+	 * @param currentITV the currentITV to set
 	 */
-	public void setCurrentEffectiveLTV(BigDecimal currentEffectiveLTV) {
-		this.currentEffectiveLTV = currentEffectiveLTV;
+	public void setCurrentITV(String currentITV) {
+		this.currentITV = currentITV;
+	}
+
+	/**
+	 * @return the currentLTV
+	 */
+	public String getCurrentLTV() {
+		return currentLTV;
+	}
+
+	/**
+	 * @param currentLTV the currentLTV to set
+	 */
+	public void setCurrentLTV(String currentLTV) {
+		this.currentLTV = currentLTV;
 	}
 
 	/**
@@ -165,7 +199,7 @@ public class NoteDashboardModel extends RequestStatusModel implements Serializab
 	/**
 	 * @return the yield
 	 */
-	public BigDecimal getYield() {
+	public String getYield() {
 		return yield;
 	}
 
@@ -173,7 +207,7 @@ public class NoteDashboardModel extends RequestStatusModel implements Serializab
 	 * @param yield
 	 *            the yield to set
 	 */
-	public void setYield(BigDecimal yield) {
+	public void setYield(String yield) {
 		this.yield = yield;
 	}
 
