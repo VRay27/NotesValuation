@@ -1,0 +1,606 @@
+<div class="container">
+	<div class="panel panel-default">
+		<div class="panel-heading">Note Details Form</div>
+		<div class="panel-body">
+
+			<div class="container noteDetailContainer">
+
+
+				<form id="noteDetailForm"  class="form-horizontal">
+					<input type="button" class="btn btn-info openall" value="Open all" />
+					<input type="button" class="btn btn-info closeall"
+						value="Close all" />
+					<hr>
+					<div class="panel-group" id="accordion">
+						<div class="panel panel-default">
+							<div class="noteDetailClass panel-heading">
+								<h4 class="panel-title">
+									<a class="accordion-toggle" data-toggle="collapse"
+										data-parent="#accordion" style="text-transform: none"
+										href="#noteDetail">Note Detail</a>
+								</h4>
+							</div>
+
+							<div id="noteDetail" class="panel-collapse collapse in">
+								<div class="panel-body">
+									<div class="form-group">
+										<label class="col-lg-2 control-label">Property Address</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.streetAddress}},
+												{{noteDetailModel.propertyDetailModel.city}},
+												{{noteDetailModel.propertyDetailModel.state}},
+												{{noteDetailModel.propertyDetailModel.zip}}</p>
+										</div>
+										<label class="col-lg-2 control-label requiredField">Original
+											Principal Balance</label>
+										<div class="col-lg-3">
+											<input type="text" class="form-control icon-text"
+												name="originalPrincipalBalance"
+												ng-model="noteDetailModel.originalPrincipleBalance" /> <span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top"
+												uib-tooltip="Original Principal Balance. "></span>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-lg-2 control-label requiredField">Interest
+											Rate</label>
+										<div class="col-lg-3">
+											<input type="text" class="form-control icon-text" name="rate"
+												ng-model="noteDetailModel.rate"
+												placeholder="Annual Interest Rate" /> <span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Annual Interest Rate"></span>
+										</div>
+										<label class="col-lg-2 control-label requiredField">PDI
+											Payment</label>
+										<div class="col-lg-3">
+											<input type="text" class="form-control icon-text"
+												name="pdiPayment" ng-model="noteDetailModel.pdiPayment"
+												placeholder="Monthly Payment" /> <span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Monthly Payment"></span>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-lg-2 control-label requiredField">Unpaid
+											Balance</label>
+										<div class="col-lg-3">
+											<input type="text" class="form-control icon-text" name="upb"
+												placeholder="Unpaid Balance Principal"
+												ng-model="noteDetailModel.upb" /> <span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Remaning Principal"></span>
+										</div>
+										<label class="col-lg-2 control-label requiredField">Note
+											Price</label>
+										<div class="col-lg-3">
+											<input type="text" class="form-control icon-text"
+												name="notePrice" placeholder="Note Principal"
+												ng-model="noteDetailModel.notePrice" /> <span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Note Price"></span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-lg-2 control-label requiredField">Original
+											Property Value</label>
+										<div class="col-lg-3">
+											<input type="text" class="form-control icon-text"
+												name="originalPropertyValue"
+												placeholder="Original Property Value"
+												ng-model="noteDetailModel.originalPropertyValue" /> <span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top"
+												uib-tooltip="Original Property Value"></span>
+										</div>
+										<label class="col-lg-2 control-label requiredField">Number
+											of Late Payment</label>
+										<div class="col-lg-3">
+											<input type="text" class="form-control icon-text"
+												name="noOfLatePayment"
+												placeholder="Number of times Late payment"
+												ng-model="noteDetailModel.noOfLatePayment" /> <span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top"
+												uib-tooltip="Number of times Late payment"></span>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-lg-2 control-label">Effective
+											LTV</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteDetailModel.effectiveLTV  | getDefaultValueForNull}}
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top"
+												uib-tooltip="Effective LTV (with orig prop. value)"></span>
+										</div>
+										<label class="col-lg-2 control-label">Market
+											Value</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.marketValue  | getDefaultValueForNull}}
+											</p>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top"
+												uib-tooltip="Current Appraised Prop. Value"></span>
+										</div>
+									</div>
+
+
+
+									<div class="form-group">
+										<label class="col-lg-2 control-label">Current
+											Effective LTV</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteDetailModel.currentEffectiveLTV  | getDefaultValueForNull}}
+											</p>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Current Effective LTV"></span>
+										</div>
+										<label class="col-lg-2 control-label">Yield
+											</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteDetailModel.yieldValue  | getDefaultValueForNull}}
+											</p>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top"
+												uib-tooltip="Effective Interest rate"></span>
+										</div>
+									</div>
+
+
+									<div class="form-group">
+									<label class="col-lg-2 control-label">Original
+											LTV </label>
+										<div class="col-lg-3">
+										<p class="form-control-static">{{noteDetailModel.originalLTV  | getDefaultValueForNull}}</p>
+										 <span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Original LTV "></span>
+										</div>
+										<label class="col-lg-2 control-label">Performing</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteDetailModel.performing | getDefaultValueForNull}}</p>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top"
+												uib-tooltip="Performing, Non-Performing, Unknown "></span>
+										</div>
+									</div>
+
+
+
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class="panel-title">
+									<a class="accordion-toggle" data-toggle="collapse"
+										data-parent="#accordion" href="#propertyDetail"
+										style="text-transform: none">Property Detail</a>
+								</h4>
+							</div>
+							<div id="propertyDetail" class="panel-collapse collapse">
+								<div class="panel-body">
+									<div class="form-group">
+										<label class="col-lg-2 control-label">Last sold price</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.lastSoldPrice | getDefaultValueForNull}}</p>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Last sold Price "></span>
+										</div>
+										<label class="col-lg-2 control-label">Last sold date</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.lastSoldDate | getDefaultValueForNull}}</p>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Last sold Date "></span>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-lg-2 control-label">LOT SF</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.propertyLotSize | getDefaultValueForNull}}</p>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Select city"></span>
+										</div>
+										<label class="col-lg-2 control-label">Building SF</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.propertyBuiltUpSize | getDefaultValueForNull}}</p>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Building sf"></span>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-lg-2 control-label">Tax
+											Assessment Value</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.taxAssessmentValue | getDefaultValueForNull}}</p>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="property tax per year"></span>
+										</div>
+
+										<label class="col-lg-2 control-label">Tax
+											Assessment year</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.taxAssessmentYear | getDefaultValueForNull}}</p>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="property tax per year"></span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-lg-2 control-label">No of bedroom</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.numberOfBedrooms | getDefaultValueForNull}}</p>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Number of bedroom"></span>
+										</div>
+										<label class="col-lg-2 control-label">No of bathroom</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteDetailModel.propertyDetailModel.numberOfBathrooms | getDefaultValueForNull}}</p>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Number of bathroom"></span>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-lg-2 control-label">Property Type</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteDetailModel.selPropType.propertyTypeValue | getDefaultValueForNull}}</p>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Bed and bathroom"></span>
+										</div>
+										<!-- HOA fee {{noteDetailModel.propertyDetailModel.HOAFee | getDefaultValueForNull}} -->
+										<label class="col-lg-2 control-label"></label>
+										<div class="col-lg-3">
+											<p class="form-control-static"></p>
+											<!-- <span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Hoa Fee"></span> -->
+										</div>
+
+									</div>
+
+
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class="panel-title">
+									<a class="accordion-toggle" data-toggle="collapse"
+										data-parent="#accordion" style="text-transform: none"
+										href="#demographicData">Demographic Data</a>
+								</h4>
+							</div>
+							<div id="demographicData" class="panel-collapse collapse">
+								<div class="panel-body">
+									<div class="form-group">
+										<label class="col-lg-2 control-label">Schools score</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteDetailModel.demoGraphicDetailModel.schoolScore | getDefaultValueForNull}}</p>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="School Score"></span>
+										</div>
+										<label class="col-lg-2 control-label">Crime Rate</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteDetailModel.demoGraphicDetailModel.crime | getDefaultValueForNull}}</p>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Crime Rate."></span>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-lg-2 control-label">Foreclosure Rate</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteDetailModel.demoGraphicDetailModel.foreClosure | getDefaultValueForNull}}</p>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="ForeColusure Rate"></span>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class="panel-title">
+									<a class="accordion-toggle" data-toggle="collapse"
+										data-parent="#accordion" style="text-transform: none"
+										href="#apprisalSourceDetail">Apprisal Source Detail</a>
+								</h4>
+							</div>
+							<div id="apprisalSourceDetail" class="panel-collapse collapse">
+								<div class="panel-body">
+
+
+									<div class="form-group">
+										<label class="col-lg-2 control-label">Property Detail
+											Url</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">
+											<div ng-if="noteDetailModel.propertyDetailModel.propertyDetailUrl">
+												<a
+													href="{{noteDetailModel.propertyDetailModel.propertyDetailUrl}}"
+													tooltip="Property Map URL">Property Detail URL</a></div>
+													<div ng-if="!noteDetailModel.propertyDetailModel.propertyDetailUrl">No data available</div>
+											</p>
+										</div>
+										<label class="col-lg-2 control-label">Property Map URL</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">
+												<div ng-if="noteDetailModel.propertyDetailModel.propertyMapUrl">
+												<a
+													href="{{noteDetailModel.propertyDetailModel.propertyMapUrl}}"
+													tooltip="Property Map URL">Property Map URL</a></div>
+													<div ng-if="!noteDetailModel.propertyDetailModel.propertyMapUrl">No data available</div>
+											</p>
+										</div>
+
+									</div>
+
+									<div class="form-group">
+
+										<label class="col-lg-2 control-label">Property Graph
+											URL</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">
+												<div ng-if="noteDetailModel.propertyDetailModel.propertyGraphAndDataUrl">
+												<a
+													href="{{noteDetailModel.propertyDetailModel.propertyGraphAndDataUrl}}"
+													tooltip="Property Graph and Data URL">Property Graph
+													and Data URL</a>
+													</div>
+												<div ng-if="!noteDetailModel.propertyDetailModel.propertyGraphAndDataUrl">No data available</div>
+											</p>
+										</div>
+										<label class="col-lg-2 control-label"></label>
+										<div class="col-lg-3"></div>
+									</div>
+									<div class="form-group">
+										<label class="col-lg-2 control-label">Zillow
+											Search Box</label>
+										<div class="col-lg-3">
+												<div id="zillow-large-search-box-widget-container" style="width:432px;overflow:hidden;background-color:#e7f1fd;color:#555; font: normal normal normal 13px verdana,arial,sans-serif;line-height:13px;margin:0 auto;padding:0;text-align:center;border:1px solid #adcfff;letter-spacing:0;text-transform:none;"><h2 style="color:#d61;text-align:left;font-size:20px;line-height:20px;font-weight:normal;float:left;width:200px;margin-left:10px;margin-top:5px;letter-spacing:0;text-transform:none;">Find Homes</h2><div style="float:right;"><a href="https://www.zillow.com/" target="_blank" rel="nofollow"><img alt="Zillow Real Estate Information" style="border:0;" src="https://www.zillow.com/widgets/GetVersionedResource.htm?path=%2Fstatic%2Fimages%2Fpowered-by-zillow.gif"></img></a></div><iframe scrolling="no" src="https://www.zillow.com/widgets/search/LargeSearchBoxWidget.htm?did=zillow-large-search-box-iframe-widget&type=iframe&rgname=Seattle+WA&shvi=no" width="430" frameborder="0" height="108"></iframe><table id="zillow-tnc-widget-footer-links" width="100%" style="font: normal normal normal 10px verdana,arial,sans-serif;text-align:left;line-height:12px;margin:10px 5px;padding:0;border-spacing:0;border-collapse:collapse;"><tbody style="margin:0;padding:0;"><tr style="margin:0;padding:0;"><td style="font-weight:bold;font-size:10px;color:#555;text-align:left;margin:0;padding:0;">QUICK LINKS:</td></tr><tr style="margin:0;padding:0;"><td style="margin:0;padding:0;"><span id="widgetFooterLink" class="regionBasedLink"><a href="https://www.zillow.com/seattle-wa/" target="_blank" rel="nofollow" style="color:#36b;font-family:verdana,arial,sans-serif;font-size:10px;margin:0 5px 0 0;padding:0;text-decoration:none;"><span class="region">Seattle</span> Real Estate Listing</a></span></td><td style="margin:0;padding:0;"><span id="widgetFooterLink"><a href="https://www.zillow.com/mortgage-rates/" target="_blank" rel="nofollow" style="color:#36b;font-family:verdana,arial,sans-serif;font-size:10px;margin:0 5px 0 0;padding:0;text-decoration:none;">Mortgage Rates</a></span></td><td style="margin:0;padding:0;"><span id="widgetFooterLink"><a href="https://www.zillow.com/refinance/" target="_blank" rel="nofollow" style="color:#36b;font-family:verdana,arial,sans-serif;font-size:10px;margin:0 5px 0 0;padding:0;text-decoration:none;">Refinancing</a></span></td></tr><tr style="margin:0;padding:0;"><td style="margin:0;padding:0;"><span id="widgetFooterLink" class="regionBasedLink"><a href="https://www.zillow.com/seattle-wa/foreclosures/" target="_blank" rel="nofollow" style="color:#36b;font-size:10px;margin:0 5px 0 0;padding:0;text-decoration:none;"><span class="region">Seattle</span> Foreclosures</a></span></td><td style="margin:0;padding:0;"><span id="widgetFooterLink"><a href="https://www.zillow.com/mortgage-calculator/" target="_blank" rel="nofollow" style="color:#36b;font-size:10px;margin:0 5px 0 0;padding:0;text-decoration:none;">Mortgage Calculators</a></span></td><td style="margin:0;padding:0;"><span id="widgetFooterLink"><a href="https://www.zillow.com/mortgage-rates/" target="_blank" rel="nofollow" style="color:#36b;font-size:10px;margin:0 5px 0 0;padding:0;text-decoration:none;">Purchase Loans</a></span></td></tr></tbody></table></div>
+										</div>
+									</div>
+
+
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div class="panel-body">
+						<div class="form-group">
+							<div class="col-lg-9 ">
+								<input type="button" class="btn btn-lg btn-success"
+									id="updateNoteBtn" name="updateNote" value="Update Note" />
+								<input type="button"  class="btn btn-lg btn-info" ng-click="cancel()" value="Cancel"/>
+								 <input type="button" class="btn btn-lg btn-primary" ng-click="deleteNote()"
+									id="deleteNoteBtn" name="deleteNote" value="Delete Note" />
+								 <input type="button" style="visibility: hidden;"
+									id="updateNoteHiddenBtn" ng-click="updateNote()"
+									name="updateNoteHidden" value="Update Note" />
+							</div>
+						</div>
+
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+	var $active = $('#accordion .panel-collapse.in').prev().addClass('active');
+	$active.find('a').append('<span class="glyphicon glyphicon-minus pull-right"></span>');
+	$('#accordion .panel-heading').not($active).find('a').prepend('<span class="glyphicon glyphicon-plus pull-right"></span>');
+	$('#accordion').on('show.bs.collapse', function (e)
+	{
+	    $('#accordion .panel-heading.active').removeClass('active').find('.glyphicon').toggleClass('glyphicon-plus glyphicon-minus');
+	    $(e.target).prev().addClass('active').find('.glyphicon').toggleClass('glyphicon-plus glyphicon-minus');
+	});
+	$('#accordion').on('hide.bs.collapse', function (e)
+	{
+	    $(e.target).prev().removeClass('active').find('.glyphicon').removeClass('glyphicon-minus').addClass('glyphicon-plus');
+	});
+	    if ($('div').filter(':not(in)')) {
+	        $('.panel-title a').addClass('active');
+	    }
+    // Generate a simple captcha
+    function randomNumber(min, max) {
+        return Math.floor(Math.random() * (max - min + 1) + min);
+    };
+    $('#captchaOperation').html([randomNumber(1, 100), '+', randomNumber(1, 200), '='].join(' '));
+
+    $('#noteDetailForm').bootstrapValidator({
+//      
+       message: 'This value is not valid',
+       live: 'enabled',
+       excluded: [':disabled', ':hidden', ':not(:visible)'],
+       feedbackIcons: {
+           valid: 'glyphicon glyphicon-ok',
+           invalid: 'glyphicon glyphicon-remove',
+           validating: 'glyphicon glyphicon-refresh'
+       },
+       fields: {
+       	zipCode: {
+       		group:'.col-lg-3',
+       		message: 'The zip code is not valid',
+               validators: {
+                   notEmpty: {
+                       message: 'The zip code is required and cannot be empty'
+                   },
+                   zipCode: {
+                       country: 'US',
+                       message: 'The value is not valid %s Zip Code'                       
+                     }
+                   },
+              },
+            upb:{
+           	 group:'.col-lg-3',
+           	 validators: {
+           		 numeric: {
+                        message: 'This value is not a valid number.',
+                        // The default separators
+                        thousandsSeparator: '',
+                        decimalSeparator: '.'
+                    },
+           		 stringLength: {
+	                     min: 1,
+	                     max: 20,
+	                     message: 'The unpaid balance must be less than 20 characters long'
+	            	 },
+	            	 notEmpty: {
+	                        message: 'The unpaid balance is required and can\'t be empty.'
+	                    }
+            }},
+            rate:{
+           	 group:'.col-lg-3',
+           	 validators: {
+           		 numeric: {
+                        message: 'This value is not a valid number.',
+                        // The default separators
+                        thousandsSeparator: '',
+                        decimalSeparator: '.'
+                    },
+           		 stringLength: {
+	                     min: 1,
+	                     max: 20,
+	                     message: 'The rate must be less than 20 characters long'
+	            	 },
+	            	 notEmpty: {
+	                        message: 'The rate is required and can\'t be empty.'
+	                    }
+            }},
+            pdiPayment:{
+           	 group:'.col-lg-3',
+           	 validators: {
+           		 numeric: {
+                        message: 'This value is not a valid number.',
+                        // The default separators
+                        thousandsSeparator: '',
+                        decimalSeparator: '.'
+                    },
+           		 stringLength: {
+	                     min: 1,
+	                     max: 20,
+	                     message: 'The pdi payment must be less than 20 characters long'
+	            	 },
+	            	 notEmpty: {
+	                        message: 'The pdi payment is required and can\'t be empty.'
+	                    }
+            }},
+            originalPrincipalBalance:{
+           	 group:'.col-lg-3',
+           	 validators: {
+           		 numeric: {
+                        message: 'This value is not a valid number.',
+                        // The default separators
+                        thousandsSeparator: '',
+                        decimalSeparator: '.'
+                    },
+           		 stringLength: {
+	                     min: 1,
+	                     max: 20,
+	                     message: 'The original principal bal must be less than noteInputForm characters long'
+	            	 },
+	            	 notEmpty: {
+	                        message: 'The original principal balance is required and can\'t be empty.'
+	                    }
+            }},
+            notePrice:{
+           	 group:'.col-lg-3',
+           	 validators: {
+           		 numeric: {
+                        message: 'This value is not a valid number.',
+                        // The default separators
+                        thousandsSeparator: '',
+                        decimalSeparator: '.'
+                    },
+           		 stringLength: {
+	                     min: 1,
+	                     max: 20,
+	                     message: 'The Note Price must be less than 20 characters long'
+	            	 },
+	            	 notEmpty: {
+	                        message: 'The Note Price is required and can\'t be empty.'
+	                    }
+            }},
+            originalPropertyValue:{
+           	 group:'.col-lg-3',
+           	 validators: {
+           		 numeric: {
+                        message: 'This value is not a valid number.',
+                        // The default separators
+                        thousandsSeparator: '',
+                        decimalSeparator: '.'
+                    },
+           		 stringLength: {
+	                     min: 1,
+	                     max: 20,
+	                     message: 'The original property value must be less than 20 characters long'
+	            	 },
+	            	 notEmpty: {
+	                        message: 'The original property value is required and can\'t be empty.'
+	                    }
+            }},
+            noOfLatePayment:{
+           	 group:'.col-lg-3',
+           	 validators: {
+           		 numeric: {
+                        message: 'This value is not a valid number.',
+                        // The default separators
+                        thousandsSeparator: '',
+                        decimalSeparator: '.'
+                    },
+           		 stringLength: {
+	                     min: 1,
+	                     max: 10,
+	                     message: 'The No of Late Payment must be less than 10 characters long'
+	            	 },
+	            	 notEmpty: {
+	                        message: 'The No of Late Payment is required and can\'t be empty.'
+	                    }
+       }}}
+   });
+    // Validate the form manually
+    $('#updateNoteBtn').click(function() {
+         if($('#noteDetailForm').bootstrapValidator('validate').has('.has-error').length){
+ 	       	return false;
+     	}else{
+     		$("#updateNoteHiddenBtn").trigger( "click" );
+     	};
+         });
+    $('.closeall').click(function(){
+    	  $('.panel-collapse.in')
+    	    .collapse('hide');
+    	});
+    	$('.openall').click(function(){
+    	  $('.panel-collapse:not(".in")')
+    	    .collapse('show');
+    	});
+});
+</script>

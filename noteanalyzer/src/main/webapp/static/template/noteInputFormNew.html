@@ -1,0 +1,547 @@
+<div class="container">
+	<div class="panel panel-default">
+		<div class="panel-heading">Note Input Form</div>
+		<div class="panel-body">
+
+			<div class="container noteDetailContainer">
+				<form id="noteInputForm" class="form-horizontal">
+					<input type="button" class="btn btn-info openall" value="Open all" />
+					<input type="button" class="btn btn-info closeall"
+						value="Close all" />
+					<hr>
+					<div class="panel-group" id="accordion">
+						<div class="panel panel-default">
+							<div class="noteDetailClass panel-heading">
+								<h4 class="panel-title">
+									<a class="accordion-toggle" data-toggle="collapse"
+										data-parent="#accordion" style="text-transform: none"
+										href="#noteDetail">Note Details</a>
+								</h4>
+							</div>
+
+							<div id="noteDetail" class="panel-collapse collapse in">
+								<div class="panel-body">
+
+									<div class="form-group">
+										<label class="col-sm-1 control-label requiredField">Note
+											Type</label>
+										<div class="col-sm-3">
+											<select class="form-control icon-text" name="noteType"
+												ng-init="noteInputFormModel.selNoteType=noteInputFormModel.noteTypeList[0]"
+												ng-model="noteInputFormModel.selNoteType"
+												ng-change="noteInputFormModel.originalTerm=noteInputFormModel.selNoteType.termMonths"
+												ng-options="noteType.description for noteType in noteInputFormModel.noteTypeList"></select>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Select note Pefroming"></span>
+
+										</div>
+										<label class="col-sm-1 control-label requiredField">Note
+											Date</label>
+										<div class="col-sm-3 noteDate">
+											<input type="text" class="form-control icon-text"
+												id="selNoteDate" name="noteDate"
+												placeholder="(MM/DD/YYYY)"
+												uib-datepicker-popup="MM/dd/yyyy"
+												ng-model="noteInputFormModel.noteDate"
+												is-open="noteDate.opened" datepicker-options="dateOptions"
+												ng-required="true" close-text="Close"
+												alt-input-formats="altInputFormats" />
+
+											<div class="input-group-btn noteDateCalAligment">
+												<button type="button" class="btn btn-default calButton"
+													ng-click="noteDate()">
+													<i class="glyphicon glyphicon-calendar"></i>
+												</button>
+											</div>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Select note date"></span>
+										</div>
+										<label class="col-sm-1 control-label requiredField">Note
+											Price</label>
+										<div class="col-sm-3">
+											<input type="text" class="form-control icon-text"
+												name="notePrice" placeholder="Enter Note Price"
+												ng-model="noteInputFormModel.notePrice" /> <span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Enter Note Price"></span>
+										</div>
+									</div>
+
+
+									<div class="form-group">
+										<label class="col-sm-1 control-label requiredField">Loan
+											Type</label>
+										<div class="col-sm-3">
+											<select class="form-control icon-text" name="loanType"
+												ng-init="noteInputFormModel.selLoanType=noteInputFormModel.loanTypeList[0]"
+												ng-model="noteInputFormModel.selLoanType"
+												ng-change="noteInputFormModel.originalTerm=noteInputFormModel.selLoanType.termMonths"
+												ng-options="loanType.loanTypeValue for loanType in noteInputFormModel.loanTypeList">
+											</select><span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top"
+												uib-tooltip="There are 3 types of notes: performing, sub-performing and non-performing"></span>
+										</div>
+										<label class="col-sm-1 control-label requiredField">Original
+											Term(Months)</label>
+										<div class="col-sm-3">
+											<input type="text" class="form-control icon-text"
+												name="originalTerm" readonly ng-blur=populateNoteInputModelFromJS()
+												ng-model="noteInputFormModel.originalTerm"
+												ng-init="noteInputFormModel.originalTerm=noteInputFormModel.selLoanType.termMonths" />
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top"
+												uib-tooltip="Original term depends upon the note type selection. "></span>
+										</div>
+										<label class="col-sm-1 control-label requiredField">Note Score</label>
+										<div class="col-sm-3">
+											<input type="text" class="form-control icon-text"
+												name="noteScoreByUser" placeholder="Enter Score entered by user"
+												ng-model="noteInputFormModel.noteScoreByUser" /> <span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top"
+												uib-tooltip="Enter Score entered by user"></span>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-sm-1 control-label requiredField">Original
+											Loan Balance</label>
+										<div class="col-sm-3 originalPrincipalBal">
+											<input type="text" class="form-control icon-text"
+												name="originalPrincipalBal" id="originalPrincipleBalance"
+												placeholder="Enter Original Principal Balance"
+												ng-model="noteInputFormModel.originalPrincipleBalance"
+												ng-blur="populateNoteInputModelFromJS()" /> <span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top"
+												uib-tooltip="Enter  Original Principal Balance"></span>
+										</div>
+										<label class="col-sm-1 control-label requiredField">Unpaid
+											Balance</label>
+										<div class="col-sm-3 upb">
+											<input type="text" class="form-control icon-text" name="upb"
+												id="upb" placeholder="Enter unpaid balance"
+												ng-model="noteInputFormModel.upb"
+												/> <span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Enter unpiad balance"></span>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-sm-1 control-label requiredField">
+											Rate</label>
+										<div class="col-sm-3">
+											<input type="text" class="form-control icon-text" name="rate"
+												ng-model="noteInputFormModel.rate" ng-blur=populateNoteInputModelFromJS()
+												placeholder="Annual Interest Rate" /> <span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Annual Interest Rate"></span>
+										</div>
+										<label class="col-sm-1 control-label requiredField">Payment(P&I)</label>
+										<div class="col-sm-3">
+											<input type="text" class="form-control icon-text"
+												name="pdiPayment" ng-model="noteInputFormModel.pdiPayment" ng-blur=populateNoteInputModelFromJS()
+												placeholder="Monthly Payment" /> <span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Monthly Payment"></span>
+										</div>
+										<label class="col-sm-1 control-label requiredField">Remaining
+											payments</label>
+										<div class="col-sm-3">
+											<input type="text" class="form-control icon-text"
+												name="remainingPayment"
+												placeholder="Remaining # of payments"
+												ng-model="noteInputFormModel.remainingPayment" /> <span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top"
+												uib-tooltip="Enter Remaining no of payments"></span>
+										</div>
+									</div>
+									<div class="panel panel-default">
+										<div class="panel-heading">
+											<h4 class="panel-title">
+												<a class="accordion-toggle" data-toggle="collapse"
+													href="#noteMoreInfo" style="text-transform: none">More
+													Info</a>
+											</h4>
+										</div>
+										<div id="noteMoreInfo" class="panel-collapse collapse">
+											<div class="panel-body">
+
+
+												<div class="form-group">
+													<label class="col-sm-1 control-label ">Note
+														Position</label>
+													<div class="col-sm-3">
+														<input type="text" class="form-control icon-text"
+															name="notePosition" placeholder="Enter Note Position"
+															ng-model="noteInputFormModel.notePosition" /> <span
+															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+															tooltip-placement="top" uib-tooltip="Enter Note Position"></span>
+													</div>
+													<label class="col-sm-1 control-label ">Taxes and
+														Insurance</label>
+													<div class="col-sm-3 tdiPayment">
+														<input type="text" class="form-control icon-text"
+															name="tdiPayment" placeholder="Enter tax and interest"
+															ng-model="noteInputFormModel.tdiPayment" /> <span
+															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+															tooltip-placement="top"
+															uib-tooltip="Enter tax and interest"></span>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-1 control-label ">Last Payment
+														Recieved</label>
+													<div class="col-sm-3 originalPrincipalBal">
+														<input type="text" class="form-control icon-text"
+												id="lastPaymentRecievedDate" name="lastPaymentRecievedDate"
+												placeholder="(MM/DD/YYYY)"
+												uib-datepicker-popup="MM/dd/yyyy"
+												ng-model="noteInputFormModel.lastPaymentRecievedDate"
+												is-open="lastPaymentRecievedDate.opened" datepicker-options="dateOptions"
+												ng-required="false" close-text="Close"
+												alt-input-formats="altInputFormats" />
+
+											<div class="input-group-btn noteDateCalAligment">
+												<button type="button" class="btn btn-default calButton"
+													ng-click="lastPaymentRecievedDate()">
+													<i class="glyphicon glyphicon-calendar"></i>
+												</button>
+											</div>
+												 <span
+															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+															tooltip-placement="top"
+															uib-tooltip="Enter  Number of Late Payment"></span>
+													</div>
+													<label class="col-sm-1 control-label ">Number of
+														Late Payment</label>
+													<div class="col-sm-3 ">
+														<input type="text" class="form-control icon-text"
+															name="noOfLatePayment"
+															placeholder="Enter Number of Late Payment"
+															ng-model="noteInputFormModel.noOfLatePayment" /> <span
+															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+															tooltip-placement="top"
+															uib-tooltip="Enter  Number of Late Payment"></span>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<label class="col-sm-1 control-label">Yield</label>
+													<div class="col-sm-3">
+														<p class="form-control-static">{{noteDetailModel.yieldValue
+															| getDefaultValueForNull}}</p>
+														<span
+															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+															tooltip-placement="top" uib-tooltip="Yield"></span>
+													</div>
+													<label class="col-sm-1 control-label">Estimated LTV
+													</label>
+													<div class="col-sm-3">
+														<p class="form-control-static">{{noteDetailModel.yieldValue
+															| getDefaultValueForNull}}</p>
+														<span
+															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+															tooltip-placement="top" uib-tooltip="Estimated LTV"></span>
+													</div>
+													<label class="col-sm-1 control-label">  LTV  Subscribe  </label>
+													<div class="col-sm-3">
+														<p class="form-control-static">{{noteDetailModel.ltv |
+															getDefaultValueForNull}}</p>
+														<span
+															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+															tooltip-placement="top" uib-tooltip=" LTV"></span>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-1 control-label">Estimated ITV</label>
+													<div class="col-sm-3">
+														<p class="form-control-static">{{noteDetailModel.estimatedITV
+															| getDefaultValueForNull}}</p>
+														<span
+															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+															tooltip-placement="top" uib-tooltip="Estimated ITV"></span>
+													</div>
+													<label class="col-sm-1 control-label"> LTV  Subscribe  </label>
+													<div class="col-sm-3">
+														<p class="form-control-static">{{noteDetailModel.itv |
+															getDefaultValueForNull}}</p>
+														<span
+															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+															tooltip-placement="top" uib-tooltip="ITV"></span>
+													</div>
+													<label class="col-sm-1 control-label"> ROI </label>
+													<div class="col-sm-3">
+														<p class="form-control-static">{{noteDetailModel.roi |
+															getDefaultValueForNull}}</p>
+														<span
+															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+															tooltip-placement="top" uib-tooltip=" ROI"></span>
+													</div>
+												</div>
+
+
+
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class="panel-title">
+									<a class="accordion-toggle" data-toggle="collapse"
+										data-parent="#accordion" href="#propertyDetail"
+										style="text-transform: none">Property Detail</a>
+								</h4>
+							</div>
+							<div id="propertyDetail" class="panel-collapse collapse">
+								<div class="panel-body">
+
+									<div class="form-group">
+										<label class="col-sm-1 control-label requiredField">Property
+											Type</label>
+										<div class="col-sm-3">
+											<select class="form-control icon-text" name="propertyType"
+												ng-init="noteInputFormModel.selPropType=noteInputFormModel.propTypeList[0]"
+												ng-model="noteInputFormModel.selPropType"
+												ng-options="propType.propertyTypeValue for propType in noteInputFormModel.propTypeList">
+											</select><span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Select property type"></span>
+										</div>
+										<label class="col-sm-1 control-label"> Number of Units</label>
+										<div class="col-sm-3 ">
+											<input type="text" class="form-control icon-text"
+												name="numberOfUnits" ng-model="noteInputFormModel.noOfUnits" />
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Enter Number of Units"></span>
+										</div>
+										<label class="col-sm-1 control-label">HOA Fees</label>
+										<div class="col-sm-3 ">
+											<input type="text" class="form-control icon-text"
+												name="hoaFees" ng-model="noteInputFormModel.hoaFees" /> <span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Enter Number of Units"></span>
+										</div>
+									</div>
+
+
+									<div class="form-group">
+										<label class="col-sm-1 control-label">Zip Code</label>
+										<div class="col-sm-3 zipCode">
+											<input type="text" class="form-control icon-text"
+												name="zipCode" ng-model="noteInputFormModel.zipCode"
+												placeholder="Enter Zip Code" readonly /> <span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Enter zip code"></span>
+										</div>
+										<label class="col-sm-1 control-label requiredField">City</label>
+										<div class="col-sm-3 city">
+											<select class="form-control icon-text" name="city"
+												ng-init="noteInputFormModel.selCity=noteInputFormModel.addressModel.cityList[0]"
+												ng-model="noteInputFormModel.selCity"
+												ng-options="city for city in noteInputFormModel.addressModel.cityList">
+											</select><span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Select city"></span>
+										</div>
+										<label class="col-sm-1 control-label requiredField">State</label>
+										<div class="col-sm-3 state">
+											<select class="form-control icon-text" name="state"
+												ng-init="noteInputFormModel.selState=noteInputFormModel.addressModel.stateList[0]"
+												ng-model="noteInputFormModel.selState"
+												ng-options="state for state in noteInputFormModel.addressModel.stateList">>
+											</select><span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Select state"></span>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-sm-1 control-label requiredField">Street
+											Address</label>
+										<div class="col-sm-3 streetAddress">
+											<input type="text" class="form-control icon-text"
+												name="streetAddress" placeholder="Enter Street Address"
+												ng-model="noteInputFormModel.streetAddress" /> <span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Enter Street Address"></span>
+										</div>
+
+									</div>
+
+									<div class="form-group">
+										<label class="col-sm-1 control-label requiredField">Estimated
+											Market Value</label>
+										<div class="col-sm-3 streetAddress">
+											<input type="text" class="form-control icon-text"
+												name="estimatedMarketValue"
+												placeholder="Enter Estimated Market Value"
+												ng-model="noteInputFormModel.estimatedMarketValue" /> <span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Enter Street Address"></span>
+										</div>
+
+										<label class="col-sm-1 control-label">Market
+											Value</label>
+										<div class="col-sm-3 streetAddress">
+											<p class="form-control-static"></p>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Market Value"></span>
+										</div>
+
+									</div>
+									<div class="panel panel-default">
+										<div class="panel-heading">
+											<h4 class="panel-title">
+												<a class="accordion-toggle" data-toggle="collapse"
+													href="#moreInfoPropertyDetail" style="text-transform: none">More
+													Info</a>
+											</h4>
+										</div>
+										<div id="moreInfoPropertyDetail"
+											class="panel-collapse collapse">
+											<div class="panel-body">
+												<div class="form-group">
+													<label class="col-sm-1 control-label">No of bedroom</label>
+													<div class="col-sm-3">
+														<p class="form-control-static"></p>
+														<span
+															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+															tooltip-placement="top" uib-tooltip="Number of bedroom"></span>
+													</div>
+													<label class="col-sm-1 control-label">No of
+														bathroom</label>
+													<div class="col-sm-3">
+														<p class="form-control-static"></p>
+														<span
+															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+															tooltip-placement="top" uib-tooltip="Number of bathroom"></span>
+													</div>
+
+													<label class="col-sm-1 control-label">LOT Size(Sq
+														Ft))</label>
+													<div class="col-sm-3">
+														<p class="form-control-static"></p>
+														<span
+															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+															tooltip-placement="top" uib-tooltip="Lot Size"></span>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-1 control-label">Building (Sq
+														Ft)</label>
+													<div class="col-sm-3">
+														<p class="form-control-static"></p>
+														<span
+															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+															tooltip-placement="top" uib-tooltip="Building sf"></span>
+													</div>
+
+													<label class="col-sm-1 control-label">Last sold
+														price</label>
+													<div class="col-sm-3">
+														<p class="form-control-static"></p>
+														<span
+															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+															tooltip-placement="top" uib-tooltip="Last sold Price "></span>
+													</div>
+													<label class="col-sm-1 control-label">Last sold
+														date</label>
+													<div class="col-sm-3">
+														<p class="form-control-static"></p>
+														<span
+															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+															tooltip-placement="top" uib-tooltip="Last sold Date "></span>
+													</div>
+												</div>
+
+
+
+											</div>
+										</div>
+									</div>
+
+
+								</div>
+							</div>
+						</div>
+
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class="panel-title">
+									<a class="accordion-toggle" data-toggle="collapse"
+										data-parent="#accordion" style="text-transform: none"
+										href="#borrowerDetails">Borrower Details</a>
+								</h4>
+							</div>
+							<div id="borrowerDetails" class="panel-collapse collapse">
+								<div class="panel-body">
+									<div class="form-group">
+										<label class="col-sm-1 control-label">Borrower Name</label>
+										<div class="col-sm-3">
+											<input type="text" class="form-control icon-text"
+												name="borrowerName" placeholder="Enter Borrower Name"
+												ng-model="noteInputFormModel.borrowerName" /> <span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Enter borrower name"></span>
+										</div>
+										<label class="col-sm-1 control-label">Credit Score</label>
+										<div class="col-sm-3">
+											<input type="text" class="form-control icon-text"
+												name="creditScore" placeholder="Enter Credit Score"
+												ng-model="noteInputFormModel.borrowerCreditScore" /> <span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Enter credit Score"></span>
+										</div>
+
+										<label class="col-sm-1 control-label">No of Late
+											payments</label>
+										<div class="col-sm-3">
+											<input type="text" class="form-control icon-text"
+												name="noOfLatePayment"
+												placeholder="Enter Number of Late Payment"
+												ng-model="noteInputFormModel.noOfLatePaymentByBorrower" /> <span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top"
+												uib-tooltip="Enter  Number of Late Payment"></span>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="panel-body">
+						<div class="form-group">
+							<div class="col-sm-9 col-sm-offset-2">
+								<input type="button" class="btn btn-lg btn-success"
+									id="createNoteBtn" name="createNote" value="Create Note" />
+								<!-- <input type="button" class="btn btn-lg btn-info" ng-click="populateNoteInputModelFromJS()" value= "Calculate"/> -->
+								<input type="button" class="btn btn-lg btn-info"
+									ng-click="clearNoteInputModelFromJS()" id="resetNoteBtn"
+									value="Reset" /> <input type="button"
+									class="btn btn-lg btn-info" ng-click="cancel()" value="Cancel" />
+								<input type="button" class="btn" style="visibility: hidden;"
+									id="createNoteBtnHidden" ng-click="createNote();"
+									name="createNoteHidden" value="Create Note" />
+							</div>
+						</div>
+
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="static/js/constant/formValidation.js"></script>
