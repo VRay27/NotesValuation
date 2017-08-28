@@ -35,6 +35,7 @@
 					<label class="col-lg-2 control-label">City</label>
 					<div class="col-lg-3 city">
 						<select class="form-control icon-text" name="city"
+							ng-init="userModel.selCity = userModel.selCity || userModel.addressModel.cityList[0]"
 							ng-model="userModel.selCity"
 							ng-options="city for city in userModel.addressModel.cityList">
 						</select>
@@ -52,6 +53,7 @@
 					<label class="col-lg-2 control-label">State</label>
 					<div class="col-lg-3 state">
 						<select class="form-control icon-text" name="state"
+							ng-init="userModel.selState = userModel.selState || userModel.addressModel.stateList[0]"
 							ng-model="userModel.selState"
 							ng-options="state for state in userModel.addressModel.stateList">
 						</select>

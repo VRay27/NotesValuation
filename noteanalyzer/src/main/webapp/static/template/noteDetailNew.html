@@ -75,7 +75,7 @@
 											Type</label>
 										<div class="col-sm-3">
 											<select class="form-control icon-text" name="loanType"
-												ng-init="noteInputFormModel.selLoanType=noteInputFormModel.loanTypeList[0]"
+												ng-init="noteInputFormModel.selLoanType= noteInputFormModel.selLoanType || noteInputFormModel.loanTypeList[0]"
 												ng-model="noteInputFormModel.selLoanType"
 												ng-change="noteInputFormModel.originalTerm=noteInputFormModel.selLoanType.termMonths"
 												ng-options="loanType.loanTypeValue for loanType in noteInputFormModel.loanTypeList">
@@ -310,7 +310,7 @@
 											Type</label>
 										<div class="col-sm-3">
 											<select class="form-control icon-text" name="propertyType"
-												ng-init="noteInputFormModel.selPropType=noteInputFormModel.propTypeList[0]"
+												ng-init="noteInputFormModel.selPropType= noteInputFormModel.selPropType || noteInputFormModel.propTypeList[0]"
 												ng-model="noteInputFormModel.selPropType"
 												ng-options="propType.propertyTypeValue for propType in noteInputFormModel.propTypeList">
 											</select><span
@@ -347,7 +347,7 @@
 										<label class="col-sm-1 control-label requiredField">City</label>
 										<div class="col-sm-3 city">
 											<select class="form-control icon-text" name="city"
-												ng-init="noteInputFormModel.selCity=noteInputFormModel.addressModel.cityList[0]"
+												ng-init="noteInputFormModel.selCity=noteInputFormModel.selCity || noteInputFormModel.addressModel.cityList[0]"
 												ng-model="noteInputFormModel.selCity"
 												ng-options="city for city in noteInputFormModel.addressModel.cityList">
 											</select><span
@@ -357,7 +357,7 @@
 										<label class="col-sm-1 control-label requiredField">State</label>
 										<div class="col-sm-3 state">
 											<select class="form-control icon-text" name="state"
-												ng-init="noteInputFormModel.selState=noteInputFormModel.addressModel.stateList[0]"
+												ng-init="noteInputFormModel.selState= noteInputFormModel.selState || noteInputFormModel.addressModel.stateList[0]"
 												ng-model="noteInputFormModel.selState"
 												ng-options="state for state in noteInputFormModel.addressModel.stateList">>
 											</select><span
