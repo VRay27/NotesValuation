@@ -41,7 +41,7 @@
 												id="selNoteDate" name="noteDate"
 												placeholder="(MM/DD/YYYY)"
 												uib-datepicker-popup="MM/dd/yyyy"
-												ng-model="noteInputFormModel.noteDate"
+												ng-model="$parent.noteInputFormModel.noteDate"
 												is-open="noteDate.opened" datepicker-options="dateOptions"
 												ng-required="true" close-text="Close"
 												alt-input-formats="altInputFormats" />
@@ -200,7 +200,7 @@
 												id="lastPaymentRecievedDate" name="lastPaymentRecievedDate"
 												placeholder="(MM/DD/YYYY)"
 												uib-datepicker-popup="MM/dd/yyyy"
-												ng-model="noteInputFormModel.lastPaymentRecievedDate"
+												ng-model="$parent.noteInputFormModel.lastPaymentRecievedDate"
 												is-open="lastPaymentRecievedDate.opened" datepicker-options="dateOptions"
 												ng-required="false" close-text="Close"
 												alt-input-formats="altInputFormats" />
@@ -316,7 +316,7 @@
 										<label class="col-sm-1 control-label"> Number of Units</label>
 										<div class="col-sm-3 ">
 											<input type="text" class="form-control icon-text"
-												name="numberOfUnits" ng-model="noteInputFormModel.noOfUnits" />
+												name="numberOfUnits" ng-model="noteInputFormModel.noOfPropUnits" />
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Enter Number of Units"></span>
@@ -332,8 +332,8 @@
 
 
 									<div class="form-group">
-										<label class="col-lg-2 control-label">Property Address</label>
-										<div class="col-lg-3">
+										<label class="col-sm-1 control-label">Property Address</label>
+										<div class="col-sm-3">
 											<p class="form-control-static">{{noteInputFormModel.propertyDetailModel.streetAddress}},
 												{{noteInputFormModel.propertyDetailModel.city}},
 												{{noteInputFormModel.propertyDetailModel.state}},

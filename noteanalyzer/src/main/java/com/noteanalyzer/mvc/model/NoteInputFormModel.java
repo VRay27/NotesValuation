@@ -69,12 +69,27 @@ public class NoteInputFormModel  extends RequestStatusModel implements Serializa
 	private String currentITV;
 	private String estimatedLTV;
 	private String ROI;
+	private String noOfPropUnits;
 	private PropertyDetailModel propertyDetailModel;
 	private DemographicDetailModel demoGraphicDetailModel;
 
 	
 	
 	
+	/**
+	 * @return the noOfPropUnits
+	 */
+	public String getNoOfPropUnits() {
+		return noOfPropUnits;
+	}
+
+	/**
+	 * @param noOfPropUnits the noOfPropUnits to set
+	 */
+	public void setNoOfPropUnits(String noOfPropUnits) {
+		this.noOfPropUnits = noOfPropUnits;
+	}
+
 	/**
 	 * @return the propertyDetailModel
 	 */

@@ -1,5 +1,5 @@
 var noteApp = angular.module('NoteApp');
-noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state,$document, $auth, $http, toastr, $rootScope, noteUploadAPI, NoteService,UtilityService,$window) {
+noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state,$document, $auth, $http, toastr, $rootScope, noteUploadAPI, NoteService,UtilityService,$window,$filter) {
  $scope.noteInputFormModel = NoteService.getNoteDetailModel();
  if($scope.noteInputFormModel && $scope.noteInputFormModel.noteId){
 	 $window.localStorage.setItem('noteId', $scope.noteInputFormModel.noteId); 
@@ -69,7 +69,7 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state,$docu
 	$scope.altInputFormats = ['MM/dd/yyyy'];
   
   $scope.updateOrginalTerm = function(){
-		if($scope.noteInputFormModel.loanTypeList){
+		if($scope.noteInputFormModel && $scope.noteInputFormModel.loanTypeList){
 		var len =$scope.noteInputFormModel.loanTypeList.length;
 		for (var i = 0; i < len; i++) {
 		    var loanTypeCode = $scope.noteInputFormModel.loanTypeList[i].loanTypeCode;

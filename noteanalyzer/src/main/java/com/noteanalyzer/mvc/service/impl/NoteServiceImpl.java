@@ -92,6 +92,7 @@ public class NoteServiceImpl implements NoteService {
 			property.setStreetAddress(noteModel.getStreetAddress());
 			property.setZip(Integer.valueOf(noteModel.getZipCode()));
 			property.setPropertyType(noteModel.getSelPropType());
+			property.setNumberOfPropUnit(noteModel.getNoOfPropUnits());
 
 		}
 		Note note = ConverterUtility.convertNoteModelToEntity(noteModel, property, null);

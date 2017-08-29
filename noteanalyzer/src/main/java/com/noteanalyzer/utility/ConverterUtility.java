@@ -113,6 +113,7 @@ public class ConverterUtility {
 		noteEntity.setEstimatedMarketValue(note.getEstimatedMarketValue());
 		noteEntity.setUserScore(Double.valueOf(note.getNoteScoreByUser()));
 		noteEntity.setRemainingNoOfPayment(Integer.valueOf(note.getRemainingPayment()));
+		noteEntity.setHoaFee(note.getHoaFees());
 		noteEntity.setSystemScore(null);
 		//noteEntity.setOriginalLTV();
 		noteEntity.setAppraisedITV(NoteAnalysisService.getCurrentITV(note.getNotePrice(),note.getEstimatedMarketValue()));
@@ -427,7 +428,6 @@ public class ConverterUtility {
 		model.setPdiPayment(Objects.toString(note.getPdiPayment(),""));
 		model.setTdiPayment(Objects.toString(note.getTdiPayment(),""));
 		model.setNotePosition(Objects.toString(note.getNotePosition(), ""));
-		model.setOriginalTerm(Objects.toString(note.getTermMonths()));
 		model.setRate(Objects.toString(note.getInterestRateInitial(),""));
 		model.setBorrowerCreditScore(Objects.toString(note.getBorrowerCreditScore(), ""));
 		model.setNoOfLatePayment(Objects.toString(note.getLatePayments(), ""));
@@ -441,6 +441,8 @@ public class ConverterUtility {
 		model.setYieldValue(Objects.toString(note.getYield(),""));
 		model.setEstimatedMarketValue(Objects.toString(note.getEstimatedMarketValue(),""));
 		model.setBorrowerName(Objects.toString(note.getBorrowerName(),""));
+		model.setNoOfLatePayment(Objects.toString(note.getLatePayments(),""));
+		model.setHoaFees(Objects.toString(note.getHoaFee(),""));
 		model.setNoOfLatePayment(Objects.toString(note.getLatePayments(),""));
 		PropertyDetailModel propertyDetailModel = new PropertyDetailModel();
 		Property property = note.getPropertyId();
@@ -485,11 +487,10 @@ public class ConverterUtility {
 			propertyDetailModel.setPropertyLotSize(property.getPropertyLotSize());
 
 			propertyDetailModel.setPropertyType(property.getPropertyType());
-
+			model.setNoOfPropUnits(property.getNumberOfPropUnit());
 			propertyDetailModel.setSizeSF(property.getSizeSF());
 			propertyDetailModel.setState(property.getState());
 			propertyDetailModel.setStreetAddress(property.getStreetAddress());
-
 			propertyDetailModel.setSubdividable(property.getSubdividable());
 		}
 		DemographicDetailModel demoGraphicDetailModel = new DemographicDetailModel();

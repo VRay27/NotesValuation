@@ -140,6 +140,9 @@ public class Note extends AbstractEntity {
 	
 	@Column(name = "Borrower_Name")
 	private String borrowerName;
+	
+	@Column(name = "HOA_FEE")
+	private String hoaFee;
 
 
 	@ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
@@ -649,6 +652,21 @@ public class Note extends AbstractEntity {
 	 */
 	public void setOriginalLoanBal(Double originalLoanBal) {
 		this.originalLoanBal = originalLoanBal;
+	}
+
+	
+	/**
+	 * @return the hoaFee
+	 */
+	public String getHoaFee() {
+		return hoaFee;
+	}
+
+	/**
+	 * @param hoaFee the hoaFee to set
+	 */
+	public void setHoaFee(String hoaFee) {
+		this.hoaFee = hoaFee;
 	}
 
 	/* (non-Javadoc)

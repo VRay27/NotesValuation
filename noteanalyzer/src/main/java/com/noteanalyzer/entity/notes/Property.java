@@ -86,6 +86,9 @@ public class Property extends AbstractEntity {
 	@Column(name = "NO_OF_BEDROOMS")
 	private String numberOfBedrooms;
 	
+	@Column(name = "NO_OF_PROP_UNIT")
+	private String numberOfPropUnit;
+	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "propertyId", cascade = CascadeType.ALL)
     private List<Note> note;
 	
@@ -428,6 +431,21 @@ public class Property extends AbstractEntity {
 	 */
 	public void setUpdatedTime(ZonedDateTime updatedTime) {
 		this.updatedTime = updatedTime;
+	}
+
+	
+	/**
+	 * @return the numberOfPropUnit
+	 */
+	public String getNumberOfPropUnit() {
+		return numberOfPropUnit;
+	}
+
+	/**
+	 * @param numberOfPropUnit the numberOfPropUnit to set
+	 */
+	public void setNumberOfPropUnit(String numberOfPropUnit) {
+		this.numberOfPropUnit = numberOfPropUnit;
 	}
 
 	/*
