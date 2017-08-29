@@ -358,7 +358,7 @@
 											<select class="form-control icon-text" name="state"
 												ng-init="noteInputFormModel.selState=noteInputFormModel.addressModel.stateList[0]"
 												ng-model="noteInputFormModel.selState"
-												ng-options="state for state in noteInputFormModel.addressModel.stateList">>
+												ng-options="state for state in noteInputFormModel.addressModel.stateList">
 											</select><span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Select state"></span>
@@ -510,7 +510,7 @@
 											<input type="text" class="form-control icon-text"
 												name="noOfLatePayment"
 												placeholder="Enter Number of Late Payment"
-												ng-model="noteInputFormModel.noOfLatePaymentByBorrower" /> <span
+												ng-model="noteInputFormModel.noOfLatePayment" /> <span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top"
 												uib-tooltip="Enter  Number of Late Payment"></span>

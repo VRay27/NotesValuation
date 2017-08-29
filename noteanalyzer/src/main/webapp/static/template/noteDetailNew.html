@@ -1,6 +1,6 @@
 <div class="container">
 	<div class="panel panel-default">
-		<div class="panel-heading">Note Input Form</div>
+		<div class="panel-heading">Note Detail Form</div>
 		<div class="panel-body">
 
 			<div class="container noteDetailContainer">
@@ -87,7 +87,7 @@
 											<input type="text" class="form-control icon-text"
 												name="originalTerm"  ng-blur=populateNoteInputModelFromJS()
 												ng-model="noteInputFormModel.originalTerm"
-												ng-init="noteInputFormModel.originalTerm=noteInputFormModel.selLoanType.termMonths" />
+												ng-init="updateOrginalTerm()" />
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top"
@@ -332,48 +332,14 @@
 
 
 									<div class="form-group">
-										<label class="col-sm-1 control-label">Zip Code</label>
-										<div class="col-sm-3 zipCode">
-											<input type="text" class="form-control icon-text"
-												name="zipCode" ng-model="noteInputFormModel.zipCode"
-												placeholder="Enter Zip Code" readonly /> <span
-												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
-												tooltip-placement="top" uib-tooltip="Enter zip code"></span>
+										<label class="col-lg-2 control-label">Property Address</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">{{noteInputFormModel.propertyDetailModel.streetAddress}},
+												{{noteInputFormModel.propertyDetailModel.city}},
+												{{noteInputFormModel.propertyDetailModel.state}},
+												{{noteInputFormModel.propertyDetailModel.zip}}</p>
 										</div>
-										<label class="col-sm-1 control-label requiredField">City</label>
-										<div class="col-sm-3 city">
-											<select class="form-control icon-text" name="city"
-												ng-init="noteInputFormModel.selCity=noteInputFormModel.selCity || noteInputFormModel.addressModel.cityList[0]"
-												ng-model="noteInputFormModel.selCity"
-												ng-options="city for city in noteInputFormModel.addressModel.cityList">
-											</select><span
-												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
-												tooltip-placement="top" uib-tooltip="Select city"></span>
-										</div>
-										<label class="col-sm-1 control-label requiredField">State</label>
-										<div class="col-sm-3 state">
-											<select class="form-control icon-text" name="state"
-												ng-init="noteInputFormModel.selState= noteInputFormModel.selState || noteInputFormModel.addressModel.stateList[0]"
-												ng-model="noteInputFormModel.selState"
-												ng-options="state for state in noteInputFormModel.addressModel.stateList">>
-											</select><span
-												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
-												tooltip-placement="top" uib-tooltip="Select state"></span>
-										</div>
-									</div>
-
-									<div class="form-group">
-										<label class="col-sm-1 control-label requiredField">Street
-											Address</label>
-										<div class="col-sm-3 streetAddress">
-											<input type="text" class="form-control icon-text"
-												name="streetAddress" placeholder="Enter Street Address"
-												ng-model="noteInputFormModel.streetAddress" /> <span
-												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
-												tooltip-placement="top" uib-tooltip="Enter Street Address"></span>
-										</div>
-
-									</div>
+								</div>
 
 									<div class="form-group">
 										<label class="col-sm-1 control-label requiredField">Estimated
@@ -507,7 +473,7 @@
 											<input type="text" class="form-control icon-text"
 												name="noOfLatePayment"
 												placeholder="Enter Number of Late Payment"
-												ng-model="noteInputFormModel.noOfLatePaymentByBorrower" /> <span
+												ng-model="noteInputFormModel.noOfLatePayment" /> <span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top"
 												uib-tooltip="Enter  Number of Late Payment"></span>
@@ -533,7 +499,7 @@
 									value="Reset" /> <input type="button"
 									class="btn btn-lg btn-info" ng-click="cancel()" value="Cancel" />
 								<input type="button" class="btn" style="visibility: hidden;"
-									id="createNoteBtnHidden" ng-click="updateNote()"
+									id="updateNoteBtnHidden" ng-click="updateNote()"
 									name="createNoteHidden" value="Create Note" />
 									<input type="button" class="btn" style="visibility: hidden;"
 									id="subscribeNoteBtnHidden" ng-click="subscribeNote();"
