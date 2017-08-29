@@ -27,10 +27,10 @@ public class NoteInputFormModel  extends RequestStatusModel implements Serializa
 	private AddressModel addressModel;
 	private List<LoanTypeModel> loanTypeList;
 	private List<NoteTypeModel> noteTypeList;
-	private LoanTypeModel selLoanType;
-	private NoteTypeModel selNoteType;
+	private String selLoanType;
+	private String selNoteType;
 	private List<PropertyTypeModel> propTypeList;
-	private PropertyTypeModel selPropType;
+	private String selPropType;
 	@NotNull(message = "Note Date cannot be null")
 	private String noteDate;
 	@NotNull(message = "Unpaid Balance cannot be null")
@@ -187,33 +187,7 @@ public class NoteInputFormModel  extends RequestStatusModel implements Serializa
 		this.noteTypeList = noteTypeList;
 	}
 
-	/**
-	 * @return the selLoanType
-	 */
-	public LoanTypeModel getSelLoanType() {
-		return selLoanType;
-	}
-
-	/**
-	 * @param selLoanType the selLoanType to set
-	 */
-	public void setSelLoanType(LoanTypeModel selLoanType) {
-		this.selLoanType = selLoanType;
-	}
-
-	/**
-	 * @return the selNoteType
-	 */
-	public NoteTypeModel getSelNoteType() {
-		return selNoteType;
-	}
-
-	/**
-	 * @param selNoteType the selNoteType to set
-	 */
-	public void setSelNoteType(NoteTypeModel selNoteType) {
-		this.selNoteType = selNoteType;
-	}
+	
 
 	/**
 	 * @return the propTypeList
@@ -229,17 +203,48 @@ public class NoteInputFormModel  extends RequestStatusModel implements Serializa
 		this.propTypeList = propTypeList;
 	}
 
+	
+	
+	
+	/**
+	 * @return the selLoanType
+	 */
+	public String getSelLoanType() {
+		return selLoanType;
+	}
+
+	/**
+	 * @param selLoanType the selLoanType to set
+	 */
+	public void setSelLoanType(String selLoanType) {
+		this.selLoanType = selLoanType;
+	}
+
+	/**
+	 * @return the selNoteType
+	 */
+	public String getSelNoteType() {
+		return selNoteType;
+	}
+
+	/**
+	 * @param selNoteType the selNoteType to set
+	 */
+	public void setSelNoteType(String selNoteType) {
+		this.selNoteType = selNoteType;
+	}
+
 	/**
 	 * @return the selPropType
 	 */
-	public PropertyTypeModel getSelPropType() {
+	public String getSelPropType() {
 		return selPropType;
 	}
 
 	/**
 	 * @param selPropType the selPropType to set
 	 */
-	public void setSelPropType(PropertyTypeModel selPropType) {
+	public void setSelPropType(String selPropType) {
 		this.selPropType = selPropType;
 	}
 

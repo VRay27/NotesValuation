@@ -27,10 +27,8 @@
 											Type</label>
 										<div class="col-sm-3">
 											<select class="form-control icon-text" name="noteType"
-												ng-init="noteInputFormModel.selNoteType=noteInputFormModel.selNoteType || noteInputFormModel.noteTypeList[0]"
 												ng-model="noteInputFormModel.selNoteType"
-												ng-change="noteInputFormModel.originalTerm=noteInputFormModel.selNoteType.termMonths"
-												ng-options="noteType.description for noteType in noteInputFormModel.noteTypeList"></select>
+												ng-options="n.noteType as n.description for n in noteInputFormModel.noteTypeList | orderBy:'description'"></select>
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Select note Pefroming"></span>
@@ -75,10 +73,9 @@
 											Type</label>
 										<div class="col-sm-3">
 											<select class="form-control icon-text" name="loanType"
-												ng-init="noteInputFormModel.selLoanType= noteInputFormModel.selLoanType || noteInputFormModel.loanTypeList[0]"
 												ng-model="noteInputFormModel.selLoanType"
-												ng-change="noteInputFormModel.originalTerm=noteInputFormModel.selLoanType.termMonths"
-												ng-options="loanType.loanTypeValue for loanType in noteInputFormModel.loanTypeList">
+												ng-change="updateOrginalTerm()"
+												ng-options="l.loanTypeCode as l.loanTypeValue for l in noteInputFormModel.loanTypeList | orderBy:'loanTypeValue'">
 											</select><span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top"
@@ -88,7 +85,7 @@
 											Term(Months)</label>
 										<div class="col-sm-3">
 											<input type="text" class="form-control icon-text"
-												name="originalTerm" readonly ng-blur=populateNoteInputModelFromJS()
+												name="originalTerm"  ng-blur=populateNoteInputModelFromJS()
 												ng-model="noteInputFormModel.originalTerm"
 												ng-init="noteInputFormModel.originalTerm=noteInputFormModel.selLoanType.termMonths" />
 											<span
@@ -310,9 +307,8 @@
 											Type</label>
 										<div class="col-sm-3">
 											<select class="form-control icon-text" name="propertyType"
-												ng-init="noteInputFormModel.selPropType= noteInputFormModel.selPropType || noteInputFormModel.propTypeList[0]"
 												ng-model="noteInputFormModel.selPropType"
-												ng-options="propType.propertyTypeValue for propType in noteInputFormModel.propTypeList">
+												ng-options="propType.propertyTypeCode as propType.propertyTypeValue for propType in noteInputFormModel.propTypeList | orderBy:'propertyTypeValue'">
 											</select><span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Select property type"></span>

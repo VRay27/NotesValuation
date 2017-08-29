@@ -90,8 +90,8 @@ public class ConverterUtility {
 		DateFormat df = new SimpleDateFormat(DEFAULT_DATE_FORMAT);
 		noteEntity = noteEntity == null ? new Note() : noteEntity;
 		noteEntity.setUserId(note.getUserId());
-		noteEntity.setNoteType(note.getSelNoteType().getNoteType());
-		noteEntity.setLoanType(note.getSelLoanType().getLoanTypeCode());
+		noteEntity.setNoteType(note.getSelNoteType());
+		noteEntity.setLoanType(note.getSelLoanType());
 		noteEntity.setFaceValue(Double.valueOf(note.getOriginalPrincipleBalance()));
 		noteEntity.setOriginationDate(df.parse(note.getNoteDate()));
 		noteEntity.setOriginalLoanBal(Double.valueOf(note.getOriginalPrincipleBalance()));

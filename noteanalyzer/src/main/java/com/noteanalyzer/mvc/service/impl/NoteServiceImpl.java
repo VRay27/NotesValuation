@@ -91,7 +91,7 @@ public class NoteServiceImpl implements NoteService {
 			property.setState(noteModel.getSelState());
 			property.setStreetAddress(noteModel.getStreetAddress());
 			property.setZip(Integer.valueOf(noteModel.getZipCode()));
-			property.setPropertyType(noteModel.getSelPropType().getPropertyTypeCode());
+			property.setPropertyType(noteModel.getSelPropType());
 
 		}
 		Note note = ConverterUtility.convertNoteModelToEntity(noteModel, property, null);
@@ -280,7 +280,7 @@ public class NoteServiceImpl implements NoteService {
 			noteInputFormModel.setLoanTypeList(loanTypeList);
 			for(LoanTypeModel model : loanTypeList){
 				if(model.getLoanTypeCode().equalsIgnoreCase(note.getLoanType())){
-					noteInputFormModel.setSelLoanType(model);
+					noteInputFormModel.setSelLoanType(model.getLoanTypeCode());
 					break;
 				}
 			}
@@ -292,7 +292,7 @@ public class NoteServiceImpl implements NoteService {
 			noteInputFormModel.setNoteTypeList(noteTypeList);
 			for(NoteTypeModel model : noteTypeList){
 				if(model.getNoteType().equalsIgnoreCase(note.getNoteType())){
-					noteInputFormModel.setSelNoteType(model);
+					noteInputFormModel.setSelNoteType(model.getNoteType());
 					break;
 				}
 			}
@@ -304,7 +304,7 @@ public class NoteServiceImpl implements NoteService {
 			noteInputFormModel.setPropTypeList(propTypeList);
 			for(PropertyTypeModel model : propTypeList){
 				if(model.getPropertyTypeCode().equalsIgnoreCase(note.getPropertyId().getPropertyType())){
-					noteInputFormModel.setSelPropType(model);
+					noteInputFormModel.setSelPropType(model.getPropertyTypeCode());
 					break;
 				}
 			}
@@ -450,7 +450,7 @@ public class NoteServiceImpl implements NoteService {
 				property = propertyList.get().get(0);
 			}
 			property = getPropertyFromZillow(noteModel.getStreetAddress(), noteModel.getSelCity(),
-					noteModel.getSelState(), noteModel.getZipCode(), noteModel.getSelPropType().getPropertyTypeCode(),
+					noteModel.getSelState(), noteModel.getZipCode(), noteModel.getSelPropType(),
 					property);
 
 			noteEntity.setPropertyId(property);

@@ -97,7 +97,18 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 	 		});
 	 }
 		 
-	
+	$scope.updateOrginalTerm = function(){
+		if($scope.noteInputFormModel.loanTypeList){
+		var len =$scope.noteInputFormModel.loanTypeList.length;
+		for (var i = 0; i < len; i++) {
+		    var loanTypeCode = $scope.noteInputFormModel.loanTypeList[i].loanTypeCode;
+		    if(loanTypeCode == $scope.noteInputFormModel.selLoanType){
+		    	$scope.noteInputFormModel.originalTerm = $scope.noteInputFormModel.loanTypeList[i].termMonths;
+		    	break;
+		    }
+		}
+		}
+	}
 	$scope.sanitizeNoteInputModelFromJS = function(){
 		$scope.noteInputFormModel.rate = $filter('sanitizeInput')($scope.noteInputFormModel.rate);
 		$scope.noteInputFormModel.upb  = $filter('sanitizeInput')($scope.noteInputFormModel.upb);
