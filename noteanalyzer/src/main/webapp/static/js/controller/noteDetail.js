@@ -13,10 +13,7 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state,$docu
      });
  }
   
- $scope.cancel = function(){
-	  $state.go('noteDashboard');
-  }
-  
+
 	$scope.sanitizeNoteInputModelFromJS = function(){
 		$scope.noteInputFormModel.rate = $filter('sanitizeInput')($scope.noteInputFormModel.rate);
 		$scope.noteInputFormModel.upb  = $filter('sanitizeInput')($scope.noteInputFormModel.upb);
@@ -38,7 +35,7 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state,$docu
 	
 	$scope.cancel = function(){
 		$scope.noteInputFormModel = {};
-		$state.go('home');
+		$state.go('noteDashboard');
 	}
 	
 	$scope.dateOptions = {

@@ -197,10 +197,10 @@ public class ConverterUtility {
 				if (propertyApprisalSet != null) {
 					Iterator<PropertyAppraisals> itr = propertyApprisalSet.iterator();
 					if (itr.hasNext()) {
-						PropertyAppraisals propertyAppraisals = propertyApprisalSet.iterator().next();
+						PropertyAppraisals propertyAppraisals = itr.next();
 						dashBoardModel.setMarketValue(propertyAppraisals.getMarketValue());
 						dashBoardModel.setMarketUpdateDate(propertyAppraisals.getMarketValueUpdatedDate());
-
+						dashBoardModel.setMarketValueAvailable(StringUtils.isNotBlank(propertyAppraisals.getMarketValue()));
 					}
 				}
 				if (statisticsList != null) {
@@ -224,7 +224,7 @@ public class ConverterUtility {
 				dashBoardModel.setCurrentITV(Objects.toString(model.getAppraisedITV(),""));
 				dashBoardModel.setCurrentLTV(Objects.toString(model.getAppraisedLTV(),""));
 				dashBoardModel.setEstimatedLTV(Objects.toString(model.getEstimatedLTV(),""));
-				dashBoardModel.setMarketValueAvailable(StringUtils.isNotBlank(dashBoardModel.getMarketValue()));
+				
 
 				summaryModelList.add(dashBoardModel);
 			}
