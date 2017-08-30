@@ -1,6 +1,7 @@
 
 var noteApp = angular.module('NoteApp');
 noteApp.controller('HomeCtrl', function($scope, $stateParams, $state,$document, $auth, $http, $uibModal, toastr, $rootScope, noteUploadAPI, NoteService,UtilityService) {
+	NoteService.setInputFormModel(null);
 	$scope.noteAnalyzed = function() {
 		var noteInputFormModel = {};
 		 noteInputFormModel.zipCode = $scope.zipCode;
@@ -147,6 +148,8 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 		$scope.noteDate.opened = true;
 	};
 	
+	$scope.parent = {noteDate:$scope.noteInputFormModel.noteDate,lastPaymentRecievedDate:$scope.noteInputFormModel.noteDate};
+	
 	$scope.lastPaymentRecievedDate = {
 			opened : false
 		};
@@ -157,8 +160,8 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 	$scope.altInputFormats = ['MM/dd/yyyy'];
 	$scope.createNote = function() {
 		$scope.sanitizeNoteInputModelFromJS();
-		$scope.noteInputFormModel.noteDate = $filter('date')($scope.noteInputFormModel.noteDate, 'MM/dd/yyyy');
-		$scope.noteInputFormModel.lastPaymentRecievedDate = $filter('date')($scope.noteInputFormModel.lastPaymentRecievedDate, 'MM/dd/yyyy');
+		$scope.noteInputFormModel.noteDate = $filter('date')($scope.parent.noteDate, 'MM/dd/yyyy');
+		$scope.noteInputFormModel.lastPaymentRecievedDate = $filter('date')($scope.parent.lastPaymentRecievedDate, 'MM/dd/yyyy');
 		NoteService.getYield($scope.noteInputFormModel);
 		$scope.submitted = true;
 
@@ -177,6 +180,7 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 		WaitingDialog.show();
 		NoteService.createNote($scope.noteInputFormModel).then(function() {
 			$state.go('noteDashboard');
+			NoteService.setInputFormModel(null);
 		}, function(errResponse) {
 			WaitingDialog.hide();
 			$scope.lastPaymentRecievedDate.opened = false;

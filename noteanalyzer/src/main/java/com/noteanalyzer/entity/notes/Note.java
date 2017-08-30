@@ -144,6 +144,8 @@ public class Note extends AbstractEntity {
 	@Column(name = "HOA_FEE")
 	private String hoaFee;
 
+	@Column(name = "NO_OF_PROP_UNIT")
+	private String numberOfPropUnit;
 
 	@ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
 	@JoinColumn(name = "PROPERTY_ID",referencedColumnName = "PROPERTY_ID", nullable = false)
@@ -667,6 +669,21 @@ public class Note extends AbstractEntity {
 	 */
 	public void setHoaFee(String hoaFee) {
 		this.hoaFee = hoaFee;
+	}
+
+	
+	/**
+	 * @return the numberOfPropUnit
+	 */
+	public String getNumberOfPropUnit() {
+		return numberOfPropUnit;
+	}
+
+	/**
+	 * @param numberOfPropUnit the numberOfPropUnit to set
+	 */
+	public void setNumberOfPropUnit(String numberOfPropUnit) {
+		this.numberOfPropUnit = numberOfPropUnit;
 	}
 
 	/* (non-Javadoc)

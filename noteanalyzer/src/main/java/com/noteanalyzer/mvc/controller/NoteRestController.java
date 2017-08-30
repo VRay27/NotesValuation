@@ -351,7 +351,28 @@ public class NoteRestController {
 		return new ResponseEntity<NoteInputFormModel>(model.get(), HttpStatus.OK);
 	}
 
+	/**
+	 * This method will be used to update given note value and recalculate the
+	 * parameters.
+	 * 
+	 * @param noteDetailModel
+	 * @return
+	 * @throws ParseException 
+	 */
+	@RequestMapping(value = "/api/subscribe", method = RequestMethod.POST)
+	public ResponseEntity<NoteInputFormModel> subscribeNote(@RequestBody NoteInputFormModel noteModel) throws ParseException {
 
+		if (noteModel == null) {
+			NoteInputFormModel model = new NoteInputFormModel();
+			model.setErrorMessage("Invalid input details");
+			return new ResponseEntity<NoteInputFormModel>(model, HttpStatus.BAD_REQUEST);
+		}
+		Optional<NoteInputFormModel> model = noteService.subscribeNote(noteModel);
+		return new ResponseEntity<NoteInputFormModel>(model.get(), HttpStatus.OK);
+	}
+
+
+	
 	/**
 	 * This method will be used to delete the given note using note id for
 	 * logged in user.
@@ -360,7 +381,7 @@ public class NoteRestController {
 	 * @return
 	 */
 	@RequestMapping(value = "/api/deleteNote", method = RequestMethod.POST)
-	public ResponseEntity<RequestStatusModel> deleteNote(@RequestBody NoteDetailModel noteDetailModel) {
+	public ResponseEntity<RequestStatusModel> deleteNote(@RequestBody NoteInputFormModel noteDetailModel) {
 		if (noteDetailModel == null) {
 			RequestStatusModel model = new RequestStatusModel();
 			model.setErrorMessage("Invalid input details");

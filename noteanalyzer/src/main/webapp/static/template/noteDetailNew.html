@@ -37,20 +37,8 @@
 										<label class="col-sm-1 control-label requiredField">Note
 											Date</label>
 										<div class="col-sm-3 noteDate">
-											<input type="text" class="form-control icon-text"
-												id="selNoteDate" name="noteDate"
-												placeholder="(MM/DD/YYYY)"
-												uib-datepicker-popup="MM/dd/yyyy"
-												ng-model="$parent.noteInputFormModel.noteDate"
-												is-open="noteDate.opened" datepicker-options="dateOptions"
-												ng-required="true" close-text="Close"
-												alt-input-formats="altInputFormats" />
-
-											<div class="input-group-btn noteDateCalAligment">
-												<button type="button" class="btn btn-default calButton"
-													ng-click="noteDate()">
-													<i class="glyphicon glyphicon-calendar"></i>
-												</button>
+											<p class="form-control-static">{{noteInputFormModel.noteDate
+															| getDefaultValueForNull}}</p>
 											</div>
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
@@ -196,21 +184,9 @@
 													<label class="col-sm-1 control-label ">Last Payment
 														Recieved</label>
 													<div class="col-sm-3 originalPrincipalBal">
-														<input type="text" class="form-control icon-text"
-												id="lastPaymentRecievedDate" name="lastPaymentRecievedDate"
-												placeholder="(MM/DD/YYYY)"
-												uib-datepicker-popup="MM/dd/yyyy"
-												ng-model="$parent.noteInputFormModel.lastPaymentRecievedDate"
-												is-open="lastPaymentRecievedDate.opened" datepicker-options="dateOptions"
-												ng-required="false" close-text="Close"
-												alt-input-formats="altInputFormats" />
-
-											<div class="input-group-btn noteDateCalAligment">
-												<button type="button" class="btn btn-default calButton"
-													ng-click="lastPaymentRecievedDate()">
-													<i class="glyphicon glyphicon-calendar"></i>
-												</button>
-											</div>
+														<p class="form-control-static">{{noteInputFormModel.lastPaymentRecievedDate
+															| getDefaultValueForNull}}</p>
+													</div>
 												 <span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 															tooltip-placement="top"
@@ -241,7 +217,7 @@
 													<label class="col-sm-1 control-label">Estimated LTV
 													</label>
 													<div class="col-sm-3">
-														<p class="form-control-static">{{noteInputFormModel.yieldValue
+														<p class="form-control-static">{{noteInputFormModel.estimatedLTV
 															| getDefaultValueForNull}}</p>
 														<span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
@@ -249,7 +225,7 @@
 													</div>
 													<label class="col-sm-1 control-label"> LTV </label>
 													<div class="col-sm-3">
-														<p class="form-control-static">{{noteInputFormModel.ltv |
+														<p class="form-control-static">{{noteInputFormModel.currentLTV |
 															getDefaultValueForNull}}</p>
 														<span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
@@ -267,7 +243,7 @@
 													</div>
 													<label class="col-sm-1 control-label">ITV </label>
 													<div class="col-sm-3">
-														<p class="form-control-static">{{noteInputFormModel.itv |
+														<p class="form-control-static">{{noteInputFormModel.currentITV |
 															getDefaultValueForNull}}</p>
 														<span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
@@ -356,7 +332,7 @@
 										<label class="col-sm-1 control-label">Market
 											Value</label>
 										<div class="col-sm-3 streetAddress">
-											<p class="form-control-static"></p>
+											<p class="form-control-static">{{noteInputFormModel.propertyDetailModel.marketValue | getDefaultValueForNull}}</p>
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Market Value"></span>
@@ -377,7 +353,7 @@
 												<div class="form-group">
 													<label class="col-sm-1 control-label">No of bedroom</label>
 													<div class="col-sm-3">
-														<p class="form-control-static"></p>
+														<p class="form-control-static">{{noteInputFormModel.propertyDetailModel.numberOfBedrooms | getDefaultValueForNull}}</p>
 														<span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 															tooltip-placement="top" uib-tooltip="Number of bedroom"></span>
@@ -385,7 +361,7 @@
 													<label class="col-sm-1 control-label">No of
 														bathroom</label>
 													<div class="col-sm-3">
-														<p class="form-control-static"></p>
+														<p class="form-control-static">{{noteInputFormModel.propertyDetailModel.numberOfBathrooms | getDefaultValueForNull}}</p>
 														<span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 															tooltip-placement="top" uib-tooltip="Number of bathroom"></span>
@@ -404,7 +380,7 @@
 													<label class="col-sm-1 control-label">Building (Sq
 														Ft)</label>
 													<div class="col-sm-3">
-														<p class="form-control-static"></p>
+														<p class="form-control-static">{{noteInputFormModel.propertyDetailModel.propertyBuiltUpSize | getDefaultValueForNull}}</p>
 														<span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 															tooltip-placement="top" uib-tooltip="Building sf"></span>
@@ -413,7 +389,7 @@
 													<label class="col-sm-1 control-label">Last sold
 														price</label>
 													<div class="col-sm-3">
-														<p class="form-control-static"></p>
+														<p class="form-control-static">{{noteInputFormModel.propertyDetailModel.lastSoldPrice | getDefaultValueForNull}}</p>
 														<span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 															tooltip-placement="top" uib-tooltip="Last sold Price "></span>
@@ -421,7 +397,7 @@
 													<label class="col-sm-1 control-label">Last sold
 														date</label>
 													<div class="col-sm-3">
-														<p class="form-control-static"></p>
+														<p class="form-control-static">{{noteInputFormModel.propertyDetailModel.lastSoldDate | getDefaultValueForNull}}</p>
 														<span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 															tooltip-placement="top" uib-tooltip="Last sold Date "></span>
@@ -467,16 +443,9 @@
 												tooltip-placement="top" uib-tooltip="Enter credit Score"></span>
 										</div>
 
-										<label class="col-sm-1 control-label">No of Late
-											payments</label>
+										<label class="col-sm-1 control-label"></label>
 										<div class="col-sm-3">
-											<input type="text" class="form-control icon-text"
-												name="noOfLatePayment"
-												placeholder="Enter Number of Late Payment"
-												ng-model="noteInputFormModel.noOfLatePayment" /> <span
-												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
-												tooltip-placement="top"
-												uib-tooltip="Enter  Number of Late Payment"></span>
+											
 										</div>
 									</div>
 
@@ -492,10 +461,9 @@
 									<input type="button" class="btn btn-lg btn-success"
 									id="subscribeNoteBtn" name="subscribeNoteBtn" value="Subscribe" />
 									<input type="button" class="btn btn-lg btn-info"
-									id="deleteNoteBtn" name="deleteNoteBtn" value="Delete" />
-								 <input type="button" class="btn btn-lg btn-info" ng-click="populateNoteInputModelFromJS()" value= "Calculate"/>
+									id="deleteNoteBtn" name="deleteNoteBtn" value="Delete" ng-click="deleteNote();"/>
 								<input type="button" class="btn btn-lg btn-info"
-									ng-click="clearNoteInputModelFromJS()" id="resetNoteBtn"
+									 id="resetNoteBtn"
 									value="Reset" /> <input type="button"
 									class="btn btn-lg btn-info" ng-click="cancel()" value="Cancel" />
 								<input type="button" class="btn" style="visibility: hidden;"
@@ -504,9 +472,7 @@
 									<input type="button" class="btn" style="visibility: hidden;"
 									id="subscribeNoteBtnHidden" ng-click="subscribeNote();"
 									name="subscribeNoteBtnHidden" value="Subscribe" />
-									<input type="button" class="btn" style="visibility: hidden;"
-									id="deleteNoteBtnHidden" ng-click="deleteNote();"
-									name="deleteNoteBtnHidden" value="Subscribe" />
+									
 							</div>
 						</div>
 

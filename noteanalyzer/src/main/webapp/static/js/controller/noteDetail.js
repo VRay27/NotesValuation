@@ -3,21 +3,17 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state,$docu
  $scope.noteInputFormModel = NoteService.getNoteDetailModel();
  if($scope.noteInputFormModel && $scope.noteInputFormModel.noteId){
 	 $window.localStorage.setItem('noteId', $scope.noteInputFormModel.noteId); 
-	 angular.element( document.querySelector('#selNoteDate')).val($scope.noteInputFormModel.noteDate);
-	 angular.element( document.querySelector('#lastPaymentRecievedDate')).val($scope.noteInputFormModel.lastPaymentRecievedDate);
  }else{
      NoteService.getNoteDetail($window.localStorage.getItem('noteId')).then(function(response) {
          NoteService.setNoteDetailModel(response);
          $scope.noteInputFormModel = NoteService.getNoteDetailModel();
-         angular.element( document.querySelector('#selNoteDate')).val($scope.noteInputFormModel.noteDate);
-		  angular.element( document.querySelector('#lastPaymentRecievedDate')).val($scope.noteInputFormModel.lastPaymentRecievedDate);
      }, function(response) {
          $auth.checkLoginFromServer(response.status);
          toastr.error("We are unable to find details for this note. Please try after sometime.")
      });
  }
-
-  $scope.cancel = function(){
+  
+ $scope.cancel = function(){
 	  $state.go('noteDashboard');
   }
   
@@ -81,7 +77,6 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state,$docu
 		}
 	}
   
-  
   $scope.updateNote = function(){
 	  $scope.sanitizeNoteInputModelFromJS();
 		$scope.noteInputFormModel.noteDate = $filter('date')($scope.noteInputFormModel.noteDate, 'MM/dd/yyyy');
@@ -90,25 +85,22 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state,$docu
 		
 	  NoteService.updateNote($scope.noteInputFormModel).then(function(response) {
 		  $scope.noteInputFormModel = response;
-		  angular.element( document.querySelector('#selNoteDate')).val($scope.noteInputFormModel.noteDate);
-		  angular.element( document.querySelector('#lastPaymentRecievedDate')).val($scope.noteInputFormModel.lastPaymentRecievedDate);
 		  toastr.success("Note has been updated successfully.")
 	  },function(response) {
 		  toastr.error("We are unable to update note. Please try after sometime.")
 	  });
 	    
   }
- 
+  
+  
   $scope.subscribeNote = function(){
 	  	$scope.sanitizeNoteInputModelFromJS();
 		$scope.noteInputFormModel.noteDate = $filter('date')($scope.noteInputFormModel.noteDate, 'MM/dd/yyyy');
 		$scope.noteInputFormModel.lastPaymentRecievedDate = $filter('date')($scope.noteInputFormModel.lastPaymentRecievedDate, 'MM/dd/yyyy');
 		NoteService.getYield($scope.noteInputFormModel);
-	  $scope.noteInputFormModel.isSubscribe = true;
+		$scope.noteInputFormModel.subscribe = 'Y';
 	  NoteService.subscribeNote($scope.noteInputFormModel).then(function(response) {
 		  $scope.noteInputFormModel = response;
-		  angular.element( document.querySelector('#selNoteDate')).val($scope.noteInputFormModel.noteDate);
-		  angular.element( document.querySelector('#lastPaymentRecievedDate')).val($scope.noteInputFormModel.lastPaymentRecievedDate);
 		  toastr.success("Note has been updated successfully.")
 	  },function(response) {
 		  toastr.error("We are unable to update note. Please try after sometime.")

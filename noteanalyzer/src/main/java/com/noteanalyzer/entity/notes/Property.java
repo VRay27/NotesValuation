@@ -86,16 +86,14 @@ public class Property extends AbstractEntity {
 	@Column(name = "NO_OF_BEDROOMS")
 	private String numberOfBedrooms;
 	
-	@Column(name = "NO_OF_PROP_UNIT")
-	private String numberOfPropUnit;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "propertyId", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "propertyId", cascade = CascadeType.ALL)
     private List<Note> note;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "propertyId")
+	@OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL, mappedBy = "propertyId")
 	private Set<PropertyAppraisals> propertyAppraisalSet = new HashSet<PropertyAppraisals>();
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "propertyId")
+	@OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL, mappedBy = "propertyId")
 	private Set<PropertyArea> propertyAreaSet = new HashSet<PropertyArea>();
 	
 	@Column(name="UPDATED_TIME")
@@ -433,20 +431,6 @@ public class Property extends AbstractEntity {
 		this.updatedTime = updatedTime;
 	}
 
-	
-	/**
-	 * @return the numberOfPropUnit
-	 */
-	public String getNumberOfPropUnit() {
-		return numberOfPropUnit;
-	}
-
-	/**
-	 * @param numberOfPropUnit the numberOfPropUnit to set
-	 */
-	public void setNumberOfPropUnit(String numberOfPropUnit) {
-		this.numberOfPropUnit = numberOfPropUnit;
-	}
 
 	/*
 	 * (non-Javadoc)

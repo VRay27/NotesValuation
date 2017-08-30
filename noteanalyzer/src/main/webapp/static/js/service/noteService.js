@@ -29,6 +29,8 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q','$filter', '$rootScope',
 		if(model.selNoteType.noteType == 'P'){
 			var newRate = UtilityService.calculateRate(model.remainingPayment,model.pdiPayment*-1,model.notePrice) * 1200;
 			model.yieldValue = UtilityService.round(newRate,2);
+		} else{
+			model.yieldValue ='';
 		}
 	}
 	
@@ -114,7 +116,7 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q','$filter', '$rootScope',
 	function subscribeNote(noteDetailModel) {
 		WaitingDialog.show();
 		var deferred = $q.defer();
-		$http.post('api/updateNoteNew', noteDetailModel)
+		$http.post('api/subscribe', noteDetailModel)
 			.then(
 				function(response) {
 					deferred.resolve(response.data);

@@ -135,7 +135,7 @@ public interface NoteService {
 	 * @param userName
 	 * @return
 	 */
-	boolean deleteNote(NoteDetailModel noteDetailModel, String userName);
+	boolean deleteNote(NoteInputFormModel noteDetailModel, String userName);
 	
 	/**
 	 * This method will return the apprisal source details for given apprisal source detail.
@@ -179,6 +179,8 @@ public interface NoteService {
 	Optional<List<NoteTypeModel>>  getAllNoteType();
 
 	Optional<NoteInputFormModel> getNoteDetailNew(Long noteId);
+
+	Optional<NoteInputFormModel> subscribeNote(NoteInputFormModel noteModel) throws ParseException;
 	
 	
 }

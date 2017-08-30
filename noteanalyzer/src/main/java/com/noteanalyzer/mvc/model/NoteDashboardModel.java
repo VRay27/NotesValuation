@@ -15,7 +15,7 @@ public class NoteDashboardModel extends RequestStatusModel implements Serializab
 	private String yield;
 	private String marketValue;
 	private String crime;
-	private String originalEstimatedITV;
+	private String estimatedITV;
 	private String currentITV;
 	private String currentLTV;
 	private String estimatedLTV;
@@ -24,11 +24,96 @@ public class NoteDashboardModel extends RequestStatusModel implements Serializab
 	private String schoolScore;
 	private String crimeScore;
 	private String roi;
+	private String city;
+	private String state;
+	private String zipCode;
+	private String streetAddress;
+	private String propertyType;
 
 	public NoteDashboardModel() {
 	}
 
 	
+	/**
+	 * @return the city
+	 */
+	public String getCity() {
+		return city;
+	}
+
+
+	/**
+	 * @param city the city to set
+	 */
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+
+	/**
+	 * @return the state
+	 */
+	public String getState() {
+		return state;
+	}
+
+
+	/**
+	 * @param state the state to set
+	 */
+	public void setState(String state) {
+		this.state = state;
+	}
+
+
+	/**
+	 * @return the zipCode
+	 */
+	public String getZipCode() {
+		return zipCode;
+	}
+
+
+	/**
+	 * @param zipCode the zipCode to set
+	 */
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
+	}
+
+
+	/**
+	 * @return the streetAddress
+	 */
+	public String getStreetAddress() {
+		return streetAddress;
+	}
+
+
+	/**
+	 * @param streetAddress the streetAddress to set
+	 */
+	public void setStreetAddress(String streetAddress) {
+		this.streetAddress = streetAddress;
+	}
+
+
+	/**
+	 * @return the propertyType
+	 */
+	public String getPropertyType() {
+		return propertyType;
+	}
+
+
+	/**
+	 * @param propertyType the propertyType to set
+	 */
+	public void setPropertyType(String propertyType) {
+		this.propertyType = propertyType;
+	}
+
+
 	/**
 	 * @return the roi
 	 */
@@ -124,19 +209,22 @@ public class NoteDashboardModel extends RequestStatusModel implements Serializab
 	}
 
 
+	
 	/**
-	 * @return the originalEstimatedITV
+	 * @return the estimatedITV
 	 */
-	public String getOriginalEstimatedITV() {
-		return originalEstimatedITV;
+	public String getEstimatedITV() {
+		return estimatedITV;
 	}
 
+
 	/**
-	 * @param originalEstimatedITV the originalEstimatedITV to set
+	 * @param estimatedITV the estimatedITV to set
 	 */
-	public void setOriginalEstimatedITV(String originalEstimatedITV) {
-		this.originalEstimatedITV = originalEstimatedITV;
+	public void setEstimatedITV(String estimatedITV) {
+		this.estimatedITV = estimatedITV;
 	}
+
 
 	/**
 	 * @return the currentITV

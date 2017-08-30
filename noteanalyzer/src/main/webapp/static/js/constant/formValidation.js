@@ -355,13 +355,6 @@ $(document).ready(function() {
  });
   
   // Validate the form manually
- $('#deleteNoteBtn').click(function() {
-	
-  		$("#deleteBtnHidden").trigger( "click" );
-});
-  
-  
-  // Validate the form manually
  $('#subscribeNoteBtn').click(function() {
 	   $('.panel-collapse:not(".in")')
 	    .collapse('show');
@@ -372,17 +365,6 @@ $(document).ready(function() {
   	};
 });
   
-  // Validate the form manually
- $('#createNoteBtn').click(function() {
-	   $('.panel-collapse:not(".in")')
-	    .collapse('show');
-      if($('#noteInputForm').bootstrapValidator('validate').has('.has-error').length){
-	       	return false;
-  	}else{
-  		$("#createNoteBtnHidden").trigger( "click" );
-  	};
-      });
-    
    $('#resetNoteBtn').click(function() {
    	$('#noteInputForm').bootstrapValidator('resetForm', true);
    });

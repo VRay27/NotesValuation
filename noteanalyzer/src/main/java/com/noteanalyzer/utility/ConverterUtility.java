@@ -114,12 +114,12 @@ public class ConverterUtility {
 		noteEntity.setUserScore(Double.valueOf(note.getNoteScoreByUser()));
 		noteEntity.setRemainingNoOfPayment(Integer.valueOf(note.getRemainingPayment()));
 		noteEntity.setHoaFee(note.getHoaFees());
+		noteEntity.setNumberOfPropUnit(note.getNoOfPropUnits());
 		noteEntity.setSystemScore(null);
-		//noteEntity.setOriginalLTV();
-		noteEntity.setAppraisedITV(NoteAnalysisService.getCurrentITV(note.getNotePrice(),note.getEstimatedMarketValue()));
-		noteEntity.setAppraisedLTV(NoteAnalysisService.getCurrentLTV(note.getUpb(),note.getEstimatedMarketValue()));
-		noteEntity.setEstimatedITV(NoteAnalysisService.getOriginalEstimatedITV(note.getNotePrice(),note.getEstimatedMarketValue()));
+		noteEntity.setEstimatedLTV(NoteAnalysisService.getEstimatedLTV(note.getUpb(),note.getEstimatedMarketValue()));
 		
+		noteEntity.setEstimatedITV(NoteAnalysisService.getEstimatedITV(note.getNotePrice(),note.getEstimatedMarketValue()));
+		noteEntity.setRoi(NoteAnalysisService.getROI(Double.valueOf(note.getPdiPayment()), Double.valueOf(note.getNotePrice())));
 		
 		if (property != null) {
 			Set<PropertyAppraisals> propertyApprisalSet = property.getPropertyAppraisalSet();
@@ -127,12 +127,13 @@ public class ConverterUtility {
 				Iterator<PropertyAppraisals> itr = propertyApprisalSet.iterator();
 				if (itr.hasNext()) {
 					PropertyAppraisals propertyAppraisals = itr.next();
-					/*noteEntity.setCurrentEffectiveLTV(NoteAnalysisService.getCurrentEffectiveLTV(
-							Objects.toString(note.getNotePrice(), null), propertyAppraisals.getMarketValue()));*/
+					noteEntity.setAppraisedITV(NoteAnalysisService.getCurrentITV(note.getNotePrice(), propertyAppraisals.getMarketValue()));
+					noteEntity.setAppraisedLTV(NoteAnalysisService.getCurrentLTV(note.getUpb(), propertyAppraisals.getMarketValue()));
 				}
 			}
 		}
-		//noteEntity.setRoi(NoteAnalysisService.getROI());
+		
+		
 		if(StringUtils.isNotBlank(note.getYieldValue())){
 		noteEntity.setYield(Double.valueOf(note.getYieldValue()));
 		}
@@ -183,6 +184,12 @@ public class ConverterUtility {
 				NoteDashboardModel dashBoardModel = new NoteDashboardModel();
 				Property property = model.getPropertyId();
 				dashBoardModel.setNoteId(model.getNoteId());
+				dashBoardModel.setPropertyType(property.getPropertyType());
+				dashBoardModel.setStreetAddress(property.getStreetAddress());
+				dashBoardModel.setZipCode(Objects.toString(property.getZip(),""));
+				dashBoardModel.setState(property.getState());
+				dashBoardModel.setCity(property.getCity());
+				
 				dashBoardModel.setNoteAddress(property.getStreetAddress() + ", " + property.getCity() + ", "
 						+ property.getState() + ", " + property.getZip());
 
@@ -213,7 +220,7 @@ public class ConverterUtility {
 					}
 				}
 				dashBoardModel.setYield(Objects.toString(model.getYield()));
-				dashBoardModel.setOriginalEstimatedITV(Objects.toString(model.getEstimatedITV(),""));
+				dashBoardModel.setEstimatedITV(Objects.toString(model.getEstimatedITV(),""));
 				dashBoardModel.setCurrentITV(Objects.toString(model.getAppraisedITV(),""));
 				dashBoardModel.setCurrentLTV(Objects.toString(model.getAppraisedLTV(),""));
 				dashBoardModel.setEstimatedLTV(Objects.toString(model.getEstimatedLTV(),""));
@@ -437,7 +444,7 @@ public class ConverterUtility {
 		model.setCurrentLTV(Objects.toString(note.getAppraisedLTV(),""));
 		model.setCurrentITV(Objects.toString(note.getAppraisedITV(),""));
 		model.setEstimatedITV(Objects.toString(note.getEstimatedITV(),""));
-		model.setROI(Objects.toString(NoteAnalysisService.getROI(note.getPdiPayment(),note.getNotePrice()),""));
+		model.setROI(Objects.toString(note.getRoi(),""));
 		model.setYieldValue(Objects.toString(note.getYield(),""));
 		model.setEstimatedMarketValue(Objects.toString(note.getEstimatedMarketValue(),""));
 		model.setBorrowerName(Objects.toString(note.getBorrowerName(),""));
@@ -487,7 +494,7 @@ public class ConverterUtility {
 			propertyDetailModel.setPropertyLotSize(property.getPropertyLotSize());
 
 			propertyDetailModel.setPropertyType(property.getPropertyType());
-			model.setNoOfPropUnits(property.getNumberOfPropUnit());
+			model.setNoOfPropUnits(note.getNumberOfPropUnit());
 			propertyDetailModel.setSizeSF(property.getSizeSF());
 			propertyDetailModel.setState(property.getState());
 			propertyDetailModel.setStreetAddress(property.getStreetAddress());

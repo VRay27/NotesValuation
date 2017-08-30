@@ -3,10 +3,6 @@
  */
 package com.noteanalyzer.mvc.service;
 
-import java.math.RoundingMode;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -15,12 +11,12 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class NoteAnalysisService {
 
-	public static Double getOriginalEstimatedITV(String notePrice, String estimatedMarketValue) {
+	public static Double getEstimatedITV(String notePrice, String estimatedMarketValue) {
 		if (StringUtils.isNotBlank(notePrice) && StringUtils.isNotBlank(estimatedMarketValue) && !"null".equalsIgnoreCase(estimatedMarketValue) && !"null".equalsIgnoreCase(notePrice)) {
 			Double notePriceVal = Double.valueOf(notePrice);
 			Double estimatedMarketValueVal = Double.valueOf(estimatedMarketValue);
 	
-			return notePriceVal/estimatedMarketValueVal;
+			return (double) Math.round(notePriceVal/estimatedMarketValueVal);
 		}
 		return Double.valueOf(0);
 	}
@@ -30,16 +26,16 @@ public class NoteAnalysisService {
 			Double notePriceVal = Double.valueOf(notePrice);
 			Double marketValueVal = Double.valueOf(marketValue);
 	
-			return notePriceVal/marketValueVal;
+			return (double) Math.round(notePriceVal/marketValueVal);
 		}
 		return Double.valueOf(0);
 	}
 	
-	public static Double getOriginalLTV(String originalPrincipalBal, String originalPropertyValue) {
-		if ( StringUtils.isNotBlank(originalPrincipalBal) && StringUtils.isNotBlank(originalPropertyValue) && !"null".equalsIgnoreCase(originalPropertyValue) && !"null".equalsIgnoreCase(originalPrincipalBal)) {
-			Double originalPrincipalBalance = Double.valueOf(originalPrincipalBal);
-			Double originalPropertyVal = Double.valueOf(originalPropertyValue);
-			return originalPrincipalBalance/originalPropertyVal;
+	public static Double getEstimatedLTV(String unpaidLoanBalance, String estimatedMarketValue) {
+		if ( StringUtils.isNotBlank(unpaidLoanBalance) && StringUtils.isNotBlank(estimatedMarketValue) && !"null".equalsIgnoreCase(unpaidLoanBalance) && !"null".equalsIgnoreCase(estimatedMarketValue)) {
+			Double unpaidLoanBalanceVal = Double.valueOf(unpaidLoanBalance);
+			Double estimatedMarketValueVal = Double.valueOf(estimatedMarketValue);
+			return (double) Math.round(unpaidLoanBalanceVal/estimatedMarketValueVal);
 		}
 		return Double.valueOf(0);
 	}
@@ -49,7 +45,7 @@ public class NoteAnalysisService {
 		if (StringUtils.isNotBlank(unpaidBal) && StringUtils.isNotBlank(marketValue) && !"null".equalsIgnoreCase(unpaidBal) && !"null".equalsIgnoreCase(marketValue)) {
 			Double notePriceVal = Double.valueOf(unpaidBal);
 			Double marketVal = Double.valueOf(marketValue);
-			return notePriceVal/marketVal;
+			return (double) Math.round(notePriceVal/marketVal);
 		}
 		return Double.valueOf(0);
 	}
@@ -57,7 +53,7 @@ public class NoteAnalysisService {
 	
 	public static Double getROI(Double payment, Double notePrice) {
 		if (payment !=null && notePrice !=null){
-			return (payment*12)/notePrice;
+			return (double) Math.round((payment*12)/notePrice);
 		}
 		return Double.valueOf(0);
 	}

@@ -61,7 +61,7 @@ public class NoteInputFormModel  extends RequestStatusModel implements Serializa
 	private String notePrice;
 	private String hoaFees;
 	private String borrowerName;
-	private boolean isSubscribe;
+	private String subscribe;
 	private String yieldValue;
 	
 	private String currentLTV;
@@ -132,18 +132,19 @@ public class NoteInputFormModel  extends RequestStatusModel implements Serializa
 		ROI = rOI;
 	}
 
+	
 	/**
-	 * @return the isSubscribe
+	 * @return the subscribe
 	 */
-	public boolean isSubscribe() {
-		return isSubscribe;
+	public String getSubscribe() {
+		return subscribe;
 	}
 
 	/**
-	 * @param isSubscribe the isSubscribe to set
+	 * @param subscribe the subscribe to set
 	 */
-	public void setSubscribe(boolean isSubscribe) {
-		this.isSubscribe = isSubscribe;
+	public void setSubscribe(String subscribe) {
+		this.subscribe = subscribe;
 	}
 
 	/**

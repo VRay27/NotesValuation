@@ -80,8 +80,8 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
             },
             cellTemplate: "<div>{{row.entity.yield}}</div>"
         }, {
-            field: 'originalLTV',
-            displayName: 'Original LTV',
+            field: 'estimatedITV',
+            displayName: 'Estimated ITV',
             cellClass: 'uiGridCellClass',
             headerCellClass: 'addressHeaderClass',
             filter: {
@@ -89,10 +89,10 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
                     return $scope.customNumberFilter(searchTerm, cellValue);
                 }
             },
-            cellTemplate: "<div>{{row.entity.originalLTV}}</div>"
+            cellTemplate: "<div>{{row.entity.estimatedITV}}</div>"
         }, {
-            field: 'effectiveLTV',
-            displayName: 'Effective LTV',
+            field: 'estimatedLTV',
+            displayName: 'Estimated LTV',
             cellClass: 'uiGridCellClass',
             headerCellClass: 'addressHeaderClass',
             filter: {
@@ -100,10 +100,10 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
                     return $scope.customNumberFilter(searchTerm, cellValue);
                 }
             },
-            cellTemplate: "<div>{{row.entity.effectiveLTV}}</div>"
+            cellTemplate: "<div>{{row.entity.estimatedLTV}}</div>"
         }, {
-            field: 'currentEffectiveLTV',
-            displayName: 'Current Effective LTV',
+            field: 'currentLTV',
+            displayName: 'LTV',
             cellClass: 'uiGridCellClass',
             headerCellClass: 'addressHeaderClass',
             filter: {
@@ -111,9 +111,23 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
                     return $scope.customNumberFilter(searchTerm, cellValue);
                 }
             },
-            cellTemplate: "<div ng-show={{row.entity.marketValueAvailable}}><p>{{row.entity.currentEffectiveLTV}}<span class=\"glyphicon glyphicon-info-sign tooltip-color \"" +
+            cellTemplate: "<div ng-show={{row.entity.marketValueAvailable}}><p>{{row.entity.currentLTV}}<span class=\"glyphicon glyphicon-info-sign tooltip-color \"" +
                 "tooltip-placement=\"bottom\" uib-tooltip=\"Last updated date {{ row.entity.marketUpdateDate | date}}\"></span> </p></div>" +
-                "<div ng-show={{!row.entity.marketValueAvailable}}><p>No data available</p></div>"
+                "<a ng-show={{!row.entity.marketValueAvailable}} ng-href=\"\" style=\"cursor:pointer;\" ng-click= \"grid.appScope.vm.updateMarketValue(grid, row)\">Subscribe</a>"
+        },
+         {
+            field: 'currentITV',
+            displayName: 'ITV',
+            cellClass: 'uiGridCellClass',
+            headerCellClass: 'addressHeaderClass',
+            filter: {
+                condition: function(searchTerm, cellValue) {
+                    return $scope.customNumberFilter(searchTerm, cellValue);
+                }
+            },
+            cellTemplate: "<div ng-show={{row.entity.marketValueAvailable}}><p>{{row.entity.currentITV}}<span class=\"glyphicon glyphicon-info-sign tooltip-color \"" +
+                "tooltip-placement=\"bottom\" uib-tooltip=\"Last updated date {{ row.entity.marketUpdateDate | date}}\"></span> </p></div>" +
+                "<a ng-show={{!row.entity.marketValueAvailable}} ng-href=\"\" style=\"cursor:pointer;\" ng-click= \"grid.appScope.vm.updateMarketValue(grid, row)\">Subscribe</a>"
         },
         {
             field: 'schoolScore',
@@ -153,7 +167,7 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
              },*/
             cellTemplate: "<div ng-show={{row.entity.marketValueAvailable}}><p>{{row.entity.marketValue}}<span class=\"glyphicon glyphicon-info-sign tooltip-color \"" +
                 "tooltip-placement=\"bottom\" uib-tooltip=\"Last updated date {{ row.entity.marketUpdateDate | date}}\"></span> </p></div>" +
-                "<a ng-show={{!row.entity.marketValueAvailable}} ng-href=\"\" style=\"cursor:pointer;\" ng-click= \"grid.appScope.vm.updateMarketValue(grid, row)\">Get Current Market Value</a>"
+                "<a ng-show={{!row.entity.marketValueAvailable}} ng-href=\"\" style=\"cursor:pointer;\" ng-click= \"grid.appScope.vm.updateMarketValue(grid, row)\">Subscribe</a>"
            
         }
     ];
@@ -192,8 +206,15 @@ function NoteDetailService($http, $rootScope, NoteService, toastr, $state, $auth
     };
     
     function updateMarketValue(grid, row) {
-        NoteService.getNoteDetail(row.entity.noteId).then(function(response) {
-            NoteService.setNoteDetailModel(response);
+    	var noteDetailModel ={
+    			noteId : row.entity.noteId,
+    			propertyDetailModel:{city:row.entity.city,
+    							     state:row.entity.state,
+    							     streetAddress:row.entity.streetAddress,
+    							     zip:row.entity.zipCode,
+    							     selPropType:row.entity.propertyType}
+    	}
+        NoteService.subscribeNote(noteDetailModel).then(function(response) {
             $state.go('noteDashboard');
         }, function(response) {
             $auth.checkLoginFromServer(response.status);

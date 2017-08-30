@@ -42,7 +42,7 @@
 												id="selNoteDate" name="noteDate"
 												placeholder="(MM/DD/YYYY)"
 												uib-datepicker-popup="MM/dd/yyyy"
-												ng-model="$parent.noteInputFormModel.noteDate"
+												ng-model="parent.noteDate"
 												is-open="noteDate.opened" datepicker-options="dateOptions"
 												ng-required="true" close-text="Close"
 												alt-input-formats="altInputFormats" />
@@ -87,7 +87,7 @@
 											Term(Months)</label>
 										<div class="col-sm-3">
 											<input type="text" class="form-control icon-text"
-												name="originalTerm" readonly ng-blur=populateNoteInputModelFromJS()
+												name="originalTerm"  ng-blur=populateNoteInputModelFromJS()
 												ng-model="noteInputFormModel.originalTerm"
 												ng-init="updateOrginalTerm()" />
 											<span
@@ -202,8 +202,8 @@
 												id="lastPaymentRecievedDate" name="lastPaymentRecievedDate"
 												placeholder="(MM/DD/YYYY)"
 												uib-datepicker-popup="MM/dd/yyyy"
-												ng-model="noteInputFormModel.lastPaymentRecievedDate"
-												is-open="$parent.lastPaymentRecievedDate.opened" datepicker-options="dateOptions"
+												ng-model="parent.lastPaymentRecievedDate"
+												is-open="lastPaymentRecievedDate.opened" datepicker-options="dateOptions"
 												ng-required="false" close-text="Close"
 												alt-input-formats="altInputFormats" />
 
@@ -504,16 +504,16 @@
 												tooltip-placement="top" uib-tooltip="Enter credit Score"></span>
 										</div>
 
-										<label class="col-sm-1 control-label">No of Late
-											payments</label>
+										<label class="col-sm-1 control-label">
+											</label>
 										<div class="col-sm-3">
-											<input type="text" class="form-control icon-text"
+											<!-- <input type="text" class="form-control icon-text"
 												name="noOfLatePayment"
 												placeholder="Enter Number of Late Payment"
 												ng-model="noteInputFormModel.noOfLatePayment" /> <span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top"
-												uib-tooltip="Enter  Number of Late Payment"></span>
+												uib-tooltip="Enter  Number of Late Payment"></span> -->
 										</div>
 									</div>
 

@@ -1,6 +1,7 @@
 package com.noteanalyzer.mvc.service.impl;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -86,14 +87,7 @@ public class NoteServiceImpl implements NoteService {
 		if (propertyList.isPresent()) {
 			property = propertyList.get().get(0);
 		} else {
-			property = new Property();
-			property.setCity(noteModel.getSelCity());
-			property.setState(noteModel.getSelState());
-			property.setStreetAddress(noteModel.getStreetAddress());
-			property.setZip(Integer.valueOf(noteModel.getZipCode()));
-			property.setPropertyType(noteModel.getSelPropType());
-			property.setNumberOfPropUnit(noteModel.getNoOfPropUnits());
-
+			property = getPropertyWithoutZillow(noteModel.getStreetAddress(), noteModel.getSelCity(), noteModel.getSelState(), noteModel.getZipCode(), noteModel.getSelPropType(), null);
 		}
 		Note note = ConverterUtility.convertNoteModelToEntity(noteModel, property, null);
 		note.setPropertyId(property);
@@ -112,6 +106,44 @@ public class NoteServiceImpl implements NoteService {
 		}
 		return Optional.of(appriasalSourcesList);
 	}
+	
+	
+	/**
+	 * This method will fetch the details from Zillow and create/update the
+	 * property, property apprisal and property area table.
+	 * 
+	 * @param streetAddress
+	 * @param city
+	 * @param state
+	 * @param zipcode
+	 * @param propertyTypeCode
+	 * @param propertyFromDB
+	 * @return
+	 */
+	private Property getPropertyWithoutZillow(String streetAddress, String city, String state, String zipCode,
+			String propertyTypeCode, Property propertyFromDB) {
+		AppraisalPropertyBean appraisalPropertyBean = new AppraisalPropertyBean();
+		appraisalPropertyBean.setStreetAddress(streetAddress);
+		appraisalPropertyBean.setState(state);
+		appraisalPropertyBean.setCity(city);
+		appraisalPropertyBean.setZipCode(zipCode);
+		appraisalPropertyBean.setAppraisalSource("Creation");
+		
+		LOG.info(appraisalPropertyBean.toString());
+		Optional<List<AppriasalSources>> apprsialSourceList = getApprisalSourceDetail("Creation");
+		Optional<List<Zipcodes>> zipcodesListDetails = getZipCodesListDetails(city, state, zipCode);
+		Zipcodes zipCodeDetails = zipcodesListDetails.isPresent() ? zipcodesListDetails.get().get(0) : null;
+		Property propertyEntity = ConverterUtility.createPropertyObject(appraisalPropertyBean, propertyTypeCode,
+				apprsialSourceList.get().get(0), propertyFromDB, zipCodeDetails);
+
+		if (propertyFromDB != null) {
+			propertyFromDB = genericDao.update(propertyEntity);
+		} else {
+			propertyFromDB = genericDao.create(propertyEntity);
+		}
+		return propertyFromDB;
+	}
+
 
 	/**
 	 * This method will fetch the details from Zillow and create/update the
@@ -413,7 +445,7 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	@Override
-	public boolean deleteNote(@NonNull NoteDetailModel noteDetailModel, String userName) {
+	public boolean deleteNote(@NonNull NoteInputFormModel noteDetailModel, String userName) {
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("emailID", userName);
 		parameters.put("noteId", noteDetailModel.getNoteId());
@@ -423,7 +455,7 @@ public class NoteServiceImpl implements NoteService {
 			genericDao.deleteById(Note.class, notes.get(0).getNoteId());
 			return true;
 		}
-		System.out.println("There is No record found with logging user " + userName + " and noteDetailModel ID"
+		LOG.warning("There is No record found with logging user " + userName + " and noteDetailModel ID"
 				+ noteDetailModel.getNoteId());
 		return false;
 	}
@@ -444,22 +476,54 @@ public class NoteServiceImpl implements NoteService {
 			return Optional.empty();
 		}
 		Property property = null;
-		if (noteModel.isSubscribe()) {
-			Optional<List<Property>> propertyList = getPropertyByAddress(noteModel);
+		noteModel.setSelCity(noteModel.getPropertyDetailModel().getCity());
+		noteModel.setSelState(noteModel.getPropertyDetailModel().getState());
+		noteModel.setZipCode(noteModel.getPropertyDetailModel().getZip());
+		noteModel.setStreetAddress(noteModel.getPropertyDetailModel().getStreetAddress());
+		
+		Optional<List<Property>> propertyList = getPropertyByAddress(noteModel);
 
-			if (propertyList.isPresent()) {
-				property = propertyList.get().get(0);
-			}
+		if (propertyList.isPresent()) {
+			property = propertyList.get().get(0);
+		}
+			property = noteEntity.getPropertyId();
+			property.setPropertyType(noteModel.getSelPropType());
+		noteEntity = ConverterUtility.convertNoteModelToEntity(noteModel, property, noteEntity);
+		List<Note> noteEntityList = new ArrayList<>();
+		noteEntityList.add(noteEntity);
+		property.setNote(noteEntityList);
+		genericDao.update(noteEntity);
+		return Optional.of(noteModel);
+	}
+	
+	
+	@Override
+	public Optional<NoteInputFormModel> subscribeNote(NoteInputFormModel noteModel) throws ParseException {
+		Note noteEntity = genericDao.getById(Note.class, noteModel.getNoteId());
+		if (noteEntity == null) {
+			return Optional.empty();
+		}
+		Property property = null;
+		noteModel.setSelCity(noteModel.getPropertyDetailModel().getCity());
+		noteModel.setSelState(noteModel.getPropertyDetailModel().getState());
+		noteModel.setZipCode(noteModel.getPropertyDetailModel().getZip());
+		noteModel.setStreetAddress(noteModel.getPropertyDetailModel().getStreetAddress());
+		
+		Optional<List<Property>> propertyList = getPropertyByAddress(noteModel);
+
+		if (propertyList.isPresent()) {
+			property = propertyList.get().get(0);
+		}
 			property = getPropertyFromZillow(noteModel.getStreetAddress(), noteModel.getSelCity(),
 					noteModel.getSelState(), noteModel.getZipCode(), noteModel.getSelPropType(),
 					property);
-
-			noteEntity.setPropertyId(property);
-		}
+		List<Note> noteEntityList = new ArrayList<>();
+		noteEntity.setPropertyId(property);
 		noteEntity = ConverterUtility.convertNoteModelToEntity(noteModel, property, noteEntity);
-
+		noteEntityList.add(noteEntity);
+		property.setNote(noteEntityList);
 		genericDao.update(noteEntity);
-		return Optional.of(noteModel);
+		return Optional.of(getNoteDetailNew(noteEntity.getNoteId()).get());
 	}
 
 }
