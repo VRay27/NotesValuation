@@ -38,7 +38,7 @@
 											Date</label>
 										<div class="col-sm-3">
 											<input type="text" class="form-control icon-text"
-												name="notePrice" placeholder="MM/dd/YYYY"
+												name="noteDate" placeholder="MM/dd/YYYY"
 												ng-model="noteInputFormModel.noteDate" /> <span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Enter Note Date"></span>
@@ -48,7 +48,7 @@
 										<div class="col-sm-3">
 											<input type="text" class="form-control icon-text"
 												name="notePrice" placeholder="Enter Note Price"
-												ng-model="noteInputFormModel.notePrice |  number" /> <span
+												ng-model="noteInputFormModel.notePrice" /> <span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Enter Note Price"></span>
 										</div>
@@ -73,7 +73,7 @@
 										<div class="col-sm-3">
 											<input type="text" class="form-control icon-text"
 												name="originalTerm"  ng-blur=populateNoteInputModelFromJS()
-												ng-model="noteInputFormModel.originalTerm |  number"
+												ng-model="noteInputFormModel.originalTerm"
 												ng-init="updateOrginalTerm()" />
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
@@ -98,7 +98,7 @@
 											<input type="text" class="form-control icon-text"
 												name="originalPrincipalBal" id="originalPrincipleBalance"
 												placeholder="Enter Original Principal Balance"
-												ng-model="noteInputFormModel.originalPrincipleBalance |  number"
+												ng-model="noteInputFormModel.originalPrincipleBalance"
 												ng-blur="populateNoteInputModelFromJS()" /> <span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top"
@@ -109,7 +109,7 @@
 										<div class="col-sm-3 upb">
 											<input type="text" class="form-control icon-text" name="upb"
 												id="upb" placeholder="Enter unpaid balance"
-												ng-model="noteInputFormModel.upb |  number"
+												ng-model="noteInputFormModel.upb"
 												/> <span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Enter unpiad balance"></span>
@@ -140,7 +140,7 @@
 											<input type="text" class="form-control icon-text"
 												name="remainingPayment"
 												placeholder="Remaining # of payments"
-												ng-model="noteInputFormModel.remainingPayment |  number" /> <span
+												ng-model="noteInputFormModel.remainingPayment" /> <span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top"
 												uib-tooltip="Enter Remaining no of payments"></span>
@@ -173,7 +173,7 @@
 													<div class="col-sm-3 tdiPayment">
 														<input type="text" class="form-control icon-text"
 															name="tdiPayment" placeholder="Enter tax and interest"
-															ng-model="noteInputFormModel.tdiPayment |  number" /> <span
+															ng-model="noteInputFormModel.tdiPayment" /> <span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 															tooltip-placement="top"
 															uib-tooltip="Enter tax and interest"></span>
@@ -457,8 +457,6 @@
 									id="updateNoteBtn" name="updateNote" value="Update Note" />
 									<input type="button" class="btn btn-lg btn-success"
 									id="subscribeNoteBtn" name="subscribeNoteBtn" value="Subscribe" />
-									<input type="button" class="btn btn-lg btn-info"
-									id="deleteNoteBtn" name="deleteNoteBtn" value="Delete" ng-click="deleteNote();"/>
 								<input type="button" class="btn btn-lg btn-info"
 									 id="resetNoteBtn"
 									value="Reset" /> <input type="button"

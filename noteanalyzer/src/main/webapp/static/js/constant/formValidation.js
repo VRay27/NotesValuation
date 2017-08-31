@@ -181,8 +181,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
 	                     min: 0,
-	                     max: 10,
-	                     message: 'The No of Late Payment must be less than 10 characters long'
+	                     max: 20,
+	                     message: 'The No of Late Payment must be less than 20 characters long'
 	            	 }
              }},
              notePosition:{
@@ -196,8 +196,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
 	                     min: 1,
-	                     max: 10,
-	                     message: 'The note position value must be less than 10 characters long'
+	                     max: 20,
+	                     message: 'The note position value must be less than 20 characters long'
 	            	 }
              }}, 
              borrowerCreditScore:{
@@ -262,8 +262,8 @@ $(document).ready(function() {
                  },
         		 stringLength: {
                      min: 0,
-                     max: 10,
-                     message: 'The No of Late Payment must be less than 10 characters long'
+                     max: 20,
+                     message: 'The No of Late Payment must be less than 20 characters long'
             	 }
         	 }},
         	 hoaFees:{
@@ -275,8 +275,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
                          min: 0,
-                         max: 10,
-                         message: 'The No of Late Payment must be less than 10 characters long'
+                         max: 20,
+                         message: 'The No of Late Payment must be less than 20 characters long'
                 	 }
             	 }
         	 },creditScore:{
@@ -313,8 +313,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
                          min: 0,
-                         max: 10,
-                         message: 'The No of Late Payment must be less than 10 characters long'
+                         max: 20,
+                         message: 'The No of Late Payment must be less than 20 characters long'
                 	 }
             	 }},
             	 
@@ -329,8 +329,8 @@ $(document).ready(function() {
                          },
                 		 stringLength: {
                              min: 1,
-                             max: 10,
-                             message: 'The zipcode must be less than 10 characters long'
+                             max: 20,
+                             message: 'The zipcode must be less than 20 characters long'
                     	 },
                     	 notEmpty: {
  	                        message: 'The  zipcode is required and can\'t be empty.'
@@ -347,8 +347,8 @@ $(document).ready(function() {
                              },
                     		 stringLength: {
                                  min: 1,
-                                 max: 10,
-                                 message: 'The zipcode must be less than 10 characters long'
+                                 max: 20,
+                                 message: 'The zipcode must be less than 20 characters long'
                         	 },
                         	 notEmpty: {
      	                        message: 'The  zipcode is required and can\'t be empty.'
@@ -379,8 +379,8 @@ $(document).ready(function() {
                                          },
                                 		 stringLength: {
                                              min: 1,
-                                             max: 10,
-                                             message: 'The originalTerm must be less than 10 characters long'
+                                             max: 20,
+                                             message: 'The originalTerm must be less than 20 characters long'
                                     	 },
                                     	 notEmpty: {
                  	                        message: 'The  originalTerm is required and can\'t be empty.'
@@ -450,6 +450,9 @@ $(document).ready(function() {
 	   }
 	   if($('#pdiPayment').val()){
 	   $('#noteInputForm').bootstrapValidator('revalidateField', 'pdiPayment');
+	   }
+	   if($('#originalTerm').val()){
+		   $('#noteInputForm').bootstrapValidator('revalidateField', 'originalTerm');
 	   }
 	 });
    

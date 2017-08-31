@@ -7,6 +7,7 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state,$docu
      NoteService.getNoteDetail($window.localStorage.getItem('noteId')).then(function(response) {
          NoteService.setNoteDetailModel(response);
          $scope.noteInputFormModel = NoteService.getNoteDetailModel();
+         $scope.convertNumberFilter();
      }, function(response) {
          $auth.checkLoginFromServer(response.status);
          toastr.error("We are unable to find details for this note. Please try after sometime.")
@@ -25,6 +26,17 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state,$docu
 		$scope.noteInputFormModel.remainingPayment = $filter('sanitizeInput')($scope.noteInputFormModel.remainingPayment);
 		$scope.noteInputFormModel.estimatedMarketValue = $filter('sanitizeInput')($scope.noteInputFormModel.estimatedMarketValue);
 		
+	}
+	
+	$scope.convertNumberFilter = function(){
+		$scope.noteInputFormModel.upb  = $filter('number')($scope.noteInputFormModel.upb);
+		$scope.noteInputFormModel.pdiPayment = $filter('number')($scope.noteInputFormModel.pdiPayment);
+		$scope.noteInputFormModel.tdiPayment = $filter('number')($scope.noteInputFormModel.tdiPayment);
+		$scope.noteInputFormModel.originalPrincipleBalance = $filter('number')($scope.noteInputFormModel.originalPrincipleBalance);
+		$scope.noteInputFormModel.notePrice = $filter('number')($scope.noteInputFormModel.notePrice);
+		$scope.noteInputFormModel.originalPropertyValue = $filter('number')($scope.noteInputFormModel.originalPropertyValue);
+		$scope.noteInputFormModel.remainingPayment = $filter('number')($scope.noteInputFormModel.remainingPayment);
+		$scope.noteInputFormModel.estimatedMarketValue = $filter('number')($scope.noteInputFormModel.estimatedMarketValue);
 	}
 
 	$scope.populateNoteInputModelFromJS = function(){
@@ -82,6 +94,7 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state,$docu
 		
 	  NoteService.updateNote($scope.noteInputFormModel).then(function(response) {
 		  $scope.noteInputFormModel = response;
+		  $scope.convertNumberFilter();
 		  toastr.success("Note has been updated successfully.")
 	  },function(response) {
 		  toastr.error("We are unable to update note. Please try after sometime.")
@@ -98,6 +111,7 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state,$docu
 		$scope.noteInputFormModel.subscribe = 'Y';
 	  NoteService.subscribeNote($scope.noteInputFormModel).then(function(response) {
 		  $scope.noteInputFormModel = response;
+		  $scope.convertNumberFilter();
 		  toastr.success("Note has been updated successfully.")
 	  },function(response) {
 		  toastr.error("We are unable to update note. Please try after sometime.")

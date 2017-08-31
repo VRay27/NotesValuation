@@ -188,9 +188,9 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
 
 }
 
-NoteDetailService.$inject = ['$http', '$rootScope', 'NoteService', 'toastr', '$state','$auth'];
+NoteDetailService.$inject = ['$http', '$rootScope', 'NoteService', 'toastr', '$state','$auth','$window'];
 
-function NoteDetailService($http, $rootScope, NoteService, toastr, $state, $auth) {
+function NoteDetailService($http, $rootScope, NoteService, toastr, $state, $auth,$window) {
     var service = {};
     service.getNoteDetail = getNoteDetail;
     service.updateMarketValue = updateMarketValue;
@@ -208,17 +208,18 @@ function NoteDetailService($http, $rootScope, NoteService, toastr, $state, $auth
     function updateMarketValue(grid, row) {
     	var noteDetailModel ={
     			noteId : row.entity.noteId,
+    			selPropType:row.entity.propertyType,
     			propertyDetailModel:{city:row.entity.city,
     							     state:row.entity.state,
     							     streetAddress:row.entity.streetAddress,
-    							     zip:row.entity.zipCode,
-    							     selPropType:row.entity.propertyType}
+    							     zip:row.entity.zipCode
+    							     }
     	}
         NoteService.subscribeNote(noteDetailModel).then(function(response) {
-            $state.go('noteDashboard');
+        	$window.location.reload();
         }, function(response) {
             $auth.checkLoginFromServer(response.status);
-            toastr.error("We are unable to find details for this note ID. Please try after sometime.")
+            toastr.error("We are unable to find details for this user. Please try after sometime.")
         });
     };
 

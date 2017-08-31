@@ -219,7 +219,7 @@ public class ConverterUtility {
 						}
 					}
 				}
-				dashBoardModel.setYield(Objects.toString(model.getYield()));
+				dashBoardModel.setYield(Objects.toString(model.getYield(),""));
 				dashBoardModel.setEstimatedITV(Objects.toString(model.getEstimatedITV(),""));
 				dashBoardModel.setCurrentITV(Objects.toString(model.getAppraisedITV(),""));
 				dashBoardModel.setCurrentLTV(Objects.toString(model.getAppraisedLTV(),""));
@@ -429,6 +429,9 @@ public class ConverterUtility {
 		model.setUserId(note.getUserId());
 		model.setOriginalPrincipleBalance(Objects.toString(note.getOriginalLoanBal(),""));
 		model.setNoteDate(df.format(note.getOriginationDate()));
+		if(note.getLastPaymentRecievedDate()!=null){
+			model.setLastPaymentRecievedDate(df.format(note.getLastPaymentRecievedDate()));
+		}
 		model.setUpb(Objects.toString(note.getUnpaidBalance(),""));
 		model.setOriginalTerm(Objects.toString(note.getTermMonths(),""));
 		model.setNoteScoreByUser(Objects.toString(note.getUserScore(),""));

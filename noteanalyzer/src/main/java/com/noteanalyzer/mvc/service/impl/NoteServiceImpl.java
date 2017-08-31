@@ -127,14 +127,13 @@ public class NoteServiceImpl implements NoteService {
 		appraisalPropertyBean.setState(state);
 		appraisalPropertyBean.setCity(city);
 		appraisalPropertyBean.setZipCode(zipCode);
-		appraisalPropertyBean.setAppraisalSource("Creation");
+		appraisalPropertyBean.setAppraisalSource("Zillow");
 		
 		LOG.info(appraisalPropertyBean.toString());
-		Optional<List<AppriasalSources>> apprsialSourceList = getApprisalSourceDetail("Creation");
 		Optional<List<Zipcodes>> zipcodesListDetails = getZipCodesListDetails(city, state, zipCode);
 		Zipcodes zipCodeDetails = zipcodesListDetails.isPresent() ? zipcodesListDetails.get().get(0) : null;
 		Property propertyEntity = ConverterUtility.createPropertyObject(appraisalPropertyBean, propertyTypeCode,
-				apprsialSourceList.get().get(0), propertyFromDB, zipCodeDetails);
+				null, propertyFromDB, zipCodeDetails);
 
 		if (propertyFromDB != null) {
 			propertyFromDB = genericDao.update(propertyEntity);
@@ -519,7 +518,6 @@ public class NoteServiceImpl implements NoteService {
 					property);
 		List<Note> noteEntityList = new ArrayList<>();
 		noteEntity.setPropertyId(property);
-		noteEntity = ConverterUtility.convertNoteModelToEntity(noteModel, property, noteEntity);
 		noteEntityList.add(noteEntity);
 		property.setNote(noteEntityList);
 		genericDao.update(noteEntity);
