@@ -83,16 +83,23 @@ noteApp.controller('HomeCtrl', function($scope, $stateParams, $state,$document, 
 	
 });
 
-noteApp.controller('noteInputFormController', function($scope, $rootScope, $state, $auth, $filter,NoteService,toastr,WaitingDialog,$window) {
+noteApp.controller('noteInputFormController', function($scope, $rootScope, $state, $auth, $filter,NoteService,toastr,WaitingDialog,$window,UserService) {
 	$scope.noteInputFormModel = NoteService.getInputFormModel();
 	 if($scope.noteInputFormModel && $scope.noteInputFormModel.zipCode){
 		 $window.localStorage.setItem('zipCode', $scope.noteInputFormModel.zipCode); 
 	 }else{
 		 var noteInputFormModel = {};
+		 $scope.noteInputFormModel = noteInputFormModel;
 		 noteInputFormModel.zipCode = $window.localStorage.getItem('zipCode');
 		 NoteService.noteAnalyze(noteInputFormModel).then(function(response) {
 	 			NoteService.setInputFormModel(response);
-	 			$state.go('noteInputForm');
+	 			$scope.noteInputFormModel = response;
+	 			$scope.noteInputFormModel.selCity = noteInputFormModel.addressModel.cityList[0];
+	 			$scope.noteInputFormModel.selState = noteInputFormModel.addressModel.stateList[0];
+	 			$scope.noteInputFormModel.selPropType=noteInputFormModel.selPropType || noteInputFormModel.propTypeList[0].propertyTypeCode;
+	 			$scope.noteInputFormModel.selNoteType= noteInputFormModel.selNoteType || noteInputFormModel.noteTypeList[0].noteType;
+	 			$scope.noteInputFormModel.selLoanType=noteInputFormModel.selLoanType || noteInputFormModel.loanTypeList[0].loanTypeCode;
+	 			
 	 		},function(errResponse) {
 	 			toastr.error('Error while fetching details for this zip code.'+noteInputFormModel.zipCode);
 	 		});
@@ -156,6 +163,19 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 	$scope.lastPaymentRecievedDate = function() {
 			$scope.lastPaymentRecievedDate.opened = true;
 	};
+	
+	$scope.populateCityState = function() {
+		if ($scope.noteInputFormModel.zipCode) {
+			UserService.getCityStateFromZipCode($scope.noteInputFormModel.zipCode)
+				.then(function(response) {
+					$scope.noteInputFormModel.addressModel = response;
+				}, function(response) {
+					toastr.error('We are fetch the details for zipcode');
+					$scope.noteInputFormModel.addressModel= {};
+				});
+		}
+	}
+
 	
 	$scope.altInputFormats = ['MM/dd/yyyy'];
 	$scope.createNote = function() {

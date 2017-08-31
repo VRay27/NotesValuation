@@ -339,13 +339,13 @@
 										<div class="col-sm-3 zipCode">
 											<input type="text" class="form-control icon-text"
 												name="zipCode" ng-model="noteInputFormModel.zipCode"
-												placeholder="Enter Zip Code" readonly /> <span
+												placeholder="Enter Zip Code"  ng-blur="populateCityState()"/> <span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Enter zip code"></span>
 										</div>
 										<label class="col-sm-1 control-label requiredField">City</label>
 										<div class="col-sm-3 city">
-											<select class="form-control icon-text" name="city"
+											<select class="form-control icon-text" name="city" required 
 												ng-init="noteInputFormModel.selCity=noteInputFormModel.addressModel.cityList[0]"
 												ng-model="noteInputFormModel.selCity"
 												ng-options="city for city in noteInputFormModel.addressModel.cityList">
@@ -355,7 +355,7 @@
 										</div>
 										<label class="col-sm-1 control-label requiredField">State</label>
 										<div class="col-sm-3 state">
-											<select class="form-control icon-text" name="state"
+											<select class="form-control icon-text" name="state" required 
 												ng-init="noteInputFormModel.selState=noteInputFormModel.addressModel.stateList[0]"
 												ng-model="noteInputFormModel.selState"
 												ng-options="state for state in noteInputFormModel.addressModel.stateList">

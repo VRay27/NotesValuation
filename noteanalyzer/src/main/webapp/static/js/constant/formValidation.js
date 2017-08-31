@@ -316,8 +316,77 @@ $(document).ready(function() {
                          max: 10,
                          message: 'The No of Late Payment must be less than 10 characters long'
                 	 }
-            	 }}
-        	 
+            	 }},
+            	 
+            	 zipCode:{
+                     group:'.col-sm-3',
+                	 validators: {
+                		 numeric: {
+                             message: 'This value is not a valid number.',
+                             // The default separators
+                             thousandsSeparator: '',
+                             decimalSeparator: ''
+                         },
+                		 stringLength: {
+                             min: 1,
+                             max: 10,
+                             message: 'The zipcode must be less than 10 characters long'
+                    	 },
+                    	 notEmpty: {
+ 	                        message: 'The  zipcode is required and can\'t be empty.'
+ 	                    }
+                	 }},
+                	 zipCode:{
+                         group:'.col-sm-3',
+                    	 validators: {
+                    		 numeric: {
+                                 message: 'This value is not a valid number.',
+                                 // The default separators
+                                 thousandsSeparator: '',
+                                 decimalSeparator: ''
+                             },
+                    		 stringLength: {
+                                 min: 1,
+                                 max: 10,
+                                 message: 'The zipcode must be less than 10 characters long'
+                        	 },
+                        	 notEmpty: {
+     	                        message: 'The  zipcode is required and can\'t be empty.'
+     	                    }
+                    	 }},
+                    	 city:{
+                             group:'.col-sm-3',
+                        	 validators: {
+                            	 notEmpty: {
+         	                        message: 'The  city is required and can\'t be empty.'
+         	                    }
+                        	 }},
+                        	 state:{
+                                 group:'.col-sm-3',
+                            	 validators: {
+                                	 notEmpty: {
+             	                        message: 'The  state is required and can\'t be empty.'
+             	                    }
+                            	 }},
+                            	 originalTerm:{
+                                     group:'.col-sm-3',
+                                	 validators: {
+                                		 numeric: {
+                                             message: 'This value is not a valid number.',
+                                             // The default separators
+                                             thousandsSeparator: '',
+                                             decimalSeparator: '.'
+                                         },
+                                		 stringLength: {
+                                             min: 1,
+                                             max: 10,
+                                             message: 'The originalTerm must be less than 10 characters long'
+                                    	 },
+                                    	 notEmpty: {
+                 	                        message: 'The  originalTerm is required and can\'t be empty.'
+                 	                    }
+                                	 }}
+	            	
            /*  captcha: {
                 validators: {
                     callback: {

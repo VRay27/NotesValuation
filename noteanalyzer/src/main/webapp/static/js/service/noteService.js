@@ -26,12 +26,14 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q','$filter', '$rootScope',
 	return factory;
 	
 	function getYield(model){
-		if(model.selNoteType.noteType == 'P'){
-			var newRate = UtilityService.calculateRate(model.remainingPayment,model.pdiPayment*-1,model.notePrice) * 1200;
+		if(model.selNoteType == 'P'){
+			var newRate = UtilityService.calculateRate(model.remainingPayment,model.pdiPayment,model.notePrice) * 1200;
 			model.yieldValue = UtilityService.round(newRate,2);
-		} else{
+		} 
+		if(!model.yieldValue){
 			model.yieldValue ='';
 		}
+		
 	}
 	
 	function setInputFormModel(model){

@@ -36,20 +36,19 @@
 										</div>
 										<label class="col-sm-1 control-label requiredField">Note
 											Date</label>
-										<div class="col-sm-3 noteDate">
-											<p class="form-control-static">{{noteInputFormModel.noteDate
-															| getDefaultValueForNull}}</p>
-											
-											<span
+										<div class="col-sm-3">
+											<input type="text" class="form-control icon-text"
+												name="notePrice" placeholder="MM/dd/YYYY"
+												ng-model="noteInputFormModel.noteDate" /> <span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
-												tooltip-placement="top" uib-tooltip="Select note date"></span>
+												tooltip-placement="top" uib-tooltip="Enter Note Date"></span>
 										</div>
 										<label class="col-sm-1 control-label requiredField">Note
 											Price</label>
 										<div class="col-sm-3">
 											<input type="text" class="form-control icon-text"
 												name="notePrice" placeholder="Enter Note Price"
-												ng-model="noteInputFormModel.notePrice" /> <span
+												ng-model="noteInputFormModel.notePrice |  number" /> <span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Enter Note Price"></span>
 										</div>
@@ -74,7 +73,7 @@
 										<div class="col-sm-3">
 											<input type="text" class="form-control icon-text"
 												name="originalTerm"  ng-blur=populateNoteInputModelFromJS()
-												ng-model="noteInputFormModel.originalTerm"
+												ng-model="noteInputFormModel.originalTerm |  number"
 												ng-init="updateOrginalTerm()" />
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
@@ -99,7 +98,7 @@
 											<input type="text" class="form-control icon-text"
 												name="originalPrincipalBal" id="originalPrincipleBalance"
 												placeholder="Enter Original Principal Balance"
-												ng-model="noteInputFormModel.originalPrincipleBalance"
+												ng-model="noteInputFormModel.originalPrincipleBalance |  number"
 												ng-blur="populateNoteInputModelFromJS()" /> <span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top"
@@ -110,7 +109,7 @@
 										<div class="col-sm-3 upb">
 											<input type="text" class="form-control icon-text" name="upb"
 												id="upb" placeholder="Enter unpaid balance"
-												ng-model="noteInputFormModel.upb"
+												ng-model="noteInputFormModel.upb |  number"
 												/> <span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Enter unpiad balance"></span>
@@ -141,7 +140,7 @@
 											<input type="text" class="form-control icon-text"
 												name="remainingPayment"
 												placeholder="Remaining # of payments"
-												ng-model="noteInputFormModel.remainingPayment" /> <span
+												ng-model="noteInputFormModel.remainingPayment |  number" /> <span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top"
 												uib-tooltip="Enter Remaining no of payments"></span>
@@ -174,7 +173,7 @@
 													<div class="col-sm-3 tdiPayment">
 														<input type="text" class="form-control icon-text"
 															name="tdiPayment" placeholder="Enter tax and interest"
-															ng-model="noteInputFormModel.tdiPayment" /> <span
+															ng-model="noteInputFormModel.tdiPayment |  number" /> <span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 															tooltip-placement="top"
 															uib-tooltip="Enter tax and interest"></span>
@@ -183,14 +182,13 @@
 												<div class="form-group">
 													<label class="col-sm-1 control-label ">Last Payment
 														Recieved</label>
-													<div class="col-sm-3 originalPrincipalBal">
-														<p class="form-control-static">{{noteInputFormModel.lastPaymentRecievedDate
-															| getDefaultValueForNull}}</p>
-												 <span
-															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
-															tooltip-placement="top"
-															uib-tooltip="Enter  Number of Late Payment"></span>
-													</div>
+													<div class="col-sm-3">
+											<input type="text" class="form-control icon-text"
+												name="notePrice" placeholder="MM/dd/YYYY"
+												ng-model="noteInputFormModel.lastPaymentRecievedDate" /> <span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Enter last Payment Recieved Date"></span>
+										</div>
 													<label class="col-sm-1 control-label ">Number of
 														Late Payment</label>
 													<div class="col-sm-3 ">
