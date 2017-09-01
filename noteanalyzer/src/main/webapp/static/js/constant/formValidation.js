@@ -203,17 +203,11 @@ $(document).ready(function() {
              borrowerCreditScore:{
             	 group:'.col-sm-3',
             	 validators: {
-            		 numeric: {
-                         message: 'This value is not a valid number.',
-                         // The default separators
-                         thousandsSeparator: '',
-                         decimalSeparator: '.'
-                     },
-            		 stringLength: {
-	                     min: 1,
-	                     max: 11,
-	                     message: 'The Borrower Credit Score must be less than 20 characters long'
-	            	 }
+            		 between: {
+                         min: 0,
+                         max: 1000,
+                         message: 'The borrower credit score must be between 0 and 1000'
+            		 }
              }},
              noteScoreByUser:{
             	 group:'.col-sm-3',
@@ -284,8 +278,8 @@ $(document).ready(function() {
             	 validators: {
             		 between: {
                          min: 0,
-                         max: 100,
-                         message: 'The credit score must be between 0 and 100'
+                         max: 1000,
+                         message: 'The credit score must be between 0 and 1000'
             		 }
         	 }},
         	 borrowerName:{

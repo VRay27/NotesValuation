@@ -119,7 +119,7 @@ public class ConverterUtility {
 		noteEntity.setEstimatedLTV(NoteAnalysisService.getEstimatedLTV(note.getUpb(),note.getEstimatedMarketValue()));
 		
 		noteEntity.setEstimatedITV(NoteAnalysisService.getEstimatedITV(note.getNotePrice(),note.getEstimatedMarketValue()));
-		noteEntity.setRoi(NoteAnalysisService.getROI(Double.valueOf(note.getPdiPayment()), Double.valueOf(note.getNotePrice())));
+		noteEntity.setRoi(NoteAnalysisService.getROI(Double.valueOf(note.getPdiPayment()), Double.valueOf(note.getNotePrice()),note.getSelLoanType()));
 		
 		if (property != null) {
 			Set<PropertyAppraisals> propertyApprisalSet = property.getPropertyAppraisalSet();
@@ -327,7 +327,7 @@ public class ConverterUtility {
 			noteDetailModel.setCurrentLTV(Objects.toString(note.getAppraisedLTV(),""));
 			noteDetailModel.setCurrentITV(Objects.toString(note.getAppraisedITV(),""));
 			noteDetailModel.setEstimatedITV(Objects.toString(note.getEstimatedITV(),""));
-			noteDetailModel.setROI(Objects.toString(NoteAnalysisService.getROI(note.getPdiPayment(),note.getNotePrice()),""));
+			noteDetailModel.setROI(Objects.toString(NoteAnalysisService.getROI(note.getPdiPayment(),note.getNotePrice(),note.getNoteType()),""));
 			noteDetailModel.setYieldValue(Objects.toString(note.getYield(),""));
 			PropertyDetailModel propertyDetailModel = new PropertyDetailModel();
 
@@ -350,8 +350,6 @@ public class ConverterUtility {
 						propertyDetailModel.setPropertyGraphAndDataUrl(propertyAppraisals.getPropertyGraphAndDataUrl());
 						propertyDetailModel.setMarketValue(propertyAppraisals.getMarketValue());
 						propertyDetailModel.setMarketUpdateDate(zillowDateFormat.format(propertyAppraisals.getMarketValueUpdatedDate()));
-						/*noteDetailModel.setCurrentEffectiveLTV(NoteAnalysisService.getCurrentEffectiveLTV(
-								Objects.toString(note.getNotePrice(), null), propertyAppraisals.getMarketValue()));*/
 
 					}
 				}

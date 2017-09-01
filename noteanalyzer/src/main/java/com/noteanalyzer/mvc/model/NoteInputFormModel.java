@@ -45,7 +45,7 @@ public class NoteInputFormModel  extends RequestStatusModel implements Serializa
 	private String originalTerm;
 	@Digits(message = "original Principle Balance cannot be greater than 20 digit", fraction = 2, integer = 20)
 	private String originalPrincipleBalance;
-	private String notePosition;
+	private String notePosition = "1";
 	private String noteScoreByUser;
 	private String estimatedMarketValue="";
 	private String remainingPayment="";

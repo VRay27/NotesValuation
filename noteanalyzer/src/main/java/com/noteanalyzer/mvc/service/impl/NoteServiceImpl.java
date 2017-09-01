@@ -492,7 +492,7 @@ public class NoteServiceImpl implements NoteService {
 		noteEntityList.add(noteEntity);
 		property.setNote(noteEntityList);
 		genericDao.update(noteEntity);
-		return Optional.of(noteModel);
+		return  Optional.of(getNoteDetailNew(noteModel.getNoteId()).get());
 	}
 	
 	
