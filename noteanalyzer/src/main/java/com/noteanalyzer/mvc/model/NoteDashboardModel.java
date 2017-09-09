@@ -20,7 +20,7 @@ public class NoteDashboardModel extends RequestStatusModel implements Serializab
 	private String currentLTV;
 	private String estimatedLTV;
 	private Date marketUpdateDate;
-	private String marketValueAvailable;
+	private boolean marketValueAvailable;
 	private String schoolScore;
 	private String crimeScore;
 	private String roi;
@@ -29,11 +29,31 @@ public class NoteDashboardModel extends RequestStatusModel implements Serializab
 	private String zipCode;
 	private String streetAddress;
 	private String propertyType;
+	private String rowText;
 
 	public NoteDashboardModel() {
 	}
 
 	
+	
+	/**
+	 * @return the rowText
+	 */
+	public String getRowText() {
+		return rowText;
+	}
+
+
+
+	/**
+	 * @param rowText the rowText to set
+	 */
+	public void setRowText(String rowText) {
+		this.rowText = rowText;
+	}
+
+
+
 	/**
 	 * @return the city
 	 */
@@ -163,7 +183,7 @@ public class NoteDashboardModel extends RequestStatusModel implements Serializab
 	/**
 	 * @return the marketValueAvailable
 	 */
-	public String isMarketValueAvailable() {
+	public boolean isMarketValueAvailable() {
 		return marketValueAvailable;
 	}
 
@@ -171,7 +191,7 @@ public class NoteDashboardModel extends RequestStatusModel implements Serializab
 	 * @param marketValueAvailable
 	 *            the marketValueAvailable to set
 	 */
-	public void setMarketValueAvailable(String marketValueAvailable) {
+	public void setMarketValueAvailable(boolean marketValueAvailable) {
 		this.marketValueAvailable = marketValueAvailable;
 	}
 

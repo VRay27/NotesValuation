@@ -111,7 +111,9 @@ public class ConverterUtility {
 		noteEntity.setBorrowerName(note.getBorrowerName());
 		noteEntity.setNotePrice(Double.valueOf(note.getNotePrice()));
 		noteEntity.setEstimatedMarketValue(note.getEstimatedMarketValue());
-		noteEntity.setUserScore(Double.valueOf(note.getNoteScoreByUser()));
+		if(StringUtils.isNotBlank(note.getNoteScoreByUser())){
+			noteEntity.setUserScore(Double.valueOf(note.getNoteScoreByUser()));
+		}
 		noteEntity.setRemainingNoOfPayment(Integer.valueOf(note.getRemainingPayment()));
 		noteEntity.setHoaFee(note.getHoaFees());
 		noteEntity.setNumberOfPropUnit(note.getNoOfPropUnits());
@@ -200,13 +202,16 @@ public class ConverterUtility {
 						PropertyAppraisals propertyAppraisals = itr.next();
 						dashBoardModel.setMarketValue(propertyAppraisals.getMarketValue());
 						dashBoardModel.setMarketUpdateDate(propertyAppraisals.getMarketValueUpdatedDate());
-						if("P1".equalsIgnoreCase(subscription) && StringUtils.isNotBlank(propertyAppraisals.getMarketValue())){
-							dashBoardModel.setMarketValueAvailable(null);
-						}else if(StringUtils.isNotBlank(propertyAppraisals.getMarketValue())){
-								dashBoardModel.setMarketValueAvailable("Subscribe");		
-							}else{
-								dashBoardModel.setMarketValueAvailable("No Data Available");
+						if("P1".equalsIgnoreCase(subscription)){
+							dashBoardModel.setMarketValueAvailable(true);
+							if(StringUtils.isBlank(propertyAppraisals.getMarketValue())){
+								dashBoardModel.setRowText("No Data Available");
+								dashBoardModel.setMarketValueAvailable(false);
 							}
+						}else{
+								dashBoardModel.setRowText("Subscribe");		
+								dashBoardModel.setMarketValueAvailable(false);
+						}
 					}
 				}
 				if (statisticsList != null) {

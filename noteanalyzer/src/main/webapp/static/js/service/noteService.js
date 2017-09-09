@@ -27,8 +27,8 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q','$filter', '$rootScope',
 	
 	function getYield(model){
 		if(model.selNoteType != 'N'){
-			var newRate = UtilityService.calculateRate(model.remainingPayment,model.pdiPayment,model.notePrice) * 1200;
-			//model.yieldValue = UtilityService.round(newRate,2);
+			var newRate = UtilityService.calculateRate(model.remainingPayment,model.pdiPayment*-1,model.notePrice) * 1200;
+			model.yieldValue = UtilityService.round(newRate,2);
 			model.yieldValue = newRate;
 		} 
 		if(!model.yieldValue){

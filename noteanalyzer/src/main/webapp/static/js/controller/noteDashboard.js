@@ -63,9 +63,10 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
             headerCellClass: 'addressHeaderClass',
             cellClass: 'uiGridCellClass',
             width: 260,
-            placeholder:'Search by Address',
+           
             filter: {
-                condition: uiGridConstants.filter.STARTS_WITH
+                condition: uiGridConstants.filter.STARTS_WITH,
+                placeholder:'&#xf02b; Some Input Text'
             },
             cellTemplate: "<a ng-href=\"\" style=\"cursor:pointer;\" ng-click= \"grid.appScope.vm.getNoteDetail(grid, row)\">{{row.entity.noteAddress}}</a>"
         },
@@ -74,11 +75,11 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
             displayName: 'Yield',
             cellClass: 'uiGridCellClass',
             headerCellClass: 'addressHeaderClass',
-            placeholder:'Search by Yield',
             filter: {
                 condition: function(searchTerm, cellValue) {
                     return $scope.customNumberFilter(searchTerm, cellValue);
-                }
+                },
+                placeholder:'Search by Yield',
             },
             cellTemplate: "<div>{{row.entity.yield}}</div>"
         }, {
@@ -86,11 +87,11 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
             displayName: 'Estimated ITV',
             cellClass: 'uiGridCellClass',
             headerCellClass: 'addressHeaderClass',
-            placeholder:'Search by Estimated ITV',
             filter: {
                 condition: function(searchTerm, cellValue) {
                     return $scope.customNumberFilter(searchTerm, cellValue);
-                }
+                },
+                placeholder:'Search by Est ITV'
             },
             cellTemplate: "<div>{{row.entity.estimatedITV}}</div>"
         }, {
@@ -98,11 +99,11 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
             displayName: 'Estimated LTV',
             cellClass: 'uiGridCellClass',
             headerCellClass: 'addressHeaderClass',
-            placeholder:'Search by Estimated LTV',
             filter: {
                 condition: function(searchTerm, cellValue) {
                     return $scope.customNumberFilter(searchTerm, cellValue);
-                }
+                },
+                placeholder:'Search by Est LTV'
             },
             cellTemplate: "<div>{{row.entity.estimatedLTV}}</div>"
         }, {
@@ -110,41 +111,41 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
             displayName: 'LTV',
             cellClass: 'uiGridCellClass',
             headerCellClass: 'addressHeaderClass',
-            placeholder:'Search by LTV',
             filter: {
                 condition: function(searchTerm, cellValue) {
                     return $scope.customNumberFilter(searchTerm, cellValue);
-                }
+                },
+                placeholder:'Search by LTV'
             },
-            cellTemplate: "<div ng-show={{!row.entity.marketValueAvailable}}><p>{{row.entity.currentLTV}}<span class=\"glyphicon glyphicon-info-sign tooltip-color \"" +
+            cellTemplate: "<div ng-show={{row.entity.marketValueAvailable}}><p>{{row.entity.currentLTV}}<span class=\"glyphicon glyphicon-info-sign tooltip-color \"" +
                 "tooltip-placement=\"bottom\" uib-tooltip=\"Last updated date {{ row.entity.marketUpdateDate | date}}\"></span> </p></div>" +
-                "<a ng-show={{row.entity.marketValueAvailable}} ng-href=\"\" style=\"cursor:pointer;\" ng-click= \"grid.appScope.vm.updateMarketValue(grid, row)\">{{row.entity.marketValueAvailable}}</a>"
+                "<a ng-show={{!row.entity.marketValueAvailable}} ng-href=\"\" style=\"cursor:pointer;\" ng-click= \"grid.appScope.vm.updateMarketValue(grid, row)\">{{row.entity.rowText}}</a>"
         },
          {
             field: 'currentITV',
             displayName: 'ITV',
             cellClass: 'uiGridCellClass',
             headerCellClass: 'addressHeaderClass',
-            placeholder:'Search by ITV',
             filter: {
                 condition: function(searchTerm, cellValue) {
                     return $scope.customNumberFilter(searchTerm, cellValue);
-                }
+                },
+                placeholder:'Search by ITV'
             },
-            cellTemplate: "<div ng-show={{!row.entity.marketValueAvailable}}><p>{{row.entity.currentITV}}<span class=\"glyphicon glyphicon-info-sign tooltip-color \"" +
+            cellTemplate: "<div ng-show={{row.entity.marketValueAvailable}}><p>{{row.entity.currentITV}}<span class=\"glyphicon glyphicon-info-sign tooltip-color \"" +
                 "tooltip-placement=\"bottom\" uib-tooltip=\"Last updated date {{ row.entity.marketUpdateDate | date}}\"></span> </p></div>" +
-                "<a ng-show={{row.entity.marketValueAvailable}} ng-href=\"\" style=\"cursor:pointer;\" ng-click= \"grid.appScope.vm.updateMarketValue(grid, row)\">{{row.entity.marketValueAvailable}}</a>"
+                "<a ng-show={{!row.entity.marketValueAvailable}} ng-href=\"\" style=\"cursor:pointer;\" ng-click= \"grid.appScope.vm.updateMarketValue(grid, row)\">{{row.entity.rowText}}</a>"
         },
         {
             field: 'schoolScore',
             displayName: 'School Score',
             cellClass: 'uiGridCellClass',
             headerCellClass: 'addressHeaderClass',
-            placeholder:'Search by School Score',
             filter: {
                 condition: function(searchTerm, cellValue) {
                     return $scope.customNumberFilter(searchTerm, cellValue);
-                }
+                },
+                placeholder:'Search by School Score',
             },
             cellTemplate: "<div ><p>{{row.entity.schoolScore | getDefaultValueForNull}}</p></div>"
         }, {
@@ -152,11 +153,11 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
             displayName: 'Crime Score',
             cellClass: 'uiGridCellClass',
             headerCellClass: 'addressHeaderClass',
-            placeholder:'Search by Crime Score',
             filter: {
                 condition: function(searchTerm, cellValue) {
                     return $scope.customNumberFilter(searchTerm, cellValue);
-                }
+                },
+                placeholder:'Search by Crime Score' 
             },
             cellTemplate: "<div><p>{{row.entity.crimeScore | getDefaultValueForNull}}</p></div>"
         }, {
@@ -164,19 +165,15 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
             displayName: 'Market Value',
             cellClass: 'uiGridCellClass',
             headerCellClass: 'addressHeaderClass',
-            placeholder:'Search by Market Value',
             filter: {
                 condition: function(searchTerm, cellValue) {
                     return $scope.customNumberFilter(searchTerm, cellValue);
-                }
+                },
+                placeholder:'Search by Market Value'
             },
-            /* sort: {
-               direction: uiGridConstants.ASC,
-               priority: 1,
-             },*/
-            cellTemplate: "<div ng-show={{!row.entity.marketValueAvailable}}><p>{{row.entity.marketValue}}<span class=\"glyphicon glyphicon-info-sign tooltip-color \"" +
+            cellTemplate: "<div ng-show={{row.entity.marketValueAvailable}}><p>{{row.entity.marketValue}}<span class=\"glyphicon glyphicon-info-sign tooltip-color \"" +
                 "tooltip-placement=\"bottom\" uib-tooltip=\"Last updated date {{ row.entity.marketUpdateDate | date}}\"></span> </p></div>" +
-                "<a ng-show={{row.entity.marketValueAvailable}} ng-href=\"\" style=\"cursor:pointer;\" ng-click= \"grid.appScope.vm.updateMarketValue(grid, row)\">{{row.entity.marketValueAvailable}}</a>"
+                "<a ng-show={{!row.entity.marketValueAvailable}} ng-href=\"\" style=\"cursor:pointer;\" ng-click= \"grid.appScope.vm.updateMarketValue(grid, row)\">{{row.entity.rowText}}</a>"
            
         }
     ];
@@ -197,9 +194,9 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
 
 }
 
-NoteDetailService.$inject = ['$http', '$rootScope', 'NoteService', 'toastr', '$state','$auth','$window'];
+NoteDetailService.$inject = ['$http', '$rootScope', 'NoteService', 'toastr', '$state','$auth','$window','UserService'];
 
-function NoteDetailService($http, $rootScope, NoteService, toastr, $state, $auth,$window) {
+function NoteDetailService($http, $rootScope, NoteService, toastr, $state, $auth,$window,UserService) {
     var service = {};
     service.getNoteDetail = getNoteDetail;
     service.updateMarketValue = updateMarketValue;
