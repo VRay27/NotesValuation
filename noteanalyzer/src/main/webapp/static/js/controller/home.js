@@ -9,7 +9,12 @@ noteApp.controller('HomeCtrl', function($scope, $stateParams, $state,$document, 
 			NoteService.setInputFormModel(response);
 			$state.go('noteInputForm');
 		},function(errResponse) {
-			toastr.error('Error while fetching details for this note.');
+			if(errResponse.status==404){
+				toastr.error('Zipcode not found');	
+			}else{
+				toastr.error('Error while fetching details for this note.');	
+			}
+			
 		});
 		
 	};
@@ -170,7 +175,11 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 				.then(function(response) {
 					$scope.noteInputFormModel.addressModel = response;
 				}, function(response) {
-					toastr.error('We are fetch the details for zipcode');
+					if(response.status==404){
+						toastr.error('Zipcode not found');
+					}else{
+						toastr.error('Error occurred while fetching for zipcode');	
+					}
 					$scope.noteInputFormModel.addressModel= {};
 				});
 		}
@@ -254,13 +263,24 @@ noteApp.controller('NavbarCtrl', function($scope, $auth) {
 	};
 });
 
-noteApp.filter('getDefaultValueForNull', function(){
+noteApp.filter('getDefaultValueForNull', function($auth){
     return function(obj){
-    	if(obj){
-    		return obj;
+    	var user = $auth.getUser();
+    		if(user){
+    			var subscription = user.subscriptionName;
+    			if("P1" == subscription){
+    				if(!obj){
+    					return "No Data Available";
+    				}else{
+    					return obj;
+    				}
+    			}else{
+    				return  'Available through subscription';
+    			}
+    		}else{
+    			return "Unable to find user deatils";
+    		}
     	}
-    	return  'No data available';
-    }
 });
 
 noteApp.filter('sanitizeInput', function() {

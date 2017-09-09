@@ -63,6 +63,7 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
             headerCellClass: 'addressHeaderClass',
             cellClass: 'uiGridCellClass',
             width: 260,
+            placeholder:'Search by Address',
             filter: {
                 condition: uiGridConstants.filter.STARTS_WITH
             },
@@ -73,6 +74,7 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
             displayName: 'Yield',
             cellClass: 'uiGridCellClass',
             headerCellClass: 'addressHeaderClass',
+            placeholder:'Search by Yield',
             filter: {
                 condition: function(searchTerm, cellValue) {
                     return $scope.customNumberFilter(searchTerm, cellValue);
@@ -84,6 +86,7 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
             displayName: 'Estimated ITV',
             cellClass: 'uiGridCellClass',
             headerCellClass: 'addressHeaderClass',
+            placeholder:'Search by Estimated ITV',
             filter: {
                 condition: function(searchTerm, cellValue) {
                     return $scope.customNumberFilter(searchTerm, cellValue);
@@ -95,6 +98,7 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
             displayName: 'Estimated LTV',
             cellClass: 'uiGridCellClass',
             headerCellClass: 'addressHeaderClass',
+            placeholder:'Search by Estimated LTV',
             filter: {
                 condition: function(searchTerm, cellValue) {
                     return $scope.customNumberFilter(searchTerm, cellValue);
@@ -106,34 +110,37 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
             displayName: 'LTV',
             cellClass: 'uiGridCellClass',
             headerCellClass: 'addressHeaderClass',
+            placeholder:'Search by LTV',
             filter: {
                 condition: function(searchTerm, cellValue) {
                     return $scope.customNumberFilter(searchTerm, cellValue);
                 }
             },
-            cellTemplate: "<div ng-show={{row.entity.marketValueAvailable}}><p>{{row.entity.currentLTV}}<span class=\"glyphicon glyphicon-info-sign tooltip-color \"" +
+            cellTemplate: "<div ng-show={{!row.entity.marketValueAvailable}}><p>{{row.entity.currentLTV}}<span class=\"glyphicon glyphicon-info-sign tooltip-color \"" +
                 "tooltip-placement=\"bottom\" uib-tooltip=\"Last updated date {{ row.entity.marketUpdateDate | date}}\"></span> </p></div>" +
-                "<a ng-show={{!row.entity.marketValueAvailable}} ng-href=\"\" style=\"cursor:pointer;\" ng-click= \"grid.appScope.vm.updateMarketValue(grid, row)\">Subscribe</a>"
+                "<a ng-show={{row.entity.marketValueAvailable}} ng-href=\"\" style=\"cursor:pointer;\" ng-click= \"grid.appScope.vm.updateMarketValue(grid, row)\">{{row.entity.marketValueAvailable}}</a>"
         },
          {
             field: 'currentITV',
             displayName: 'ITV',
             cellClass: 'uiGridCellClass',
             headerCellClass: 'addressHeaderClass',
+            placeholder:'Search by ITV',
             filter: {
                 condition: function(searchTerm, cellValue) {
                     return $scope.customNumberFilter(searchTerm, cellValue);
                 }
             },
-            cellTemplate: "<div ng-show={{row.entity.marketValueAvailable}}><p>{{row.entity.currentITV}}<span class=\"glyphicon glyphicon-info-sign tooltip-color \"" +
+            cellTemplate: "<div ng-show={{!row.entity.marketValueAvailable}}><p>{{row.entity.currentITV}}<span class=\"glyphicon glyphicon-info-sign tooltip-color \"" +
                 "tooltip-placement=\"bottom\" uib-tooltip=\"Last updated date {{ row.entity.marketUpdateDate | date}}\"></span> </p></div>" +
-                "<a ng-show={{!row.entity.marketValueAvailable}} ng-href=\"\" style=\"cursor:pointer;\" ng-click= \"grid.appScope.vm.updateMarketValue(grid, row)\">Subscribe</a>"
+                "<a ng-show={{row.entity.marketValueAvailable}} ng-href=\"\" style=\"cursor:pointer;\" ng-click= \"grid.appScope.vm.updateMarketValue(grid, row)\">{{row.entity.marketValueAvailable}}</a>"
         },
         {
             field: 'schoolScore',
             displayName: 'School Score',
             cellClass: 'uiGridCellClass',
             headerCellClass: 'addressHeaderClass',
+            placeholder:'Search by School Score',
             filter: {
                 condition: function(searchTerm, cellValue) {
                     return $scope.customNumberFilter(searchTerm, cellValue);
@@ -145,6 +152,7 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
             displayName: 'Crime Score',
             cellClass: 'uiGridCellClass',
             headerCellClass: 'addressHeaderClass',
+            placeholder:'Search by Crime Score',
             filter: {
                 condition: function(searchTerm, cellValue) {
                     return $scope.customNumberFilter(searchTerm, cellValue);
@@ -156,6 +164,7 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
             displayName: 'Market Value',
             cellClass: 'uiGridCellClass',
             headerCellClass: 'addressHeaderClass',
+            placeholder:'Search by Market Value',
             filter: {
                 condition: function(searchTerm, cellValue) {
                     return $scope.customNumberFilter(searchTerm, cellValue);
@@ -165,9 +174,9 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
                direction: uiGridConstants.ASC,
                priority: 1,
              },*/
-            cellTemplate: "<div ng-show={{row.entity.marketValueAvailable}}><p>{{row.entity.marketValue}}<span class=\"glyphicon glyphicon-info-sign tooltip-color \"" +
+            cellTemplate: "<div ng-show={{!row.entity.marketValueAvailable}}><p>{{row.entity.marketValue}}<span class=\"glyphicon glyphicon-info-sign tooltip-color \"" +
                 "tooltip-placement=\"bottom\" uib-tooltip=\"Last updated date {{ row.entity.marketUpdateDate | date}}\"></span> </p></div>" +
-                "<a ng-show={{!row.entity.marketValueAvailable}} ng-href=\"\" style=\"cursor:pointer;\" ng-click= \"grid.appScope.vm.updateMarketValue(grid, row)\">Subscribe</a>"
+                "<a ng-show={{row.entity.marketValueAvailable}} ng-href=\"\" style=\"cursor:pointer;\" ng-click= \"grid.appScope.vm.updateMarketValue(grid, row)\">{{row.entity.marketValueAvailable}}</a>"
            
         }
     ];
@@ -215,11 +224,17 @@ function NoteDetailService($http, $rootScope, NoteService, toastr, $state, $auth
     							     zip:row.entity.zipCode
     							     }
     	}
-        NoteService.subscribeNote(noteDetailModel).then(function(response) {
+    	UserService.updateSubscription().then(function(response) {
+			$auth.setUser(response);
+		    	
+    	NoteService.subscribeNote(noteDetailModel).then(function(response) {
         	$window.location.reload();
         }, function(response) {
             $auth.checkLoginFromServer(response.status);
             toastr.error("We are unable to find details for this user. Please try after sometime.")
+        })}, function(response) {
+            $auth.checkLoginFromServer(response.status);
+            toastr.error("We are update the user subscription. Please try after sometime.")
         });
     };
 

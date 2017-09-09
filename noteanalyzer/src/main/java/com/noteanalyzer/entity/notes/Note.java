@@ -147,7 +147,7 @@ public class Note extends AbstractEntity {
 	@Column(name = "NO_OF_PROP_UNIT")
 	private String numberOfPropUnit;
 
-	@ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY,cascade={ CascadeType.MERGE, CascadeType.PERSIST})
 	@JoinColumn(name = "PROPERTY_ID",referencedColumnName = "PROPERTY_ID", nullable = false)
 	private Property propertyId;
 

@@ -242,5 +242,22 @@ public class UserRestController {
 		LOG.info("ZipCode with userName " + address + " not found");
 		return new ResponseEntity<AddressModel>(HttpStatus.NOT_FOUND);
 	}
+	
+	/**
+	 * This method will send the details of city and state for given zip code.
+	 * 
+	 * @param zipCode
+	 * @return
+	 */
+	@RequestMapping(value = "api/updateSubscription", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<UserModel> updateSubscription() {
+		
+		Optional<UserModel> userModel = userService.updateUserSubscription();
+		if (userModel.isPresent()) {
+			return new ResponseEntity<UserModel>(userModel.get(), HttpStatus.OK);
+		}
+		return new ResponseEntity<UserModel>(HttpStatus.NOT_FOUND);
+	}
+	
 
 }

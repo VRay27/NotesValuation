@@ -2,6 +2,9 @@ package com.noteanalyzer.mvc.service;
 
 import java.util.Optional;
 
+import org.springframework.stereotype.Component;
+
+import com.noteanalyzer.entity.user.UserSubscriptions;
 import com.noteanalyzer.mvc.model.UserModel;
 
 /**
@@ -11,7 +14,7 @@ import com.noteanalyzer.mvc.model.UserModel;
  * @author Arvind Ray
  *
  */
-
+@Component
 public interface UserService {
 
 	/**
@@ -87,5 +90,16 @@ public interface UserService {
 	 * @return
 	 */
 	public Optional<UserModel> changePasswordForLoginUser(UserModel inputUser);
+
+	/**
+	 * Fetch the user details with password
+	 * @param userName
+	 * @return
+	 */
+	Optional<UserModel> getByUsernameWithPassword(String userName);
+
+	Optional<UserModel> updateUserSubscription();
+
+	Optional<UserSubscriptions> getUserSubscription(Long userId);
 
 }

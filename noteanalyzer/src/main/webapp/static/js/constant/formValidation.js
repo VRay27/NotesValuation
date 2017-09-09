@@ -216,10 +216,7 @@ $(document).ready(function() {
                          min: 0,
                          max: 100,
                          message: 'The note score must be between 0 and 100'
-                     },
-	            	 notEmpty: {
-	                        message: 'The remaining no of payment value is required and can\'t be empty.'
-	                    }
+                     }
              }},
              estimatedMarketValue:{
             	 group:'.col-sm-3',
@@ -278,8 +275,8 @@ $(document).ready(function() {
             	 validators: {
             		 between: {
                          min: 0,
-                         max: 1000,
-                         message: 'The credit score must be between 0 and 1000'
+                         max: 850,
+                         message: 'The credit score must be between 0 and 850'
             		 }
         	 }},
         	 borrowerName:{

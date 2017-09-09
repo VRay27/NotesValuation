@@ -9,7 +9,8 @@ angular.module('NoteApp').factory('UserService', ['$http', '$q','WaitingDialog',
         getUserDetail:getUserDetail,
         changePassword:changePassword,
         changePasswordWithLoginUser:changePasswordWithLoginUser,
-        getCityStateFromZipCode:getCityStateFromZipCode
+        getCityStateFromZipCode:getCityStateFromZipCode,
+        updateSubscription : updateSubscription
     };
 
     return factory;
@@ -23,7 +24,6 @@ angular.module('NoteApp').factory('UserService', ['$http', '$q','WaitingDialog',
                 deferred.resolve(response.data);
             },
             function(errResponse){
-                console.error('Please enter valid zipcode');
                 deferred.reject(errResponse);
             }
         ).then(
@@ -112,6 +112,26 @@ angular.module('NoteApp').factory('UserService', ['$http', '$q','WaitingDialog',
         return deferred.promise;
     }
 
+    function updateSubscription() {
+    	WaitingDialog.show();
+        var deferred = $q.defer();
+        $http.post('api/updateSubscription')
+            .then(
+            function (response) {
+                deferred.resolve(response.data);
+            },
+            function(errResponse){
+                console.error('Error while updating User SUbscription');
+                deferred.reject(errResponse);
+            }
+        ).then(
+				function() {
+					WaitingDialog.hide();
+				});
+        return deferred.promise;
+    }
+
+    
     function getUserDetail() {
     	
         var deferred = $q.defer();

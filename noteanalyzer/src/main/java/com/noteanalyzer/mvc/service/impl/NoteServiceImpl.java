@@ -363,7 +363,7 @@ public class NoteServiceImpl implements NoteService {
 
 	@Override
 	@Transactional
-	public Optional<List<NoteDashboardModel>> getAllNotes(long userId) {
+	public Optional<List<NoteDashboardModel>> getAllNotes(long userId, String subscription) {
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("userId", userId);
 		List<Note> noteList = genericDao.getResultByNamedQuery(Note.class, Note.GET_NOTE_DETAILS_BY_USER, parameters);
@@ -375,7 +375,7 @@ public class NoteServiceImpl implements NoteService {
 		if (statisticsList.isPresent()) {
 			statList = statisticsList.get();
 		}
-		return Optional.of(ConverterUtility.convertNoteToNoteSummaryModel(noteList, statList));
+		return Optional.of(ConverterUtility.convertNoteToNoteSummaryModel(noteList, statList,subscription));
 	}
 
 	@Override

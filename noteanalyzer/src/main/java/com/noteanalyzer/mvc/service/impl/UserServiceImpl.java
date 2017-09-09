@@ -1,6 +1,10 @@
 package com.noteanalyzer.mvc.service.impl;
 
-import static com.noteanalyzer.mvc.constant.NoteConstant.*;
+import static com.noteanalyzer.mvc.constant.NoteConstant.ACTIVE_USER_FLAG;
+import static com.noteanalyzer.mvc.constant.NoteConstant.BLOCK_USER_FLAG;
+import static com.noteanalyzer.mvc.constant.NoteConstant.LOGIN_FAIL;
+import static com.noteanalyzer.mvc.constant.NoteConstant.LOGIN_SUCCESS;
+import static com.noteanalyzer.mvc.constant.NoteConstant.MAX_UNSUCCESSFUL_ATTEMPT;
 
 import java.time.ZonedDateTime;
 import java.util.HashMap;
@@ -10,6 +14,7 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,10 +22,12 @@ import org.springframework.stereotype.Service;
 import com.noteanalyzer.dao.GenericDao;
 import com.noteanalyzer.entity.notes.Parameters;
 import com.noteanalyzer.entity.user.User;
+import com.noteanalyzer.entity.user.UserSubscriptions;
 import com.noteanalyzer.mvc.model.UserModel;
 import com.noteanalyzer.mvc.service.NoteService;
 import com.noteanalyzer.mvc.service.UserService;
 import com.noteanalyzer.utility.ConverterUtility;
+import com.noteanalyzer.utility.NoteUtility;
 
 import io.jsonwebtoken.lang.Collections;
 
@@ -51,14 +58,34 @@ public class UserServiceImpl implements UserService {
 		this.genericDao = genericDao;
 	}
 
-	public void createUser(UserModel user) {
-		genericDao.create(ConverterUtility.convertUserModelToUserEntity(user, encoder));
+	public void createUser(UserModel userModel) {
+		User userEntity = ConverterUtility.convertUserModelToUserEntity(userModel, encoder);
+		String emailId = userEntity.getEmailID();
+		genericDao.create(userEntity);
+		UserSubscriptions userSubscription = new UserSubscriptions();
+		Optional<User> user = getUser(emailId);
+		userSubscription.setUserId(user.get().getUserId());
+		userSubscription.setSubscriptionName("DEFAULT");
+		userSubscription.setExpirationDate(LocalDateTime.now().plusYears(10).toDate());
+		userSubscription.setUaSignedOn(LocalDateTime.now().toDate());
+		genericDao.create(userSubscription);
 	}
 
 	public Optional<User> getActiveUser(String userName) {
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("userName", StringUtils.lowerCase(userName));
 		List<User> userList = genericDao.getResultByNamedQuery(User.class, User.GET_ACTIVE_USER_DETAILS, parameters);
+		if (Collections.isEmpty(userList)) {
+			return Optional.empty();
+		}
+		return Optional.of(userList.get(0));
+	}
+	
+	@Override
+	public Optional<UserSubscriptions> getUserSubscription(Long userId) {
+		Map<String, Object> parameters = new HashMap<>();
+		parameters.put("userId", userId);
+		List<UserSubscriptions> userList = genericDao.getResultByNamedQuery(UserSubscriptions.class, UserSubscriptions.GET_USER_SUBS_DETAILS, parameters);
 		if (Collections.isEmpty(userList)) {
 			return Optional.empty();
 		}
@@ -89,7 +116,12 @@ public class UserServiceImpl implements UserService {
 	public Optional<UserModel> getByUsername(String userName) {
 		Optional<User> userOptional = getActiveUser(userName);
 		if (userOptional.isPresent()) {
-			UserModel userModel = ConverterUtility.convertUserToUserModel(userOptional.get());
+			User user = userOptional.get();
+			Optional<UserSubscriptions> userSubscriptionsOptional = getUserSubscription(user.getUserId());
+			UserModel userModel = ConverterUtility.convertUserToUserModel(user);
+			if (userSubscriptionsOptional.isPresent()) {
+				userModel.setSubscriptionName(userSubscriptionsOptional.get().getSubscriptionName());
+			}
 			return Optional.of(userModel);
 		}
 		return Optional.empty();
@@ -148,6 +180,7 @@ public class UserServiceImpl implements UserService {
 		return Optional.empty();
 	}
 
+	@Override
 	public Optional<UserModel> getByUsernameWithPassword(String userName) {
 		Optional<User> userOptional = getUser(userName);
 		if (userOptional.isPresent()) {
@@ -217,6 +250,23 @@ public class UserServiceImpl implements UserService {
 			user.setUnsuccessfulLoginAttempts(new Long(0));
 			User updatedUser = genericDao.update(user);
 			return Optional.of(ConverterUtility.convertUserToUserModel(updatedUser));
+		}
+		return Optional.empty();
+	}
+
+	@Override
+	public Optional<UserModel> updateUserSubscription() {
+		String userName = NoteUtility.getLoggedInUserName();
+		Optional<User> userOpt = getActiveUser(userName);
+		if (userOpt.isPresent()) {
+			User user = userOpt.get();
+			 Optional<UserSubscriptions> userSubscription = getUserSubscription(user.getUserId());
+			 if(userSubscription.isPresent()){
+				 UserSubscriptions  userSubscriptionEntity =  userSubscription.get();
+				 userSubscriptionEntity.setSubscriptionName("P1");
+				 genericDao.update(userSubscriptionEntity);
+				 return getByUsername(userName);
+			 }
 		}
 		return Optional.empty();
 	}

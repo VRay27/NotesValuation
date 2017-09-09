@@ -19,7 +19,7 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q','$filter', '$rootScope',
 		getNoteDetailModel : getNoteDetailModel,
 		getYield : getYield,
 		updateMarketValue : updateMarketValue,
-		subscribeNote : subscribeNote
+		subscribeNote : updateApprisalValue
 		
 	};
 
@@ -116,10 +116,10 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q','$filter', '$rootScope',
 		return deferred.promise;
 	}
 	
-	function subscribeNote(noteDetailModel) {
+	function updateApprisalValue(noteDetailModel) {
 		WaitingDialog.show();
 		var deferred = $q.defer();
-		$http.post('api/subscribe', noteDetailModel)
+		$http.post('api/updateApprisalValue', noteDetailModel)
 			.then(
 				function(response) {
 					deferred.resolve(response.data);
@@ -143,7 +143,7 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q','$filter', '$rootScope',
 					deferred.resolve(response.data);
 				},
 				function(errResponse) {
-					console.error('Error while delete note '+noteId);
+					console.error('Error while delete note ');
 					deferred.reject(errResponse);
 				}
 		)
@@ -196,7 +196,6 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q','$filter', '$rootScope',
 					deferred.resolve(response.data);
 				},
 				function(errResponse) {
-					console.error('Error while creating note');
 					deferred.reject(errResponse);
 				}
 		).then(

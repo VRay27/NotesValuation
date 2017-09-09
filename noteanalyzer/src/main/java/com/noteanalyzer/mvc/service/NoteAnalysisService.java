@@ -19,6 +19,7 @@ public class NoteAnalysisService {
 			BigDecimal notePriceVal = new  BigDecimal(notePrice);
 			BigDecimal estimatedMarketValueVal = new  BigDecimal(estimatedMarketValue);
 			BigDecimal outVal=  notePriceVal.divide(estimatedMarketValueVal, 2, RoundingMode.HALF_UP);
+			outVal = outVal.multiply(new BigDecimal(100));
 			return outVal.doubleValue();
 		}
 		return Double.valueOf(0);
@@ -29,6 +30,7 @@ public class NoteAnalysisService {
 			BigDecimal notePriceVal = new  BigDecimal(notePrice);
 			BigDecimal marketValueVal =  new  BigDecimal(marketValue);
 			BigDecimal outVal=  notePriceVal.divide(marketValueVal, 2, RoundingMode.HALF_UP);
+			outVal = outVal.multiply(new BigDecimal(100));
 			return outVal.doubleValue();
 		}
 		return Double.valueOf(0);
@@ -39,6 +41,7 @@ public class NoteAnalysisService {
 			BigDecimal unpaidLoanBalanceVal = new  BigDecimal(unpaidLoanBalance);
 			BigDecimal estimatedMarketValueVal = new  BigDecimal(estimatedMarketValue);
 			BigDecimal outVal=  unpaidLoanBalanceVal.divide(estimatedMarketValueVal, 2, RoundingMode.HALF_UP);
+			outVal = outVal.multiply(new BigDecimal(100));
 			return outVal.doubleValue();
 		}
 		return Double.valueOf(0);
@@ -50,6 +53,7 @@ public class NoteAnalysisService {
 			BigDecimal notePriceVal = new  BigDecimal(unpaidBal);
 			BigDecimal marketVal = new  BigDecimal(marketValue);
 			BigDecimal outVal=  notePriceVal.divide(marketVal, 2, RoundingMode.HALF_UP);
+			outVal = outVal.multiply(new BigDecimal(100));
 			return outVal.doubleValue();
 		}
 		return Double.valueOf(0);

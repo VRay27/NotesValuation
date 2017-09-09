@@ -15,7 +15,7 @@
 								class="noteAnalyzerTextBox"
 								placeholder="Please enter your property zipcode" required maxlength="50"  pattern="[0-9]+" title="This field can contain only  numeric characters.."
 								ng-model="zipCode" />
-							<button type="button" id="uploadNote" class="btn btn-primary" ng-disabled= "!noteAnalayzeForm.$valid"
+							<button type="submit" id="uploadNote" class="btn btn-primary" ng-disabled= "!noteAnalayzeForm.$valid"
 								ng-click="noteAnalyzed()">Analyze</button>
 						</section>
 						</form>

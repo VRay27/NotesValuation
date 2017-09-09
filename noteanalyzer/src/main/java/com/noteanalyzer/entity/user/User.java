@@ -1,19 +1,23 @@
 package com.noteanalyzer.entity.user;
 
+import static com.noteanalyzer.mvc.constant.NoteConstant.ACTIVE_USER_FLAG;
+
 import java.time.ZonedDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import static com.noteanalyzer.mvc.constant.NoteConstant.*;
 
 import com.noteanalyzer.entity.AbstractEntity;
-import com.noteanalyzer.mvc.constant.NoteConstant;
 
 import lombok.ToString;
 
@@ -86,14 +90,38 @@ public class User extends AbstractEntity{
 	
 	@Column(name="STATUS")
 	private String isActive;
-
+	
+	/* @ManyToOne(fetch = FetchType.EAGER)
+	 private UserSubscriptions userSubscriptions;*/
+	
 	
 	public User() {
 		super();
 	}
 
 	
-	
+	/**
+	 * @return the userSubscriptions
+	 *//*
+	public UserSubscriptions getUserSubscriptions() {
+		return userSubscriptions;
+	}
+
+
+
+
+
+	*//**
+	 * @param userSubscriptions the userSubscriptions to set
+	 *//*
+	public void setUserSubscriptions(UserSubscriptions userSubscriptions) {
+		this.userSubscriptions = userSubscriptions;
+	}
+*/
+
+
+
+
 	/**
 	 * @param userId the userId to set
 	 */

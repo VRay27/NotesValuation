@@ -180,6 +180,7 @@ div.block .input{
 .uiGridCellClass{
 	vertical-align:middle;
 	padding-left:8px;
+	text-align:center;
 }
 .addressHeaderClass{
 	text-align:center;

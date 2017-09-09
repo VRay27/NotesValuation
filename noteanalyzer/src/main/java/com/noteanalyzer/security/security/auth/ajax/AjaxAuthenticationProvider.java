@@ -1,6 +1,11 @@
 package com.noteanalyzer.security.security.auth.ajax;
 
-import static com.noteanalyzer.mvc.constant.NoteConstant.*;
+import static com.noteanalyzer.mvc.constant.NoteConstant.BLOCKED_USER_CODE_UI;
+import static com.noteanalyzer.mvc.constant.NoteConstant.BLOCK_USER_FLAG;
+import static com.noteanalyzer.mvc.constant.NoteConstant.IN_ACTIVE_USER_FLAG;
+import static com.noteanalyzer.mvc.constant.NoteConstant.LOGIN_FAIL;
+import static com.noteanalyzer.mvc.constant.NoteConstant.LOGIN_SUCCESS;
+import static com.noteanalyzer.mvc.constant.NoteConstant.UNVERIFIED_USER_CODE_UI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +24,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.noteanalyzer.mvc.model.UserModel;
+import com.noteanalyzer.mvc.service.UserService;
 import com.noteanalyzer.mvc.service.impl.UserServiceImpl;
 import com.noteanalyzer.security.security.exceptions.UnverifiedUserException;
 import com.noteanalyzer.security.security.model.UserContext;
@@ -27,7 +33,7 @@ import com.noteanalyzer.security.security.model.UserContext;
 @Component
 public class AjaxAuthenticationProvider implements AuthenticationProvider {
     private final BCryptPasswordEncoder encoder;
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
     @Autowired
     public AjaxAuthenticationProvider(final UserServiceImpl userService, final BCryptPasswordEncoder encoder) {

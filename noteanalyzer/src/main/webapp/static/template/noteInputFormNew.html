@@ -98,7 +98,7 @@
 										<label class="col-sm-1 control-label requiredField">Note Score</label>
 										<div class="col-sm-3">
 											<input type="text" class="form-control icon-text"
-												name="noteScoreByUser" placeholder="Enter Score entered by user"
+												name="noteScoreByUser" placeholder="Enter Note Score"
 												ng-model="noteInputFormModel.noteScoreByUser" /> <span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top"
@@ -123,7 +123,7 @@
 											Balance</label>
 										<div class="col-sm-3 upb">
 											<input type="text" class="form-control icon-text" name="upb"
-												id="upb" placeholder="Enter unpaid balance"
+												id="upb" placeholder="Verify Unpaid Balance"
 												ng-model="noteInputFormModel.upb"
 												/> <span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
@@ -216,14 +216,14 @@
 												 <span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 															tooltip-placement="top"
-															uib-tooltip="Enter  Number of Late Payment"></span>
+															uib-tooltip="Enter Late Payment Date"></span>
 													</div>
 													<label class="col-sm-1 control-label ">Number of
 														Late Payments</label>
 													<div class="col-sm-3 ">
 														<input type="text" class="form-control icon-text"
 															name="noOfLatePayment"
-															placeholder="Enter Number of Late Payment"
+															placeholder="Enter Late Payment"
 															ng-model="noteInputFormModel.noOfLatePayment" /> <span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 															tooltip-placement="top"
@@ -234,8 +234,7 @@
 												<div class="form-group">
 													<label class="col-sm-1 control-label">Yield</label>
 													<div class="col-sm-3">
-														<p class="form-control-static">{{noteDetailModel.yieldValue
-															| getDefaultValueForNull}}</p>
+														<p class="form-control-static"></p>
 														<span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 															tooltip-placement="top" uib-tooltip="Yield"></span>
@@ -243,16 +242,14 @@
 													<label class="col-sm-1 control-label">Estimated LTV
 													</label>
 													<div class="col-sm-3">
-														<p class="form-control-static">{{noteDetailModel.yieldValue
-															| getDefaultValueForNull}}</p>
+														<p class="form-control-static">Available through subscription</p>
 														<span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 															tooltip-placement="top" uib-tooltip="Estimated LTV"></span>
 													</div>
 													<label class="col-sm-1 control-label">  LTV  Subscribe  </label>
 													<div class="col-sm-3">
-														<p class="form-control-static">{{noteDetailModel.ltv |
-															getDefaultValueForNull}}</p>
+														<p class="form-control-static">Available through subscription</p>
 														<span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 															tooltip-placement="top" uib-tooltip=" LTV"></span>
@@ -261,16 +258,14 @@
 												<div class="form-group">
 													<label class="col-sm-1 control-label">Estimated ITV</label>
 													<div class="col-sm-3">
-														<p class="form-control-static">{{noteDetailModel.estimatedITV
-															| getDefaultValueForNull}}</p>
+														<p class="form-control-static">Available through subscription</p>
 														<span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 															tooltip-placement="top" uib-tooltip="Estimated ITV"></span>
 													</div>
 													<label class="col-sm-1 control-label"> LTV  Subscribe  </label>
 													<div class="col-sm-3">
-														<p class="form-control-static">{{noteDetailModel.itv |
-															getDefaultValueForNull}}</p>
+														<p class="form-control-static">Available through subscription</p>
 														<span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 															tooltip-placement="top" uib-tooltip="ITV"></span>
@@ -521,7 +516,7 @@
 					</div>
 					<div class="panel-body">
 						<div class="form-group">
-							<div class="col-sm-9 col-sm-offset-2">
+							<div class="col-sm-9 col-sm-offset-4">
 								<input type="button" class="btn btn-lg btn-success"
 									id="createNoteBtn" name="createNote" value="Create Note" />
 								<!-- <input type="button" class="btn btn-lg btn-info" ng-click="populateNoteInputModelFromJS()" value= "Calculate"/> -->

@@ -266,11 +266,11 @@ noteApp.factory('$auth', function($window,$state,toastr,$rootScope) {
 		}
 	}
 	auth.getUser = function(){
-		return $window.sessionStorage.getItem('user');
+		return JSON.parse($window.sessionStorage.getItem('user'));
 	}
 	
 	auth.setUser = function(user){
-		$window.sessionStorage.setItem('user', user);
+		$window.sessionStorage.setItem('user', JSON.stringify(user));
 	}
 	auth.encodeString = function (str) {
 	    // first we use encodeURIComponent to get percent-encoded UTF-8,

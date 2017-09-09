@@ -1,12 +1,22 @@
 package com.noteanalyzer.entity.user;
 
-import java.util.Date;
+import static com.noteanalyzer.mvc.constant.NoteConstant.ACTIVE_USER_FLAG;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.noteanalyzer.entity.AbstractEntity;
@@ -14,29 +24,47 @@ import com.noteanalyzer.entity.AbstractEntity;
 import lombok.ToString;
 
 @Entity
-@Table(name="USER_SUBSCRIPTION")
+@Table(name="user_subscriptions")
 @ToString(callSuper = true)
+@NamedQueries({ @NamedQuery(name = UserSubscriptions.GET_USER_SUBS_DETAILS, query="select u from UserSubscriptions u where u.userId =:userId")})
+
 public class UserSubscriptions extends AbstractEntity  {
 	
-	private static final long serialVersionUID = -3262112354371474829L;
-
+	private static final long serialVersionUID = -3222112354371474829L;
+	public static final  String GET_USER_SUBS_DETAILS = "GET_USER_SUBS_DETAILS";
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "USER_SUBSCRIPTION_ID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int userSubscriptionId;
 
-	@Column(name = "SUBSCRIPTION_ID")
-	private Integer subscriptionId;
+	@Column(name = "Subsription_Name")
+	private String subscriptionName;
 
-	@Column(name = "USER_ID")
-	private Integer userId;
+	@Column(name="USER_ID")
+	private Long userId ;
 	
 	@Column(name="EXPIRATION_DATE")
 	private Date expirationDate;
 
 	@Column(name="UA_SIGNED_ON")
 	private Date uaSignedOn;
+
+	
+	
+	/**
+	 * @return the userId
+	 */
+	public Long getUserId() {
+		return userId;
+	}
+
+	/**
+	 * @param userId the userId to set
+	 */
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
 
 	/**
 	 * @return the userSubscriptionId
@@ -52,32 +80,20 @@ public class UserSubscriptions extends AbstractEntity  {
 		this.userSubscriptionId = userSubscriptionId;
 	}
 
+	
+	
 	/**
-	 * @return the subscriptionId
+	 * @return the subscriptionName
 	 */
-	public Integer getSubscriptionId() {
-		return subscriptionId;
+	public String getSubscriptionName() {
+		return subscriptionName;
 	}
 
 	/**
-	 * @param subscriptionId the subscriptionId to set
+	 * @param subscriptionName the subscriptionName to set
 	 */
-	public void setSubscriptionId(Integer subscriptionId) {
-		this.subscriptionId = subscriptionId;
-	}
-
-	/**
-	 * @return the userId
-	 */
-	public Integer getUserId() {
-		return userId;
-	}
-
-	/**
-	 * @param userId the userId to set
-	 */
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public void setSubscriptionName(String subscriptionName) {
+		this.subscriptionName = subscriptionName;
 	}
 
 	/**

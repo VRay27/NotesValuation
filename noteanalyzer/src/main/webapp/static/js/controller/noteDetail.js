@@ -1,5 +1,5 @@
 var noteApp = angular.module('NoteApp');
-noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state,$document, $auth, $http, toastr, $rootScope, noteUploadAPI, NoteService,UtilityService,$window,$filter) {
+noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state,$document, $auth, $http, toastr, $rootScope, noteUploadAPI, NoteService,UtilityService,$window,$filter,UserService) {
  $scope.noteInputFormModel = NoteService.getNoteDetailModel();
  if($scope.noteInputFormModel && $scope.noteInputFormModel.noteId){
 	 $window.localStorage.setItem('noteId', $scope.noteInputFormModel.noteId); 
@@ -91,7 +91,7 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state,$docu
 		$scope.noteInputFormModel.noteDate = $filter('date')($scope.noteInputFormModel.noteDate, 'MM/dd/yyyy');
 		$scope.noteInputFormModel.lastPaymentRecievedDate = $filter('date')($scope.noteInputFormModel.lastPaymentRecievedDate, 'MM/dd/yyyy');
 		NoteService.getYield($scope.noteInputFormModel);
-		
+		//UserService
 	  NoteService.updateNote($scope.noteInputFormModel).then(function(response) {
 		  $scope.noteInputFormModel = response;
 		  $scope.convertNumberFilter();
@@ -99,28 +99,32 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state,$docu
 	  },function(response) {
 		  toastr.error("We are unable to update note. Please try after sometime.")
 	  });
-	    
-  }
-  
-  
-  $scope.subscribeNote = function(){
-	  	$scope.sanitizeNoteInputModelFromJS();
+
+	}
+
+
+	$scope.subscribeNote = function() {
+		$scope.sanitizeNoteInputModelFromJS();
 		$scope.noteInputFormModel.noteDate = $filter('date')($scope.noteInputFormModel.noteDate, 'MM/dd/yyyy');
 		$scope.noteInputFormModel.lastPaymentRecievedDate = $filter('date')($scope.noteInputFormModel.lastPaymentRecievedDate, 'MM/dd/yyyy');
 		NoteService.getYield($scope.noteInputFormModel);
-		$scope.noteInputFormModel.subscribe = 'Y';
-	  NoteService.subscribeNote($scope.noteInputFormModel).then(function(response) {
-		  $scope.noteInputFormModel = response;
-		  $scope.convertNumberFilter();
-		  toastr.success("Note has been updated successfully.")
-	  },function(response) {
-		  toastr.error("We are unable to update note. Please try after sometime.")
-	  });
-	    
-  }
-  
-  
-  $scope.deleteNote = function(){
+		UserService.updateSubscription().then(function(response) {
+			$auth.setUser(response);
+			NoteService.subscribeNote($scope.noteInputFormModel).then(function(response) {
+				$scope.noteInputFormModel = response;
+				$scope.convertNumberFilter();
+				toastr.success("Note has been updated successfully.")
+			}, function(response) {
+				toastr.error("We are unable to update note. Please try after sometime.")
+			})
+		}, function(response) {
+			toastr.error("We are unable to update user subscripton. Please try after sometime.")
+		});
+
+	}
+
+
+	$scope.deleteNote = function(){
 	  NoteService.deleteNote($scope.noteInputFormModel).then(function(response) {
 		  $state.go('noteDashboard');
 		  toastr.success("Note has been deleted successfully.")

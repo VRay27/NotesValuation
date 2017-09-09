@@ -31,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.noteanalyzer.entity.user.UserSubscriptions;
 import com.noteanalyzer.mvc.model.AddressModel;
 import com.noteanalyzer.mvc.model.LoanTypeModel;
 import com.noteanalyzer.mvc.model.NoteDashboardModel;
@@ -301,7 +302,12 @@ public class NoteRestController {
 		if (loggedInuser.isPresent()) {
 			System.out.println("Inside Arvind listAllNotes loggedInUserName" + loggedInUserName);
 			long userId = loggedInuser.get().getUserId();
-			Optional<List<NoteDashboardModel>> notesList = noteService.getAllNotes(userId);
+			Optional<UserSubscriptions> subscriptionList = userService.getUserSubscription(userId);
+			String subscription = null;
+			if(subscriptionList.isPresent()){
+				subscription = subscriptionList.get().getSubscriptionName();
+			}
+			Optional<List<NoteDashboardModel>> notesList = noteService.getAllNotes(userId,subscription);
 			if (!notesList.isPresent()) {
 				return new ResponseEntity<List<NoteDashboardModel>>(HttpStatus.NO_CONTENT);// You
 			}
@@ -359,7 +365,7 @@ public class NoteRestController {
 	 * @return
 	 * @throws ParseException 
 	 */
-	@RequestMapping(value = "/api/subscribe", method = RequestMethod.POST)
+	@RequestMapping(value = "/api/updateApprisalValue", method = RequestMethod.POST)
 	public ResponseEntity<NoteInputFormModel> subscribeNote(@RequestBody NoteInputFormModel noteModel) throws ParseException {
 
 		if (noteModel == null) {

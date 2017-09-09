@@ -60,9 +60,10 @@ public interface NoteService {
 	/**
 	 * This method will return all the notes associated with given user id.
 	 * @param userId
+	 * @param subscription 
 	 * @return
 	 */
-	public Optional<List<NoteDashboardModel>> getAllNotes(@NonNull long userId);
+	public Optional<List<NoteDashboardModel>> getAllNotes(@NonNull long userId, String subscription);
 	
 	/**
 	 * This method will return the configuration value for given config code and logged in user.

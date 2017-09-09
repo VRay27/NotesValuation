@@ -46,6 +46,9 @@ public class UserModel extends RequestStatusModel implements Serializable{
 	@JsonIgnore
 	private String isActive;
 	
+	private String subscriptionName;
+		
+	
 	private List<UserRoleModel> roles;
 	
 	public UserModel() {
@@ -59,7 +62,20 @@ public class UserModel extends RequestStatusModel implements Serializable{
 	}
 
 	
-	
+	/**
+	 * @return the subscriptionName
+	 */
+	public String getSubscriptionName() {
+		return subscriptionName;
+	}
+
+	/**
+	 * @param subscriptionName the subscriptionName to set
+	 */
+	public void setSubscriptionName(String subscriptionName) {
+		this.subscriptionName = subscriptionName;
+	}
+
 	/**
 	 * @return the userId
 	 */

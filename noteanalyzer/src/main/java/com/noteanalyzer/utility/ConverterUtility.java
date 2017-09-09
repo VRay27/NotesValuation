@@ -177,7 +177,7 @@ public class ConverterUtility {
 	}
 
 	public static List<NoteDashboardModel> convertNoteToNoteSummaryModel(List<Note> noteList,
-			List<Statistics> statisticsList) {
+			List<Statistics> statisticsList, String subscription) {
 		List<NoteDashboardModel> summaryModelList = new ArrayList<>();
 		if (noteList != null) {
 			for (Note model : noteList) {
@@ -200,7 +200,13 @@ public class ConverterUtility {
 						PropertyAppraisals propertyAppraisals = itr.next();
 						dashBoardModel.setMarketValue(propertyAppraisals.getMarketValue());
 						dashBoardModel.setMarketUpdateDate(propertyAppraisals.getMarketValueUpdatedDate());
-						dashBoardModel.setMarketValueAvailable(StringUtils.isNotBlank(propertyAppraisals.getMarketValue()));
+						if("P1".equalsIgnoreCase(subscription) && StringUtils.isNotBlank(propertyAppraisals.getMarketValue())){
+							dashBoardModel.setMarketValueAvailable(null);
+						}else if(StringUtils.isNotBlank(propertyAppraisals.getMarketValue())){
+								dashBoardModel.setMarketValueAvailable("Subscribe");		
+							}else{
+								dashBoardModel.setMarketValueAvailable("No Data Available");
+							}
 					}
 				}
 				if (statisticsList != null) {
