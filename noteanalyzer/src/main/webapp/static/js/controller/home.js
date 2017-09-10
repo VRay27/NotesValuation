@@ -136,9 +136,15 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 	}
 
 	$scope.populateNoteInputModelFromJS = function(){
-		var model = $scope.noteInputFormModel 
-		NoteService.noteCalculator(model);
+		angular.element( document.querySelector('#originalPrincipleBalance')).removeClass('noteInputCalculatedField');
+		angular.element( document.querySelector('#rate')).removeClass('noteInputCalculatedField');
+		angular.element( document.querySelector('#originalTerm')).removeClass('noteInputCalculatedField');
+		angular.element( document.querySelector('#pdiPayment')).removeClass('noteInputCalculatedField');
+		var model = $scope.noteInputFormModel;
+		var calculatedField = NoteService.noteCalculator(model);
 		$scope.noteInputFormModel = model;
+		var elem = angular.element(document.querySelector('#'+calculatedField));
+		elem.addClass('noteInputCalculatedField');
 	};
 	
 	$scope.cancel = function(){
@@ -273,6 +279,26 @@ noteApp.filter('getDefaultValueForNull', function($auth){
     					return "No Data Available";
     				}else{
     					return obj;
+    				}
+    			}else{
+    				return  'Available through subscription';
+    			}
+    		}else{
+    			return "Unable to find user deatils";
+    		}
+    	}
+});
+
+noteApp.filter('getDefaultValueForPercentage', function($auth){
+    return function(obj){
+    	var user = $auth.getUser();
+    		if(user){
+    			var subscription = user.subscriptionName;
+    			if("P1" == subscription){
+    				if(!obj){
+    					return "No Data Available";
+    				}else{
+    					return obj+'%';
     				}
     			}else{
     				return  'Available through subscription';

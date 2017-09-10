@@ -222,3 +222,6 @@ div.block .input{
 .input-group-addon{
 	padding:3px 6px;
 }
+.noteInputCalculatedField{
+	font-style: italic;	
+}

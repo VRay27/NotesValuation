@@ -66,9 +66,9 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
            
             filter: {
                 condition: uiGridConstants.filter.STARTS_WITH,
-                placeholder:'&#xf02b; Some Input Text'
+                placeholder:'Search by Address'
             },
-            cellTemplate: "<a ng-href=\"\" style=\"cursor:pointer;\" ng-click= \"grid.appScope.vm.getNoteDetail(grid, row)\">{{row.entity.noteAddress}}</a>"
+            cellTemplate: "<a ng-href=\"\" style=\"cursor:pointer;float:left\" ng-click= \"grid.appScope.vm.getNoteDetail(grid, row)\">{{row.entity.noteAddress}}</a>"
         },
         {
             field: 'yield',

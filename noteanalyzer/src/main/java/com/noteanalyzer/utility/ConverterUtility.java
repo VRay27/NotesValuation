@@ -484,8 +484,6 @@ public class ConverterUtility {
 					propertyDetailModel.setPropertyGraphAndDataUrl(propertyAppraisals.getPropertyGraphAndDataUrl());
 					propertyDetailModel.setMarketValue(propertyAppraisals.getMarketValue());
 					propertyDetailModel.setMarketUpdateDate(zillowDateFormat.format(propertyAppraisals.getMarketValueUpdatedDate()));
-					/*model.setCurrentEffectiveLTV(NoteAnalysisService.getCurrentEffectiveLTV(
-							Objects.toString(note.getNotePrice(), null), propertyAppraisals.getMarketValue()));*/
 
 				}
 			}

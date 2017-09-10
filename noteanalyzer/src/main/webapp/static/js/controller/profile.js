@@ -47,7 +47,7 @@ angular.module('NoteApp')
 					.then(function(response) {
 						$scope.userModel.addressModel = response;
 					}, function(response) {
-						toastr.error('We are fetch the details for zipcode');
+						toastr.error('We are unable to fetch the details for this zipcode');
 						$scope.userModel.addressModel= {};
 					});
 			}

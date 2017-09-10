@@ -95,7 +95,7 @@
 												tooltip-placement="top"
 												uib-tooltip="Original term depends upon the note type selection. "></span>
 										</div>
-										<label class="col-sm-1 control-label requiredField">Note Score</label>
+										<label class="col-sm-1 control-label">Note Score</label>
 										<div class="col-sm-3">
 											<input type="text" class="form-control icon-text"
 												name="noteScoreByUser" placeholder="Enter Note Score"
@@ -150,7 +150,7 @@
 												tooltip-placement="top" uib-tooltip="Monthly Payment"></span>
 										</div>
 										<label class="col-sm-1 control-label requiredField">Remaining
-											payments</label>
+											No Payments</label>
 										<div class="col-sm-3">
 											<input type="text" class="form-control icon-text"
 												name="remainingPayment"
@@ -330,7 +330,7 @@
 
 
 									<div class="form-group">
-										<label class="col-sm-1 control-label">Zip Code</label>
+										<label class="col-sm-1 control-label requiredField">Zip Code</label>
 										<div class="col-sm-3 zipCode">
 											<input type="text" class="form-control icon-text"
 												name="zipCode" ng-model="noteInputFormModel.zipCode"
@@ -500,13 +500,6 @@
 										<label class="col-sm-1 control-label">
 											</label>
 										<div class="col-sm-3">
-											<!-- <input type="text" class="form-control icon-text"
-												name="noOfLatePayment"
-												placeholder="Enter Number of Late Payment"
-												ng-model="noteInputFormModel.noOfLatePayment" /> <span
-												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
-												tooltip-placement="top"
-												uib-tooltip="Enter  Number of Late Payment"></span> -->
 										</div>
 									</div>
 
@@ -516,7 +509,7 @@
 					</div>
 					<div class="panel-body">
 						<div class="form-group">
-							<div class="col-sm-9 col-sm-offset-4">
+							<div class="col-sm-9 col-sm-offset-3">
 								<input type="button" class="btn btn-lg btn-success"
 									id="createNoteBtn" name="createNote" value="Create Note" />
 								<!-- <input type="button" class="btn btn-lg btn-info" ng-click="populateNoteInputModelFromJS()" value= "Calculate"/> -->

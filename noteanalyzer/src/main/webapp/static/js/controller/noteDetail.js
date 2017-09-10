@@ -14,6 +14,13 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state,$docu
      });
  }
   
+	 $scope.isSubscribed = function(){
+		 var user = $auth.getUser();
+		 if("P1" == user.subscriptionName){
+			 return true;
+		 }
+		 return false;
+	 }
 
 	$scope.sanitizeNoteInputModelFromJS = function(){
 		$scope.noteInputFormModel.rate = $filter('sanitizeInput')($scope.noteInputFormModel.rate);
