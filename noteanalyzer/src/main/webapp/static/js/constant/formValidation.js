@@ -447,6 +447,35 @@ $(document).ready(function() {
 	   }
 	 });
    
+   $('#originalTerm').change(function(){
+	   if($('#originalTerm').val()){
+		   $('#noteInputForm').bootstrapValidator('revalidateField', 'originalTerm');
+	   }
+	 });
+   
+   $('#selNoteDate').change(function(){
+	   if($('#selNoteDate').val()){
+		   $('#noteInputForm').bootstrapValidator('revalidateField', 'noteDate');
+	   }
+	 });
+   
+   $('#originalPrincipalBal').change(function(){
+	   if($('#originalPrincipalBal').val()){
+		   $('#noteInputForm').bootstrapValidator('revalidateField', 'originalPrincipalBal');
+	   }
+	 });
+   
+   $('#rate').change(function(){
+	   if($('#rate').val()){
+		   $('#noteInputForm').bootstrapValidator('revalidateField', 'rate');
+	   }
+	 });
+   
+   $('#pdiPayment').change(function(){
+	   if($('#pdiPayment').val()){
+		   $('#noteInputForm').bootstrapValidator('revalidateField', 'pdiPayment');
+	   }
+	 });
    $('.closeall').click(function(){
  	  $('.panel-collapse.in')
  	    .collapse('hide');

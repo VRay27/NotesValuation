@@ -99,11 +99,11 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 		 NoteService.noteAnalyze(noteInputFormModel).then(function(response) {
 	 			NoteService.setInputFormModel(response);
 	 			$scope.noteInputFormModel = response;
-	 			$scope.noteInputFormModel.selCity = noteInputFormModel.addressModel.cityList[0];
-	 			$scope.noteInputFormModel.selState = noteInputFormModel.addressModel.stateList[0];
-	 			$scope.noteInputFormModel.selPropType=noteInputFormModel.selPropType || noteInputFormModel.propTypeList[0].propertyTypeCode;
-	 			$scope.noteInputFormModel.selNoteType= noteInputFormModel.selNoteType || noteInputFormModel.noteTypeList[0].noteType;
-	 			$scope.noteInputFormModel.selLoanType=noteInputFormModel.selLoanType || noteInputFormModel.loanTypeList[0].loanTypeCode;
+	 			$scope.noteInputFormModel.selCity = $scope.noteInputFormModel.addressModel.cityList[0];
+	 			$scope.noteInputFormModel.selState = $scope.noteInputFormModel.addressModel.stateList[0];
+	 			$scope.noteInputFormModel.selPropType=$scope.noteInputFormModel.selPropType || $scope.noteInputFormModel.propTypeList[0].propertyTypeCode;
+	 			$scope.noteInputFormModel.selNoteType= $scope.noteInputFormModel.selNoteType || $scope.noteInputFormModel.noteTypeList[0].noteType;
+	 			$scope.noteInputFormModel.selLoanType=$scope.noteInputFormModel.selLoanType || $scope.noteInputFormModel.loanTypeList[0].loanTypeCode;
 	 			
 	 		},function(errResponse) {
 	 			toastr.error('Error while fetching details for this zip code.'+noteInputFormModel.zipCode);
@@ -136,15 +136,22 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 	}
 
 	$scope.populateNoteInputModelFromJS = function(){
-		angular.element( document.querySelector('#originalPrincipleBalance')).removeClass('noteInputCalculatedField');
-		angular.element( document.querySelector('#rate')).removeClass('noteInputCalculatedField');
-		angular.element( document.querySelector('#originalTerm')).removeClass('noteInputCalculatedField');
-		angular.element( document.querySelector('#pdiPayment')).removeClass('noteInputCalculatedField');
+		angular.element( document.querySelector('#originalTermId')).removeClass('noteInputCalculatedField');
+		angular.element( document.querySelector('#orginalLoanBalanceId')).removeClass('noteInputCalculatedField');
+		angular.element( document.querySelector('#interestRateId')).removeClass('noteInputCalculatedField');
+		angular.element( document.querySelector('#paymentId')).removeClass('noteInputCalculatedField');
 		var model = $scope.noteInputFormModel;
-		var calculatedField = NoteService.noteCalculator(model);
+		var elem = NoteService.noteCalculator(model);
 		$scope.noteInputFormModel = model;
-		var elem = angular.element(document.querySelector('#'+calculatedField));
-		elem.addClass('noteInputCalculatedField');
+		if(elem == 'rate'){
+			angular.element( document.querySelector('#interestRateId')).addClass('noteInputCalculatedField');
+		}else if(elem == 'pdipayment'){
+			angular.element( document.querySelector('#paymentId')).addClass('noteInputCalculatedField');
+		}else if(elem == 'originalTerm'){
+			angular.element( document.querySelector('#originalTermId')).addClass('noteInputCalculatedField');
+		}else if(elem == 'originalPrincipleBalance'){
+			angular.element( document.querySelector('#orginalLoanBalanceId')).addClass('noteInputCalculatedField');
+		}
 	};
 	
 	$scope.cancel = function(){

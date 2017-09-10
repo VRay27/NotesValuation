@@ -83,7 +83,7 @@
 												tooltip-placement="top"
 												uib-tooltip="There are 3 types of notes: performing, sub-performing and non-performing"></span>
 										</div>
-										<label class="col-sm-1 control-label requiredField">Original
+										<label id="originalTermId" class="col-sm-1 control-label requiredField">Original
 											Term(Months)</label>
 										<div class="col-sm-3">
 											<input type="text" class="form-control icon-text"
@@ -107,7 +107,7 @@
 									</div>
 
 									<div class="form-group">
-										<label class="col-sm-1 control-label requiredField">Original
+										<label id="orginalLoanBalanceId" class="col-sm-1 control-label requiredField">Original
 											Loan Balance</label>
 										<div class="col-sm-3 originalPrincipalBal">
 											<input type="text" class="form-control icon-text"
@@ -119,7 +119,7 @@
 												tooltip-placement="top"
 												uib-tooltip="Enter  Original Principal Balance"></span>
 										</div>
-										<label class="col-sm-1 control-label requiredField">Unpaid
+										<label  id="unpaidBalanceId" class="col-sm-1 control-label requiredField">Unpaid
 											Balance</label>
 										<div class="col-sm-3 upb">
 											<input type="text" class="form-control icon-text" name="upb"
@@ -132,7 +132,7 @@
 									</div>
 
 									<div class="form-group">
-										<label class="col-sm-1 control-label requiredField">
+										<label id="interestRateId" class="col-sm-1 control-label requiredField">
 											Rate</label>
 										<div class="col-sm-3">
 											<input type="text" class="form-control icon-text" name="rate"
@@ -141,7 +141,7 @@
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Annual Interest Rate"></span>
 										</div>
-										<label class="col-sm-1 control-label requiredField">Payment(P&I)</label>
+										<label id="paymentId" class="col-sm-1 control-label requiredField">Payment(P&I)</label>
 										<div class="col-sm-3">
 											<input type="text" class="form-control icon-text"
 												name="pdiPayment" ng-model="noteInputFormModel.pdiPayment" ng-blur=populateNoteInputModelFromJS()
