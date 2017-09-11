@@ -182,6 +182,8 @@ public interface NoteService {
 	Optional<NoteInputFormModel> getNoteDetailNew(Long noteId);
 
 	Optional<NoteInputFormModel> subscribeNote(NoteInputFormModel noteModel) throws ParseException;
+
+	Optional<Object> updateMarketValueDetails(Long noteId);
 	
 	
 }

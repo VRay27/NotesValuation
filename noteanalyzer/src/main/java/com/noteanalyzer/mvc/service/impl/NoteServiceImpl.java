@@ -250,6 +250,24 @@ public class NoteServiceImpl implements NoteService {
 
 	@Override
 	@Transactional
+	public Optional<Object> updateMarketValueDetails(Long noteId) {
+		Note note = genericDao.getById(Note.class, noteId);
+		if (note == null) {
+			return Optional.empty();
+		}
+		Property property = note.getPropertyId();
+		Property appraisalProperty = getPropertyFromZillow(property.getStreetAddress(), property.getCity(),
+				property.getState(), property.getZip().toString(), property.getPropertyType(), note.getPropertyId());
+		if (appraisalProperty != null) {
+			property = appraisalProperty;
+			note.setPropertyId(appraisalProperty);
+			genericDao.update(note);
+		}
+		return Optional.of(Boolean.TRUE);
+	}
+	
+	@Override
+	@Transactional
 	public Optional<NoteDetailModel> getNoteDetail(Long noteId) {
 		Note note = genericDao.getById(Note.class, noteId);
 		if (note == null) {

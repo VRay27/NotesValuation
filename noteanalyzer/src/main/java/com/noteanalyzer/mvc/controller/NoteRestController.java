@@ -327,13 +327,20 @@ public class NoteRestController {
 	 * @return
 	 */
 	@RequestMapping(value = "/api/updateMarketValue", method = RequestMethod.POST)
-	public ResponseEntity<Object> updateMarketValue(@RequestBody NoteInputFormModel noteInputFormModel) {
+	public ResponseEntity<NoteInputFormModel> updateMarketValue(@RequestBody NoteInputFormModel noteInputFormModel) {
 
 		if (noteInputFormModel == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		Optional<NoteDetailModel> model = noteService.getNoteDetail(noteInputFormModel.getNoteId());
-		return new ResponseEntity<>(HttpStatus.OK);
+		Optional<Object> status = noteService.updateMarketValueDetails(noteInputFormModel.getNoteId());
+		if(status.isPresent()){
+			Optional<NoteInputFormModel> noteDetailModel = noteService.getNoteDetailNew(noteInputFormModel.getNoteId());
+			if (noteDetailModel.isPresent()) {
+				LOG.info("Inside Get Note Details with  noteDetailModel value " + noteInputFormModel.getNoteId());
+				return new ResponseEntity<NoteInputFormModel>(noteDetailModel.get(), HttpStatus.OK);
+			}
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 	
 	/**

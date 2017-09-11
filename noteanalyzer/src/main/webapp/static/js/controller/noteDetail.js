@@ -115,14 +115,27 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state,$docu
 	  NoteService.updateNote($scope.noteInputFormModel).then(function(response) {
 		  $scope.noteInputFormModel = response;
 		  $scope.convertNumberFilter();
-		  toastr.success("Note has been updated successfully.")
+		  toastr.success("Note has been save successfully.")
 	  },function(response) {
 		  toastr.error("We are unable to update note. Please try after sometime.")
 	  });
 
 	}
 
-
+  $scope.updateMarketValue = function(grid, row) {
+  	var noteDetailModel ={
+  			noteId : $scope.noteInputFormModel.noteId
+  	}
+  	NoteService.updateMarketValue(noteDetailModel).then(function(response) {
+  		  $scope.noteInputFormModel = response;
+		  $scope.convertNumberFilter();
+		  toastr.success("Note has been updated successfully.")
+      }, function(response) {
+          $auth.checkLoginFromServer(response.status);
+          toastr.error("We are unable to find details for this note. Please try after sometime.")
+      })
+  }
+  
 	$scope.subscribeNote = function() {
 		$scope.sanitizeNoteInputModelFromJS();
 		$scope.noteInputFormModel.noteDate = $filter('date')($scope.noteInputFormModel.noteDate, 'MM/dd/yyyy');
