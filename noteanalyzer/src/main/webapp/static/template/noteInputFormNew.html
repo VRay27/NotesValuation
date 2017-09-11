@@ -73,7 +73,7 @@
 										<label class="col-sm-1 control-label requiredField">Loan
 											Type</label>
 										<div class="col-sm-3">
-											<select class="form-control icon-text" name="loanType"
+											<select class="form-control icon-text" name="loanType" id="loanTypeId"
 												ng-init="noteInputFormModel.selLoanType=noteInputFormModel.selLoanType || noteInputFormModel.loanTypeList[0].loanTypeCode"
 												ng-model="noteInputFormModel.selLoanType"
 												ng-change="updateOrginalTerm()"
@@ -86,7 +86,7 @@
 										<label id="originalTermId" class="col-sm-1 control-label requiredField">Original
 											Term(Months)</label>
 										<div class="col-sm-3">
-											<input type="text" class="form-control icon-text"
+											<input type="text" class="form-control icon-text modifiedField" id="originalTerm"
 												name="originalTerm"  ng-blur=populateNoteInputModelFromJS()
 												ng-model="noteInputFormModel.originalTerm"
 												ng-init="updateOrginalTerm()" />
@@ -110,8 +110,8 @@
 										<label id="orginalLoanBalanceId" class="col-sm-1 control-label requiredField">Original
 											Loan Balance</label>
 										<div class="col-sm-3 originalPrincipalBal">
-											<input type="text" class="form-control icon-text"
-												name="originalPrincipalBal" id="originalPrincipleBalance"
+											<input type="text" class="form-control icon-text modifiedField"
+												name="originalPrincipalBal" id="originalPrincipalBal"
 												placeholder="Enter Loan Balance"
 												ng-model="noteInputFormModel.originalPrincipleBalance"
 												ng-blur="populateNoteInputModelFromJS()" /> <span
@@ -122,7 +122,7 @@
 										<label  id="unpaidBalanceId" class="col-sm-1 control-label requiredField">Unpaid
 											Balance</label>
 										<div class="col-sm-3 upb">
-											<input type="text" class="form-control icon-text" name="upb"
+											<input type="text" class="form-control icon-text modifiedField" name="upb" id="upb"
 												id="upb" placeholder="Verify Unpaid Balance"
 												ng-model="noteInputFormModel.upb"
 												/> <span
@@ -135,7 +135,7 @@
 										<label id="interestRateId" class="col-sm-1 control-label requiredField">
 											Rate</label>
 										<div class="col-sm-3">
-											<input type="text" class="form-control icon-text" name="rate"
+											<input type="text" class="form-control icon-text modifiedField" name="rate" id="rate"
 												ng-model="noteInputFormModel.rate" ng-blur=populateNoteInputModelFromJS()
 												placeholder="Annual Interest Rate" /> <span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
@@ -143,7 +143,7 @@
 										</div>
 										<label id="paymentId" class="col-sm-1 control-label requiredField">Payment(P&I)</label>
 										<div class="col-sm-3">
-											<input type="text" class="form-control icon-text"
+											<input type="text" class="form-control icon-text modifiedField" id="pdiPayment"
 												name="pdiPayment" ng-model="noteInputFormModel.pdiPayment" ng-blur=populateNoteInputModelFromJS()
 												placeholder="Monthly Payment" /> <span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"

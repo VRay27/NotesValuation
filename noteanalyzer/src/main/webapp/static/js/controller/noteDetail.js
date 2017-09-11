@@ -47,9 +47,23 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state,$docu
 	}
 
 	$scope.populateNoteInputModelFromJS = function(){
-		var model = $scope.noteInputFormModel 
-		NoteService.noteCalculator(model);
+		angular.element( document.querySelector('.modifiedField')).trigger('change');
+		angular.element( document.querySelector('#originalTermId')).removeClass('noteInputCalculatedField');
+		angular.element( document.querySelector('#orginalLoanBalanceId')).removeClass('noteInputCalculatedField');
+		angular.element( document.querySelector('#interestRateId')).removeClass('noteInputCalculatedField');
+		angular.element( document.querySelector('#paymentId')).removeClass('noteInputCalculatedField');
+		var model = $scope.noteInputFormModel;
+		var elem = NoteService.noteCalculator(model);
 		$scope.noteInputFormModel = model;
+		if(elem == 'rate'){
+			angular.element( document.querySelector('#interestRateId')).addClass('noteInputCalculatedField');
+		}else if(elem == 'pdiPayment'){
+			angular.element( document.querySelector('#paymentId')).addClass('noteInputCalculatedField');
+		}else if(elem == 'originalTerm'){
+			angular.element( document.querySelector('#originalTermId')).addClass('noteInputCalculatedField');
+		}else if(elem == 'originalPrincipleBalance'){
+			angular.element( document.querySelector('#orginalLoanBalanceId')).addClass('noteInputCalculatedField');
+		}
 	};
 	
 	$scope.cancel = function(){
@@ -98,7 +112,6 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state,$docu
 		$scope.noteInputFormModel.noteDate = $filter('date')($scope.noteInputFormModel.noteDate, 'MM/dd/yyyy');
 		$scope.noteInputFormModel.lastPaymentRecievedDate = $filter('date')($scope.noteInputFormModel.lastPaymentRecievedDate, 'MM/dd/yyyy');
 		NoteService.getYield($scope.noteInputFormModel);
-		//UserService
 	  NoteService.updateNote($scope.noteInputFormModel).then(function(response) {
 		  $scope.noteInputFormModel = response;
 		  $scope.convertNumberFilter();

@@ -169,16 +169,16 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q','$filter', '$rootScope',
 		return deferred.promise;
 	}
 	
-	function updateMarketValue(noteId) {
+	function updateMarketValue(noteDetailModel) {
 		WaitingDialog.show();
 		var deferred = $q.defer();
-		$http.get('api/updateMarketValue/'+noteId)
+		$http.post('api/updateMarketValue', noteDetailModel)
 			.then(
 				function(response) {
 					deferred.resolve(response.data);
 				},
 				function(errResponse) {
-					console.error('Error while fetching note '+noteId);
+					console.error('Error while updating note ');
 					deferred.reject(errResponse);
 				}
 		).then(

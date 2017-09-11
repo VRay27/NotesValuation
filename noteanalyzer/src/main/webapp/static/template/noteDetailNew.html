@@ -71,7 +71,7 @@
 										<label id="originalTermId" class="col-sm-1 control-label requiredField">Original
 											Term(Months)</label>
 										<div class="col-sm-3">
-											<input type="text" class="form-control icon-text"
+											<input type="text" class="form-control icon-text modifiedField" id="originalTerm"
 												name="originalTerm"  ng-blur=populateNoteInputModelFromJS()
 												ng-model="noteInputFormModel.originalTerm"
 												ng-init="updateOrginalTerm()" />
@@ -95,8 +95,8 @@
 										<label id="orginalLoanBalanceId" class="col-sm-1 control-label requiredField">Original
 											Loan Balance</label>
 										<div class="col-sm-3 originalPrincipalBal">
-											<input type="text" class="form-control icon-text"
-												name="originalPrincipalBal" id="originalPrincipleBalance"
+											<input type="text" class="form-control icon-text modifiedField"
+												name="originalPrincipalBal" id="originalPrincipalBal"
 												placeholder="Enter Original Principal Balance"
 												ng-model="noteInputFormModel.originalPrincipleBalance"
 												ng-blur="populateNoteInputModelFromJS()" /> <span
@@ -107,7 +107,7 @@
 										<label id="unpaidBalanceId" class="col-sm-1 control-label requiredField">Unpaid
 											Balance</label>
 										<div class="col-sm-3 upb">
-											<input type="text" class="form-control icon-text" name="upb"
+											<input type="text" class="form-control icon-text modifiedField" name="upb"
 												id="upb" placeholder="Enter unpaid balance"
 												ng-model="noteInputFormModel.upb"
 												/> <span
@@ -120,7 +120,7 @@
 										<label id="interestRateId" class="col-sm-1 control-label requiredField">
 											Rate</label>
 										<div class="col-sm-3">
-											<input type="text" class="form-control icon-text" name="rate"
+											<input type="text" class="form-control icon-text modifiedField" name="rate" id ="rate"
 												ng-model="noteInputFormModel.rate" ng-blur=populateNoteInputModelFromJS()
 												placeholder="Annual Interest Rate" /> <span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
@@ -128,7 +128,7 @@
 										</div>
 										<label id="paymentId" class="col-sm-1 control-label requiredField">Payment(P&I)</label>
 										<div class="col-sm-3">
-											<input type="text" class="form-control icon-text"
+											<input type="text" class="form-control icon-text modifiedField" id="pdiPayment"
 												name="pdiPayment" ng-model="noteInputFormModel.pdiPayment" ng-blur=populateNoteInputModelFromJS()
 												placeholder="Monthly Payment" /> <span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
@@ -493,11 +493,11 @@
 						<div class="form-group">
 							<div class="col-sm-9 col-sm-offset-3">
 								<input type="button" class="btn btn-lg btn-success"
-									id="updateNoteBtn" name="updateNote" value="Update Note" />
+									id="updateNoteBtn" name="updateNote" value="Update" />
 									<input type="button" class="btn btn-lg btn-success"
 									id="subscribeNoteBtn" name="subscribeNoteBtn" value="Subscribe" ng-hide="isSubscribed()"/>
 									 <input type="button" class="btn btn-lg btn-primary" ng-click="deleteNote()"
-									id="deleteNoteBtn" name="deleteNote" value="Delete Note" />
+									id="deleteNoteBtn" name="deleteNote" value="Delete" />
 								<input type="button" class="btn btn-lg btn-info"
 									 id="resetNoteBtn"
 									value="Reset" /> <input type="button"

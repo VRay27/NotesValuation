@@ -1,5 +1,6 @@
 package com.noteanalyzer.entity.notes;
 
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -15,6 +16,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.joda.time.DateTime;
+
 import com.noteanalyzer.entity.AbstractEntity;
 
 import lombok.ToString;
@@ -24,7 +27,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @NamedQueries({
 		@NamedQuery(name = Note.GET_NOTE_DETAILS_BY_NOTEID, query = "select n from Note n where  n.noteId =:noteId"),
-		@NamedQuery(name = Note.GET_NOTE_DETAILS_BY_USER, query = "select n from Note n where   n.userId =:userId"),
+		@NamedQuery(name = Note.GET_NOTE_DETAILS_BY_USER, query = "select n from Note n where   n.userId =:userId order by updatedDate desc "),
 		@NamedQuery(name = Note.GET_NOTE_DETAILS_BY_USER_NOTE_ID, query = "select n from Note n, User u where u.userId = n.userId and  n.noteId =:noteId and u.emailID =:emailID")})
 public class Note extends AbstractEntity {
 	private static final long serialVersionUID = -8179556227491337368L;
@@ -146,10 +149,46 @@ public class Note extends AbstractEntity {
 
 	@Column(name = "NO_OF_PROP_UNIT")
 	private String numberOfPropUnit;
+	
+	@Column(name = "CREATED_DATE_TIME")
+	private ZonedDateTime createdDate;
+	
+	@Column(name = "UPDATED_DATE_TIME")
+	private ZonedDateTime updatedDate;
 
 	@ManyToOne(fetch = FetchType.LAZY,cascade={ CascadeType.MERGE, CascadeType.PERSIST})
 	@JoinColumn(name = "PROPERTY_ID",referencedColumnName = "PROPERTY_ID", nullable = false)
 	private Property propertyId;
+
+	
+	
+	/**
+	 * @return the createdDate
+	 */
+	public ZonedDateTime getCreatedDate() {
+		return createdDate;
+	}
+
+	/**
+	 * @param zonedDateTime the createdDate to set
+	 */
+	public void setCreatedDate(ZonedDateTime zonedDateTime) {
+		this.createdDate = zonedDateTime;
+	}
+
+	/**
+	 * @return the updatedDate
+	 */
+	public ZonedDateTime getUpdatedDate() {
+		return updatedDate;
+	}
+
+	/**
+	 * @param updatedDate the updatedDate to set
+	 */
+	public void setUpdatedDate(ZonedDateTime updatedDate) {
+		this.updatedDate = updatedDate;
+	}
 
 	/**
 	 * @return the noteId

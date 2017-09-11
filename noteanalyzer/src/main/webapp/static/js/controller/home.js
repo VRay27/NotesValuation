@@ -136,6 +136,7 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 	}
 
 	$scope.populateNoteInputModelFromJS = function(){
+		angular.element( document.querySelector('.modifiedField')).trigger('change');
 		angular.element( document.querySelector('#originalTermId')).removeClass('noteInputCalculatedField');
 		angular.element( document.querySelector('#orginalLoanBalanceId')).removeClass('noteInputCalculatedField');
 		angular.element( document.querySelector('#interestRateId')).removeClass('noteInputCalculatedField');
@@ -145,7 +146,7 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 		$scope.noteInputFormModel = model;
 		if(elem == 'rate'){
 			angular.element( document.querySelector('#interestRateId')).addClass('noteInputCalculatedField');
-		}else if(elem == 'pdipayment'){
+		}else if(elem == 'pdiPayment'){
 			angular.element( document.querySelector('#paymentId')).addClass('noteInputCalculatedField');
 		}else if(elem == 'originalTerm'){
 			angular.element( document.querySelector('#originalTermId')).addClass('noteInputCalculatedField');

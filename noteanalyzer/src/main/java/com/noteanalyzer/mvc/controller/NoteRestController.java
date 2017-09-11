@@ -323,18 +323,17 @@ public class NoteRestController {
 	 * parameters.
 	 * 
 	 * @param noteDetailModel
+	 * @return 
 	 * @return
 	 */
-	@RequestMapping(value = "/api/updateNote", method = RequestMethod.POST)
-	public ResponseEntity<NoteDetailModel> updateNote(@RequestBody NoteDetailModel noteDetailModel) {
+	@RequestMapping(value = "/api/updateMarketValue", method = RequestMethod.POST)
+	public ResponseEntity<Object> updateMarketValue(@RequestBody NoteInputFormModel noteInputFormModel) {
 
-		if (noteDetailModel == null) {
-			NoteDetailModel model = new NoteDetailModel();
-			model.setErrorMessage("Invalid input details");
-			return new ResponseEntity<NoteDetailModel>(model, HttpStatus.BAD_REQUEST);
+		if (noteInputFormModel == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		Optional<NoteDetailModel> model = noteService.updateNote(noteDetailModel);
-		return new ResponseEntity<NoteDetailModel>(model.get(), HttpStatus.OK);
+		Optional<NoteDetailModel> model = noteService.getNoteDetail(noteInputFormModel.getNoteId());
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	/**

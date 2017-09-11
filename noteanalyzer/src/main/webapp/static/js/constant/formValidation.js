@@ -447,6 +447,10 @@ $(document).ready(function() {
 	   }
 	 });
    
+   $('#loanTypeId').on('change', function() {
+	    $('#originalTerm').trigger('change');
+	});
+   
    $('#originalTerm').change(function(){
 	   if($('#originalTerm').val()){
 		   $('#noteInputForm').bootstrapValidator('revalidateField', 'originalTerm');
