@@ -394,13 +394,15 @@ public class NoteRestController {
 	 */
 	@RequestMapping(value = "/api/deleteNote", method = RequestMethod.POST)
 	public ResponseEntity<RequestStatusModel> deleteNote(@RequestBody NoteInputFormModel noteDetailModel) {
-		if (noteDetailModel == null) {
+		Optional<UserModel>  user  = userService.getByUsername(NoteUtility.getLoggedInUserName());
+		if (noteDetailModel == null || !user.isPresent()) {
 			RequestStatusModel model = new RequestStatusModel();
 			model.setErrorMessage("Invalid input details");
 			return new ResponseEntity<RequestStatusModel>(model, HttpStatus.BAD_REQUEST);
 		}
+		
 		LOG.info("Inside DELETE with deleteNote noteDetailModel value " + noteDetailModel);
-		boolean isDeleted = noteService.deleteNote(noteDetailModel, NoteUtility.getLoggedInUserName());
+		boolean isDeleted = noteService.deleteNote(noteDetailModel,user.get().getUserId());
 		if (isDeleted) {
 			return new ResponseEntity<RequestStatusModel>(HttpStatus.OK);
 		} else {

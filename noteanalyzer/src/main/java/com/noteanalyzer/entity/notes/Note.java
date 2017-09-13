@@ -16,7 +16,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import org.joda.time.DateTime;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import com.noteanalyzer.entity.AbstractEntity;
 
@@ -28,13 +29,15 @@ import lombok.ToString;
 @NamedQueries({
 		@NamedQuery(name = Note.GET_NOTE_DETAILS_BY_NOTEID, query = "select n from Note n where  n.noteId =:noteId"),
 		@NamedQuery(name = Note.GET_NOTE_DETAILS_BY_USER, query = "select n from Note n where   n.userId =:userId order by updatedDate desc "),
-		@NamedQuery(name = Note.GET_NOTE_DETAILS_BY_USER_NOTE_ID, query = "select n from Note n, User u where u.userId = n.userId and  n.noteId =:noteId and u.emailID =:emailID")})
+		@NamedQuery(name = Note.GET_NOTE_DETAILS_BY_USER_NOTE_ID, query = "select n from Note n, User u where u.userId = n.userId and  n.noteId =:noteId and u.emailID =:emailID"),
+		@NamedQuery(name = Note.DELETE_NOTE_DETAILS_BY_USER_NOTE_ID, query = "delete  from Note n where n.userId =:userId and  n.noteId =:noteId")})
 public class Note extends AbstractEntity {
 	private static final long serialVersionUID = -8179556227491337368L;
 
 	public static final String GET_NOTE_DETAILS_BY_NOTEID = "GET_NOTE_DETAILS_BY_NOTEID";
 	public static final String GET_NOTE_DETAILS_BY_USER = "GET_NOTE_DETAILS_BY_USER";
 	public static final String 	GET_NOTE_DETAILS_BY_USER_NOTE_ID = "GET_NOTE_DETAILS_BY_USER_NOTE_ID";
+	public static final String 	DELETE_NOTE_DETAILS_BY_USER_NOTE_ID = "DELETE_NOTE_DETAILS_BY_USER_NOTE_ID";
 
 
 	@Id
@@ -157,6 +160,7 @@ public class Note extends AbstractEntity {
 	private ZonedDateTime updatedDate;
 
 	@ManyToOne(fetch = FetchType.LAZY,cascade={ CascadeType.MERGE, CascadeType.PERSIST})
+	@Fetch(FetchMode.JOIN)
 	@JoinColumn(name = "PROPERTY_ID",referencedColumnName = "PROPERTY_ID", nullable = false)
 	private Property propertyId;
 

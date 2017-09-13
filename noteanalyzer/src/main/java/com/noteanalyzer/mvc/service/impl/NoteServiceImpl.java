@@ -218,7 +218,7 @@ public class NoteServiceImpl implements NoteService {
 	@Override
 	public Optional<List<Property>> getPropertyByAddress(NoteInputFormModel noteModel) {
 		Map<String, Object> parameters = new HashMap<>();
-		parameters.put("zipCode", Integer.valueOf(noteModel.getZipCode()));
+		parameters.put("zipCode", noteModel.getZipCode());
 		parameters.put("streetAddress", noteModel.getStreetAddress());
 		parameters.put("city", noteModel.getSelCity());
 		parameters.put("state", noteModel.getSelState());
@@ -319,7 +319,7 @@ public class NoteServiceImpl implements NoteService {
 		}
 		NoteInputFormModel noteInputFormModel = new NoteInputFormModel();
 		Property property = note.getPropertyId();
-		String zipCode = String.valueOf(property.getZip());
+		String zipCode = property.getZip();
 		Optional<AddressModel> address = getZipCodeDetails(zipCode);
 		AddressModel addressModel = address.get();
 		noteInputFormModel.setAddressModel(addressModel);
@@ -463,17 +463,16 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	@Override
-	public boolean deleteNote(@NonNull NoteInputFormModel noteDetailModel, String userName) {
+	public boolean deleteNote(@NonNull NoteInputFormModel noteDetailModel, long userId) {
 		Map<String, Object> parameters = new HashMap<>();
-		parameters.put("emailID", userName);
+		parameters.put("userId", new Long(userId));
 		parameters.put("noteId", noteDetailModel.getNoteId());
-		List<Note> notes = genericDao.getResultByNamedQuery(Note.class, Note.GET_NOTE_DETAILS_BY_USER_NOTE_ID,
+		int notes = genericDao.updateByNamedQuery(Note.DELETE_NOTE_DETAILS_BY_USER_NOTE_ID,
 				parameters);
-		if (notes != null) {
-			genericDao.deleteById(Note.class, notes.get(0).getNoteId());
+		if (notes != 0) {
 			return true;
 		}
-		LOG.warning("There is No record found with logging user " + userName + " and noteDetailModel ID"
+		LOG.warning("There is No record found with logging user " + userId + " and noteDetailModel ID"
 				+ noteDetailModel.getNoteId());
 		return false;
 	}
@@ -510,9 +509,7 @@ public class NoteServiceImpl implements NoteService {
 			property.setPropertyType(noteModel.getSelPropType());
 		}
 		noteEntity = ConverterUtility.convertNoteModelToEntity(noteModel, property, noteEntity);
-		List<Note> noteEntityList = new ArrayList<>();
-		noteEntityList.add(noteEntity);
-		property.setNote(noteEntityList);
+		noteEntity.setPropertyId(property);
 		genericDao.update(noteEntity);
 		return Optional.of(getNoteDetailNew(noteModel.getNoteId()).get());
 	}
@@ -536,10 +533,7 @@ public class NoteServiceImpl implements NoteService {
 		}
 		property = getPropertyFromZillow(noteModel.getStreetAddress(), noteModel.getSelCity(), noteModel.getSelState(),
 				noteModel.getZipCode(), noteModel.getSelPropType(), property);
-		List<Note> noteEntityList = new ArrayList<>();
 		noteEntity.setPropertyId(property);
-		noteEntityList.add(noteEntity);
-		property.setNote(noteEntityList);
 		genericDao.update(noteEntity);
 		return Optional.of(getNoteDetailNew(noteEntity.getNoteId()).get());
 	}

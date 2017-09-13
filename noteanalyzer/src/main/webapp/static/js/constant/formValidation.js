@@ -67,8 +67,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
 	                     min: 1,
-	                     max: 11,
-	                     message: 'The unpaid balance must be less than 11 characters long'
+	                     max: 20,
+	                     message: 'The unpaid balance must be less than 20 characters long'
 	            	 },
 	            	 notEmpty: {
 	                        message: 'The unpaid balance is required and can\'t be empty.'
@@ -83,8 +83,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
 	                     min: 1,
-	                     max: 11,
-	                     message: 'The rate must be less than 11 characters long'
+	                     max: 20,
+	                     message: 'The rate must be less than 20 characters long'
 	            	 },
 	            	 notEmpty: {
 	                        message: 'The rate is required and can\'t be empty.'
@@ -99,8 +99,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
 	                     min: 1,
-	                     max: 11,
-	                     message: 'The  payment must be less than 11 characters long'
+	                     max: 20,
+	                     message: 'The  payment must be less than 20 characters long'
 	            	 },
 	            	 notEmpty: {
 	                        message: 'The  payment is required and can\'t be empty.'
@@ -116,7 +116,7 @@ $(document).ready(function() {
             		 stringLength: {
 	                     min: 0,
 	                     max: 20,
-	                     message: 'The tax and Insurance must be less than 11 characters long'
+	                     message: 'The tax and Insurance must be less than 20 characters long'
 	            	 }
              }},
              
@@ -129,8 +129,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
 	                     min: 1,
-	                     max: 11,
-	                     message: 'The original principal bal must be less than 11 characters long'
+	                     max: 20,
+	                     message: 'The original principal bal must be less than 20 characters long'
 	            	 },
 	            	 notEmpty: {
 	                        message: 'The original principal balance is required and can\'t be empty.'
@@ -145,8 +145,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
 	                     min: 1,
-	                     max: 11,
-	                     message: 'The Note Price must be less than 11 characters long'
+	                     max: 20,
+	                     message: 'The Note Price must be less than 20 characters long'
 	            	 },
 	            	 notEmpty: {
 	                        message: 'The Note Price is required and can\'t be empty.'
@@ -227,8 +227,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
 	                     min: 1,
-	                     max: 11,
-	                     message: 'The Estimated market value must be less than 11 characters long'
+	                     max: 20,
+	                     message: 'The Estimated market value must be less than 20 characters long'
 	            	 },
 	            	 notEmpty: {
 	                        message: 'The Estimated market value is required and can\'t be empty.'

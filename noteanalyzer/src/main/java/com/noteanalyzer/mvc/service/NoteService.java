@@ -133,10 +133,10 @@ public interface NoteService {
 	/**
 	 * This method will delete the note associated with logged in user.
 	 * @param noteDetailModel
-	 * @param userName
+	 * @param userId
 	 * @return
 	 */
-	boolean deleteNote(NoteInputFormModel noteDetailModel, String userName);
+	boolean deleteNote(NoteInputFormModel noteDetailModel, long userId);
 	
 	/**
 	 * This method will return the apprisal source details for given apprisal source detail.

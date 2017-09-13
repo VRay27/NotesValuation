@@ -303,8 +303,8 @@
 										<label class="col-sm-1 control-label requiredField">Property
 											Type</label>
 										<div class="col-sm-3">
-											<select class="form-control icon-text" name="propertyType"
-												ng-init="noteInputFormModel.selPropType=noteInputFormModel.selPropType || noteInputFormModel.propTypeList[0].propertyTypeCode"
+											<select class="form-control icon-text" name="propertyType" ng-change="propertyTypeChange()"
+												ng-init="populateDefaultPropertyType();"
 												ng-model="noteInputFormModel.selPropType"
 												ng-options="propType.propertyTypeCode as propType.propertyTypeValue for propType in noteInputFormModel.propTypeList | orderBy:'propertyTypeValue'">
 											</select><span
@@ -313,7 +313,7 @@
 										</div>
 										<label class="col-sm-1 control-label"> Number of Units</label>
 										<div class="col-sm-3 ">
-											<input type="text" class="form-control icon-text"
+											<input type="text" class="form-control icon-text" id="numberOfUnits" disabled="disabled"
 												name="numberOfUnits" ng-model="noteInputFormModel.noOfPropUnits" />
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
@@ -321,7 +321,7 @@
 										</div>
 										<label class="col-sm-1 control-label">HOA Fees</label>
 										<div class="col-sm-3 ">
-											<input type="text" class="form-control icon-text"
+											<input type="text" class="form-control icon-text" id="hoaFees" disabled="disabled"
 												name="hoaFees" ng-model="noteInputFormModel.hoaFees" /> <span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Enter Number of Units"></span>

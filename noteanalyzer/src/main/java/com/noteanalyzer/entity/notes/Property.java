@@ -17,6 +17,9 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import com.noteanalyzer.entity.AbstractEntity;
 
 import lombok.ToString;
@@ -51,7 +54,7 @@ public class Property extends AbstractEntity {
 	private String state;
 
 	@Column(name = "ZIP")
-	private Integer zip;
+	private String zip;
 
 	@Column(name = "AGE")
 	private Integer age;
@@ -87,7 +90,7 @@ public class Property extends AbstractEntity {
 	private String numberOfBedrooms;
 	
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "propertyId", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "propertyId",cascade={CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval=true)
     private List<Note> note;
 	
 	@OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL, mappedBy = "propertyId")
@@ -174,18 +177,18 @@ public class Property extends AbstractEntity {
 		this.state = state;
 	}
 
+	
 	/**
 	 * @return the zip
 	 */
-	public Integer getZip() {
+	public String getZip() {
 		return zip;
 	}
 
 	/**
-	 * @param zip
-	 *            the zip to set
+	 * @param zip the zip to set
 	 */
-	public void setZip(Integer zip) {
+	public void setZip(String zip) {
 		this.zip = zip;
 	}
 

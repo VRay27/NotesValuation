@@ -34,16 +34,16 @@ public class NoteInputFormModel  extends RequestStatusModel implements Serializa
 	@NotNull(message = "Note Date cannot be null")
 	private String noteDate;
 	@NotNull(message = "Unpaid Balance cannot be null")
-	@Digits(message = "Unpaid Balance cannot be greater than 20 digit", fraction = 2, integer = 20)
+	//@Digits(message = "Unpaid Balance cannot be greater than 20 digit", fraction = 2, integer = 20)
 	private String upb;
 	private String rate;
-	@Digits(message = "PDI Payment cannot be greater than 20 digit", fraction = 2, integer = 20)
+	//@Digits(message = "PDI Payment cannot be greater than 20 digit", fraction = 2, integer = 20)
 	private String pdiPayment;
-	@Digits(message = "TDI Payment cannot be greater than 20 digit", fraction = 2, integer = 20)
+	//@Digits(message = "TDI Payment cannot be greater than 20 digit", fraction = 2, integer = 20)
 	private String tdiPayment;
-	@Digits(message = "Original Term cannot be greater than 20 digit", fraction = 2, integer = 20)
+	//@Digits(message = "Original Term cannot be greater than 20 digit", fraction = 2, integer = 20)
 	private String originalTerm;
-	@Digits(message = "original Principle Balance cannot be greater than 20 digit", fraction = 2, integer = 20)
+	//@Digits(message = "original Principle Balance cannot be greater than 20 digit", fraction = 2, integer = 20)
 	private String originalPrincipleBalance;
 	private String notePosition = "1";
 	private String noteScoreByUser;

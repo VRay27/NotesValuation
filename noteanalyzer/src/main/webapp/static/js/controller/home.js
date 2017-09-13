@@ -104,6 +104,7 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 	 			$scope.noteInputFormModel.selPropType=$scope.noteInputFormModel.selPropType || $scope.noteInputFormModel.propTypeList[0].propertyTypeCode;
 	 			$scope.noteInputFormModel.selNoteType= $scope.noteInputFormModel.selNoteType || $scope.noteInputFormModel.noteTypeList[0].noteType;
 	 			$scope.noteInputFormModel.selLoanType=$scope.noteInputFormModel.selLoanType || $scope.noteInputFormModel.loanTypeList[0].loanTypeCode;
+	 			$scope.populateDefaultPropertyType();
 	 			
 	 		},function(errResponse) {
 	 			toastr.error('Error while fetching details for this zip code.'+noteInputFormModel.zipCode);
@@ -122,6 +123,25 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 		}
 		}
 	}
+	
+	
+	$scope.propertyTypeChange = function(){
+		var selectedPropertyType = $scope.noteInputFormModel.selPropType;
+		if( selectedPropertyType == 'DUPLEX' || selectedPropertyType == 'FOURPLEX' || selectedPropertyType == 'APARTMENT' || selectedPropertyType == 'TRIPLEX'){
+			angular.element( document.querySelector('#numberOfUnits')).removeAttr('disabled');
+		}else{
+			angular.element( document.querySelector('#numberOfUnits')).attr('disabled','disabled');
+			angular.element( document.querySelector('#numberOfUnits')).val('');
+		}
+		
+		if( selectedPropertyType == 'TH' || selectedPropertyType == 'CONDO'){
+			angular.element( document.querySelector('#hoaFees')).removeAttr('disabled');
+		}else{
+			angular.element( document.querySelector('#hoaFees')).attr('disabled','disabled');
+			angular.element( document.querySelector('#hoaFees')).val('');
+		}
+	}
+	
 	$scope.sanitizeNoteInputModelFromJS = function(){
 		$scope.noteInputFormModel.rate = $filter('sanitizeInput')($scope.noteInputFormModel.rate);
 		$scope.noteInputFormModel.upb  = $filter('sanitizeInput')($scope.noteInputFormModel.upb);
@@ -154,7 +174,15 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 			angular.element( document.querySelector('#orginalLoanBalanceId')).addClass('noteInputCalculatedField');
 		}
 	};
-	
+
+	$scope.populateDefaultPropertyType = function() {
+		if ($scope.noteInputFormModel.propTypeList) {
+			$scope.noteInputFormModel.selPropType = $scope.noteInputFormModel.selPropType || $scope.noteInputFormModel.propTypeList[0].propertyTypeCode;
+			$scope.propertyTypeChange();
+		}
+	}
+
+
 	$scope.cancel = function(){
 		$scope.noteInputFormModel = {};
 		$state.go('home');
@@ -320,9 +348,9 @@ noteApp.filter('getDefaultValueForPercentage', function($auth){
 noteApp.filter('sanitizeInput', function() {
     return function(value) {
     	if(value){
-    		var temp = value.toString().replace('$', '');
-    		 temp = temp.replace('%', '');
-    		return temp.replace(',', '');	
+    		var temp = value.toString().replace(/\$/g, '');
+    		 temp = temp.replace(/\%/g, '');
+    		return temp.replace(/\,/g, '');	
     	}
         return value;
     }

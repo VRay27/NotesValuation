@@ -261,7 +261,7 @@ public class ConverterUtility {
 	public static Property createPropertyObject(AppraisalPropertyBean appraisalPropertyBean, String propertyTypeCode,
 			AppriasalSources appraisalsSource, Property propertyFromDB, Zipcodes zipCodeDetails) {
 		Property property = propertyFromDB == null ? new Property() : propertyFromDB;
-		property.setZip(Integer.valueOf(appraisalPropertyBean.getZipCode()));
+		property.setZip(appraisalPropertyBean.getZipCode());
 		property.setStreetAddress(appraisalPropertyBean.getStreetAddress());
 		property.setCity(appraisalPropertyBean.getCity());
 		property.setState(appraisalPropertyBean.getState());
