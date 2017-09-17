@@ -365,7 +365,7 @@
 															tooltip-placement="top" uib-tooltip="Number of bathroom"></span>
 													</div>
 
-													<label class="col-sm-1 control-label">LOT Size(sf)
+													<label class="col-sm-1 control-label">Lot Size(sf)
 														</label>
 													<div class="col-sm-3">
 														<p class="form-control-static">{{noteInputFormModel.propertyDetailModel.propertyLotSize | getDefaultValueForNull}}</p>
@@ -438,16 +438,50 @@
 										</div>
 									</div>
 
+									
 									<div class="form-group">
-										<label class="col-lg-2 control-label">Foreclosure Rate</label>
+										<label class="col-lg-2 control-label">Property Detail
+											Url</label>
 										<div class="col-lg-3">
-											<p class="form-control-static">{{noteInputFormModel.demoGraphicDetailModel.foreClosure | getDefaultValueForNull}}</p>
-											<span
-												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
-												tooltip-placement="top" uib-tooltip="ForeColusure Rate"></span>
+											<p class="form-control-static">
+											<div ng-if="noteDetailModel.propertyDetailModel.propertyDetailUrl">
+												<a
+													href="{{noteDetailModel.propertyDetailModel.propertyDetailUrl}}"
+													tooltip="Property Map URL">Property Detail URL</a></div>
+													<div ng-if="!noteDetailModel.propertyDetailModel.propertyDetailUrl">No data available</div>
+											</p>
 										</div>
-									</div>
+										<label class="col-lg-2 control-label">Property Map URL</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">
+												<div ng-if="noteDetailModel.propertyDetailModel.propertyMapUrl">
+												<a
+													href="{{noteDetailModel.propertyDetailModel.propertyMapUrl}}"
+													tooltip="Property Map URL">Property Map URL</a></div>
+													<div ng-if="!noteDetailModel.propertyDetailModel.propertyMapUrl">No data available</div>
+											</p>
+										</div>
 
+									</div>
+									
+									<div class="form-group">
+
+										<label class="col-lg-2 control-label">Property Graph
+											URL</label>
+										<div class="col-lg-3">
+											<p class="form-control-static">
+												<div ng-if="noteDetailModel.propertyDetailModel.propertyGraphAndDataUrl">
+												<a
+													href="{{noteDetailModel.propertyDetailModel.propertyGraphAndDataUrl}}"
+													tooltip="Property Graph and Data URL">Property Graph
+													and Data URL</a>
+													</div>
+												<div ng-if="!noteDetailModel.propertyDetailModel.propertyGraphAndDataUrl">No data available</div>
+											</p>
+										</div>
+										<label class="col-lg-2 control-label"></label>
+										<div class="col-lg-3"></div>
+									</div>
 								</div>
 							</div>
 						</div>

@@ -19,7 +19,7 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q','$filter', '$rootScope',
 		getNoteDetailModel : getNoteDetailModel,
 		getYield : getYield,
 		updateMarketValue : updateMarketValue,
-		subscribeNote : updateApprisalValue
+		subscribeNote : subscribeNote
 		
 	};
 
@@ -116,10 +116,10 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q','$filter', '$rootScope',
 		return deferred.promise;
 	}
 	
-	function updateApprisalValue(noteDetailModel) {
+	function subscribeNote(noteDetailModel) {
 		WaitingDialog.show();
 		var deferred = $q.defer();
-		$http.post('api/updateApprisalValue', noteDetailModel)
+		$http.post('api/subscribeNote', noteDetailModel)
 			.then(
 				function(response) {
 					deferred.resolve(response.data);

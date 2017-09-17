@@ -30,14 +30,14 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state, $doc
 				angular.element(document.querySelector('#numberOfUnits')).removeAttr('disabled');
 			} else {
 				angular.element(document.querySelector('#numberOfUnits')).attr('disabled', 'disabled');
-				angular.element( document.querySelector('#numberOfUnits')).val('');
+				angular.element(document.querySelector('#numberOfUnits')).val('');
 			}
 
 			if (selectedPropertyType == 'TH' || selectedPropertyType == 'CONDO') {
 				angular.element(document.querySelector('#hoaFees')).removeAttr('disabled');
 			} else {
 				angular.element(document.querySelector('#hoaFees')).attr('disabled', 'disabled');
-				angular.element( document.querySelector('#hoaFees')).val('');
+				angular.element(document.querySelector('#hoaFees')).val('');
 			}
 		}
 	}
@@ -60,25 +60,28 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state, $doc
 		$scope.noteInputFormModel.remainingPayment = $filter('sanitizeInput')($scope.noteInputFormModel.remainingPayment);
 		$scope.noteInputFormModel.estimatedMarketValue = $filter('sanitizeInput')($scope.noteInputFormModel.estimatedMarketValue);
 		$scope.noteInputFormModel.propertyDetailModel.marketValue = $filter('sanitizeInput')($scope.noteInputFormModel.propertyDetailModel.marketValue);
-
+		noteInputFormModel.propertyDetailModel.lastSoldPrice = $filter('sanitizeInput')($scope.noteInputFormModel.propertyDetailModel.lastSoldPrice);
 	}
 
 	$scope.convertNumberFilter = function() {
-		if($scope.noteInputFormModel){
-		$scope.noteInputFormModel.upb = $filter('number')($scope.noteInputFormModel.upb);
-		$scope.noteInputFormModel.pdiPayment = $filter('number')($scope.noteInputFormModel.pdiPayment);
-		$scope.noteInputFormModel.tdiPayment = $filter('number')($scope.noteInputFormModel.tdiPayment);
-		$scope.noteInputFormModel.originalPrincipleBalance = $filter('number')($scope.noteInputFormModel.originalPrincipleBalance);
-		$scope.noteInputFormModel.notePrice = $filter('number')($scope.noteInputFormModel.notePrice);
-		$scope.noteInputFormModel.originalPropertyValue = $filter('number')($scope.noteInputFormModel.originalPropertyValue);
-		$scope.noteInputFormModel.remainingPayment = $filter('number')($scope.noteInputFormModel.remainingPayment);
-		$scope.noteInputFormModel.estimatedMarketValue = $filter('number')($scope.noteInputFormModel.estimatedMarketValue);
-		if (!isNaN($scope.noteInputFormModel.propertyDetailModel.marketValue) && angular.isNumber(+$scope.noteInputFormModel.propertyDetailModel.marketValue)) {
-			$scope.noteInputFormModel.propertyDetailModel.marketValue = $filter('number')($scope.noteInputFormModel.propertyDetailModel.marketValue);
-		}
+		if ($scope.noteInputFormModel) {
+			$scope.noteInputFormModel.upb = $filter('number')($scope.noteInputFormModel.upb);
+			$scope.noteInputFormModel.pdiPayment = $filter('number')($scope.noteInputFormModel.pdiPayment);
+			$scope.noteInputFormModel.tdiPayment = $filter('number')($scope.noteInputFormModel.tdiPayment);
+			$scope.noteInputFormModel.originalPrincipleBalance = $filter('number')($scope.noteInputFormModel.originalPrincipleBalance);
+			$scope.noteInputFormModel.notePrice = $filter('number')($scope.noteInputFormModel.notePrice);
+			$scope.noteInputFormModel.originalPropertyValue = $filter('number')($scope.noteInputFormModel.originalPropertyValue);
+			$scope.noteInputFormModel.remainingPayment = $filter('number')($scope.noteInputFormModel.remainingPayment);
+			$scope.noteInputFormModel.estimatedMarketValue = $filter('number')($scope.noteInputFormModel.estimatedMarketValue);
+			if (!isNaN($scope.noteInputFormModel.propertyDetailModel.marketValue) && angular.isNumber(+$scope.noteInputFormModel.propertyDetailModel.marketValue)) {
+				$scope.noteInputFormModel.propertyDetailModel.marketValue = $filter('number')($scope.noteInputFormModel.propertyDetailModel.marketValue);
+			}
+			if (!isNaN($scope.noteInputFormModel.propertyDetailModel.lastSoldPrice) && angular.isNumber(+$scope.noteInputFormModel.propertyDetailModel.lastSoldPrice)) {
+				$scope.noteInputFormModel.propertyDetailModel.lastSoldPrice = $filter('number')($scope.noteInputFormModel.propertyDetailModel.lastSoldPrice);
+			}
 		}
 	}
-	
+
 	$scope.convertNumberFilter();
 
 	$scope.populateNoteInputModelFromJS = function() {

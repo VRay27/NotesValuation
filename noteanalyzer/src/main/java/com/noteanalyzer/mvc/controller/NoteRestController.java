@@ -352,7 +352,7 @@ public class NoteRestController {
 	 * @throws ParseException 
 	 */
 	@RequestMapping(value = "/api/updateNoteNew", method = RequestMethod.POST)
-	public ResponseEntity<NoteInputFormModel> updateNote(@RequestBody NoteInputFormModel noteModel) throws ParseException {
+	public ResponseEntity<NoteInputFormModel> updateNoteNew(@RequestBody NoteInputFormModel noteModel) throws ParseException {
 
 		if (noteModel == null) {
 			NoteInputFormModel model = new NoteInputFormModel();
@@ -371,7 +371,7 @@ public class NoteRestController {
 	 * @return
 	 * @throws ParseException 
 	 */
-	@RequestMapping(value = "/api/updateApprisalValue", method = RequestMethod.POST)
+	@RequestMapping(value = "/api/subscribeNote", method = RequestMethod.POST)
 	public ResponseEntity<NoteInputFormModel> subscribeNote(@RequestBody NoteInputFormModel noteModel) throws ParseException {
 
 		if (noteModel == null) {

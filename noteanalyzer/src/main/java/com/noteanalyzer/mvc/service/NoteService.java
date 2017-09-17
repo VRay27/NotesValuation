@@ -3,22 +3,22 @@ package com.noteanalyzer.mvc.service;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
-import com.noteanalyzer.appraisal.exceptions.AddressNotAvailableException;
 import com.noteanalyzer.entity.address.Zipcodes;
 import com.noteanalyzer.entity.appraisal.AppriasalSources;
-import com.noteanalyzer.entity.notes.NoteConfiguration;
 import com.noteanalyzer.entity.notes.LoanType;
+import com.noteanalyzer.entity.notes.NoteConfiguration;
 import com.noteanalyzer.entity.notes.Parameters;
 import com.noteanalyzer.entity.notes.Property;
 import com.noteanalyzer.entity.notes.PropertyType;
 import com.noteanalyzer.entity.valuation.Statistics;
 import com.noteanalyzer.mvc.model.AddressModel;
+import com.noteanalyzer.mvc.model.LoanTypeModel;
+import com.noteanalyzer.mvc.model.NoteDashboardModel;
 import com.noteanalyzer.mvc.model.NoteDetailModel;
 import com.noteanalyzer.mvc.model.NoteInputFormModel;
 import com.noteanalyzer.mvc.model.NoteTypeModel;
-import com.noteanalyzer.mvc.model.NoteDashboardModel;
-import com.noteanalyzer.mvc.model.LoanTypeModel;
 import com.noteanalyzer.mvc.model.PropertyTypeModel;
 
 import lombok.NonNull;
@@ -184,6 +184,8 @@ public interface NoteService {
 	Optional<NoteInputFormModel> subscribeNote(NoteInputFormModel noteModel) throws ParseException;
 
 	Optional<Object> updateMarketValueDetails(Long noteId);
+
+	Optional<List<Statistics>> getStatisticsDetailsListForCrimeSchool(Set<String> schoolList, Set<String> crimeList);
 	
 	
 }

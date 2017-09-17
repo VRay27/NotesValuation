@@ -39,7 +39,7 @@
 											Date</label>
 										<div class="col-sm-3 noteDate">
 											<input type="text" class="form-control icon-text"
-												id="selNoteDate" name="noteDate"
+												id="selNoteDate" name="noteDate" ng-change="populateRemainingNumberOfPayment()"
 												placeholder="(MM/DD/YYYY)"
 												uib-datepicker-popup="MM/dd/yyyy"
 												ng-model="parent.noteDate"
@@ -149,11 +149,11 @@
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Monthly Payment"></span>
 										</div>
-										<label class="col-sm-1 control-label requiredField">Remaining
+										<label  id="remainingNoOfPaymentId" class="col-sm-1 control-label requiredField">Remaining
 											No Payments</label>
 										<div class="col-sm-3">
-											<input type="text" class="form-control icon-text"
-												name="remainingPayment"
+											<input type="text" class="form-control icon-text modifiedField"
+												name="remainingPayment" id="remainingPayment"
 												placeholder="Remaining # of payments"
 												ng-model="noteInputFormModel.remainingPayment" /> <span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
@@ -237,7 +237,7 @@
 														<p class="form-control-static"></p>
 														<span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
-															tooltip-placement="top" uib-tooltip="Yield"></span>
+															tooltip-placement="top" uib-tooltip="Yield">Required data not available</span>
 													</div>
 													<label class="col-sm-1 control-label">Estimated LTV
 													</label>
@@ -423,7 +423,7 @@
 															tooltip-placement="top" uib-tooltip="Number of bathroom"></span>
 													</div>
 
-													<label class="col-sm-1 control-label">LOT Size(sf)</label>
+													<label class="col-sm-1 control-label">Lot Size(sf)</label>
 													<div class="col-sm-3">
 														<p class="form-control-static"></p>
 														<span
@@ -512,7 +512,6 @@
 							<div class="col-sm-9 col-sm-offset-3">
 								<input type="button" class="btn btn-lg btn-success"
 									id="createNoteBtn" name="createNote" value="Create Note" />
-								<!-- <input type="button" class="btn btn-lg btn-info" ng-click="populateNoteInputModelFromJS()" value= "Calculate"/> -->
 								<input type="button" class="btn btn-lg btn-info"
 									ng-click="clearNoteInputModelFromJS()" id="resetNoteBtn"
 									value="Reset" /> <input type="button"

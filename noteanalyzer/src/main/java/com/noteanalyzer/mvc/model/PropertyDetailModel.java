@@ -4,7 +4,8 @@
 package com.noteanalyzer.mvc.model;
 
 import java.io.Serializable;
-import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * This class will hold the details of Property/Asset.
@@ -82,6 +83,11 @@ public class PropertyDetailModel implements Serializable {
 	
 	private String marketUpdateDate;
 	
+	@JsonIgnore
+	private String areaId;
+	
+	@JsonIgnore
+	private String crimeAreaId;
 	
 
 	/**
@@ -490,6 +496,34 @@ public class PropertyDetailModel implements Serializable {
 	 */
 	public void setMarketUpdateDate(String marketUpdateDate) {
 		this.marketUpdateDate = marketUpdateDate;
+	}
+
+	/**
+	 * @return the areaId
+	 */
+	public String getAreaId() {
+		return areaId;
+	}
+
+	/**
+	 * @param areaId the areaId to set
+	 */
+	public void setAreaId(String areaId) {
+		this.areaId = areaId;
+	}
+
+	/**
+	 * @return the crimeAreaId
+	 */
+	public String getCrimeAreaId() {
+		return crimeAreaId;
+	}
+
+	/**
+	 * @param crimeAreaId the crimeAreaId to set
+	 */
+	public void setCrimeAreaId(String crimeAreaId) {
+		this.crimeAreaId = crimeAreaId;
 	}
 
 	

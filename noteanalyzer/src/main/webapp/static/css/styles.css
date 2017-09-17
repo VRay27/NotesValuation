@@ -50,15 +50,12 @@ ul {
   background: #fff;
 }
 
-.navbar-default .navbar-brand {
+/* .navbar-default .navbar-brand {
   color: #333;
-  background-color: #ffe939;
-}
+  background-color: #e1e1e1;
+} */
 
-.navbar-default .navbar-brand:hover {
-  color: #ffe939;
-  background-color: #333;
-}
+
 
 .navbar-brand {
   margin-left: -15px;

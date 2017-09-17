@@ -9,9 +9,11 @@ import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -181,8 +183,10 @@ public class ConverterUtility {
 
 	}
 
+
+	
 	public static List<NoteDashboardModel> convertNoteToNoteSummaryModel(List<Note> noteList,
-			List<Statistics> statisticsList, String subscription) {
+			 String subscription) {
 		List<NoteDashboardModel> summaryModelList = new ArrayList<>();
 		if (noteList != null) {
 			for (Note model : noteList) {
@@ -217,22 +221,11 @@ public class ConverterUtility {
 						}
 					}
 				}
-				if (statisticsList != null) {
-					String areaId = "";
 					Iterator<PropertyArea> itr = property.getPropertyAreaSet().iterator();
 					if (itr.hasNext()) {
-						areaId = itr.next().getAreaId();
+						dashBoardModel.setSchoolAreaId(itr.next().getAreaId());
 					}
-					for (Statistics stat : statisticsList) {
-						if (areaId.equalsIgnoreCase(stat.getBaseId())) {
-							if ("CRIME".equalsIgnoreCase(stat.getStatType())) {
-								dashBoardModel.setCrimeScore(stat.getStatValue());
-							} else if ("SCHOOL".equalsIgnoreCase(stat.getStatType())) {
-								dashBoardModel.setSchoolScore(stat.getStatValue());
-							}
-						}
-					}
-				}
+					
 				dashBoardModel.setYield(Objects.toString(model.getYield(), ""));
 				dashBoardModel.setEstimatedITV(Objects.toString(model.getEstimatedITV(), ""));
 				dashBoardModel.setCurrentITV(Objects.toString(model.getAppraisedITV(), ""));
@@ -442,7 +435,7 @@ public class ConverterUtility {
 
 	public static NoteInputFormModel convertNoteEntityToNoteInputFormModel(Note note, NoteInputFormModel model) {
 		model = model == null ? new NoteInputFormModel() : model;
-
+		DemographicDetailModel demoGraphicDetailModel = new DemographicDetailModel();
 		DateFormat df = new SimpleDateFormat(DEFAULT_DATE_FORMAT);
 		model.setNoteId(note.getNoteId());
 		model.setUserId(note.getUserId());
@@ -499,6 +492,10 @@ public class ConverterUtility {
 
 				}
 			}
+			Iterator<PropertyArea> itr = property.getPropertyAreaSet().iterator();
+			if (itr.hasNext()) {
+				propertyDetailModel.setAreaId(itr.next().getAreaId());
+			}
 			propertyDetailModel.setZip(Objects.toString(property.getZip(), ""));
 			propertyDetailModel.setAge(property.getAge());
 			propertyDetailModel.setCity(property.getCity());
@@ -522,7 +519,7 @@ public class ConverterUtility {
 			propertyDetailModel.setStreetAddress(property.getStreetAddress());
 			propertyDetailModel.setSubdividable(property.getSubdividable());
 		}
-		DemographicDetailModel demoGraphicDetailModel = new DemographicDetailModel();
+		
 		model.setDemoGraphicDetailModel(demoGraphicDetailModel);
 
 		model.setPropertyDetailModel(propertyDetailModel);

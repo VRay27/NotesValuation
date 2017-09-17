@@ -2,12 +2,13 @@ package com.noteanalyzer.mvc.service.impl;
 
 import java.text.ParseException;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.annotation.Resource;
@@ -39,6 +40,7 @@ import com.noteanalyzer.mvc.model.NoteTypeModel;
 import com.noteanalyzer.mvc.model.PropertyTypeModel;
 import com.noteanalyzer.mvc.service.NoteService;
 import com.noteanalyzer.utility.ConverterUtility;
+import com.noteanalyzer.utility.NoteUtility;
 import com.noteanalyzer.webservice.appraisal.AppraisalPropertyBean;
 import com.noteanalyzer.webservice.appraisal.IAppraisalSource;
 
@@ -190,6 +192,21 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	@Override
+	public Optional<List<Statistics>> getStatisticsDetailsListForCrimeSchool(Set<String> schoolList, Set<String> crimeList) {
+		Map<String, Object> parameters = new HashMap<>();
+		parameters.put("crimeAreaIdList", crimeList);
+		parameters.put("schoolAreaIdList", schoolList);
+		parameters.put("baseType", "AREA");
+		List<Statistics> zipcodeList = genericDao.getResultByNamedQuery(Statistics.class,
+				Statistics.GET_STATISTICS_DETAILS_CRIME_SCHOOL, parameters);
+		if (Collections.isEmpty(zipcodeList)) {
+			return Optional.empty();
+		}
+		return Optional.of(zipcodeList);
+	}
+
+	
+	@Override
 	public Optional<List<Statistics>> getStatisticsDetailsByUserId(long userId) {
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("userId", new Long(userId));
@@ -268,6 +285,7 @@ public class NoteServiceImpl implements NoteService {
 	
 	@Override
 	@Transactional
+	@Deprecated
 	public Optional<NoteDetailModel> getNoteDetail(Long noteId) {
 		Note note = genericDao.getById(Note.class, noteId);
 		if (note == null) {
@@ -362,6 +380,27 @@ public class NoteServiceImpl implements NoteService {
 		}
 		NoteInputFormModel model = ConverterUtility.convertNoteEntityToNoteInputFormModel(note, noteInputFormModel);
 
+		Set<String> schoolAreaIdList = new HashSet<>();
+		Set<String> crimeAreaIdList = new HashSet<>();
+		schoolAreaIdList.add(model.getPropertyDetailModel().getAreaId());
+		model.getPropertyDetailModel()
+				.setCrimeAreaId(NoteUtility.getCrimeAreaCode(model.getPropertyDetailModel().getAreaId()));
+		crimeAreaIdList.add(NoteUtility.getCrimeAreaCode(model.getPropertyDetailModel().getAreaId()));
+		Optional<List<Statistics>> statisticsList = getStatisticsDetailsListForCrimeSchool(schoolAreaIdList,
+				crimeAreaIdList);
+		if (statisticsList.isPresent()) {
+			List<Statistics> statList = statisticsList.get();
+			Map<String, Statistics> crimeSchoolAreaIdMap = NoteUtility.createStatMapUsingAreaId(statList);
+			if (crimeSchoolAreaIdMap.containsKey(model.getPropertyDetailModel().getCrimeAreaId())) {
+				model.getDemoGraphicDetailModel().setCrime(
+						crimeSchoolAreaIdMap.get(model.getPropertyDetailModel().getCrimeAreaId()).getStatValue());
+			}
+			if (crimeSchoolAreaIdMap.containsKey(model.getPropertyDetailModel().getAreaId())) {
+				model.getDemoGraphicDetailModel().setSchoolScore(
+						crimeSchoolAreaIdMap.get(model.getPropertyDetailModel().getAreaId()).getStatValue());
+			}
+		}
+		
 		return Optional.of(model);
 
 	}
@@ -389,12 +428,28 @@ public class NoteServiceImpl implements NoteService {
 		if (CollectionUtils.isEmpty(noteList)) {
 			return Optional.empty();
 		}
-		Optional<List<Statistics>> statisticsList = getStatisticsDetailsByUserId(userId);
-		List<Statistics> statList = null;
-		if (statisticsList.isPresent()) {
-			statList = statisticsList.get();
+		List<NoteDashboardModel> noteDashBoardList = ConverterUtility.convertNoteToNoteSummaryModel(noteList, subscription);
+		Set<String> schoolAreaIdList = new HashSet<>();
+		Set<String> crimeAreaIdList = new HashSet<>();
+		for(NoteDashboardModel model : noteDashBoardList){
+			schoolAreaIdList.add(model.getSchoolAreaId());
+			model.setCrimeAreaId(NoteUtility.getCrimeAreaCode(model.getSchoolAreaId()));
+			crimeAreaIdList.add(NoteUtility.getCrimeAreaCode(model.getSchoolAreaId()));
 		}
-		return Optional.of(ConverterUtility.convertNoteToNoteSummaryModel(noteList, statList, subscription));
+		Optional<List<Statistics>> statisticsList = getStatisticsDetailsListForCrimeSchool(schoolAreaIdList,crimeAreaIdList);
+		if (statisticsList.isPresent()) {
+			List<Statistics> statList = statisticsList.get();
+			Map<String, Statistics> crimeSchoolAreaIdMap= NoteUtility.createStatMapUsingAreaId(statList);
+			for(NoteDashboardModel model : noteDashBoardList){
+				if(crimeSchoolAreaIdMap.containsKey(model.getCrimeAreaId())){
+					model.setCrimeScore(crimeSchoolAreaIdMap.get(model.getCrimeAreaId()).getStatValue());
+				}
+				if(crimeSchoolAreaIdMap.containsKey(model.getSchoolAreaId())){
+					model.setSchoolScore(crimeSchoolAreaIdMap.get(model.getSchoolAreaId()).getStatValue());
+				}
+			}
+		}
+		return Optional.of(noteDashBoardList);
 	}
 
 	@Override

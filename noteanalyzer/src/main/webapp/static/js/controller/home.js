@@ -88,7 +88,7 @@ noteApp.controller('HomeCtrl', function($scope, $stateParams, $state,$document, 
 	
 });
 
-noteApp.controller('noteInputFormController', function($scope, $rootScope, $state, $auth, $filter,NoteService,toastr,WaitingDialog,$window,UserService) {
+noteApp.controller('noteInputFormController', function($scope, $rootScope, $state, $auth, $filter,NoteService,toastr,WaitingDialog,$window,UserService,UtilityService) {
 	$scope.noteInputFormModel = NoteService.getInputFormModel();
 	 if($scope.noteInputFormModel && $scope.noteInputFormModel.zipCode){
 		 $window.localStorage.setItem('zipCode', $scope.noteInputFormModel.zipCode); 
@@ -129,6 +129,13 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 		var selectedPropertyType = $scope.noteInputFormModel.selPropType;
 		if( selectedPropertyType == 'DUPLEX' || selectedPropertyType == 'FOURPLEX' || selectedPropertyType == 'APARTMENT' || selectedPropertyType == 'TRIPLEX'){
 			angular.element( document.querySelector('#numberOfUnits')).removeAttr('disabled');
+			if( selectedPropertyType == 'DUPLEX'){
+				angular.element( document.querySelector('#numberOfUnits')).val('2');
+			}else if( selectedPropertyType == 'FOURPLEX'){
+				angular.element( document.querySelector('#numberOfUnits')).val('4');
+			}else if( selectedPropertyType == 'TRIPLEX'){
+				angular.element( document.querySelector('#numberOfUnits')).val('3');
+			}
 		}else{
 			angular.element( document.querySelector('#numberOfUnits')).attr('disabled','disabled');
 			angular.element( document.querySelector('#numberOfUnits')).val('');
@@ -139,6 +146,13 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 		}else{
 			angular.element( document.querySelector('#hoaFees')).attr('disabled','disabled');
 			angular.element( document.querySelector('#hoaFees')).val('');
+		}
+	}
+	
+	$scope.populateRemainingNumberOfPayment = function(){
+		if($scope.noteInputFormModel){
+			$scope.noteInputFormModel.noteDate = $filter('date')($scope.parent.noteDate, 'MM/dd/yyyy');
+			$scope.noteInputFormModel.remainingPayment = UtilityService.getNumberOfMonth(new Date($scope.noteInputFormModel.noteDate), new Date());	
 		}
 	}
 	
@@ -168,12 +182,32 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 			angular.element( document.querySelector('#interestRateId')).addClass('noteInputCalculatedField');
 		}else if(elem == 'pdiPayment'){
 			angular.element( document.querySelector('#paymentId')).addClass('noteInputCalculatedField');
+			angular.element( document.querySelector('#pdiPayment')).attr('readonly','readonly');
 		}else if(elem == 'originalTerm'){
 			angular.element( document.querySelector('#originalTermId')).addClass('noteInputCalculatedField');
 		}else if(elem == 'originalPrincipleBalance'){
 			angular.element( document.querySelector('#orginalLoanBalanceId')).addClass('noteInputCalculatedField');
 		}
+		$scope.populateUPBFromJS();
 	};
+	
+	
+	$scope.populateUPBFromJS = function(){
+		angular.element( document.querySelector('#interestRateId')).removeClass('noteInputCalculatedField');
+		angular.element( document.querySelector('#paymentId')).removeClass('noteInputCalculatedField');
+		angular.element( document.querySelector('#unpaidBalanceId')).removeClass('noteInputCalculatedField');
+		angular.element( document.querySelector('#remainingNoOfPaymentId')).removeClass('noteInputCalculatedField');
+		if(!$scope.noteInputFormModel.upb){
+			var sampleNoteModel = {
+					  pdiPayment:$scope.noteInputFormModel.pdiPayment,
+					originalTerm:$scope.noteInputFormModel.remainingPayment,
+						  	rate:$scope.noteInputFormModel.rate
+			}
+			 NoteService.noteCalculator(sampleNoteModel);
+			$scope.noteInputFormModel.upb = sampleNoteModel.originalPrincipleBalance;
+			angular.element( document.querySelector('#unpaidBalanceId')).addClass('noteInputCalculatedField');
+		}
+	}
 
 	$scope.populateDefaultPropertyType = function() {
 		if ($scope.noteInputFormModel.propTypeList) {

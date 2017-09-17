@@ -3,6 +3,8 @@ package com.noteanalyzer.mvc.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class NoteDashboardModel extends RequestStatusModel implements Serializable {
 
 	/**
@@ -30,7 +32,12 @@ public class NoteDashboardModel extends RequestStatusModel implements Serializab
 	private String streetAddress;
 	private String propertyType;
 	private String rowText;
+	@JsonIgnore
+	private String schoolAreaId;
+	@JsonIgnore
+	private String crimeAreaId;
 
+	
 	public NoteDashboardModel() {
 	}
 
@@ -334,5 +341,46 @@ public class NoteDashboardModel extends RequestStatusModel implements Serializab
 	public void setCrime(String crime) {
 		this.crime = crime;
 	}
+
+
+
+	/**
+	 * @return the schoolAreaId
+	 */
+	public String getSchoolAreaId() {
+		return schoolAreaId;
+	}
+
+
+
+	/**
+	 * @param schoolAreaId the schoolAreaId to set
+	 */
+	public void setSchoolAreaId(String schoolAreaId) {
+		this.schoolAreaId = schoolAreaId;
+	}
+
+
+
+	/**
+	 * @return the crimeAreaId
+	 */
+	public String getCrimeAreaId() {
+		return crimeAreaId;
+	}
+
+
+
+	/**
+	 * @param crimeAreaId the crimeAreaId to set
+	 */
+	public void setCrimeAreaId(String crimeAreaId) {
+		this.crimeAreaId = crimeAreaId;
+	}
+
+
+
+	
+	
 
 }

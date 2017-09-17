@@ -6,7 +6,6 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta http-equiv="Expires" content="Sat, 01 Dec 1997 00:00:00 GMT">
- <!-- https://stackoverflow.com/questions/32617947/iframe-not-loading-site-what-is-wrong -->
 <title>Note Analyzer</title>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script
@@ -34,26 +33,13 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/css/bootstrapValidator.min.css" />
 <link rel="shortcut icon" href="static/img/favicon.ico" />
 <link rel="styleSheet" href="static/css/app.css" />
-<link href="static/css/styles.css" rel="stylesheet">
+<link href="static/css/styles.css" rel="stylesheet"/>
 <link rel="styleSheet" href="static/css/custom.css" />
-<link rel="stylesheet" href="static/css/subscription-style.css">
-
-
-<style>
-/* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-#map {
-	height: 100%;
-}
-/* Optional: Makes the sample page fill the window. */
-html, body {
-	height: 100%;
-	margin: 0;
-	padding: 0;
-}
-</style>
+<link rel="stylesheet" href="static/css/subscription-style.css"/>
 <link type="text/css" rel="stylesheet"
-	href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+	href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"/>
+
+
 <style>
 #locationField, #controls {
 	position: relative;
@@ -108,9 +94,8 @@ html, body {
 <body>
 	<div ng-controller="NavbarCtrl"
 		class="navbar navbar-default navbar-static-top">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="/"><i class="ion-ios7-pulse-strong"></i>
-				Note Analyzer</a>
+		<div class="navbar-header" style="padding-top:0px;padding-bottom:0px;height:64px;">
+			<a class="navbar-brand" href="/notes/#!/" ><img src="static/img/note_unlimited.png" alt="Note Analyzer" height="40" width="130"></a>
 		</div>
 		<ul class="nav navbar-nav">
 			<li><a href="/notes/#!/" id="homeLink">Home</a></li>

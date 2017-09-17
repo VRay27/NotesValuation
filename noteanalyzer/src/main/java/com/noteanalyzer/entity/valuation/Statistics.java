@@ -21,6 +21,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @NamedQueries({
 		@NamedQuery(name = Statistics.GET_STATISTICS_DETAILS, query = "select s from Statistics s where  s.baseType =:baseType and  s.baseId =:baseId "),
+		@NamedQuery(name = Statistics.GET_STATISTICS_DETAILS_CRIME_SCHOOL, query = "select s from Statistics s where  s.baseType =:baseType and  (s.statType='CRIME' and  s.baseId in(:crimeAreaIdList)) OR (s.statType='SCHOOL' and  s.baseId in(:schoolAreaIdList)) "),
 		@NamedQuery(name = Statistics.GET_STATISTICS_DETAILS_BY_USER_ID, query = "select s from Statistics s, Note n ,Property p, PropertyArea pa where  pa.areaId = s.baseId and s.baseType='AREA'  and  pa.propertyId = p.propertyId and  p.propertyId = n.propertyId and n.userId =:userId")})
 
 public class Statistics extends AbstractEntity  {
@@ -29,6 +30,7 @@ public class Statistics extends AbstractEntity  {
 
 	public static final String GET_STATISTICS_DETAILS = "GET_STATISTICS_DETAILS";
 	public static final String GET_STATISTICS_DETAILS_BY_USER_ID = "GET_STATISTICS_DETAILS_BY_USER_ID";
+	public static final String GET_STATISTICS_DETAILS_CRIME_SCHOOL ="GET_STATISTICS_DETAILS_CRIME_SCHOOL";
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

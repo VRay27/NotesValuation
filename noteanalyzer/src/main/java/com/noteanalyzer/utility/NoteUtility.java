@@ -5,6 +5,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -22,6 +25,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.multipart.MultipartFile;
 import org.w3c.dom.Document;
 
+import com.noteanalyzer.entity.valuation.Statistics;
 import com.noteanalyzer.mvc.model.NoteInputFormModel;
 import com.noteanalyzer.security.security.model.UserContext;
 
@@ -100,4 +104,42 @@ public class NoteUtility {
 			return null;
 		}
 	}
+
+	public static String getCrimeAreaCode(String areaId) {
+		if (StringUtils.isNotBlank(areaId)) {
+			String[] areaStr = areaId.split("-");
+			if (areaStr != null && areaStr.length > 2) {
+				return areaStr[2] + "-" + areaStr[1];
+			}
+		}
+		return "";
+	}
+
+	public static Map<String, Statistics> createStatMapUsingAreaId(List<Statistics> statisticsList) {
+		Map<String, Statistics> createStatMapUsingAreaId = new HashMap<>();
+		if (createStatMapUsingAreaId != null) {
+			for (Statistics stat : statisticsList) {
+				createStatMapUsingAreaId.put(stat.getBaseId(), stat);
+			}
+		}
+
+		return createStatMapUsingAreaId;
+
+	}
+
+	/*
+	 * public static Map<String,NoteDashboardModel>
+	 * createCrimeAreaIdMap(List<NoteDashboardModel> modelList){
+	 * Map<String,NoteDashboardModel> createCrimeAreaIdMap = new HashMap<>();
+	 * if(modelList != null){ for(NoteDashboardModel model: modelList){
+	 * createCrimeAreaIdMap.put(model.getCrimeAreaId(), model); } } return
+	 * createCrimeAreaIdMap; }
+	 * 
+	 * public static Map<String,NoteDashboardModel>
+	 * createSchoolAreaIdMap(List<NoteDashboardModel> modelList){
+	 * Map<String,NoteDashboardModel> createSchoolAreaIdMap = new HashMap<>();
+	 * if(modelList != null){ for(NoteDashboardModel model: modelList){
+	 * createSchoolAreaIdMap.put(model.getSchoolAreaId(), model); } } return
+	 * createSchoolAreaIdMap; }
+	 */
 }
