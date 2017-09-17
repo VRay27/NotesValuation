@@ -27,9 +27,9 @@
 											Type</label>
 										<div class="col-sm-3">
 											<select class="form-control icon-text" name="noteType"
-												ng-init="noteInputFormModel.selNoteType= noteInputFormModel.selNoteType || noteInputFormModel.noteTypeList[0].noteType"
+												ng-init="populateDefaultNoteTypeList()"
 												ng-model="noteInputFormModel.selNoteType"
-												ng-options="n.noteType as n.description for n in noteInputFormModel.noteTypeList | orderBy:'description'"></select>
+												ng-options="n.noteType as n.description for n in noteInputFormModel.noteTypeList"></select>
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Select note Pefroming"></span>
@@ -74,10 +74,10 @@
 											Type</label>
 										<div class="col-sm-3">
 											<select class="form-control icon-text" name="loanType" id="loanTypeId"
-												ng-init="noteInputFormModel.selLoanType=noteInputFormModel.selLoanType || noteInputFormModel.loanTypeList[0].loanTypeCode"
+												ng-init="populateDefaultLoanTypeList()"
 												ng-model="noteInputFormModel.selLoanType"
 												ng-change="updateOrginalTerm()"
-												ng-options="l.loanTypeCode as l.loanTypeValue for l in noteInputFormModel.loanTypeList | orderBy:'loanTypeValue'">
+												ng-options="l.loanTypeCode as l.loanTypeValue for l in noteInputFormModel.loanTypeList">
 											</select><span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top"
@@ -306,7 +306,7 @@
 											<select class="form-control icon-text" name="propertyType" ng-change="propertyTypeChange()"
 												ng-init="populateDefaultPropertyType();"
 												ng-model="noteInputFormModel.selPropType"
-												ng-options="propType.propertyTypeCode as propType.propertyTypeValue for propType in noteInputFormModel.propTypeList | orderBy:'propertyTypeValue'">
+												ng-options="propType.propertyTypeCode as propType.propertyTypeValue for propType in noteInputFormModel.propTypeList">
 											</select><span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Select property type"></span>

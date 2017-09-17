@@ -46,6 +46,8 @@ angular.module('NoteApp')
 				UserService.getCityStateFromZipCode($scope.userModel.zipCode)
 					.then(function(response) {
 						$scope.userModel.addressModel = response;
+						$scope.userModel.selCity = $scope.userModel.addressModel.cityList[0];
+			 			$scope.userModel.selState = $scope.userModel.addressModel.stateList[0];
 					}, function(response) {
 						toastr.error('We are unable to fetch the details for this zipcode');
 						$scope.userModel.addressModel= {};

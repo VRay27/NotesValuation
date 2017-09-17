@@ -101,11 +101,9 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 	 			$scope.noteInputFormModel = response;
 	 			$scope.noteInputFormModel.selCity = $scope.noteInputFormModel.addressModel.cityList[0];
 	 			$scope.noteInputFormModel.selState = $scope.noteInputFormModel.addressModel.stateList[0];
-	 			$scope.noteInputFormModel.selPropType=$scope.noteInputFormModel.selPropType || $scope.noteInputFormModel.propTypeList[0].propertyTypeCode;
-	 			$scope.noteInputFormModel.selNoteType= $scope.noteInputFormModel.selNoteType || $scope.noteInputFormModel.noteTypeList[0].noteType;
-	 			$scope.noteInputFormModel.selLoanType=$scope.noteInputFormModel.selLoanType || $scope.noteInputFormModel.loanTypeList[0].loanTypeCode;
+	 			$scope.populateDefaultNoteTypeList();
+	 			$scope.populateDefaultLoanTypeList();
 	 			$scope.populateDefaultPropertyType();
-	 			
 	 		},function(errResponse) {
 	 			toastr.error('Error while fetching details for this zip code.'+noteInputFormModel.zipCode);
 	 		});
@@ -211,8 +209,23 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 
 	$scope.populateDefaultPropertyType = function() {
 		if ($scope.noteInputFormModel.propTypeList) {
+			$scope.noteInputFormModel.propTypeList = $filter('orderBy')($scope.noteInputFormModel.propTypeList, 'propertyTypeValue');
 			$scope.noteInputFormModel.selPropType = $scope.noteInputFormModel.selPropType || $scope.noteInputFormModel.propTypeList[0].propertyTypeCode;
 			$scope.propertyTypeChange();
+		}
+	}
+	
+	$scope.populateDefaultLoanTypeList = function() {
+		if ($scope.noteInputFormModel.loanTypeList) {
+			$scope.noteInputFormModel.loanTypeList = $filter('orderBy')($scope.noteInputFormModel.loanTypeList, 'loanTypeValue');
+			$scope.noteInputFormModel.selLoanType=$scope.noteInputFormModel.selLoanType || $scope.noteInputFormModel.loanTypeList[0].loanTypeCode;
+		}
+	}
+	
+	$scope.populateDefaultNoteTypeList = function() {
+		if ($scope.noteInputFormModel.noteTypeList) {
+			$scope.noteInputFormModel.noteTypeList = $filter('orderBy')($scope.noteInputFormModel.noteTypeList, 'description');
+			$scope.noteInputFormModel.selNoteType= $scope.noteInputFormModel.selNoteType || $scope.noteInputFormModel.noteTypeList[0].noteType;
 		}
 	}
 
@@ -250,6 +263,8 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 			UserService.getCityStateFromZipCode($scope.noteInputFormModel.zipCode)
 				.then(function(response) {
 					$scope.noteInputFormModel.addressModel = response;
+					$scope.noteInputFormModel.selCity = $scope.noteInputFormModel.addressModel.cityList[0];
+		 			$scope.noteInputFormModel.selState = $scope.noteInputFormModel.addressModel.stateList[0];
 				}, function(response) {
 					if(response.status==404){
 						toastr.error('Zipcode not found');

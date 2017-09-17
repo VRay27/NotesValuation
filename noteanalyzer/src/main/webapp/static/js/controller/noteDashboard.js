@@ -64,7 +64,15 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
             headerCellClass: 'addressHeaderClass',
             cellClass: 'uiGridCellClass',
             width: 260,
-           
+            sortingAlgorithm:  function(a, b, rowA, rowB, direction) {
+            	alert('a >>'+a);
+            	alert('b >>'+b);
+            	alert('rowA >>'+rowA);
+            	alert('rowB >>'+rowB);
+            	if(a===b){
+            		return 0;
+            	}
+            },
             filter: {
                 condition: uiGridConstants.filter.STARTS_WITH,
                 placeholder:'Search by Address'

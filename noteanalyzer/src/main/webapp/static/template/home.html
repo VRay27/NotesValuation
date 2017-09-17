@@ -1,9 +1,8 @@
 <div class="container">
 	<div class="panel panel-default">
 		<div class="panel-heading">Notes Analyzer</div>
-		<form id="noteAnalayzeForm" method="post" class="form-horizontal">
 		<div class="panel-body">
-
+			
 			<div class="row">
 
 				<h2 class="text-center" style="padding-bottom: 3%">Note
@@ -30,7 +29,7 @@
 						</section>
 						</form>
 						 -->
-				
+				<form id="noteAnalayzeForm" method="post" class="form-horizontal">
 					<div class="row">
 						<div class="col-sm-12 col-md-12 col-md-offset-4">
 							<div class="input-group">
@@ -40,14 +39,14 @@
 									maxlength="10" pattern="[0-9]+"
 									title="This field can contain only  numeric characters."
 									ng-model="zipCode" />
-								<button class="btn btn-primary" type="submit">Analyze</button>
+								<button id="noteAnalyzeBtn" autofocus = "autofocus" class="btn btn-primary" type="submit" ng-click="noteAnalyzed()">Analyze</button>
 							</div>
 							<!-- /input-group -->
 						</div>
 						<!-- /.col-lg-4 -->
 					</div>
 					<!-- /.row -->
-
+				</form>
 				
 			</div>
 			<hr />
@@ -60,9 +59,10 @@
 							src="https://www.youtube.com/embed/-etED4TO4hA"> </iframe>
 					</div>
 				</div>
+
 			</div>
 		</div>
-	</form>
+
 	</div>
 
 </div>
