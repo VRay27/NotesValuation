@@ -65,12 +65,33 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
             cellClass: 'uiGridCellClass',
             width: 260,
             sortingAlgorithm:  function(a, b, rowA, rowB, direction) {
-            	alert('a >>'+a);
-            	alert('b >>'+b);
-            	alert('rowA >>'+rowA);
-            	alert('rowB >>'+rowB);
             	if(a===b){
             		return 0;
+            	}else{
+            		var aArray = a.split(",");
+            		var bArray = b.split(",");
+            		var aState =  aArray[aArray.length-2];
+            		var bState =  bArray[bArray.length-2];
+            		var aCity =  aArray[aArray.length-3];
+            		var bCity =  bArray[bArray.length-3];
+            		var aStreetAdd =  aArray[aArray.length-4];
+            		var bStreetAdd =  bArray[bArray.length-4];
+            		
+            		if(aState == bState){
+            			if(aCity == bCity){
+            				if(aStreetAdd == bStreetAdd){	
+            					return 0;
+            				}else{
+            					return aStreetAdd.localeCompare(bStreetAdd);
+            				}
+            			}else{
+            				return aCity.localeCompare(bCity);
+            			}
+            		}else{
+            			return aState.localeCompare(bState);
+            		}
+            		
+            		
             	}
             },
             filter: {
@@ -126,9 +147,10 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
                 },
                 placeholder:'Search'
             },
-            cellTemplate: "<div ng-show={{row.entity.marketValueAvailable}}><p>{{row.entity.currentLTV}}<span class=\"glyphicon glyphicon-info-sign tooltip-color \"" +
+            /*cellTemplate: "<div ng-show={{row.entity.marketValueAvailable}}><p>{{row.entity.currentLTV}}<span class=\"glyphicon glyphicon-info-sign tooltip-color \"" +
                 "tooltip-placement=\"bottom\" uib-tooltip=\"Last updated date {{ row.entity.marketUpdateDate | date}}\"></span> </p></div>" +
-                "<a ng-show={{!row.entity.marketValueAvailable}} ng-href=\"\" style=\"cursor:pointer;\" ng-click= \"grid.appScope.vm.updateSubscription(grid, row)\">{{row.entity.rowText}}</a>"
+                "<a ng-show={{!row.entity.marketValueAvailable}} ng-href=\"\" style=\"cursor:pointer;\" ng-click= \"grid.appScope.vm.updateSubscription(grid, row)\">{{row.entity.rowText}}</a>"*/
+            cellTemplate: "<div>{{row.entity.currentLTV}}</div>"
         },
          {
             field: 'currentITV',
@@ -141,9 +163,10 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
                 },
                 placeholder:'Search'
             },
-            cellTemplate: "<div ng-show={{row.entity.marketValueAvailable}}><p>{{row.entity.currentITV}}<span class=\"glyphicon glyphicon-info-sign tooltip-color \"" +
+            /*cellTemplate: "<div ng-show={{row.entity.marketValueAvailable}}><p>{{row.entity.currentITV}}<span class=\"glyphicon glyphicon-info-sign tooltip-color \"" +
                 "tooltip-placement=\"bottom\" uib-tooltip=\"Last updated date {{ row.entity.marketUpdateDate | date}}\"></span> </p></div>" +
-                "<a ng-show={{!row.entity.marketValueAvailable}} ng-href=\"\" style=\"cursor:pointer;\" ng-click= \"grid.appScope.vm.updateSubscription(grid, row)\">{{row.entity.rowText}}</a>"
+                "<a ng-show={{!row.entity.marketValueAvailable}} ng-href=\"\" style=\"cursor:pointer;\" ng-click= \"grid.appScope.vm.updateSubscription(grid, row)\">{{row.entity.rowText}}</a>"*/
+            cellTemplate: "<div>{{row.entity.currentITV}}</div>"
         },
         {
             field: 'schoolScore',
@@ -156,7 +179,7 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
                 },
                 placeholder:'Search',
             },
-            cellTemplate: "<div ><p>{{row.entity.schoolScore | getDefaultValueForNull}}</p></div>"
+            cellTemplate: "<div ><p>{{row.entity.schoolScore}}</p></div>"
         }, {
             field: 'crimeScore',
             displayName: 'Crime Score',
@@ -168,7 +191,7 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
                 },
                 placeholder:'Search' 
             },
-            cellTemplate: "<div><p>{{row.entity.crimeScore | getDefaultValueForNull}}</p></div>"
+            cellTemplate: "<div><p>{{row.entity.crimeScore}}</p></div>"
         }, {
             field: 'marketValue',
             displayName: 'Market Value',
@@ -180,17 +203,16 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
                 },
                 placeholder:'Search'
             },
-            cellTemplate: "<div ng-show={{row.entity.marketValueAvailable}}><div>{{row.entity.marketValue}}<span class=\"glyphicon glyphicon-info-sign tooltip-color \"" +
-                "tooltip-placement=\"bottom\" uib-tooltip=\"Last updated date {{ row.entity.marketUpdateDate | date}}\"></span> </div><a ng-href=\"\"  style=\"cursor:pointer;\"  ng-click= \"grid.appScope.vm.updateMarketValue(grid, row)\">Update</a></div>" +
-                "<a ng-show={{!row.entity.marketValueAvailable}} ng-href=\"\" style=\"cursor:pointer;\" ng-click= \"grid.appScope.vm.updateSubscription(grid, row)\">{{row.entity.rowText}}</a>"
+            cellTemplate: "<div>{{row.entity.marketValue}}</div><a ng-href=\"\"  style=\"cursor:pointer; text-align:left\"  ng-click= \"grid.appScope.vm.updateMarketValue(grid, row)\"><span class=\"glyphicon glyphicon-refresh\"></span></a>"
            
         }
     ];
-
+   
+    
     $scope.init = function() {
         WaitingDialog.show();
         $http.get('api/fetchAllNotes').then(function(response) {
-            $scope.vm.serviceGrid.data = response.data;
+        	$scope.vm.serviceGrid.data = response.data;
         }, function(response) {
             $scope.vm.serviceGrid.data = [];
             $auth.checkLoginFromServer(response.status);

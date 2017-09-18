@@ -488,5 +488,13 @@ $(document).ready(function() {
  	  $('.panel-collapse:not(".in")')
  	    .collapse('show');
  	});
-  
+ 		
+ 	$.calculator.setDefaults({showOn: 'button', buttonImageOnly: true, buttonImage: '/notes/static/img/calculator.png',useThemeRoller: true });
+ 	$('#originalPrincipalBal').calculator();
+ 	$('#pdiPayment').calculator();
+ 	$('#rate').calculator();
+ 	$('#notePrice').calculator();
+ 	$('#upb').calculator();
+ 	$('#estimatedMarketValue').calculator();
+
 });

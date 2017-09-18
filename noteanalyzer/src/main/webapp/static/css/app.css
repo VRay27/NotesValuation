@@ -214,10 +214,10 @@ div.block .input{
     z-index: 1000;
 }
 
-#noteInputForm .control-label{
+/* #noteInputForm .control-label{
 	padding-left:3px;
 	padding-right:1px;
-}
+} */
 
 .input-group-addon{
 	padding:3px 6px;

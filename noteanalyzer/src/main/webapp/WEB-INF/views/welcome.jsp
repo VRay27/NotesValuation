@@ -13,6 +13,8 @@
 	<script
 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB6lfbjsaLDihAIKq_mMXIhjCJYDZBlhXc&libraries=places"
 		async defer></script>
+<link rel="stylesheet" href="static/css/jquery.calculator.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/start/jquery-ui.min.css" />
 <link
 	href="https://cdnjs.cloudflare.com/ajax/libs/angular-toastr/2.1.1/angular-toastr.css"
 	rel="stylesheet" />
@@ -92,7 +94,7 @@
 
 </head>
 <body>
-	<div ng-controller="NavbarCtrl"
+	<!-- <div ng-controller="NavbarCtrl"
 		class="navbar navbar-default navbar-static-top">
 		<div class="navbar-header" style="padding-top:0px;padding-bottom:0px;height:64px;">
 			<a class="navbar-brand" href="/notes/#!/" ><img src="static/img/note_unlimited.png" alt="Note Analyzer" height="40" width="130"></a>
@@ -119,7 +121,63 @@
 
 	</div>
 
-	<div ui-view></div>
+ -->	
+ <nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">
+        <img alt="Brand" src="...">
+      </a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+        <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">One more separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form class="navbar-form navbar-left">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+ <div ui-view></div>
 
 	<!-- Third-party Libraries -->
 
@@ -171,6 +229,8 @@
 	<script src="static/js/service/userService.js"></script>
 	<script src="static/js/service/noteService.js"></script>
 	<script src="static/js/service/utilityService.js"></script>
+	<script src="static/js/utility/jquery.plugin.min.js"></script>
+	<script src="static/js/utility/jquery.calculator.js"></script>
 	
 	
 	

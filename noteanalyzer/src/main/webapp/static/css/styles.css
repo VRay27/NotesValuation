@@ -1,4 +1,4 @@
-body {
+/* body {
   font-family: 'Open Sans', sans-serif;
   background: #e4e7ec;
 }
@@ -50,10 +50,10 @@ ul {
   background: #fff;
 }
 
-/* .navbar-default .navbar-brand {
+.navbar-default .navbar-brand {
   color: #333;
   background-color: #e1e1e1;
-} */
+}
 
 
 
@@ -69,7 +69,7 @@ ul {
 }
 
 .panel-default > .panel-heading {
-  /* font-size: 85%; */
+  font-size: 85%;
   font-weight: bold;
   color: #444;
   text-transform: uppercase;
@@ -77,9 +77,9 @@ ul {
   border-color: #cfd9db;
 }
 
-/* .form-control {
+.form-control {
   border-radius: 0;
-} */
+}
 
 .center-form {
   width: 330px;
@@ -106,18 +106,18 @@ ul {
   background-color: #fff;
 }
 
-/* .has-feedback .form-control-feedback {
+.has-feedback .form-control-feedback {
   top: 0;
   left: 0;
   width: 46px;
   height: 46px;
   line-height: 46px;
   color: #555;
-} */
-/* .form-control{
+}
+.form-control{
     height: 28px;
     padding: 3px 6px;
-} */
+}
 .password-strength-indicator {
   position: absolute;
   top: 10px;
@@ -139,9 +139,9 @@ ul {
   font-size: 1.2em;
 }
 
-/* .has-feedback .form-control {
+.has-feedback .form-control {
   padding-left: 42.5px;
-} */
+}
 
 .alert-material {
   position: fixed;
@@ -223,9 +223,9 @@ ul {
   margin-right: 5px;
 }
 
-/*********************
+********************
 * Social Buttons
-*********************/
+********************
 
 .btn-google-plus {
   color: #fff;
@@ -365,9 +365,9 @@ ul {
   background-color: #29a34e;
 }
 
-/*********************
+********************
 * Animations
-*********************/
+********************
 
 .fadeZoom.ng-enter {
   -webkit-animation-duration: 0.6s, 0.2s;
@@ -425,3 +425,4 @@ ul {
     opacity: 1;
   }
 }
+ */

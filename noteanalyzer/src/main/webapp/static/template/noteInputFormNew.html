@@ -60,7 +60,7 @@
 										<label class="col-sm-1 control-label requiredField">Note
 											Price</label>
 										<div class="col-sm-3">
-											<input type="text" class="form-control icon-text"
+											<input type="text" class="form-control icon-text" id="notePrice"
 												name="notePrice" placeholder="Enter Note Price"
 												ng-model="noteInputFormModel.notePrice" /> <span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
@@ -143,7 +143,7 @@
 										</div>
 										<label id="paymentId" class="col-sm-1 control-label requiredField">Payment(P&I)</label>
 										<div class="col-sm-3">
-											<input type="text" class="form-control icon-text modifiedField" id="pdiPayment"
+											<input type="text" class="form-control icon-text modifiedField" id="pdiPayment" readonly="readonly"
 												name="pdiPayment" ng-model="noteInputFormModel.pdiPayment" ng-blur=populateNoteInputModelFromJS()
 												placeholder="Monthly Payment" /> <span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
@@ -153,7 +153,7 @@
 											No Payments</label>
 										<div class="col-sm-3">
 											<input type="text" class="form-control icon-text modifiedField"
-												name="remainingPayment" id="remainingPayment"
+												name="remainingPayment" id="remainingPayment" ng-blur="populateUPBFromJS()"
 												placeholder="Remaining # of payments"
 												ng-model="noteInputFormModel.remainingPayment" /> <span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
@@ -234,15 +234,15 @@
 												<div class="form-group">
 													<label class="col-sm-1 control-label">Yield</label>
 													<div class="col-sm-3">
-														<p class="form-control-static"></p>
+														<p class="form-control-static">Required data not available</p>
 														<span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
-															tooltip-placement="top" uib-tooltip="Yield">Required data not available</span>
+															tooltip-placement="top" uib-tooltip="Yield"></span>
 													</div>
 													<label class="col-sm-1 control-label">Estimated LTV
 													</label>
 													<div class="col-sm-3">
-														<p class="form-control-static">Available through subscription</p>
+														<p class="form-control-static">Required data not available</p>
 														<span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 															tooltip-placement="top" uib-tooltip="Estimated LTV"></span>
@@ -258,7 +258,7 @@
 												<div class="form-group">
 													<label class="col-sm-1 control-label">Estimated ITV</label>
 													<div class="col-sm-3">
-														<p class="form-control-static">Available through subscription</p>
+														<p class="form-control-static">Required data not available</p>
 														<span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 															tooltip-placement="top" uib-tooltip="Estimated ITV"></span>
@@ -272,8 +272,7 @@
 													</div>
 													<label class="col-sm-1 control-label"> ROI </label>
 													<div class="col-sm-3">
-														<p class="form-control-static">{{noteDetailModel.roi |
-															getDefaultValueForNull}}</p>
+														<p class="form-control-static">Required data not available</p>
 														<span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 															tooltip-placement="top" uib-tooltip=" ROI"></span>
@@ -377,7 +376,7 @@
 										<label class="col-sm-1 control-label requiredField">Estimated
 											Market Value</label>
 										<div class="col-sm-3 streetAddress">
-											<input type="text" class="form-control icon-text"
+											<input type="text" class="form-control icon-text" id="estimatedMarketValue"
 												name="estimatedMarketValue"
 												placeholder="Enter Estimated Market Value"
 												ng-model="noteInputFormModel.estimatedMarketValue" /> <span
@@ -388,7 +387,7 @@
 										<label class="col-sm-1 control-label">Market
 											Value</label>
 										<div class="col-sm-3 streetAddress">
-											<p class="form-control-static"></p>
+											<p class="form-control-static">Available through subscription</p>
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Market Value"></span>
@@ -409,7 +408,7 @@
 												<div class="form-group">
 													<label class="col-sm-1 control-label">No of bedrooms</label>
 													<div class="col-sm-3">
-														<p class="form-control-static"></p>
+														<p class="form-control-static">Available through subscription</p>
 														<span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 															tooltip-placement="top" uib-tooltip="Number of bedroom"></span>
@@ -417,7 +416,7 @@
 													<label class="col-sm-1 control-label">No of
 														bathrooms</label>
 													<div class="col-sm-3">
-														<p class="form-control-static"></p>
+														<p class="form-control-static">Available through subscription</p>
 														<span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 															tooltip-placement="top" uib-tooltip="Number of bathroom"></span>
@@ -425,7 +424,7 @@
 
 													<label class="col-sm-1 control-label">Lot Size(sf)</label>
 													<div class="col-sm-3">
-														<p class="form-control-static"></p>
+														<p class="form-control-static">Available through subscription</p>
 														<span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 															tooltip-placement="top" uib-tooltip="Lot Size"></span>
@@ -434,7 +433,7 @@
 												<div class="form-group">
 													<label class="col-sm-1 control-label">Building(sf)</label>
 													<div class="col-sm-3">
-														<p class="form-control-static"></p>
+														<p class="form-control-static">Available through subscription</p>
 														<span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 															tooltip-placement="top" uib-tooltip="Building sf"></span>
@@ -443,7 +442,7 @@
 													<label class="col-sm-1 control-label">Last sold
 														price</label>
 													<div class="col-sm-3">
-														<p class="form-control-static"></p>
+														<p class="form-control-static">Available through subscription</p>
 														<span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 															tooltip-placement="top" uib-tooltip="Last sold Price "></span>
@@ -451,7 +450,7 @@
 													<label class="col-sm-1 control-label">Last sold
 														date</label>
 													<div class="col-sm-3">
-														<p class="form-control-static"></p>
+														<p class="form-control-static">Available through subscription</p>
 														<span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 															tooltip-placement="top" uib-tooltip="Last sold Date "></span>
