@@ -13,8 +13,8 @@
 	<script
 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB6lfbjsaLDihAIKq_mMXIhjCJYDZBlhXc&libraries=places"
 		async defer></script>
-<link rel="stylesheet" href="static/css/jquery.calculator.css"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/start/jquery-ui.min.css" />
+ <link rel="stylesheet" href="static/css/jquery.calculator.css"/> 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/start/jquery-ui.min.css" /> 
 <link
 	href="https://cdnjs.cloudflare.com/ajax/libs/angular-toastr/2.1.1/angular-toastr.css"
 	rel="stylesheet" />
@@ -41,7 +41,7 @@
 <link type="text/css" rel="stylesheet"
 	href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"/>
 
-
+<!-- 
 <style>
 #locationField, #controls {
 	position: relative;
@@ -89,94 +89,44 @@
 	height: 20px;
 	margin-bottom: 40px;
 }
-</style>
+</style> -->
 
 
 </head>
 <body>
-	<!-- <div ng-controller="NavbarCtrl"
-		class="navbar navbar-default navbar-static-top">
-		<div class="navbar-header" style="padding-top:0px;padding-bottom:0px;height:64px;">
-			<a class="navbar-brand" href="/notes/#!/" ><img src="static/img/note_unlimited.png" alt="Note Analyzer" height="40" width="130"></a>
-		</div>
-		<ul class="nav navbar-nav">
-			<li><a href="/notes/#!/" id="homeLink">Home</a></li>
-			<li ng-if="isAuthenticated()"><a href="/notes/#!/profile">My Profile</a></li>
-		</ul>
-		<ul  class="nav navbar-nav" ng-if="isAuthenticated()">
-			<li><a href="/notes/#!/noteDashboard">My Dashboard</a></li>
-		</ul>
-		<ul  class="nav navbar-nav">
-			<li><a href="/notes/#!/calculator">Calculator</a></li>
-		</ul>
-		
-		<ul  class="nav navbar-nav pull-right" ng-if="!isAuthenticated()">
-			<li><a href="/notes/#!/login">Login</a></li>
-			<li><a href="/notes/#!/signup">Sign up</a></li>
-		</ul>
-		<ul  class="nav navbar-nav pull-right" ng-if="isAuthenticated()">
-			<li><a href="/notes/#!/profile">Welcome <span id="welcomeUserName">{{loggedInUserDisplayName}}</span></a></li>
-			<li><a href="/notes/#!/logout">Logout</a></li>
-		</ul>
-
-	</div>
-
- -->	
+<div ng-controller="NavbarCtrl">	
  <nav class="navbar navbar-default">
   <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
+        <span class="sr-only">Menu</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">
-        <img alt="Brand" src="...">
-      </a>
+      <a class="navbar-brand" href="/notes/#!/" style="padding-top:0px;"><img src="static/img/note_unlimited.png" alt="Note Unlimited"></a>
     </div>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-        <li><a href="#">Link</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">One more separated link</a></li>
-          </ul>
-        </li>
+        <li class="active"><a href="/notes/#!/"><span class="glyphicon glyphicon-home"></span> Home <span class="sr-only">(current)</span></a></li>
+        <li ng-if="isAuthenticated()"><a href="/notes/#!/profile"><span class="glyphicon glyphicon-user"></span> My Profile</a></li>
+        <li ng-if="isAuthenticated()"><a href="/notes/#!/noteDashboard"><span class="glyphicon glyphicon-th-list"></span> My Dashboard</a></li>
+        <li><a href="/notes/#!/calculator"><span class="glyphicon glyphicon-calendar"></span> Calculator</a></li>
       </ul>
-      <form class="navbar-form navbar-left">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-      </form>
+     
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Link</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-          </ul>
-        </li>
+         <li ng-if="!isAuthenticated()"><a href="/notes/#!/signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+     	 <li ng-if="!isAuthenticated()"><a href="/notes/#!/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+     	 <li ng-if="isAuthenticated()"><a href="/notes/#!/profile"><span class="glyphicon glyphicon-user"></span><span id="welcomeUserName"> {{loggedInUserDisplayName}}</span></a></li>
+		 <li ng-if="isAuthenticated()"><a href="/notes/#!/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
       </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
+    </div>
+  </div>
 </nav>
+</div>
+ 
+
  <div ui-view></div>
 
 	<!-- Third-party Libraries -->
@@ -238,7 +188,10 @@
 <script type="text/javascript">
 	angular.element(document).ready(function () {
     	 angular.bootstrap(document, ['NoteApp']);
-    	 
+    	 $(".nav li").on("click", function() {
+    	      $(".nav li").removeClass("active");
+    	      $(this).addClass("active");
+    	    });
     });
 </script>
 

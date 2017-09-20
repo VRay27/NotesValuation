@@ -214,14 +214,65 @@ div.block .input{
     z-index: 1000;
 }
 
-/* #noteInputForm .control-label{
-	padding-left:3px;
-	padding-right:1px;
-} */
+.center-form {
+  width: 330px;
+  margin: 4% auto;
+}
+
+.signup-or-separator {
+  position: relative;
+  height: 34px;
+  text-align: center;
+  background: none;
+}
+
+.signup-or-separator hr {
+  width: 90%;
+  margin: -16px auto 10px auto;
+  border-top: 1px solid #dce0e0;
+}
+
+.signup-or-separator .text {
+  display: inline-block;
+  padding: 8px;
+  margin: 0;
+  background-color: #fff;
+}
+
+
+.password-strength-indicator {
+  position: absolute;
+  top: 10px;
+  right: 0;
+  width: 5px;
+  padding: 0 15px;
+}
+
+.password-strength-indicator span {
+  display: block;
+  width: 5px;
+  height: 5px;
+  margin-bottom: 2px;
+  background: #ebeef1;
+  border-radius: 5px;
+}
+
+[class^='ion-'] {
+  font-size: 1.2em;
+}
+
+.navbar-default {
+    background-color: white;
+    border-color: lightskyblue;
+}
 
 .input-group-addon{
 	padding:3px 6px;
 }
 .noteInputCalculatedField{
 	font-style: italic;	
+}
+.panel-heading{
+    font-size: 20px;
+    font-weight: 600;
 }

@@ -57,7 +57,6 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state, $doc
 		$scope.noteInputFormModel.originalPrincipleBalance = $filter('sanitizeInput')($scope.noteInputFormModel.originalPrincipleBalance);
 		$scope.noteInputFormModel.notePrice = $filter('sanitizeInput')($scope.noteInputFormModel.notePrice);
 		$scope.noteInputFormModel.originalPropertyValue = $filter('sanitizeInput')($scope.noteInputFormModel.originalPropertyValue);
-		$scope.noteInputFormModel.remainingPayment = $filter('sanitizeInput')($scope.noteInputFormModel.remainingPayment);
 		$scope.noteInputFormModel.estimatedMarketValue = $filter('sanitizeInput')($scope.noteInputFormModel.estimatedMarketValue);
 		$scope.noteInputFormModel.propertyDetailModel.marketValue = $filter('sanitizeInput')($scope.noteInputFormModel.propertyDetailModel.marketValue);
 		noteInputFormModel.propertyDetailModel.lastSoldPrice = $filter('sanitizeInput')($scope.noteInputFormModel.propertyDetailModel.lastSoldPrice);
@@ -71,7 +70,6 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state, $doc
 			$scope.noteInputFormModel.originalPrincipleBalance = $filter('number')($scope.noteInputFormModel.originalPrincipleBalance);
 			$scope.noteInputFormModel.notePrice = $filter('number')($scope.noteInputFormModel.notePrice);
 			$scope.noteInputFormModel.originalPropertyValue = $filter('number')($scope.noteInputFormModel.originalPropertyValue);
-			$scope.noteInputFormModel.remainingPayment = $filter('number')($scope.noteInputFormModel.remainingPayment);
 			$scope.noteInputFormModel.estimatedMarketValue = $filter('number')($scope.noteInputFormModel.estimatedMarketValue);
 			if (!isNaN($scope.noteInputFormModel.propertyDetailModel.marketValue) && angular.isNumber(+$scope.noteInputFormModel.propertyDetailModel.marketValue)) {
 				$scope.noteInputFormModel.propertyDetailModel.marketValue = $filter('number')($scope.noteInputFormModel.propertyDetailModel.marketValue);

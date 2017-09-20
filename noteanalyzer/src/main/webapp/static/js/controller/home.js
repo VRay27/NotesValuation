@@ -53,6 +53,7 @@ noteApp.controller('HomeCtrl', function($scope, $stateParams, $state,$document, 
 	}
 
 	$scope.populateNoteInputModelFromJS = function(inputField){
+		if($scope.noteInputFormModel){
 		var model = $scope.noteInputFormModel
 		angular.element( document.querySelector('#originalPrincipleBalance')).removeClass('notesuccess noteError');
 		angular.element( document.querySelector('#rate')).removeClass('notesuccess noteError');
@@ -76,14 +77,17 @@ noteApp.controller('HomeCtrl', function($scope, $stateParams, $state,$document, 
 				elem.addClass('noteError');
 			}
 		 }
+		}
 	};
 
 	$scope.clearCalcField = function(inputField){
+		if($scope.noteInputFormModel){
 		if($scope.noteInputFormModel[inputField]){
 			$scope.noteInputFormModel[inputField] ='';
 		}else{
 			$scope.noteInputFormModel = {};	
 		}
+    	}
 	}
 	
 });

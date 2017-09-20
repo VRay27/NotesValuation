@@ -147,9 +147,6 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
                 },
                 placeholder:'Search'
             },
-            /*cellTemplate: "<div ng-show={{row.entity.marketValueAvailable}}><p>{{row.entity.currentLTV}}<span class=\"glyphicon glyphicon-info-sign tooltip-color \"" +
-                "tooltip-placement=\"bottom\" uib-tooltip=\"Last updated date {{ row.entity.marketUpdateDate | date}}\"></span> </p></div>" +
-                "<a ng-show={{!row.entity.marketValueAvailable}} ng-href=\"\" style=\"cursor:pointer;\" ng-click= \"grid.appScope.vm.updateSubscription(grid, row)\">{{row.entity.rowText}}</a>"*/
             cellTemplate: "<div>{{row.entity.currentLTV}}</div>"
         },
          {
@@ -163,9 +160,6 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
                 },
                 placeholder:'Search'
             },
-            /*cellTemplate: "<div ng-show={{row.entity.marketValueAvailable}}><p>{{row.entity.currentITV}}<span class=\"glyphicon glyphicon-info-sign tooltip-color \"" +
-                "tooltip-placement=\"bottom\" uib-tooltip=\"Last updated date {{ row.entity.marketUpdateDate | date}}\"></span> </p></div>" +
-                "<a ng-show={{!row.entity.marketValueAvailable}} ng-href=\"\" style=\"cursor:pointer;\" ng-click= \"grid.appScope.vm.updateSubscription(grid, row)\">{{row.entity.rowText}}</a>"*/
             cellTemplate: "<div>{{row.entity.currentITV}}</div>"
         },
         {
@@ -203,7 +197,7 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
                 },
                 placeholder:'Search'
             },
-            cellTemplate: "<div>{{row.entity.marketValue}}</div><a ng-href=\"\"  style=\"cursor:pointer; text-align:left\"  ng-click= \"grid.appScope.vm.updateMarketValue(grid, row)\"><span class=\"glyphicon glyphicon-refresh\"></span></a>"
+            cellTemplate: "<div>{{row.entity.marketValue | number}}</div><a ng-href=\"\"  style=\"cursor:pointer; text-align:left\"  ng-click= \"grid.appScope.vm.updateMarketValue(grid, row)\"><span class=\"glyphicon glyphicon-refresh\"></span></a>"
            
         }
     ];
