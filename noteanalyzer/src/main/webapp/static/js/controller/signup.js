@@ -1,6 +1,7 @@
 angular.module('NoteApp')
-  .controller('SignupCtrl', function($scope, $state, $auth, toastr,UserService,$window,$location) {
-    $scope.signup = function() {
+  .controller('SignupCtrl', function($scope, $state, $auth, toastr,UserService,$window,$location,UtilityService) {
+	  UtilityService.setActiveHeader('signUp');
+	  $scope.signup = function() {
     	var user = {};
     	user.password = $auth.encodeString($scope.user.password);
     	user.displayName = $scope.user.displayName;

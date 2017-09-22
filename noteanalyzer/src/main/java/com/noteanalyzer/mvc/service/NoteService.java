@@ -179,11 +179,34 @@ public interface NoteService {
 	 */
 	Optional<List<NoteTypeModel>>  getAllNoteType();
 
+	/**
+	 * This method will return the details of given note as NotenputFormModel
+	 * @param noteId
+	 * @return
+	 */
 	Optional<NoteInputFormModel> getNoteDetailNew(Long noteId);
 
+	/**
+	 * This method will add subscription for loggged in user and return the latest data from apprisal soorce.
+	 * @param noteModel
+	 * @return
+	 * @throws ParseException
+	 */
 	Optional<NoteInputFormModel> subscribeNote(NoteInputFormModel noteModel) throws ParseException;
 
+	/**
+	 * Update the value from appraisal source
+	 * @param noteId
+	 * @return
+	 */
 	Optional<Object> updateMarketValueDetails(Long noteId);
+	
+	/**
+	 * This method will fetch the statistics details for given School area and crime area
+	 * @param schoolList List of area code for school and crime.
+	 * @param crimeList
+	 * @return
+	 */
 
 	Optional<List<Statistics>> getStatisticsDetailsListForCrimeSchool(Set<String> schoolList, Set<String> crimeList);
 	

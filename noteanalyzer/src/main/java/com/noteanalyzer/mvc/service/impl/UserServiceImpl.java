@@ -7,6 +7,7 @@ import static com.noteanalyzer.mvc.constant.NoteConstant.LOGIN_SUCCESS;
 import static com.noteanalyzer.mvc.constant.NoteConstant.MAX_UNSUCCESSFUL_ATTEMPT;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import com.noteanalyzer.dao.GenericDao;
 import com.noteanalyzer.entity.notes.Parameters;
+import com.noteanalyzer.entity.user.SubscriptionPrivileges;
 import com.noteanalyzer.entity.user.User;
 import com.noteanalyzer.entity.user.UserSubscriptions;
 import com.noteanalyzer.mvc.model.UserModel;
@@ -80,16 +82,29 @@ public class UserServiceImpl implements UserService {
 		}
 		return Optional.of(userList.get(0));
 	}
-	
+
 	@Override
 	public Optional<UserSubscriptions> getUserSubscription(Long userId) {
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("userId", userId);
-		List<UserSubscriptions> userList = genericDao.getResultByNamedQuery(UserSubscriptions.class, UserSubscriptions.GET_USER_SUBS_DETAILS, parameters);
-		if (Collections.isEmpty(userList)) {
+		List<UserSubscriptions> userSubscriptionList = genericDao.getResultByNamedQuery(UserSubscriptions.class,
+				UserSubscriptions.GET_USER_SUBS_DETAILS, parameters);
+		if (Collections.isEmpty(userSubscriptionList)) {
 			return Optional.empty();
 		}
-		return Optional.of(userList.get(0));
+		return Optional.of(userSubscriptionList.get(0));
+	}
+
+	@Override
+	public Optional<List<SubscriptionPrivileges>> getUserSubscriptionPrivilege(List<String> subscriptionList) {
+		Map<String, Object> parameters = new HashMap<>();
+		parameters.put("subscriptionName", subscriptionList);
+		List<SubscriptionPrivileges> subscriptionPrivilegesList = genericDao.getResultByNamedQuery(
+				SubscriptionPrivileges.class, SubscriptionPrivileges.GET_SUBS_PRIVILEGE_DETAILS, parameters);
+		if (Collections.isEmpty(subscriptionPrivilegesList)) {
+			return Optional.empty();
+		}
+		return Optional.of(subscriptionPrivilegesList);
 	}
 
 	public Optional<User> getUser(String userName) {
@@ -117,10 +132,18 @@ public class UserServiceImpl implements UserService {
 		Optional<User> userOptional = getActiveUser(userName);
 		if (userOptional.isPresent()) {
 			User user = userOptional.get();
-			Optional<UserSubscriptions> userSubscriptionsOptional = getUserSubscription(user.getUserId());
 			UserModel userModel = ConverterUtility.convertUserToUserModel(user);
+			Optional<UserSubscriptions> userSubscriptionsOptional = getUserSubscription(user.getUserId());
 			if (userSubscriptionsOptional.isPresent()) {
-				userModel.setSubscriptionName(userSubscriptionsOptional.get().getSubscriptionName());
+				UserSubscriptions userSubscription = userSubscriptionsOptional.get();
+				userModel.setSubscriptionName(userSubscription.getSubscriptionName());
+				List<String> subscriptionList = new ArrayList<>();
+				subscriptionList.add(userSubscription.getSubscriptionName());
+				Optional<List<SubscriptionPrivileges>> subscriptionsPrivilegeOptional = getUserSubscriptionPrivilege(
+						subscriptionList);
+				List<String> privilageCodeList = ConverterUtility
+						.convertUserSubscriptionToPrivilegeList(subscriptionsPrivilegeOptional);
+				userModel.setPrivilageCode(privilageCodeList);
 			}
 			return Optional.of(userModel);
 		}
@@ -138,7 +161,8 @@ public class UserServiceImpl implements UserService {
 		user.setResetToken(RandomStringUtils.randomAlphanumeric(40).toUpperCase());
 		user.setResetTokenCreationTime(ZonedDateTime.now());
 		User updatedUser = genericDao.update(user);
-		return Optional.of(ConverterUtility.convertUserToUserModel(updatedUser));
+		UserModel userModel = ConverterUtility.convertUserToUserModel(updatedUser);
+		return Optional.of(userModel);
 	}
 
 	@Override
@@ -147,7 +171,7 @@ public class UserServiceImpl implements UserService {
 		if (userOpt.isPresent()) {
 			User user = userOpt.get();
 			UserModel userModel = new UserModel();
-			if(user.getResetToken() == null){
+			if (user.getResetToken() == null) {
 				userModel.setErrorCode("ResetTokenExpired");
 				return Optional.of(userModel);
 			}
@@ -175,7 +199,20 @@ public class UserServiceImpl implements UserService {
 			user.setState(inputUser.getSelState());
 			user.setZipcode(inputUser.getZipCode());
 			User updatedUser = genericDao.update(user);
-			return Optional.of(ConverterUtility.convertUserToUserModel(updatedUser));
+			UserModel userModel = ConverterUtility.convertUserToUserModel(updatedUser);
+			Optional<UserSubscriptions> userSubscriptionsOptional = getUserSubscription(user.getUserId());
+			if (userSubscriptionsOptional.isPresent()) {
+				UserSubscriptions userSubscription = userSubscriptionsOptional.get();
+				userModel.setSubscriptionName(userSubscription.getSubscriptionName());
+				List<String> subscriptionList = new ArrayList<>();
+				subscriptionList.add(userSubscription.getSubscriptionName());
+				Optional<List<SubscriptionPrivileges>> subscriptionsPrivilegeOptional = getUserSubscriptionPrivilege(
+						subscriptionList);
+				List<String> privilageCodeList = ConverterUtility
+						.convertUserSubscriptionToPrivilegeList(subscriptionsPrivilegeOptional);
+				userModel.setPrivilageCode(privilageCodeList);
+			}
+			return Optional.of(userModel);
 		}
 		return Optional.empty();
 	}
@@ -186,6 +223,18 @@ public class UserServiceImpl implements UserService {
 		if (userOptional.isPresent()) {
 			UserModel userModel = ConverterUtility.convertUserToUserModel(userOptional.get());
 			userModel.setPassword(userOptional.get().getPassword());
+			Optional<UserSubscriptions> userSubscriptionsOptional = getUserSubscription(userModel.getUserId());
+			if (userSubscriptionsOptional.isPresent()) {
+				UserSubscriptions userSubscription = userSubscriptionsOptional.get();
+				userModel.setSubscriptionName(userSubscription.getSubscriptionName());
+				List<String> subscriptionList = new ArrayList<>();
+				subscriptionList.add(userSubscription.getSubscriptionName());
+				Optional<List<SubscriptionPrivileges>> subscriptionsPrivilegeOptional = getUserSubscriptionPrivilege(
+						subscriptionList);
+				List<String> privilageCodeList = ConverterUtility
+						.convertUserSubscriptionToPrivilegeList(subscriptionsPrivilegeOptional);
+				userModel.setPrivilageCode(privilageCodeList);
+			}
 			return Optional.of(userModel);
 		}
 		return Optional.empty();
@@ -223,9 +272,10 @@ public class UserServiceImpl implements UserService {
 			Parameters param = noteService.getParameterValue("MAX_LOGIN_ATTEMPTS", null);
 			int maxAttemptAllowed = (int) ((param != null && param.getParameterValue() != null)
 					? Integer.valueOf(param.getParameterValue()).intValue() : MAX_UNSUCCESSFUL_ATTEMPT);
-			long unsuccessfulLoginAttempts =   user.getUnsuccessfulLoginAttempts() == null ? 0 :  user.getUnsuccessfulLoginAttempts();
+			long unsuccessfulLoginAttempts = user.getUnsuccessfulLoginAttempts() == null ? 0
+					: user.getUnsuccessfulLoginAttempts();
 			if (LOGIN_FAIL.equalsIgnoreCase(loginStatus)) {
-				 unsuccessfulLoginAttempts = unsuccessfulLoginAttempts + 1;
+				unsuccessfulLoginAttempts = unsuccessfulLoginAttempts + 1;
 				if (unsuccessfulLoginAttempts > maxAttemptAllowed) {
 					user.setIsActive(BLOCK_USER_FLAG);
 				}
@@ -255,18 +305,18 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Optional<UserModel> updateUserSubscription() {
+	public Optional<UserModel> updateUserSubscription(String subscriptionCode) {
 		String userName = NoteUtility.getLoggedInUserName();
 		Optional<User> userOpt = getActiveUser(userName);
 		if (userOpt.isPresent()) {
 			User user = userOpt.get();
-			 Optional<UserSubscriptions> userSubscription = getUserSubscription(user.getUserId());
-			 if(userSubscription.isPresent()){
-				 UserSubscriptions  userSubscriptionEntity =  userSubscription.get();
-				 userSubscriptionEntity.setSubscriptionName("P1");
-				 genericDao.update(userSubscriptionEntity);
-				 return getByUsername(userName);
-			 }
+			Optional<UserSubscriptions> userSubscription = getUserSubscription(user.getUserId());
+			if (userSubscription.isPresent()) {
+				UserSubscriptions userSubscriptionEntity = userSubscription.get();
+				userSubscriptionEntity.setSubscriptionName(subscriptionCode);
+				genericDao.update(userSubscriptionEntity);
+				return getByUsername(userName);
+			}
 		}
 		return Optional.empty();
 	}

@@ -88,15 +88,6 @@ noteApp.config(function($stateProvider, $urlRouterProvider) {
 				skipIfLoggedIn : skipIfLoggedIn
 			}
 			
-		}).state('noteInputFormOld', {
-			url : '/noteInputFormOld',
-			templateUrl : 'static/template/note-form-new.html',
-			controller : 'noteInputFormController',
-			cache: false,
-			resolve : {
-				skipIfLoggedIn : skipIfLoggedIn
-			}
-			
 		}).state('noteInputForm', {
 			url : '/noteInputForm',
 			templateUrl : 'static/template/noteInputFormNew.html',
@@ -111,19 +102,6 @@ noteApp.config(function($stateProvider, $urlRouterProvider) {
 			url : '/profile',
 			templateUrl : 'static/template/profile_new.html',
 			controller : 'ProfileCtrl',
-			cache: false,
-			params : {
-				'referer' : null,
-				'loginState' : null
-			},
-			resolve : {
-				loginRequired : loginRequired,
-				skipIfLoggedIn : skipIfLoggedIn
-			}
-		}).state('noteDetailOld', {
-			url : '/noteDetailOld',
-			templateUrl : 'static/template/noteDetailOld.html',
-			controller : 'NoteDetailCtrl',
 			cache: false,
 			params : {
 				'referer' : null,
@@ -149,7 +127,7 @@ noteApp.config(function($stateProvider, $urlRouterProvider) {
 		}).state('calculator', {
 			url : '/calculator',
 			templateUrl : 'static/template/calculator.html',
-			controller : 'HomeCtrl',
+			controller : 'CalculatorCtrl',
 			cache: false,
 			params : {
 				'referer' : null,
@@ -272,6 +250,14 @@ noteApp.factory('$auth', function($window,$state,toastr,$rootScope) {
 	auth.setUser = function(user){
 		$window.sessionStorage.setItem('user', JSON.stringify(user));
 	}
+	auth.isPrivilegeExists = function(privilageName){
+		var user = auth.getUser(); 
+		if(user && user.privilageCode){
+			return user.privilageCode.includes(privilageName);
+		}
+			return false;
+	}
+	
 	auth.encodeString = function (str) {
 	    // first we use encodeURIComponent to get percent-encoded UTF-8,
 	    // then we convert the percent encodings into raw bytes which
@@ -289,7 +275,8 @@ noteApp.factory('$auth', function($window,$state,toastr,$rootScope) {
 		getUser : auth.getUser,
 		setUser : auth.setUser,
 		checkLoginFromServer:auth.checkLoginFromServer,
-		encodeString:auth.encodeString
+		encodeString:auth.encodeString,
+		isPrivilegeExists: auth.isPrivilegeExists
 	};
 	
 });

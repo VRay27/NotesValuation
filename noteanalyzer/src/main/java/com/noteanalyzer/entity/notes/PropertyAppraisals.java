@@ -40,10 +40,7 @@ public class PropertyAppraisals extends AbstractEntity {
 	@JoinColumn(name = "PROPERTY_ID", nullable = false)
 	private Property propertyId;
 	
-/*	@ManyToOne(cascade=CascadeType.ALL,fetch= FetchType.LAZY)
-	@JoinColumn(name = "APPRAISAL_SOURCE", nullable = false)
-	
-*/  @Column(name = "APPRAISAL_SOURCE", nullable = false)
+	@Column(name = "APPRAISAL_SOURCE", nullable = false)
 	private String appraisalsSource;
     
     @Column(name="APPRAISAL_VALUE")

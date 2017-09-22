@@ -1,6 +1,7 @@
 
 var noteApp = angular.module('NoteApp');
-noteApp.controller('HomeCtrl', function($scope, $stateParams, $state,$document, $auth, $http, $uibModal, toastr, $rootScope, noteUploadAPI, NoteService,UtilityService) {
+noteApp.controller('HomeCtrl', function($scope, $stateParams, $state,$document, $auth, $http, toastr, $rootScope, noteUploadAPI, NoteService,UtilityService) {
+	UtilityService.setActiveHeader('home');
 	NoteService.setInputFormModel(null);
 	$scope.noteAnalyzed = function() {
 		var noteInputFormModel = {};
@@ -90,10 +91,59 @@ noteApp.controller('HomeCtrl', function($scope, $stateParams, $state,$document, 
     	}
 	}
 	
+	$scope.isNoteCSVAllowed = function(){
+		return $auth.isPrivilegeExists("NOTE_CSV"); 
+	}
+	
 });
+
+noteApp.controller('CalculatorCtrl', function($scope, toastr, NoteService,UtilityService) {
+	UtilityService.setActiveHeader('calculator');
+	$scope.populateNoteInputModelFromJS = function(inputField){
+		if($scope.noteInputFormModel){
+		var model = $scope.noteInputFormModel
+		angular.element( document.querySelector('#originalPrincipleBalance')).removeClass('notesuccess noteError');
+		angular.element( document.querySelector('#rate')).removeClass('notesuccess noteError');
+		angular.element( document.querySelector('#originalTerm')).removeClass('notesuccess noteError');
+		angular.element( document.querySelector('#pdiPayment')).removeClass('notesuccess noteError');
+		var isAllPresent = model.originalPrincipleBalance && model.originalTerm && model.rate &&  model.pdiPayment;
+		 
+		 if(model[inputField] && isAllPresent){
+				model[inputField] ='';
+				isAllPresent =  model.originalPrincipleBalance && model.originalTerm && model.rate &&  model.pdiPayment;
+			}
+		 
+		 if(isAllPresent){
+			 alert('Please click on search icon of the field you want to calculate.');
+		 }else{
+			var calculatedField =  NoteService.noteCalculator($scope.noteInputFormModel);
+			var elem = angular.element( document.querySelector('#'+calculatedField) );
+			if($scope.noteInputFormModel[calculatedField]){
+				elem.addClass('notesuccess');
+			}else{
+				elem.addClass('noteError');
+			}
+		 }
+		}
+	};
+
+	$scope.clearCalcField = function(inputField){
+		if($scope.noteInputFormModel){
+		if($scope.noteInputFormModel[inputField]){
+			$scope.noteInputFormModel[inputField] ='';
+		}else{
+			$scope.noteInputFormModel = {};	
+		}
+    	}
+	}
+	
+});
+
+
 
 noteApp.controller('noteInputFormController', function($scope, $rootScope, $state, $auth, $filter,NoteService,toastr,WaitingDialog,$window,UserService,UtilityService) {
 	$scope.noteInputFormModel = NoteService.getInputFormModel();
+	UtilityService.setActiveHeader('home');
 	 if($scope.noteInputFormModel && $scope.noteInputFormModel.zipCode){
 		 $window.localStorage.setItem('zipCode', $scope.noteInputFormModel.zipCode); 
 	 }else{

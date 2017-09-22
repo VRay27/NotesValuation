@@ -8,7 +8,8 @@ noteApp.factory('UtilityService', ['$http', 'toastr', '$q', '$rootScope', '$uibM
 		getPV : getPV,
 		round : round,
 		getParameterByName : getParameterByName,
-		getNumberOfMonth : getNumberOfMonth
+		getNumberOfMonth : getNumberOfMonth,
+		setActiveHeader : setActiveHeader
 	};
 
 	return factory;
@@ -33,7 +34,13 @@ noteApp.factory('UtilityService', ['$http', 'toastr', '$q', '$rootScope', '$uibM
 		return '';
 
 	}
-
+	
+	function setActiveHeader(id){
+		angular.element(document.querySelector(".nav li")).removeClass("active");
+		if(angular.element( document.querySelector('#'+id))){
+			angular.element( document.querySelector('#'+id)).addClass("active");	
+		}
+	 }
 
 	function calculateRate(term, payment, principal, future, type, guess) {
 		guess = (guess === undefined) ? 0.01 : guess;

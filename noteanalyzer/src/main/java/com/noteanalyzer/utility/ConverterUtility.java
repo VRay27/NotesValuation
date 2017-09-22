@@ -9,12 +9,11 @@ import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
@@ -30,8 +29,8 @@ import com.noteanalyzer.entity.notes.Property;
 import com.noteanalyzer.entity.notes.PropertyAppraisals;
 import com.noteanalyzer.entity.notes.PropertyArea;
 import com.noteanalyzer.entity.notes.PropertyType;
+import com.noteanalyzer.entity.user.SubscriptionPrivileges;
 import com.noteanalyzer.entity.user.User;
-import com.noteanalyzer.entity.valuation.Statistics;
 import com.noteanalyzer.mvc.model.AddressModel;
 import com.noteanalyzer.mvc.model.DemographicDetailModel;
 import com.noteanalyzer.mvc.model.LoanTypeModel;
@@ -183,10 +182,7 @@ public class ConverterUtility {
 
 	}
 
-
-	
-	public static List<NoteDashboardModel> convertNoteToNoteSummaryModel(List<Note> noteList,
-			 String subscription) {
+	public static List<NoteDashboardModel> convertNoteToNoteSummaryModel(List<Note> noteList, String subscription) {
 		List<NoteDashboardModel> summaryModelList = new ArrayList<>();
 		if (noteList != null) {
 			for (Note model : noteList) {
@@ -221,11 +217,11 @@ public class ConverterUtility {
 						}
 					}
 				}
-					Iterator<PropertyArea> itr = property.getPropertyAreaSet().iterator();
-					if (itr.hasNext()) {
-						dashBoardModel.setSchoolAreaId(itr.next().getAreaId());
-					}
-					
+				Iterator<PropertyArea> itr = property.getPropertyAreaSet().iterator();
+				if (itr.hasNext()) {
+					dashBoardModel.setSchoolAreaId(itr.next().getAreaId());
+				}
+
 				dashBoardModel.setYield(Objects.toString(model.getYield(), ""));
 				dashBoardModel.setEstimatedITV(Objects.toString(model.getEstimatedITV(), ""));
 				dashBoardModel.setCurrentITV(Objects.toString(model.getAppraisedITV(), ""));
@@ -277,6 +273,7 @@ public class ConverterUtility {
 		property.setNumberOfBedrooms(appraisalPropertyBean.getNumberOfBedrooms());
 		property.setPropertyBuiltUpSize(appraisalPropertyBean.getPropertyBuiltUpSize());
 		property.setPropertyLotSize(appraisalPropertyBean.getPropertyLotSize());
+		property.setPropertyBuiltYear(appraisalPropertyBean.getPropertyBuiltYear());
 		propertyAppraisals.setRentValue(appraisalPropertyBean.getRentValue());
 		propertyAppraisals.setTaxAssessmentValue(appraisalPropertyBean.getTaxAssessmentValue());
 		propertyAppraisals.setTaxAssessmentYear(appraisalPropertyBean.getTaxAssessmentYear());
@@ -519,12 +516,27 @@ public class ConverterUtility {
 			propertyDetailModel.setStreetAddress(property.getStreetAddress());
 			propertyDetailModel.setSubdividable(property.getSubdividable());
 		}
-		
+
 		model.setDemoGraphicDetailModel(demoGraphicDetailModel);
 
 		model.setPropertyDetailModel(propertyDetailModel);
 
 		return model;
+	}
+
+	public static List<String> convertUserSubscriptionToPrivilegeList(
+			Optional<List<SubscriptionPrivileges>> subscriptionsPrivilegeOptional) {
+
+		List<String> privilageCodeList = new ArrayList<>();
+		if (subscriptionsPrivilegeOptional.isPresent()) {
+			List<SubscriptionPrivileges> subscriptionPrivilegesList = subscriptionsPrivilegeOptional.get();
+			if (subscriptionPrivilegesList != null) {
+				for (SubscriptionPrivileges subscriptionPrivileges : subscriptionPrivilegesList) {
+					privilageCodeList.add(subscriptionPrivileges.getPrivilegesCode());
+				}
+			}
+		}
+		return privilageCodeList;
 	}
 
 }

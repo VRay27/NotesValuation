@@ -3,10 +3,11 @@ var app = angular.module('NoteApp');
 app.controller('NoteDashboardCtrl', NoteDashboardCtrl);
 app.service('NoteDetailService', NoteDetailService);
 
-NoteDashboardCtrl.$inject = ['$scope', '$http', '$auth', '$rootScope', '$uibModal', 'NoteDetailService', 'uiGridConstants', 'noteDetailModel', 'noteUploadAPI', 'NoteService', 'WaitingDialog'];
+NoteDashboardCtrl.$inject = ['$scope', '$http', '$auth', '$rootScope', '$uibModal', 'NoteDetailService', 'uiGridConstants', 'noteDetailModel', 'noteUploadAPI', 'NoteService', 'WaitingDialog','UtilityService'];
 
-function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDetailService, uiGridConstants, noteDetailModel, noteUploadAPI, NoteService, WaitingDialog) {
-    var vm = this;
+function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDetailService, uiGridConstants, noteDetailModel, noteUploadAPI, NoteService, WaitingDialog,UtilityService) {
+	UtilityService.setActiveHeader('noteDashboard');
+	var vm = this;
     $scope.noteDetailModel = noteDetailModel;
     vm.getNoteDetail = NoteDetailService.getNoteDetail;
     vm.updateSubscription = NoteDetailService.updateSubscription;
@@ -188,7 +189,7 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
             cellTemplate: "<div><p>{{row.entity.crimeScore}}</p></div>"
         }, {
             field: 'marketValue',
-            displayName: 'Market Value',
+            displayName:  ' Market Value ',
             cellClass: 'uiGridCellClass',
             headerCellClass: 'addressHeaderClass',
             filter: {
@@ -197,7 +198,7 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
                 },
                 placeholder:'Search'
             },
-            cellTemplate: "<div>{{row.entity.marketValue | number}}</div><a ng-href=\"\"  style=\"cursor:pointer; text-align:left\"  ng-click= \"grid.appScope.vm.updateMarketValue(grid, row)\"><span class=\"glyphicon glyphicon-refresh\"></span></a>"
+            cellTemplate: "<div style=\"float:left\">{{row.entity.marketValue | number}}</div><a ng-href=\"\"  style=\"cursor:pointer; text-align:right\"  ng-click= \"grid.appScope.vm.updateMarketValue(grid, row)\"><span class=\"glyphicon glyphicon-refresh\"></span></a>"
            
         }
     ];

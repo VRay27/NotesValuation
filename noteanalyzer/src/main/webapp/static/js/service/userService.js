@@ -10,11 +10,31 @@ angular.module('NoteApp').factory('UserService', ['$http', '$q','WaitingDialog',
         changePassword:changePassword,
         changePasswordWithLoginUser:changePasswordWithLoginUser,
         getCityStateFromZipCode:getCityStateFromZipCode,
-        updateSubscription : updateSubscription
+        updateSubscription : updateSubscription,
+        logout : logout
     };
 
     return factory;
 
+    function logout() {
+    	WaitingDialog.show();
+        var deferred = $q.defer();
+        $http.get('logout')
+            .then(
+            function (response) {
+                deferred.resolve(response.data);
+            },
+            function(errResponse){
+                deferred.reject(errResponse);
+            }
+        ).then(
+				function() {
+					WaitingDialog.hide();
+				});;
+        return deferred.promise;
+    }
+
+    
     function getCityStateFromZipCode(zipCode) {
     	WaitingDialog.show();
         var deferred = $q.defer();

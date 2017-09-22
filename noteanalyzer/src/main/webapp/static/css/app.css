@@ -276,3 +276,7 @@ div.block .input{
     font-size: 20px;
     font-weight: 600;
 }
+
+.control-label{
+	padding-left:0px;
+}

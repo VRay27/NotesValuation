@@ -1,7 +1,5 @@
 package com.noteanalyzer.entity.user;
 
-import static com.noteanalyzer.mvc.constant.NoteConstant.ACTIVE_USER_FLAG;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,7 +11,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -49,9 +46,26 @@ public class UserSubscriptions extends AbstractEntity  {
 
 	@Column(name="UA_SIGNED_ON")
 	private Date uaSignedOn;
+	
+	@OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL, mappedBy = "subscriptionName")
+	private List<SubscriptionPrivileges> subscriptionPrivilege = new ArrayList<>();
 
 	
 	
+	/**
+	 * @return the subscriptionPrivilege
+	 */
+	public List<SubscriptionPrivileges> getSubscriptionPrivilege() {
+		return subscriptionPrivilege;
+	}
+
+	/**
+	 * @param subscriptionPrivilege the subscriptionPrivilege to set
+	 */
+	public void setSubscriptionPrivilege(List<SubscriptionPrivileges> subscriptionPrivilege) {
+		this.subscriptionPrivilege = subscriptionPrivilege;
+	}
+
 	/**
 	 * @return the userId
 	 */

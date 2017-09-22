@@ -300,7 +300,7 @@ public class NoteRestController {
 		String loggedInUserName = NoteUtility.getLoggedInUserName();
 		Optional<UserModel> loggedInuser = userService.getByUsername(loggedInUserName);
 		if (loggedInuser.isPresent()) {
-			System.out.println("Inside Arvind listAllNotes loggedInUserName" + loggedInUserName);
+			System.out.println("Inside  listAllNotes loggedInUserName" + loggedInUserName);
 			long userId = loggedInuser.get().getUserId();
 			Optional<UserSubscriptions> subscriptionList = userService.getUserSubscription(userId);
 			String subscription = null;

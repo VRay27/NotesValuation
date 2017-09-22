@@ -192,7 +192,8 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	@Override
-	public Optional<List<Statistics>> getStatisticsDetailsListForCrimeSchool(Set<String> schoolList, Set<String> crimeList) {
+	public Optional<List<Statistics>> getStatisticsDetailsListForCrimeSchool(Set<String> schoolList,
+			Set<String> crimeList) {
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("crimeAreaIdList", crimeList);
 		parameters.put("schoolAreaIdList", schoolList);
@@ -205,7 +206,6 @@ public class NoteServiceImpl implements NoteService {
 		return Optional.of(zipcodeList);
 	}
 
-	
 	@Override
 	public Optional<List<Statistics>> getStatisticsDetailsByUserId(long userId) {
 		Map<String, Object> parameters = new HashMap<>();
@@ -282,7 +282,7 @@ public class NoteServiceImpl implements NoteService {
 		}
 		return Optional.of(Boolean.TRUE);
 	}
-	
+
 	@Override
 	@Transactional
 	@Deprecated
@@ -400,7 +400,7 @@ public class NoteServiceImpl implements NoteService {
 						crimeSchoolAreaIdMap.get(model.getPropertyDetailModel().getAreaId()).getStatValue());
 			}
 		}
-		
+
 		return Optional.of(model);
 
 	}
@@ -428,23 +428,25 @@ public class NoteServiceImpl implements NoteService {
 		if (CollectionUtils.isEmpty(noteList)) {
 			return Optional.empty();
 		}
-		List<NoteDashboardModel> noteDashBoardList = ConverterUtility.convertNoteToNoteSummaryModel(noteList, subscription);
+		List<NoteDashboardModel> noteDashBoardList = ConverterUtility.convertNoteToNoteSummaryModel(noteList,
+				subscription);
 		Set<String> schoolAreaIdList = new HashSet<>();
 		Set<String> crimeAreaIdList = new HashSet<>();
-		for(NoteDashboardModel model : noteDashBoardList){
+		for (NoteDashboardModel model : noteDashBoardList) {
 			schoolAreaIdList.add(model.getSchoolAreaId());
 			model.setCrimeAreaId(NoteUtility.getCrimeAreaCode(model.getSchoolAreaId()));
 			crimeAreaIdList.add(NoteUtility.getCrimeAreaCode(model.getSchoolAreaId()));
 		}
-		Optional<List<Statistics>> statisticsList = getStatisticsDetailsListForCrimeSchool(schoolAreaIdList,crimeAreaIdList);
+		Optional<List<Statistics>> statisticsList = getStatisticsDetailsListForCrimeSchool(schoolAreaIdList,
+				crimeAreaIdList);
 		if (statisticsList.isPresent()) {
 			List<Statistics> statList = statisticsList.get();
-			Map<String, Statistics> crimeSchoolAreaIdMap= NoteUtility.createStatMapUsingAreaId(statList);
-			for(NoteDashboardModel model : noteDashBoardList){
-				if(crimeSchoolAreaIdMap.containsKey(model.getCrimeAreaId())){
+			Map<String, Statistics> crimeSchoolAreaIdMap = NoteUtility.createStatMapUsingAreaId(statList);
+			for (NoteDashboardModel model : noteDashBoardList) {
+				if (crimeSchoolAreaIdMap.containsKey(model.getCrimeAreaId())) {
 					model.setCrimeScore(crimeSchoolAreaIdMap.get(model.getCrimeAreaId()).getStatValue());
 				}
-				if(crimeSchoolAreaIdMap.containsKey(model.getSchoolAreaId())){
+				if (crimeSchoolAreaIdMap.containsKey(model.getSchoolAreaId())) {
 					model.setSchoolScore(crimeSchoolAreaIdMap.get(model.getSchoolAreaId()).getStatValue());
 				}
 			}
@@ -506,6 +508,7 @@ public class NoteServiceImpl implements NoteService {
 
 	@Override
 	@Transactional
+	@Deprecated
 	public Optional<NoteDetailModel> updateNote(@NonNull NoteDetailModel noteDetailModel) {
 		Note noteEntity = genericDao.getById(Note.class, noteDetailModel.getNoteId());
 		if (noteEntity == null) {
@@ -518,17 +521,15 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	@Override
-	public boolean deleteNote(@NonNull NoteInputFormModel noteDetailModel, long userId) {
+	public boolean deleteNote(@NonNull NoteInputFormModel model, long userId) {
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("userId", new Long(userId));
-		parameters.put("noteId", noteDetailModel.getNoteId());
-		int notes = genericDao.updateByNamedQuery(Note.DELETE_NOTE_DETAILS_BY_USER_NOTE_ID,
-				parameters);
+		parameters.put("noteId", model.getNoteId());
+		int notes = genericDao.updateByNamedQuery(Note.DELETE_NOTE_DETAILS_BY_USER_NOTE_ID, parameters);
 		if (notes != 0) {
 			return true;
 		}
-		LOG.warning("There is No record found with logging user " + userId + " and noteDetailModel ID"
-				+ noteDetailModel.getNoteId());
+		LOG.warning("There is no record found with logging user " + userId + " and  ID" + model.getNoteId());
 		return false;
 	}
 

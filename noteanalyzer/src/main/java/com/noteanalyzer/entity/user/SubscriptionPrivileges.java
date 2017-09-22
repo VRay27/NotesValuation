@@ -5,15 +5,24 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import com.noteanalyzer.entity.AbstractEntity;
 
+import lombok.ToString;
+
 @Entity
 @Table(name = "subscription_privileges")
+@ToString(callSuper = true)
+@NamedQueries({
+		@NamedQuery(name = SubscriptionPrivileges.GET_SUBS_PRIVILEGE_DETAILS, query = "select u from SubscriptionPrivileges u where u.subscriptionName in (:subscriptionName)") })
+
 public class SubscriptionPrivileges extends AbstractEntity {
 
 	private static final long serialVersionUID = 2383502272360951114L;
+	public static final String GET_SUBS_PRIVILEGE_DETAILS = "GET_SUBS_PRIVILEGE_DETAILS";
 
 	@Id
 	@Column(name = "subscription_privileges_ID")
@@ -24,7 +33,25 @@ public class SubscriptionPrivileges extends AbstractEntity {
 	private String privilegesId;
 
 	@Column(name = "subsription_name")
-	private String subsriptionName;
+	private String subscriptionName;
+
+	@Column(name = "privilege_code")
+	private String privilegesCode;
+
+	/**
+	 * @return the privilegesCode
+	 */
+	public String getPrivilegesCode() {
+		return privilegesCode;
+	}
+
+	/**
+	 * @param privilegesCode
+	 *            the privilegesCode to set
+	 */
+	public void setPrivilegesCode(String privilegesCode) {
+		this.privilegesCode = privilegesCode;
+	}
 
 	/**
 	 * @return the subscriptionprivilegesID
@@ -54,21 +81,6 @@ public class SubscriptionPrivileges extends AbstractEntity {
 	 */
 	public void setPrivilegesId(String privilegesId) {
 		this.privilegesId = privilegesId;
-	}
-
-	/**
-	 * @return the subsriptionName
-	 */
-	public String getSubsriptionName() {
-		return subsriptionName;
-	}
-
-	/**
-	 * @param subsriptionName
-	 *            the subsriptionName to set
-	 */
-	public void setSubsriptionName(String subsriptionName) {
-		this.subsriptionName = subsriptionName;
 	}
 
 	/*

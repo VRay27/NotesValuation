@@ -109,17 +109,17 @@
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="/notes/#!/"><span class="glyphicon glyphicon-home"></span> Home <span class="sr-only">(current)</span></a></li>
-        <li ng-if="isAuthenticated()"><a href="/notes/#!/profile"><span class="glyphicon glyphicon-user"></span> My Profile</a></li>
-        <li ng-if="isAuthenticated()"><a href="/notes/#!/noteDashboard"><span class="glyphicon glyphicon-th-list"></span> My Dashboard</a></li>
-        <li><a href="/notes/#!/calculator"><span class="glyphicon glyphicon-calendar"></span> Calculator</a></li>
+        <li id="home" class="active"><a href="/notes/#!/"><span class="glyphicon glyphicon-home"></span> Home <span class="sr-only">(current)</span></a></li>
+        <!-- <li id="myProfile" ng-if="isAuthenticated()"><a href="/notes/#!/profile"><span class="glyphicon glyphicon-user"></span> My Profile</a></li> -->
+        <li id="noteDashboard" ng-if="isAuthenticated()"><a href="/notes/#!/noteDashboard"><span class="glyphicon glyphicon-th-list"></span> My Dashboard</a></li>
+        <li id="calculator"><a href="/notes/#!/calculator"><span class="glyphicon glyphicon-calendar"></span> Calculator</a></li>
       </ul>
      
       <ul class="nav navbar-nav navbar-right">
-         <li ng-if="!isAuthenticated()"><a href="/notes/#!/signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-     	 <li ng-if="!isAuthenticated()"><a href="/notes/#!/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-     	 <li ng-if="isAuthenticated()"><a href="/notes/#!/profile"><span class="glyphicon glyphicon-user"></span><span id="welcomeUserName"> {{loggedInUserDisplayName}}</span></a></li>
-		 <li ng-if="isAuthenticated()"><a href="/notes/#!/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+         <li id="signUp" ng-if="!isAuthenticated()"><a href="/notes/#!/signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+     	 <li id="login" ng-if="!isAuthenticated()"><a href="/notes/#!/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+     	 <li id="profile" ng-if="isAuthenticated()"><a href="/notes/#!/profile"><span class="glyphicon glyphicon-user"></span><span id="welcomeUserName"> {{loggedInUserDisplayName}}</span></a></li>
+		 <li id="logout" ng-if="isAuthenticated()"><a href="/notes/#!/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
       </ul>
     </div>
   </div>
@@ -187,11 +187,11 @@
 </body>
 <script type="text/javascript">
 	angular.element(document).ready(function () {
-    	 angular.bootstrap(document, ['NoteApp']);
-    	 $(".nav li").on("click", function() {
-    	      $(".nav li").removeClass("active");
-    	      $(this).addClass("active");
-    	    });
+    angular.bootstrap(document, ['NoteApp']);
+    $(".nav li").on("click", function() {
+	      $(".nav li").removeClass("active");
+	      $(this).addClass("active");
+	 });
     });
 </script>
 

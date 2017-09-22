@@ -1,9 +1,11 @@
 package com.noteanalyzer.mvc.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
+import com.noteanalyzer.entity.user.SubscriptionPrivileges;
 import com.noteanalyzer.entity.user.UserSubscriptions;
 import com.noteanalyzer.mvc.model.UserModel;
 
@@ -98,8 +100,26 @@ public interface UserService {
 	 */
 	Optional<UserModel> getByUsernameWithPassword(String userName);
 
-	Optional<UserModel> updateUserSubscription();
+	/**
+	 * This method will update the subscription to given level for logged in user.
+	 * @return
+	 */
+	Optional<UserModel> updateUserSubscription(String subscriptionCode);
 
+	/**
+	 * This method will fetch the details of subscription for logged in user.
+	 * @param userId
+	 * @return
+	 */
 	Optional<UserSubscriptions> getUserSubscription(Long userId);
+	
+	
+	/**
+	 * This method will return the list of subscription privilege for given list of subscription.
+	 * @param subscriptionList
+	 * @return
+	 */
+
+	Optional<List<SubscriptionPrivileges>> getUserSubscriptionPrivilege(List<String> subscriptionList);
 
 }

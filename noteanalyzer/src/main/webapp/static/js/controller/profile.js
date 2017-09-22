@@ -1,5 +1,6 @@
 angular.module('NoteApp')
-	.controller('ProfileCtrl', function($scope, $auth, toastr, UserService, $state, WaitingDialog) {
+	.controller('ProfileCtrl', function($scope, $auth, toastr, UserService, $state, WaitingDialog,UtilityService) {
+		UtilityService.setActiveHeader('profile');
 		$scope.getProfile = function() {
 			WaitingDialog.show();
 			UserService.getUserDetail()

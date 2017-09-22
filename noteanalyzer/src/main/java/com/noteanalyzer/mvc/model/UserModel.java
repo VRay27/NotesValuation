@@ -47,6 +47,8 @@ public class UserModel extends RequestStatusModel implements Serializable{
 	private String isActive;
 	
 	private String subscriptionName;
+	
+	private List<String> privilageCode;
 		
 	
 	private List<UserRoleModel> roles;
@@ -62,6 +64,20 @@ public class UserModel extends RequestStatusModel implements Serializable{
 	}
 
 	
+	/**
+	 * @return the privilageCode
+	 */
+	public List<String> getPrivilageCode() {
+		return privilageCode;
+	}
+
+	/**
+	 * @param privilageCode the privilageCode to set
+	 */
+	public void setPrivilageCode(List<String> privilageCode) {
+		this.privilageCode = privilageCode;
+	}
+
 	/**
 	 * @return the subscriptionName
 	 */

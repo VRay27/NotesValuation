@@ -12,6 +12,7 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -19,6 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,6 +59,8 @@ public class UserRestController {
 
 	private final static Logger LOG = Logger.getLogger(UserRestController.class.getName());
 
+
+	
 	/**
 	 * This method will return the user details of logged in user. User name
 	 * will fetched from the token passed by the browser.
@@ -252,7 +258,7 @@ public class UserRestController {
 	@RequestMapping(value = "api/updateSubscription", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserModel> updateSubscription() {
 		
-		Optional<UserModel> userModel = userService.updateUserSubscription();
+		Optional<UserModel> userModel = userService.updateUserSubscription("P1");
 		if (userModel.isPresent()) {
 			return new ResponseEntity<UserModel>(userModel.get(), HttpStatus.OK);
 		}

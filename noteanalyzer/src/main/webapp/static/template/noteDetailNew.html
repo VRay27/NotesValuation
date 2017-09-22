@@ -335,6 +335,14 @@
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Market Value"></span>
 										</div>
+										<label class="col-sm-1 control-label">Builtup Year
+											</label>
+										<div class="col-sm-3 streetAddress">
+											<p class="form-control-static">{{noteInputFormModel.propertyDetailModel.propertyBuiltYear | getDefaultValueForNull}}</p>
+											<span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Market Value"></span>
+										</div>
 
 									</div>
 									<div class="panel panel-default">
@@ -527,18 +535,18 @@
 					<div class="panel-body">
 						<div class="form-group">
 							<div class="col-sm-9 col-sm-offset-3">
-								<input type="button" class="btn btn-lg btn-success"
+								<input type="button" class="btn btn-success"
 									id="updateNoteBtn" name="updateNote" value="Save" />
-									<input type="button" class="btn btn-lg btn-success"
+									<input type="button" class="btn btn-success"
 									id="updateMarketValueBtn" name="updateMarketValue" value="Update" ng-click="updateMarketValue()" />
-									<input type="button" class="btn btn-lg btn-success"
+									<input type="button" class="btn btn-success"
 									id="subscribeNoteBtn" name="subscribeNoteBtn" value="Subscribe" ng-hide="isSubscribed()"/>
-									 <input type="button" class="btn btn-lg btn-primary" ng-click="deleteNote()"
+									 <input type="button" class="btn btn-primary" ng-click="deleteNote()"
 									id="deleteNoteBtn" name="deleteNote" value="Delete" />
-								<input type="button" class="btn btn-lg btn-info"
+								<input type="button" class="btn btn-info"
 									 id="resetNoteBtn"
 									value="Reset" /> <input type="button"
-									class="btn btn-lg btn-info" ng-click="cancel()" value="Cancel" />
+									class="btn btn-info" ng-click="cancel()" value="Cancel" />
 								<input type="button" class="btn" style="visibility: hidden;"
 									id="updateNoteBtnHidden" ng-click="updateNote()"
 									name="createNoteHidden" value="Create Note" />

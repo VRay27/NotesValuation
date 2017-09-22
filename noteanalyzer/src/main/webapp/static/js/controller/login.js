@@ -1,6 +1,7 @@
 var app = angular.module('NoteApp');
-app.controller('LoginCtrl', function($scope, $rootScope, $state, $location, toastr, loginService, loginModel, $stateParams, $auth,WaitingDialog,UserService,$window) {
-  $scope.login = function() {
+app.controller('LoginCtrl', function($scope, $rootScope, $state, $location, toastr, loginService, loginModel, $stateParams, $auth,WaitingDialog,UserService,$window,UtilityService) {
+	UtilityService.setActiveHeader('login');
+	$scope.login = function() {
 	WaitingDialog.show();
     loginModel.username = $scope.user.email;
     loginModel.password = $auth.encodeString($scope.user.password);
