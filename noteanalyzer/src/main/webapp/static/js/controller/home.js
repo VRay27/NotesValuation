@@ -1,6 +1,6 @@
 
 var noteApp = angular.module('NoteApp');
-noteApp.controller('HomeCtrl', function($scope, $stateParams, $state,$document, $auth, $http, toastr, $rootScope, noteUploadAPI, NoteService,UtilityService) {
+noteApp.controller('HomeCtrl', function($scope, $stateParams, $state,$document, $auth, $http, toastr, $rootScope, noteUploadAPI, NoteService,UtilityService,WaitingDialog) {
 	UtilityService.setActiveHeader('home');
 	NoteService.setInputFormModel(null);
 	$scope.noteAnalyzed = function() {
@@ -25,11 +25,14 @@ noteApp.controller('HomeCtrl', function($scope, $stateParams, $state,$document, 
 	}
 
 	if ($stateParams.loginState === 'inputNoteForm') {
+		WaitingDialog.show();
 		NoteService.createNote($rootScope.submitInputFormModel).then(function() {
 			$rootScope.submitInputFormModel = {};
 			$state.go('noteDashboard');
 		}, function(errResponse) {
 			toastr.error('Error while creating NOTE');
+		},function(){
+			WaitingDialog.hide();
 		});
 	}
 
@@ -461,4 +464,6 @@ noteApp.filter('sanitizeInput', function() {
     	}
         return value;
     }
-})
+});
+
+

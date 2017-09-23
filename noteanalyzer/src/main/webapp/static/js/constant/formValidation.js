@@ -392,6 +392,7 @@ $(document).ready(function() {
         }
     });
 
+  
     // Validate the form manually
    $('#createNoteBtn').click(function() {
 	   $('.panel-collapse:not(".in")')
@@ -399,6 +400,7 @@ $(document).ready(function() {
         if($('#noteInputForm').bootstrapValidator('validate').has('.has-error').length){
 	       	return false;
     	}else{
+    		$("input").trigger("change");
     		$("#createNoteBtnHidden").trigger( "click" );
     	};
         });
@@ -410,6 +412,7 @@ $(document).ready(function() {
        if($('#noteInputForm').bootstrapValidator('validate').has('.has-error').length){
 	       	return false;
    	}else{
+   		$("input").trigger("change");
    		$("#updateNoteBtnHidden").trigger( "click" );
    	};
  });
@@ -421,6 +424,7 @@ $(document).ready(function() {
       if($('#noteInputForm').bootstrapValidator('validate').has('.has-error').length){
 	       	return false;
   	}else{
+  		$("input").trigger("change");
   		$("#subscribeNoteBtnHidden").trigger( "click" );
   	};
 });
@@ -430,6 +434,8 @@ $(document).ready(function() {
    });
     
    $('#noteInputForm').click(function(){
+	    $("input").trigger("change");
+   		$("#rate").trigger("blur");
 	   if($('#selNoteDate').val()){
 	   	$('#noteInputForm').bootstrapValidator('revalidateField', 'noteDate');
 	   }
@@ -445,6 +451,20 @@ $(document).ready(function() {
 	   if($('#originalTerm').val()){
 		   $('#noteInputForm').bootstrapValidator('revalidateField', 'originalTerm');
 	   }
+	   if($('#originalTerm').val()){
+		   $('#noteInputForm').bootstrapValidator('revalidateField', 'originalTerm');
+	   }
+	   if($('#upb').val()){
+		   $('#noteInputForm').bootstrapValidator('revalidateField', 'upb');
+	   }
+	   if($('#notePrice').val()){
+		   $('#noteInputForm').bootstrapValidator('revalidateField', 'notePrice');
+	   }
+	   
+	   if($('#estimatedMarketValue').val()){
+		   $('#noteInputForm').bootstrapValidator('revalidateField', 'estimatedMarketValue');
+	   }
+	   
 	 });
    
    $('#loanTypeId').on('change', function() {

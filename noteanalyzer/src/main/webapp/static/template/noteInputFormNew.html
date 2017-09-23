@@ -61,7 +61,7 @@
 											Price</label>
 										<div class="col-sm-3">
 											<input type="text" class="form-control icon-text" id="notePrice"
-												name="notePrice" placeholder="Enter Note Price"
+												name="notePrice" placeholder="Enter Note Price" 
 												ng-model="noteInputFormModel.notePrice" /> <span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Enter Note Price"></span>
@@ -107,12 +107,12 @@
 									</div>
 
 									<div class="form-group">
-										<label id="orginalLoanBalanceId" class="col-sm-1 control-label requiredField">Original
+										<label id="orginalLoanBalanceId" class="col-sm-1 control-label requiredField">Org
 											Loan Balance</label>
 										<div class="col-sm-3 originalPrincipalBal">
 											<input type="text" class="form-control icon-text modifiedField"
 												name="originalPrincipalBal" id="originalPrincipalBal"
-												placeholder="Enter Loan Balance"
+												placeholder="Original Loan Balance"
 												ng-model="noteInputFormModel.originalPrincipleBalance"
 												ng-blur="populateNoteInputModelFromJS()" /> <span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
@@ -149,12 +149,11 @@
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Monthly Payment"></span>
 										</div>
-										<label  id="remainingNoOfPaymentId" class="col-sm-1 control-label requiredField">Remaining
-											No Payments</label>
+										<label  id="remainingNoOfPaymentId" class="col-sm-1 control-label requiredField">Remaining # Payments</label>
 										<div class="col-sm-3">
 											<input type="text" class="form-control icon-text modifiedField"
 												name="remainingPayment" id="remainingPayment" ng-blur="populateUPBFromJS()"
-												placeholder="Remaining # of payments"
+												placeholder="Remaining no of payments"
 												ng-model="noteInputFormModel.remainingPayment" /> <span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top"
@@ -223,7 +222,7 @@
 													<div class="col-sm-3 ">
 														<input type="text" class="form-control icon-text"
 															name="noOfLatePayment"
-															placeholder="Enter Late Payment"
+															placeholder="# Late Payment"
 															ng-model="noteInputFormModel.noOfLatePayment" /> <span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 															tooltip-placement="top"
