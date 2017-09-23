@@ -435,7 +435,7 @@ $(document).ready(function() {
     
    $('#noteInputForm').click(function(){
 	    $("input").trigger("change");
-   		$("#rate").trigger("blur");
+   	//	$("#rate").trigger("blur");
 	   if($('#selNoteDate').val()){
 	   	$('#noteInputForm').bootstrapValidator('revalidateField', 'noteDate');
 	   }

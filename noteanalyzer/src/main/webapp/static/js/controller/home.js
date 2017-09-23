@@ -25,14 +25,11 @@ noteApp.controller('HomeCtrl', function($scope, $stateParams, $state,$document, 
 	}
 
 	if ($stateParams.loginState === 'inputNoteForm') {
-		WaitingDialog.show();
 		NoteService.createNote($rootScope.submitInputFormModel).then(function() {
 			$rootScope.submitInputFormModel = {};
 			$state.go('noteDashboard');
 		}, function(errResponse) {
-			toastr.error('Error while creating NOTE');
-		},function(){
-			WaitingDialog.hide();
+			toastr.error('Error while creating Note');
 		});
 	}
 

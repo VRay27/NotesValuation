@@ -107,7 +107,7 @@
 									</div>
 
 									<div class="form-group">
-										<label id="orginalLoanBalanceId" class="col-sm-1 control-label requiredField">Org
+										<label id="orginalLoanBalanceId" class="col-sm-1 control-label requiredField">Original
 											Loan Balance</label>
 										<div class="col-sm-3 originalPrincipalBal">
 											<input type="text" class="form-control icon-text modifiedField"
@@ -136,7 +136,7 @@
 											Rate</label>
 										<div class="col-sm-3">
 											<input type="text" class="form-control icon-text modifiedField" name="rate" id="rate"
-												ng-model="noteInputFormModel.rate" ng-blur=populateNoteInputModelFromJS()
+												ng-model="noteInputFormModel.rate" ng-blur=populateNoteInputModelFromJS() ng-change=populateNoteInputModelFromJS()
 												placeholder="Annual Interest Rate" /> <span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Annual Interest Rate"></span>
@@ -377,7 +377,7 @@
 										<div class="col-sm-3 streetAddress">
 											<input type="text" class="form-control icon-text" id="estimatedMarketValue"
 												name="estimatedMarketValue"
-												placeholder="Enter Estimated Market Value"
+												placeholder="Estimated Market Value"
 												ng-model="noteInputFormModel.estimatedMarketValue" /> <span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Enter Street Address"></span>
