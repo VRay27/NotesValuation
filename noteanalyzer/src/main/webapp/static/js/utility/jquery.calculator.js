@@ -812,7 +812,8 @@
 				var pattern = new RegExp('^-?' +
 					(inst.options.base === 10 ? '[0-9]*(\\' + inst.options.decimalChar + '[0-9]*)?' :
 					'[' + '0123456789abcdef'.substring(0, inst.options.base) + ']*') + '$');
-				return (inst._input.val() + ch).toLowerCase().match(pattern) != null;
+				var inputValWithOutComm = (inst._input.val() + ch).replace(/\,/g, '');
+				return (inputValWithOutComm).toLowerCase().match(pattern) != null;
 			}
 			return true;
 		},

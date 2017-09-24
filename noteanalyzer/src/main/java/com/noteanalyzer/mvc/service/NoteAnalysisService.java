@@ -18,8 +18,9 @@ public class NoteAnalysisService {
 		if (StringUtils.isNotBlank(notePrice) && StringUtils.isNotBlank(estimatedMarketValue) && !"null".equalsIgnoreCase(estimatedMarketValue) && !"null".equalsIgnoreCase(notePrice)) {
 			BigDecimal notePriceVal = new  BigDecimal(notePrice);
 			BigDecimal estimatedMarketValueVal = new  BigDecimal(estimatedMarketValue);
-			BigDecimal outVal=  notePriceVal.divide(estimatedMarketValueVal, 2, RoundingMode.HALF_UP);
+			BigDecimal outVal=  notePriceVal.divide(estimatedMarketValueVal, 4, RoundingMode.HALF_UP);
 			outVal = outVal.multiply(new BigDecimal(100));
+			outVal = outVal.setScale(2, BigDecimal.ROUND_HALF_UP);
 			return outVal.doubleValue();
 		}
 		return Double.valueOf(0);
@@ -29,8 +30,9 @@ public class NoteAnalysisService {
 		if (StringUtils.isNotBlank(notePrice) && StringUtils.isNotBlank(marketValue) && !"null".equalsIgnoreCase(marketValue) && !"null".equalsIgnoreCase(notePrice)) {
 			BigDecimal notePriceVal = new  BigDecimal(notePrice);
 			BigDecimal marketValueVal =  new  BigDecimal(marketValue);
-			BigDecimal outVal=  notePriceVal.divide(marketValueVal, 2, RoundingMode.HALF_UP);
+			BigDecimal outVal=  notePriceVal.divide(marketValueVal, 4, RoundingMode.HALF_UP);
 			outVal = outVal.multiply(new BigDecimal(100));
+			outVal = outVal.setScale(2, BigDecimal.ROUND_HALF_UP);
 			return outVal.doubleValue();
 		}
 		return Double.valueOf(0);
@@ -40,8 +42,9 @@ public class NoteAnalysisService {
 		if ( StringUtils.isNotBlank(unpaidLoanBalance) && StringUtils.isNotBlank(estimatedMarketValue) && !"null".equalsIgnoreCase(unpaidLoanBalance) && !"null".equalsIgnoreCase(estimatedMarketValue)) {
 			BigDecimal unpaidLoanBalanceVal = new  BigDecimal(unpaidLoanBalance);
 			BigDecimal estimatedMarketValueVal = new  BigDecimal(estimatedMarketValue);
-			BigDecimal outVal=  unpaidLoanBalanceVal.divide(estimatedMarketValueVal, 2, RoundingMode.HALF_UP);
+			BigDecimal outVal=  unpaidLoanBalanceVal.divide(estimatedMarketValueVal, 4, RoundingMode.HALF_UP);
 			outVal = outVal.multiply(new BigDecimal(100));
+			outVal = outVal.setScale(2, BigDecimal.ROUND_HALF_UP);
 			return outVal.doubleValue();
 		}
 		return Double.valueOf(0);
@@ -52,8 +55,9 @@ public class NoteAnalysisService {
 		if (StringUtils.isNotBlank(unpaidBal) && StringUtils.isNotBlank(marketValue) && !"null".equalsIgnoreCase(unpaidBal) && !"null".equalsIgnoreCase(marketValue)) {
 			BigDecimal notePriceVal = new  BigDecimal(unpaidBal);
 			BigDecimal marketVal = new  BigDecimal(marketValue);
-			BigDecimal outVal=  notePriceVal.divide(marketVal, 2, RoundingMode.HALF_UP);
+			BigDecimal outVal=  notePriceVal.divide(marketVal, 4, RoundingMode.HALF_UP);
 			outVal = outVal.multiply(new BigDecimal(100));
+			outVal = outVal.setScale(2, BigDecimal.ROUND_HALF_UP);
 			return outVal.doubleValue();
 		}
 		return Double.valueOf(0);
@@ -65,7 +69,8 @@ public class NoteAnalysisService {
 			BigDecimal paymentVal = new  BigDecimal(payment);
 			BigDecimal notePriceVal = new  BigDecimal(notePrice);
 			BigDecimal outVal =  paymentVal.multiply(new BigDecimal(12));
-			outVal = outVal.divide(notePriceVal, 2, RoundingMode.HALF_UP);
+			outVal = outVal.divide(notePriceVal, 4, RoundingMode.HALF_UP);
+			outVal = outVal.setScale(2, BigDecimal.ROUND_HALF_UP);
 			return outVal.doubleValue();
 		}
 		return Double.valueOf(0);

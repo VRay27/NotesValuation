@@ -17,7 +17,7 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state, $doc
 
 	$scope.isSubscribed = function() {
 		var user = $auth.getUser();
-		if ("P1" == user.subscriptionName) {
+		if (user && "P1" == user.subscriptionName) {
 			return true;
 		}
 		return false;
