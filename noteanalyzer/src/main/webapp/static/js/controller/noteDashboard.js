@@ -3,9 +3,9 @@ var app = angular.module('NoteApp');
 app.controller('NoteDashboardCtrl', NoteDashboardCtrl);
 app.service('NoteDetailService', NoteDetailService);
 
-NoteDashboardCtrl.$inject = ['$scope', '$http', '$auth', '$rootScope', '$uibModal', 'NoteDetailService', 'uiGridConstants', 'noteDetailModel', 'noteUploadAPI', 'NoteService', 'WaitingDialog','UtilityService'];
+NoteDashboardCtrl.$inject = ['$scope', '$http', '$auth', '$rootScope', '$uibModal', 'NoteDetailService', 'uiGridConstants', 'noteDetailModel', 'noteUploadAPI', 'NoteService', 'WaitingDialog','UtilityService','UserService','$window','toastr'];
 
-function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDetailService, uiGridConstants, noteDetailModel, noteUploadAPI, NoteService, WaitingDialog,UtilityService) {
+function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDetailService, uiGridConstants, noteDetailModel, noteUploadAPI, NoteService, WaitingDialog,UtilityService,UserService,$window,toastr) {
 	UtilityService.setActiveHeader('noteDashboard');
 	var vm = this;
     $scope.noteDetailModel = noteDetailModel;
@@ -112,7 +112,7 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
                 },
                 placeholder:'Search',
             },
-            cellTemplate: "<div>{{row.entity.yield}}</div>"
+            cellTemplate: "<div>{{row.entity.yield | number}}%</div>"
         }, {
             field: 'estimatedITV',
             displayName: 'Estimated ITV',
@@ -124,7 +124,7 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
                 },
                 placeholder:'Search'
             },
-            cellTemplate: "<div>{{row.entity.estimatedITV}}</div>"
+            cellTemplate: "<div>{{row.entity.estimatedITV | number}}%</div>"
         }, {
             field: 'estimatedLTV',
             displayName: 'Estimated LTV',
@@ -136,7 +136,7 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
                 },
                 placeholder:'Search'
             },
-            cellTemplate: "<div>{{row.entity.estimatedLTV}}</div>"
+            cellTemplate: "<div>{{row.entity.estimatedLTV | number}}%</div>"
         }, {
             field: 'currentLTV',
             displayName: 'LTV',
@@ -148,7 +148,7 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
                 },
                 placeholder:'Search'
             },
-            cellTemplate: "<div>{{row.entity.currentLTV}}</div>"
+            cellTemplate: "<div>{{row.entity.currentLTV | number | getDefaultValueForPercentage}}</div>"
         },
          {
             field: 'currentITV',
@@ -161,7 +161,7 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
                 },
                 placeholder:'Search'
             },
-            cellTemplate: "<div>{{row.entity.currentITV}}</div>"
+            cellTemplate: "<div>{{row.entity.currentITV | number | getDefaultValueForPercentage}}</div>"
         },
         {
             field: 'schoolScore',
@@ -174,7 +174,7 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
                 },
                 placeholder:'Search',
             },
-            cellTemplate: "<div ><p>{{row.entity.schoolScore}}</p></div>"
+            cellTemplate: "<div ><p>{{row.entity.schoolScore  | number | getDefaultValueForNull }}</p></div>"
         }, {
             field: 'crimeScore',
             displayName: 'Crime Score',
@@ -186,7 +186,7 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
                 },
                 placeholder:'Search' 
             },
-            cellTemplate: "<div><p>{{row.entity.crimeScore}}</p></div>"
+            cellTemplate: "<div><p>{{row.entity.crimeScore  | number | getDefaultValueForNull }}</p></div>"
         }, {
             field: 'marketValue',
             displayName:  ' Market Value ',
@@ -198,11 +198,30 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
                 },
                 placeholder:'Search'
             },
-            cellTemplate: "<div style=\"float:left\">{{row.entity.marketValue | number}}</div><a ng-href=\"\"  style=\"cursor:pointer; text-align:right\"  ng-click= \"grid.appScope.vm.updateMarketValue(grid, row)\"><span class=\"glyphicon glyphicon-refresh\"></span></a>"
+            cellTemplate: "<div style=\"float:left\">{{row.entity.marketValue | number | getDefaultValueForNull }}</div><a ng-href=\"\"  style=\"cursor:pointer; text-align:right\"  ng-click= \"grid.appScope.vm.updateMarketValue(grid, row)\"><span class=\"glyphicon glyphicon-refresh\"></span></a>"
            
         }
     ];
    
+	$scope.isSubscribed = function() {
+		var user = $auth.getUser();
+		if (user && "P1" == user.subscriptionName) {
+			return true;
+		}
+		return false;
+	}
+	
+	$scope.subscribeNote = function() {
+		UserService.updateSubscription().then(function(response) {
+			$auth.setUser(response);
+			$window.location.reload();
+			toastr.error("You have been subscribed successfully.")
+		}, function(response) {
+			$auth.checkLoginFromServer(response.status);
+			toastr.error("We are unable to update user subscripton. Please try after sometime.")
+		});
+
+	}
     
     $scope.init = function() {
         WaitingDialog.show();
@@ -269,13 +288,9 @@ function NoteDetailService($http, $rootScope, NoteService, toastr, $state, $auth
     	}
     	UserService.updateSubscription().then(function(response) {
 			$auth.setUser(response);
-		    	
-    	NoteService.subscribeNote(noteDetailModel).then(function(response) {
-        	$window.location.reload();
-        }, function(response) {
-            $auth.checkLoginFromServer(response.status);
-            toastr.error("We are unable to find details for this user. Please try after sometime.")
-        })}, function(response) {
+			$window.location.reload();
+			toastr.success("You have been subscribed successfully.")
+    	}, function(response) {
             $auth.checkLoginFromServer(response.status);
             toastr.error("We are update the user subscription. Please try after sometime.")
         });

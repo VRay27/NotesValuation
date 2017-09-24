@@ -47,24 +47,7 @@ public class UserSubscriptions extends AbstractEntity  {
 	@Column(name="UA_SIGNED_ON")
 	private Date uaSignedOn;
 	
-	@OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL, mappedBy = "subscriptionName")
-	private List<SubscriptionPrivileges> subscriptionPrivilege = new ArrayList<>();
-
 	
-	
-	/**
-	 * @return the subscriptionPrivilege
-	 */
-	public List<SubscriptionPrivileges> getSubscriptionPrivilege() {
-		return subscriptionPrivilege;
-	}
-
-	/**
-	 * @param subscriptionPrivilege the subscriptionPrivilege to set
-	 */
-	public void setSubscriptionPrivilege(List<SubscriptionPrivileges> subscriptionPrivilege) {
-		this.subscriptionPrivilege = subscriptionPrivilege;
-	}
 
 	/**
 	 * @return the userId

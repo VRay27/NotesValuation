@@ -58,11 +58,12 @@
       </div>
     </div>
   </form> -->
-  </div>
-	</div>
+   <input type="button" class="btn btn-success btn-sm"
+									id="subscribeNoteBtn" name="subscribeNoteBtn" value="Subscribe" ng-click="subscribeNote();" ng-hide="isSubscribed()"/>
 				
-				<div>
-
+  </div>
+ 
+						
 					<div id="serviceGrid" ui-grid-move-columns ui-grid-selection  ui-grid-pagination
 						ui-grid-resize-columns ui-grid-pinning ui-grid-exporter
 						ui-grid-auto-resize ui-grid-edit ui-grid="vm.serviceGrid" style="margin-left:1px">

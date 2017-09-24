@@ -184,7 +184,8 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state, $doc
 			$scope.convertNumberFilter();
 			toastr.success("Note has been save successfully.")
 		}, function(response) {
-			toastr.error("We are unable to update note. Please try after sometime.")
+			$auth.checkLoginFromServer(response.status);
+			toastr.error("We are unable to save note. Please try after sometime.")
 		});
 
 	}
@@ -215,9 +216,11 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state, $doc
 				$scope.convertNumberFilter();
 				toastr.success("Note has been updated successfully.")
 			}, function(response) {
+				$auth.checkLoginFromServer(response.status);
 				toastr.error("We are unable to update note. Please try after sometime.")
 			})
 		}, function(response) {
+			$auth.checkLoginFromServer(response.status);
 			toastr.error("We are unable to update user subscripton. Please try after sometime.")
 		});
 
@@ -229,6 +232,7 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state, $doc
 			$state.go('noteDashboard');
 			toastr.success("Note has been deleted successfully.")
 		}, function(response) {
+			$auth.checkLoginFromServer(response.status);
 			toastr.error("We are unable to delete this note. Please try after sometime.")
 		});
 

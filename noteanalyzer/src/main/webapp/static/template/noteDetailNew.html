@@ -204,8 +204,7 @@
 												<div class="form-group">
 													<label class="col-sm-1 control-label">Yield</label>
 													<div class="col-sm-3">
-														<p class="form-control-static">{{noteInputFormModel.yieldValue
-															| getDefaultValueForPercentage}}</p>
+														<p class="form-control-static">{{noteInputFormModel.yieldValue | number }}</p>
 														<span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 															tooltip-placement="top" uib-tooltip="Yield"></span>
@@ -213,7 +212,7 @@
 													<label class="col-sm-1 control-label">Estimated LTV
 													</label>
 													<div class="col-sm-3">
-														<p class="form-control-static">{{noteInputFormModel.estimatedLTV
+														<p class="form-control-static">{{noteInputFormModel.estimatedLTV | number
 															| getDefaultValueForPercentage}}</p>
 														<span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
@@ -221,7 +220,7 @@
 													</div>
 													<label class="col-sm-1 control-label"> LTV </label>
 													<div class="col-sm-3">
-														<p class="form-control-static">{{noteInputFormModel.currentLTV |
+														<p class="form-control-static">{{noteInputFormModel.currentLTV | number |
 															getDefaultValueForPercentage}}</p>
 														<span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
@@ -231,7 +230,7 @@
 												<div class="form-group">
 													<label class="col-sm-1 control-label">Estimated ITV</label>
 													<div class="col-sm-3">
-														<p class="form-control-static">{{noteInputFormModel.estimatedITV
+														<p class="form-control-static">{{noteInputFormModel.estimatedITV | number
 															| getDefaultValueForPercentage}}</p>
 														<span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
@@ -239,7 +238,7 @@
 													</div>
 													<label class="col-sm-1 control-label">ITV </label>
 													<div class="col-sm-3">
-														<p class="form-control-static">{{noteInputFormModel.currentITV |
+														<p class="form-control-static">{{noteInputFormModel.currentITV | number |
 															getDefaultValueForPercentage}}</p>
 														<span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
@@ -247,8 +246,7 @@
 													</div>
 													<label class="col-sm-1 control-label"> ROI </label>
 													<div class="col-sm-3">
-														<p class="form-control-static">{{noteInputFormModel.roi |
-															getDefaultValueForNull}}</p>
+														<p class="form-control-static">{{noteInputFormModel.roi | number}}</p>
 														<span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 															tooltip-placement="top" uib-tooltip=" ROI"></span>
@@ -537,7 +535,7 @@
 								<input type="button" class="btn btn-success"
 									id="updateNoteBtn" name="updateNote" value="Save" />
 									<input type="button" class="btn btn-success"
-									id="updateMarketValueBtn" name="updateMarketValue" value="Update" ng-click="updateMarketValue()" />
+									id="updateMarketValueBtn" name="updateMarketValue" value="Update" ng-click="updateMarketValue()" ng-show="isSubscribed()" />
 									<input type="button" class="btn btn-success"
 									id="subscribeNoteBtn" name="subscribeNoteBtn" value="Subscribe" ng-hide="isSubscribed()"/>
 									 <input type="button" class="btn btn-danger" ng-click="deleteNote()"
