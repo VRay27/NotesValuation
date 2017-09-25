@@ -205,8 +205,12 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 	$scope.populateRemainingNumberOfPayment = function(){
 		if($scope.noteInputFormModel){
 			$scope.noteInputFormModel.noteDate = $filter('date')($scope.parent.noteDate, 'MM/dd/yyyy');
-			$scope.noteInputFormModel.remainingPayment = UtilityService.getNumberOfMonth(new Date($scope.noteInputFormModel.noteDate), new Date());	
-			$scope.populateUPBFromJS();
+			$scope.noteInputFormModel.lastPaymentRecievedDate = $filter('date')($scope.parent.lastPaymentRecievedDate, 'MM/dd/yyyy');
+			var numberOfMonth =  UtilityService.getNumberOfMonth(new Date($scope.noteInputFormModel.noteDate), new Date($scope.noteInputFormModel.lastPaymentRecievedDate));
+			if($scope.noteInputFormModel.originalTerm){
+				$scope.noteInputFormModel.remainingPayment = $scope.noteInputFormModel.originalTerm - numberOfMonth;
+				$scope.populateUPBFromJS();
+			}
 		}
 	}
 	
@@ -231,7 +235,7 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 		//angular.element( document.querySelector('#paymentId')).removeClass('noteInputCalculatedField');
 		$scope.noteInputFormModel.pdiPayment = '';
 		var model = $scope.noteInputFormModel;
-		var elem = NoteService.noteCalculator(model);
+		var elem = NoteService.notePaymentCalculator(model);
 		$scope.noteInputFormModel = model;
 		if(elem == 'rate'){
 			angular.element( document.querySelector('#interestRateId')).addClass('noteInputCalculatedField');
@@ -257,7 +261,7 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 					originalTerm:$scope.noteInputFormModel.remainingPayment,
 						  	rate:$scope.noteInputFormModel.rate
 			}
-			NoteService.noteCalculator(sampleNoteModel);
+			NoteService.noteOriginalBalCalculator(sampleNoteModel);
 			var unPaidBal = sampleNoteModel.originalPrincipleBalance;
 			if(unPaidBal){
 				$scope.noteInputFormModel.upb = sampleNoteModel.originalPrincipleBalance;

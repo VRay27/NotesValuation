@@ -67,8 +67,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
 	                     min: 1,
-	                     max: 20,
-	                     message: 'The unpaid balance must be less than 20 characters long'
+	                     max: 12,
+	                     message: 'The unpaid balance must be less than 12 characters long'
 	            	 },
 	            	 notEmpty: {
 	                        message: 'The unpaid balance is required and can\'t be empty.'
@@ -83,8 +83,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
 	                     min: 1,
-	                     max: 20,
-	                     message: 'The rate must be less than 20 characters long'
+	                     max: 12,
+	                     message: 'The rate must be less than 12 characters long'
 	            	 },
 	            	 notEmpty: {
 	                        message: 'The rate is required and can\'t be empty.'
@@ -99,8 +99,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
 	                     min: 1,
-	                     max: 20,
-	                     message: 'The  payment must be less than 20 characters long'
+	                     max: 12,
+	                     message: 'The  payment must be less than 12 characters long'
 	            	 },
 	            	 notEmpty: {
 	                        message: 'The  payment is required and can\'t be empty.'
@@ -115,8 +115,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
 	                     min: 0,
-	                     max: 20,
-	                     message: 'The tax and Insurance must be less than 20 characters long'
+	                     max: 12,
+	                     message: 'The tax and Insurance must be less than 12 characters long'
 	            	 }
              }},
              
@@ -129,8 +129,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
 	                     min: 1,
-	                     max: 20,
-	                     message: 'The original principal bal must be less than 20 characters long'
+	                     max: 12,
+	                     message: 'The original principal bal must be less than 12 characters long'
 	            	 },
 	            	 notEmpty: {
 	                        message: 'The original principal balance is required and can\'t be empty.'
@@ -145,8 +145,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
 	                     min: 1,
-	                     max: 20,
-	                     message: 'The Note Price must be less than 20 characters long'
+	                     max: 12,
+	                     message: 'The Note Price must be less than 12 characters long'
 	            	 },
 	            	 notEmpty: {
 	                        message: 'The Note Price is required and can\'t be empty.'
@@ -163,8 +163,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
 	                     min: 1,
-	                     max: 20,
-	                     message: 'The remaining no of payment must be less than 20 characters long'
+	                     max: 12,
+	                     message: 'The remaining no of payment must be less than 12 characters long'
 	            	 },
 	            	 notEmpty: {
 	                        message: 'The remaining no of payment value is required and can\'t be empty.'
@@ -181,8 +181,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
 	                     min: 0,
-	                     max: 20,
-	                     message: 'The No of Late Payment must be less than 20 characters long'
+	                     max: 12,
+	                     message: 'The No of Late Payment must be less than 12 characters long'
 	            	 }
              }},
              notePosition:{
@@ -196,8 +196,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
 	                     min: 1,
-	                     max: 20,
-	                     message: 'The note position value must be less than 20 characters long'
+	                     max: 12,
+	                     message: 'The note position value must be less than 12 characters long'
 	            	 }
              }}, 
              borrowerCreditScore:{
@@ -227,8 +227,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
 	                     min: 1,
-	                     max: 20,
-	                     message: 'The Estimated market value must be less than 20 characters long'
+	                     max: 12,
+	                     message: 'The Estimated market value must be less than 12 characters long'
 	            	 },
 	            	 notEmpty: {
 	                        message: 'The Estimated market value is required and can\'t be empty.'
@@ -237,6 +237,9 @@ $(document).ready(function() {
              lastPaymentRecievedDate :{
             	 group:'.col-sm-3',
             	 validators: {
+            		 notEmpty: {
+                         message: 'The note date field cannot be empty'
+                     },
             		 date: {
                          format: 'MM/DD/YYYY',
                          message: 'The  date is not in valid(MM/DD/YYYY) format'
@@ -253,8 +256,8 @@ $(document).ready(function() {
                  },
         		 stringLength: {
                      min: 0,
-                     max: 20,
-                     message: 'The No of Late Payment must be less than 20 characters long'
+                     max: 12,
+                     message: 'The No of Late Payment must be less than 12 characters long'
             	 }
         	 }},
         	 hoaFees:{
@@ -266,8 +269,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
                          min: 0,
-                         max: 20,
-                         message: 'The No of Late Payment must be less than 20 characters long'
+                         max: 12,
+                         message: 'The No of Late Payment must be less than 12 characters long'
                 	 }
             	 }
         	 },creditScore:{
@@ -304,8 +307,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
                          min: 0,
-                         max: 20,
-                         message: 'The No of Late Payment must be less than 20 characters long'
+                         max: 12,
+                         message: 'The No of Late Payment must be less than 12 characters long'
                 	 }
             	 }},
             	 
@@ -320,8 +323,8 @@ $(document).ready(function() {
                          },
                 		 stringLength: {
                              min: 1,
-                             max: 20,
-                             message: 'The zipcode must be less than 20 characters long'
+                             max: 12,
+                             message: 'The zipcode must be less than 12 characters long'
                     	 },
                     	 notEmpty: {
  	                        message: 'The  zipcode is required and can\'t be empty.'
@@ -338,8 +341,8 @@ $(document).ready(function() {
                              },
                     		 stringLength: {
                                  min: 1,
-                                 max: 20,
-                                 message: 'The zipcode must be less than 20 characters long'
+                                 max: 12,
+                                 message: 'The zipcode must be less than 12 characters long'
                         	 },
                         	 notEmpty: {
      	                        message: 'The  zipcode is required and can\'t be empty.'
@@ -370,8 +373,8 @@ $(document).ready(function() {
                                          },
                                 		 stringLength: {
                                              min: 1,
-                                             max: 20,
-                                             message: 'The originalTerm must be less than 20 characters long'
+                                             max: 12,
+                                             message: 'The originalTerm must be less than 12 characters long'
                                     	 },
                                     	 notEmpty: {
                  	                        message: 'The  originalTerm is required and can\'t be empty.'
@@ -397,10 +400,10 @@ $(document).ready(function() {
    $('#createNoteBtn').click(function() {
 	   $('.panel-collapse:not(".in")')
 	    .collapse('show');
+	   $("input").trigger("change");
         if($('#noteInputForm').bootstrapValidator('validate').has('.has-error').length){
 	       	return false;
     	}else{
-    		$("input").trigger("change");
     		$("#createNoteBtnHidden").trigger( "click" );
     	};
         });
@@ -409,10 +412,10 @@ $(document).ready(function() {
   $('#updateNoteBtn').click(function() {
 	   $('.panel-collapse:not(".in")')
 	    .collapse('show');
+	   $("input").trigger("change");
        if($('#noteInputForm').bootstrapValidator('validate').has('.has-error').length){
 	       	return false;
    	}else{
-   		$("input").trigger("change");
    		$("#updateNoteBtnHidden").trigger( "click" );
    	};
  });
@@ -421,10 +424,10 @@ $(document).ready(function() {
  $('#subscribeNoteBtn').click(function() {
 	   $('.panel-collapse:not(".in")')
 	    .collapse('show');
+	   $("input").trigger("change");
       if($('#noteInputForm').bootstrapValidator('validate').has('.has-error').length){
 	       	return false;
   	}else{
-  		$("input").trigger("change");
   		$("#subscribeNoteBtnHidden").trigger( "click" );
   	};
 });

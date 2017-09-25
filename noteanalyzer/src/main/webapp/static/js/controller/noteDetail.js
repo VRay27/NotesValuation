@@ -90,7 +90,7 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state, $doc
 		//angular.element( document.querySelector('#paymentId')).removeClass('noteInputCalculatedField');
 		$scope.noteInputFormModel.pdiPayment = '';
 		var model = $scope.noteInputFormModel;
-		var elem = NoteService.noteCalculator(model);
+		var elem = NoteService.notePaymentCalculator(model);
 		$scope.noteInputFormModel = model;
 		if(elem == 'rate'){
 			angular.element( document.querySelector('#interestRateId')).addClass('noteInputCalculatedField');
@@ -116,7 +116,7 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state, $doc
 					originalTerm:$scope.noteInputFormModel.remainingPayment,
 						  	rate:$scope.noteInputFormModel.rate
 			}
-			NoteService.noteCalculator(sampleNoteModel);
+			NoteService.noteOriginalBalCalculator(sampleNoteModel);
 			var unPaidBal = sampleNoteModel.originalPrincipleBalance;
 			if(unPaidBal){
 				$scope.noteInputFormModel.upb = sampleNoteModel.originalPrincipleBalance;
@@ -174,7 +174,7 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state, $doc
 		}
 	}
 
-	$scope.updateNote = function() {
+	$scope.saveNote = function() {
 		$scope.sanitizeNoteInputModelFromJS();
 		$scope.noteInputFormModel.noteDate = $filter('date')($scope.noteInputFormModel.noteDate, 'MM/dd/yyyy');
 		$scope.noteInputFormModel.lastPaymentRecievedDate = $filter('date')($scope.noteInputFormModel.lastPaymentRecievedDate, 'MM/dd/yyyy');
@@ -190,11 +190,12 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state, $doc
 
 	}
 
-	$scope.updateMarketValue = function(grid, row) {
-		var noteDetailModel = {
-			noteId : $scope.noteInputFormModel.noteId
-		}
-		NoteService.updateMarketValue(noteDetailModel).then(function(response) {
+	$scope.updateAndSaveMarketValue = function() {
+		$scope.sanitizeNoteInputModelFromJS();
+		NoteService.getYield($scope.noteInputFormModel);
+		$scope.noteInputFormModel.noteDate = $filter('date')($scope.noteInputFormModel.noteDate, 'MM/dd/yyyy');
+		$scope.noteInputFormModel.lastPaymentRecievedDate = $filter('date')($scope.noteInputFormModel.lastPaymentRecievedDate, 'MM/dd/yyyy');
+		NoteService.updateAndSaveMarketValue($scope.noteInputFormModel).then(function(response) {
 			$scope.noteInputFormModel = response;
 			$scope.convertNumberFilter();
 			toastr.success("Note has been updated successfully.")

@@ -129,6 +129,29 @@
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Enter unpiad balance"></span>
 										</div>
+										<label class="col-sm-1 control-label requiredField">Last Payment
+														Recieved</label>
+													<div class="col-sm-3 originalPrincipalBal">
+														<input type="text" class="form-control icon-text"
+												id="lastPaymentRecievedDate" name="lastPaymentRecievedDate"
+												placeholder="(MM/DD/YYYY)"
+												uib-datepicker-popup="MM/dd/yyyy"
+												ng-model="parent.lastPaymentRecievedDate"
+												is-open="lastPaymentRecievedDate.opened" datepicker-options="dateOptions"
+												ng-required="false" close-text="Close"
+												alt-input-formats="altInputFormats" />
+
+											<div class="input-group-btn noteDateCalAligment">
+												<button type="button" class="btn btn-default calButton"
+													ng-click="lastPaymentRecievedDate()">
+													<i class="glyphicon glyphicon-calendar"></i>
+												</button>
+											</div>
+												 <span
+															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+															tooltip-placement="top"
+															uib-tooltip="Enter Last Payment Date"></span>
+										</div>
 									</div>
 
 									<div class="form-group">
@@ -136,7 +159,7 @@
 											Rate</label>
 										<div class="col-sm-3">
 											<input type="text" class="form-control icon-text modifiedField" name="rate" id="rate"
-												ng-model="noteInputFormModel.rate" ng-blur=populateNoteInputModelFromJS() ng-change=populateNoteInputModelFromJS()
+												ng-model="noteInputFormModel.rate" ng-blur=populateNoteInputModelFromJS()
 												placeholder="Annual Interest Rate" /> <span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Annual Interest Rate"></span>
@@ -191,31 +214,6 @@
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 															tooltip-placement="top"
 															uib-tooltip="Enter tax and interest"></span>
-													</div>
-												</div>
-												<div class="form-group">
-													<label class="col-sm-1 control-label ">Last Payment
-														Recieved</label>
-													<div class="col-sm-3 originalPrincipalBal">
-														<input type="text" class="form-control icon-text"
-												id="lastPaymentRecievedDate" name="lastPaymentRecievedDate"
-												placeholder="(MM/DD/YYYY)"
-												uib-datepicker-popup="MM/dd/yyyy"
-												ng-model="parent.lastPaymentRecievedDate"
-												is-open="lastPaymentRecievedDate.opened" datepicker-options="dateOptions"
-												ng-required="false" close-text="Close"
-												alt-input-formats="altInputFormats" />
-
-											<div class="input-group-btn noteDateCalAligment">
-												<button type="button" class="btn btn-default calButton"
-													ng-click="lastPaymentRecievedDate()">
-													<i class="glyphicon glyphicon-calendar"></i>
-												</button>
-											</div>
-												 <span
-															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
-															tooltip-placement="top"
-															uib-tooltip="Enter Late Payment Date"></span>
 													</div>
 													<label class="col-sm-1 control-label ">Number of
 														Late Payments</label>

@@ -325,6 +325,32 @@ public class NoteRestController {
 	 * @param noteDetailModel
 	 * @return 
 	 * @return
+	 * @throws ParseException 
+	 */
+	@RequestMapping(value = "/api/updateAndSaveMarketValue", method = RequestMethod.POST)
+	public ResponseEntity<NoteInputFormModel> updateAndSaveMarketValue(@RequestBody NoteInputFormModel noteInputFormModel) throws ParseException {
+
+		if (noteInputFormModel == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		Optional<Object> status = noteService.updateMarketValueDetails(noteInputFormModel.getNoteId());
+		if(status.isPresent()){
+			Optional<NoteInputFormModel> model = noteService.updateNote(noteInputFormModel);
+			if (model.isPresent()) {
+				LOG.info("Inside updateAndSaveMarketValue with note id value " + noteInputFormModel.getNoteId());
+				return new ResponseEntity<NoteInputFormModel>(model.get(), HttpStatus.OK);
+			}
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+	
+	/**
+	 * This method will be used to update given note value and recalculate the
+	 * parameters.
+	 * 
+	 * @param noteDetailModel
+	 * @return 
+	 * @return
 	 */
 	@RequestMapping(value = "/api/updateMarketValue", method = RequestMethod.POST)
 	public ResponseEntity<NoteInputFormModel> updateMarketValue(@RequestBody NoteInputFormModel noteInputFormModel) {
@@ -336,7 +362,7 @@ public class NoteRestController {
 		if(status.isPresent()){
 			Optional<NoteInputFormModel> noteDetailModel = noteService.getNoteDetailNew(noteInputFormModel.getNoteId());
 			if (noteDetailModel.isPresent()) {
-				LOG.info("Inside Get Note Details with  noteDetailModel value " + noteInputFormModel.getNoteId());
+				LOG.info("Inside Get Note Details with  noteInputFormModel value " + noteInputFormModel.getNoteId());
 				return new ResponseEntity<NoteInputFormModel>(noteDetailModel.get(), HttpStatus.OK);
 			}
 		}
@@ -351,8 +377,8 @@ public class NoteRestController {
 	 * @return
 	 * @throws ParseException 
 	 */
-	@RequestMapping(value = "/api/updateNoteNew", method = RequestMethod.POST)
-	public ResponseEntity<NoteInputFormModel> updateNoteNew(@RequestBody NoteInputFormModel noteModel) throws ParseException {
+	@RequestMapping(value = "/api/saveNote", method = RequestMethod.POST)
+	public ResponseEntity<NoteInputFormModel> saveNote(@RequestBody NoteInputFormModel noteModel) throws ParseException {
 
 		if (noteModel == null) {
 			NoteInputFormModel model = new NoteInputFormModel();

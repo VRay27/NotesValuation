@@ -19,7 +19,11 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q','$filter', '$rootScope',
 		getNoteDetailModel : getNoteDetailModel,
 		getYield : getYield,
 		updateMarketValue : updateMarketValue,
-		subscribeNote : subscribeNote
+		subscribeNote : subscribeNote,
+		noteOriginalBalCalculator : noteOriginalBalCalculator,
+		notePaymentCalculator : notePaymentCalculator,
+		updateAndSaveMarketValue : updateAndSaveMarketValue
+		
 		
 	};
 
@@ -81,6 +85,40 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q','$filter', '$rootScope',
 			}
 	}
 	
+	function notePaymentCalculator(noteInputFormModel) {
+		 var principal = $filter('sanitizeInput')(noteInputFormModel.originalPrincipleBalance);
+		 var term  = $filter('sanitizeInput')(noteInputFormModel.originalTerm);
+		 var interestRate   = $filter('sanitizeInput')(noteInputFormModel.rate);
+		 var payment = $filter('sanitizeInput')(noteInputFormModel.pdiPayment);
+		 var isAllPresent = principal && term && interestRate && payment;
+		 if(!(isAllPresent)) {
+			 	interestRate = interestRate / 1200;
+			 	payment = payment * -1;
+				if (principal && term && interestRate) {
+					var pay = principal * interestRate / (1 - (Math.pow(1 / (1 + interestRate), term)));
+					noteInputFormModel.pdiPayment = UtilityService.round(pay,2);
+					return 'pdiPayment';
+				}
+			}
+	}
+	
+	function noteOriginalBalCalculator(noteInputFormModel) {
+		 var principal = $filter('sanitizeInput')(noteInputFormModel.originalPrincipleBalance);
+		 var term  = $filter('sanitizeInput')(noteInputFormModel.originalTerm);
+		 var interestRate   = $filter('sanitizeInput')(noteInputFormModel.rate);
+		 var payment = $filter('sanitizeInput')(noteInputFormModel.pdiPayment);
+		 var isAllPresent = principal && term && interestRate && payment;
+		 if(!(isAllPresent)) {
+			 	interestRate = interestRate / 1200;
+			 	payment = payment * -1;
+				 if (term && interestRate && payment) {
+					var newPrinciple = UtilityService.getPV(interestRate, term, payment);
+					noteInputFormModel.originalPrincipleBalance = UtilityService.round(newPrinciple, 2);
+					return 'originalPrincipleBalance';
+				}
+			}
+	}
+	
 	function createNote(noteInputFormModel) {
 		
 		var deferred = $q.defer();
@@ -100,7 +138,7 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q','$filter', '$rootScope',
 	function updateNote(noteDetailModel) {
 		WaitingDialog.show();
 		var deferred = $q.defer();
-		$http.post('api/updateNoteNew', noteDetailModel)
+		$http.post('api/saveNote', noteDetailModel)
 			.then(
 				function(response) {
 					deferred.resolve(response.data);
@@ -169,10 +207,29 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q','$filter', '$rootScope',
 		return deferred.promise;
 	}
 	
-	function updateMarketValue(noteDetailModel) {
+	function updateAndSaveMarketValue(model) {
 		WaitingDialog.show();
 		var deferred = $q.defer();
-		$http.post('api/updateMarketValue', noteDetailModel)
+		$http.post('api/updateAndSaveMarketValue', model)
+			.then(
+				function(response) {
+					deferred.resolve(response.data);
+				},
+				function(errResponse) {
+					console.error('Error while updating note ');
+					deferred.reject(errResponse);
+				}
+		).then(
+				function() {
+					WaitingDialog.hide();
+				});
+		return deferred.promise;
+	}
+	
+	function updateMarketValue(model) {
+		WaitingDialog.show();
+		var deferred = $q.defer();
+		$http.post('api/updateMarketValue', model)
 			.then(
 				function(response) {
 					deferred.resolve(response.data);

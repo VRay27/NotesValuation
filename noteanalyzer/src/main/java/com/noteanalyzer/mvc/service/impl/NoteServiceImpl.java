@@ -521,6 +521,7 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	@Override
+	@Transactional
 	public boolean deleteNote(@NonNull NoteInputFormModel model, long userId) {
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("userId", new Long(userId));
@@ -543,6 +544,7 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	@Override
+	@Transactional
 	public Optional<NoteInputFormModel> updateNote(NoteInputFormModel noteModel) throws ParseException {
 		Note noteEntity = genericDao.getById(Note.class, noteModel.getNoteId());
 		if (noteEntity == null) {
@@ -571,6 +573,7 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	@Override
+	@Transactional
 	public Optional<NoteInputFormModel> subscribeNote(NoteInputFormModel noteModel) throws ParseException {
 		Note noteEntity = genericDao.getById(Note.class, noteModel.getNoteId());
 		if (noteEntity == null) {
