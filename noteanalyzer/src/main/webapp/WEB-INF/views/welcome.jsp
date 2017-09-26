@@ -104,22 +104,24 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="/notes/#!/" style="padding-top:0px;"><img src="static/img/note_unlimited.png" alt="Note Unlimited"></a>
+      <div style="width:50%"><a class="navbar-brand" href="/notes/#!/" style="padding-top:0px;padding-left:20%;"><img src="static/img/note_unlimited.png" alt="Note Unlimited"></a></div>
     </div>
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li id="home" class="active"><a href="/notes/#!/"><span class="glyphicon glyphicon-home"></span> Home <span class="sr-only">(current)</span></a></li>
+       <!--  <li id="home" class="active"><a href="/notes/#!/"><span class="glyphicon glyphicon-home"></span> Home <span class="sr-only">(current)</span></a></li> -->
         <!-- <li id="myProfile" ng-if="isAuthenticated()"><a href="/notes/#!/profile"><span class="glyphicon glyphicon-user"></span> My Profile</a></li> -->
-        <li id="noteDashboard" ng-if="isAuthenticated()"><a href="/notes/#!/noteDashboard"><span class="glyphicon glyphicon-th-list"></span> My Dashboard</a></li>
-        <li id="calculator"><a href="/notes/#!/calculator"><span class="glyphicon glyphicon-calendar"></span> Calculator</a></li>
+       
       </ul>
      
       <ul class="nav navbar-nav navbar-right">
-         <li id="signUp" ng-if="!isAuthenticated()"><a href="/notes/#!/signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-     	 <li id="login" ng-if="!isAuthenticated()"><a href="/notes/#!/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-     	 <li id="profile" ng-if="isAuthenticated()"><a href="/notes/#!/profile"><span class="glyphicon glyphicon-user"></span><span id="welcomeUserName"> {{loggedInUserDisplayName}}</span></a></li>
-		 <li id="logout" ng-if="isAuthenticated()"><a href="/notes/#!/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+       	 <li id="noteDashboard" ng-if="isAuthenticated()"><a href="/notes/#!/noteDashboard"><span class="x-glyphicon glyphicon-th-list"></span> My Dashboard</a></li>
+         <li id="calculator"><a href="/notes/#!/calculator"><span class="x-glyphicon x-glyphicon-calendar"></span> Calculator</a></li>
+     	 <li id="login" ng-if="!isAuthenticated()"><a href="/notes/#!/login"><span class="x-glyphicon x-glyphicon-log-in"></span> Sign in</a></li>
+     	 <li  ng-if="!isAuthenticated()" style="color:red">or</li>
+		 <li id="signUp" ng-if="!isAuthenticated()"><a href="/notes/#!/signup"><span class="glyphicon x-glyphicon-user"></span> Join</a></li>
+     	 <li id="profile" ng-if="isAuthenticated()"><a href="/notes/#!/profile"><span class="glyphicon x-glyphicon-user"></span><span id="welcomeUserName"> {{loggedInUserDisplayName}}</span></a></li>
+		 <li id="logout" ng-if="isAuthenticated()"><a href="/notes/#!/logout"><span class="x-glyphicon x-glyphicon-log-out"></span> Logout</a></li>
       </ul>
     </div>
   </div>

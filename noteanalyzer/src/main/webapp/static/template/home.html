@@ -1,12 +1,9 @@
 <div class="container">
-	<div class="panel panel-default">
-		<div class="panel-heading">Home</div>
-		<div class="panel-body">
-			
+	
 			<div class="row">
-
-				<h2 class="text-center" style="padding-bottom: 3%">Note
-					Analyzer</h2>
+		<div class="col-sm-12 col-md-8 col-md-offset-2">
+				<h2 class="text-center" style="padding-bottom: 3%;padding-top:10%">One stop for all tools to both evaluates and manage notes
+					</h2>
 				<div ng-show="isNoteCSVAllowed()">
 				 <form name="noteAnalayzeForm">
 						<section id="noteAnalyzerText" class="noteAnalyzerTextClass">
@@ -28,11 +25,12 @@
 							</p>
 						</section>
 						</form>
+						</div>
 					</div>
 				<div ng-hide="isNoteCSVAllowed()">
 				<form id="noteAnalayzeForm" method="post" class="form-horizontal">
 					<div class="row">
-						<div class="col-sm-12 col-md-12 col-md-offset-4">
+						<div class="col-sm-12 col-md-8 col-md-offset-4">
 							<div class="input-group">
 								<input type="text" id="noteAnalyzertext"
 									class="noteAnalyzerTextBox"
@@ -50,11 +48,10 @@
 				</form>
 				</div>
 			</div>
-			<hr />
+			<br />
 
 			<div class="row">
 				<div class="col-sm-12 col-md-8 col-md-offset-2">
-					<h2 class="text-center" style="padding-bottom: 3%">About Us</h2>
 					<div class="embed-responsive embed-responsive-16by9">
 						<iframe class="embed-responsive-item"
 							src="https://www.youtube.com/embed/-etED4TO4hA"> </iframe>
@@ -62,8 +59,5 @@
 				</div>
 
 			</div>
-		</div>
-
-	</div>
-
 </div>
+
