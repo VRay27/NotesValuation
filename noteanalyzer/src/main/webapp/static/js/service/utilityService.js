@@ -29,7 +29,7 @@ noteApp.factory('UtilityService', ['$http', 'toastr', '$q', '$rootScope', '$uibM
 				else{
 					return 0;	
 				}*/
-				getMonthsBetween(startDate,endDate,false);
+				return getMonthsBetween(startDate,endDate,false);
 			}
 		}
 		return '';
@@ -73,7 +73,7 @@ noteApp.factory('UtilityService', ['$http', 'toastr', '$q', '$rootScope', '$uibM
 	};
 	
 	function setActiveHeader(id){
-		angular.element(document.querySelector(".nav li")).removeClass("active");
+		angular.element(document.querySelectorAll(".nav li")).removeClass("active");
 		if(angular.element( document.querySelector('#'+id))){
 			angular.element( document.querySelector('#'+id)).addClass("active");	
 		}

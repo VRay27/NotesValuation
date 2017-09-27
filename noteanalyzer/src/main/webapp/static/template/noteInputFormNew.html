@@ -87,7 +87,7 @@
 											Term(Months)</label>
 										<div class="col-sm-3">
 											<input type="text" class="form-control icon-text modifiedField" id="originalTerm"
-												name="originalTerm"  ng-blur=populateNoteInputModelFromJS()
+												name="originalTerm"  ng-blur=populateNoteInputModelFromJS() ng-change="populateRemainingNumberOfPayment()"
 												ng-model="noteInputFormModel.originalTerm"
 												ng-init="updateOrginalTerm()" />
 											<span
@@ -134,7 +134,7 @@
 													<div class="col-sm-3 originalPrincipalBal">
 														<input type="text" class="form-control icon-text"
 												id="lastPaymentRecievedDate" name="lastPaymentRecievedDate"
-												placeholder="(MM/DD/YYYY)"
+												placeholder="(MM/DD/YYYY)" ng-change="populateRemainingNumberOfPayment()"
 												uib-datepicker-popup="MM/dd/yyyy"
 												ng-model="parent.lastPaymentRecievedDate"
 												is-open="lastPaymentRecievedDate.opened" datepicker-options="dateOptions"

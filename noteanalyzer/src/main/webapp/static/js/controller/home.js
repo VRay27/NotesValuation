@@ -207,7 +207,7 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 			$scope.noteInputFormModel.noteDate = $filter('date')($scope.parent.noteDate, 'MM/dd/yyyy');
 			$scope.noteInputFormModel.lastPaymentRecievedDate = $filter('date')($scope.parent.lastPaymentRecievedDate, 'MM/dd/yyyy');
 			var numberOfMonth =  UtilityService.getNumberOfMonth(new Date($scope.noteInputFormModel.noteDate), new Date($scope.noteInputFormModel.lastPaymentRecievedDate));
-			if($scope.noteInputFormModel.originalTerm){
+			if($scope.noteInputFormModel.originalTerm && $scope.noteInputFormModel.noteDate && $scope.noteInputFormModel.lastPaymentRecievedDate){
 				$scope.noteInputFormModel.remainingPayment = $scope.noteInputFormModel.originalTerm - numberOfMonth;
 				$scope.populateUPBFromJS();
 			}

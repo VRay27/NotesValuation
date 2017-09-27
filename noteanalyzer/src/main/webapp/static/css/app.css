@@ -73,15 +73,15 @@ div.block .input{
  vertical-align:middle;
  
 }
+
 .noteAnalyzerUploadClass{
 	width: 50%; 
 	float: right; 
-	padding-left: 15%
+	padding-left: 8%
 }
 .noteAnalyzerTextClass{
 	width: 50%; 
 	float: left; 
-	padding-left: 5%; 
 	
 }
 .noteFileUploadBatch{
@@ -282,4 +282,12 @@ div.block .input{
 
 .control-label{
 	padding-left:0px;
+}
+
+.orHomepage{
+	color: red;
+    font-weight: 600;
+    line-height: 20px;
+    padding-top: 15px;
+    padding-left: 15px;
 }
