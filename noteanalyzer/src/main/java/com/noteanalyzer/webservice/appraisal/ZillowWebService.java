@@ -252,8 +252,6 @@ public class ZillowWebService implements IAppraisalSource {
 			LOG.warning("Error while fetching the Zillow webservice: " + e);
 		}
 		propertyBean.setAppraisalSource("Zillow");
-
-		LOG.info("Data Came from Zillow webservice after parsing" + propertyBean);
 		return propertyBean;
 	}
 

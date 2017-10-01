@@ -21,14 +21,6 @@ noteApp.factory('UtilityService', ['$http', 'toastr', '$q', '$rootScope', '$uibM
 				// date is not valid
 				return '';
 			} else {
-				// date is valid
-			/*	var numberOfMonths = (endDate.getYear() - startDate.getYear()) * 12 + (endDate.getMonth() - startDate.getMonth()) - 1;
-				if(numberOfMonths > 0){
-					return numberOfMonths;					
-				}
-				else{
-					return 0;	
-				}*/
 				return getMonthsBetween(startDate,endDate,false);
 			}
 		}
@@ -96,7 +88,7 @@ noteApp.factory('UtilityService', ['$http', 'toastr', '$q', '$rootScope', '$uibM
 	   var tolerance = Math.abs(0.00000005 * pmt);
 
 	   // Tries at most 40 times to find a solution within the tolerance.
-	   for (var i = 0; i < 40; i++) {
+	   for (var i = 0; i < 100; i++) {
 	       // Resets the balance to the original pv.
 	       var balance = pv;
 

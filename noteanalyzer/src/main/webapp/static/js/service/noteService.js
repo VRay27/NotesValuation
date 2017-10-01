@@ -274,7 +274,7 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q','$filter', '$rootScope',
 			}
 		}).then(function(response) {
 			toastr.success('File has been uploaded Successfully!!');
-		}, function(response) {
+		}, function(errResponse) {
 			toastr.error('Unable to upload file. Please try after sometime.');
 		}).then(
 				function() {

@@ -70,6 +70,7 @@ public class NoteAnalysisService {
 			BigDecimal notePriceVal = new  BigDecimal(notePrice);
 			BigDecimal outVal =  paymentVal.multiply(new BigDecimal(12));
 			outVal = outVal.divide(notePriceVal, 4, RoundingMode.HALF_UP);
+			outVal = outVal.multiply(new BigDecimal(100));
 			outVal = outVal.setScale(2, BigDecimal.ROUND_HALF_UP);
 			return outVal.doubleValue();
 		}

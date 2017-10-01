@@ -42,9 +42,21 @@ $(document).ready(function() {
                     date: {
                         format: 'MM/DD/YYYY',
                         message: 'The note date is not in valid(MM/DD/YYYY) format'
+                    },
+                    callback: {
+                        message: 'The note date is not in valid(MM/DD/YYYY) format',
+                        callback: function (value, validator, $field) {
+                        	//alert('value'+value+' '+validator+' '+validator+' '+$field);
+                        	if(value && value.length>7){
+                        		var items = value.split('/');
+                               if(items.length > 2 && (items[0].length ==1 && items[0]>0 && items[0]<13) || (items[1].length ==1 && items[1]>0 && items[1]<32)) {
+                               	return false;	
+                               }
+                        }
+                        	return true;
                     }
                 }
-            },
+            }},
             streetAddress: {
             	group:'.col-sm-3',
                 validators: {
@@ -238,12 +250,24 @@ $(document).ready(function() {
             	 group:'.col-sm-3',
             	 validators: {
             		 notEmpty: {
-                         message: 'The note date field cannot be empty'
+                         message: 'The date field cannot be empty'
                      },
             		 date: {
                          format: 'MM/DD/YYYY',
                          message: 'The  date is not in valid(MM/DD/YYYY) format'
+                     },
+                     callback: {
+                         message: 'The  date is not in valid(MM/DD/YYYY) format',
+                         callback: function (value, validator, $field) {
+                         	if(value && value.length>7){
+                         		var items = value.split('/');
+                                if(items.length > 2 && (items[0].length ==1 && items[0]>0 && items[0]<13) || (items[1].length ==1 && items[1]>0 && items[1]<32)) {
+                                	return false;	
+                                }
+                         }
+                         	return true;
                      }
+                 }
              }},
              numberOfUnits:{
              group:'.col-sm-3',
@@ -442,6 +466,9 @@ $(document).ready(function() {
 	   if($('#selNoteDate').val()){
 	   	$('#noteInputForm').bootstrapValidator('revalidateField', 'noteDate');
 	   }
+	   if($('#lastPaymentRecievedDate').val()){
+		   	$('#noteInputForm').bootstrapValidator('revalidateField', 'lastPaymentRecievedDate');
+	   }
 	   if($('#originalPrincipalBal').val()){
 	   $('#noteInputForm').bootstrapValidator('revalidateField', 'originalPrincipalBal');
 	   }
@@ -483,6 +510,12 @@ $(document).ready(function() {
    $('#selNoteDate').change(function(){
 	   if($('#selNoteDate').val()){
 		   $('#noteInputForm').bootstrapValidator('revalidateField', 'noteDate');
+	   }
+	 });
+   
+   $('#lastPaymentRecievedDate').change(function(){
+	   if($('#lastPaymentRecievedDate').val()){
+		   $('#noteInputForm').bootstrapValidator('revalidateField', 'lastPaymentRecievedDate');
 	   }
 	 });
    

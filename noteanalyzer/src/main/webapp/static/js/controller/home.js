@@ -15,7 +15,7 @@ noteApp.controller('HomeCtrl', function($scope, $stateParams, $state,$document, 
 			}else{
 				toastr.error('Error while fetching details for this note.');	
 			}
-			
+			$auth.checkLoginFromServer(errResponse.status);
 		});
 		
 	};
@@ -29,13 +29,16 @@ noteApp.controller('HomeCtrl', function($scope, $stateParams, $state,$document, 
 			$rootScope.submitInputFormModel = {};
 			$state.go('noteDashboard');
 		}, function(errResponse) {
+			$auth.checkLoginFromServer(errResponse.status);
 			toastr.error('Error while creating Note');
 		});
 	}
 
 	$scope.uploadFile = function() {
 		if ($auth.isAuthenticated()) {
-			NoteService.uploadNoteFile($scope.myFile, noteUploadAPI);
+			if($scope.myFile){
+				NoteService.uploadNoteFile($scope.myFile, noteUploadAPI);
+			}
 		} else {
 			$rootScope.noteUploadFile = $scope.myFile;
 			$state.go('login', {
@@ -160,6 +163,7 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 	 			$scope.populateDefaultPropertyType();
 	 			$scope.updateOrginalTerm();
 	 		},function(errResponse) {
+	 			$auth.checkLoginFromServer(errResponse.status);
 	 			toastr.error('Error while fetching details for this zip code.'+noteInputFormModel.zipCode);
 	 		});
 	 }
@@ -203,12 +207,17 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 	}
 	
 	$scope.populateRemainingNumberOfPayment = function(){
-		if($scope.noteInputFormModel){
+		if($scope.noteInputFormModel && $scope.parent.noteDate && $scope.parent.lastPaymentRecievedDate ){
 			$scope.noteInputFormModel.noteDate = $filter('date')($scope.parent.noteDate, 'MM/dd/yyyy');
 			$scope.noteInputFormModel.lastPaymentRecievedDate = $filter('date')($scope.parent.lastPaymentRecievedDate, 'MM/dd/yyyy');
 			var numberOfMonth =  UtilityService.getNumberOfMonth(new Date($scope.noteInputFormModel.noteDate), new Date($scope.noteInputFormModel.lastPaymentRecievedDate));
 			if($scope.noteInputFormModel.originalTerm && $scope.noteInputFormModel.noteDate && $scope.noteInputFormModel.lastPaymentRecievedDate){
-				$scope.noteInputFormModel.remainingPayment = $scope.noteInputFormModel.originalTerm - numberOfMonth;
+				if(numberOfMonth>0){
+					$scope.noteInputFormModel.remainingPayment = $scope.noteInputFormModel.originalTerm - numberOfMonth;	
+				}else{
+					$scope.noteInputFormModel.remainingPayment = $scope.noteInputFormModel.originalTerm;
+				}
+				
 				$scope.populateUPBFromJS();
 			}
 		}
@@ -311,7 +320,7 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 		$scope.noteDate.opened = true;
 	};
 	
-	$scope.parent = {noteDate:$scope.noteInputFormModel.noteDate,lastPaymentRecievedDate:$scope.noteInputFormModel.noteDate};
+	$scope.parent = {noteDate:$scope.noteInputFormModel.noteDate,lastPaymentRecievedDate:$scope.noteInputFormModel.lastPaymentRecievedDate};
 	
 	$scope.lastPaymentRecievedDate = {
 			opened : false
@@ -367,6 +376,7 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 			WaitingDialog.hide();
 			$scope.lastPaymentRecievedDate.opened = false;
 			$scope.noteDate.opened = false;
+			$auth.checkLoginFromServer(errResponse.status);
 			toastr.error('Error while creating note. Please try after sometime.');
 		})
 	}
@@ -404,7 +414,8 @@ noteApp.service('fileUpload', ['$http', 'toastr', function($http, toastr) {
 			}
 		}).then(function(response) {
 			toastr.success('File has been uploaded Successfully!!');
-		}, function(response) {
+		}, function(errResponse) {
+			$auth.checkLoginFromServer(errResponse.status);
 			toastr.error('Unable to upload file. Please try after sometime.');
 		});
 	}

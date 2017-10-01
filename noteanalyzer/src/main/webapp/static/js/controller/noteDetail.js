@@ -126,10 +126,20 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state, $doc
 
 	
 	$scope.populateRemainingNumberOfPayment = function(){
-		if($scope.noteInputFormModel){
+		if($scope.noteInputFormModel && $scope.noteInputFormModel.noteDate &&$scope.noteInputFormModel.noteDate.length==10 
+				&& $scope.noteInputFormModel.lastPaymentRecievedDate && $scope.noteInputFormModel.lastPaymentRecievedDate.length==10){
 			$scope.noteInputFormModel.noteDate = $filter('date')($scope.noteInputFormModel.noteDate, 'MM/dd/yyyy');
-			$scope.noteInputFormModel.remainingPayment = UtilityService.getNumberOfMonth(new Date($scope.noteInputFormModel.noteDate), new Date());	
-			$scope.populateUPBFromJS();
+			$scope.noteInputFormModel.lastPaymentRecievedDate = $filter('date')($scope.noteInputFormModel.lastPaymentRecievedDate, 'MM/dd/yyyy');
+			var numberOfMonth =  UtilityService.getNumberOfMonth(new Date($scope.noteInputFormModel.noteDate), new Date($scope.noteInputFormModel.lastPaymentRecievedDate));
+			if($scope.noteInputFormModel.originalTerm && $scope.noteInputFormModel.noteDate && $scope.noteInputFormModel.lastPaymentRecievedDate){
+				if(numberOfMonth>0){
+					$scope.noteInputFormModel.remainingPayment = $scope.noteInputFormModel.originalTerm - numberOfMonth;	
+				}else{
+					$scope.noteInputFormModel.remainingPayment = $scope.noteInputFormModel.originalTerm;
+				}
+				
+				$scope.populateUPBFromJS();
+			}
 		}
 	}
 
@@ -138,28 +148,6 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state, $doc
 		$state.go('noteDashboard');
 	}
 
-	$scope.dateOptions = {
-		formatYear : 'yy',
-		maxDate : new Date(2100, 12, 31),
-		minDate : new Date(1800, 12, 31),
-		startingDay : 1
-	};
-
-	$scope.noteDate = {
-		opened : false
-	};
-	$scope.noteDate = function() {
-		$scope.noteDate.opened = true;
-	};
-
-	$scope.lastPaymentRecievedDate = {
-		opened : false
-	};
-	$scope.lastPaymentRecievedDate = function() {
-		$scope.lastPaymentRecievedDate.opened = true;
-	};
-
-	$scope.altInputFormats = ['MM/dd/yyyy'];
 
 	$scope.updateOrginalTerm = function() {
 		if ($scope.noteInputFormModel && $scope.noteInputFormModel.loanTypeList) {

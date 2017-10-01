@@ -2,10 +2,10 @@
 	
 			<div class="row">
 		<div class="col-sm-12 col-md-8 col-md-offset-2">
-				<h2 class="text-center" style="padding-bottom: 3%;padding-top:3%">One stop for all tools to both evaluates and manage notes
+				<h2 class="text-center" style="padding-bottom: 3%;padding-top:3%;font-size:48px;">One stop destination to evaluate and manage notes
 					</h2>
 				<div ng-show="isNoteCSVAllowed()">
-				 <form name="noteAnalayzeForm">
+				 <form name="noteAnalayzeAndUploadForm">
 						<section id="noteAnalyzerText" class="noteAnalyzerTextClass">
 							<input type="text" id="noteAnalyzertext"
 								class="noteAnalyzerTextBox"
@@ -17,12 +17,12 @@
 						</form>
 						<form name="noteAnalayzeUploadForm">
 						<section id="noteAnalyzerUpload" class="noteAnalyzerUploadClass">
-							<input file-model="myFile" type="file" 
-								class="noteFileUploadBatch" />
-							<button type="button" id="uploadNoteBatch" disabled="disabled" title="Will be coming soon" class ="btn btn-primary" ng-click="uploadFile()">Upload Notes</button>
-							<p>
-								<a href="templateDownload" disabled="disabled" title="Will be coming soon">Download Note Template</a>
-							</p>
+							<input file-model="myFile" type="file" id="noteFileUpload"
+								class="noteFileUploadBatch"  accept=".csv" />
+							<button type="submit" id="uploadNoteBatch"  class ="btn btn-primary" ng-click="uploadFile()">Upload Notes</button>
+							<!-- <p>
+								<a href="templateDownload" >Download Note Template</a>
+							</p> -->
 						</section>
 						</form>
 						</div>
@@ -60,4 +60,3 @@
 
 			</div>
 </div>
-

@@ -40,7 +40,7 @@
 										<div class="col-sm-3 noteDate">
 											<input type="text" class="form-control icon-text"
 												id="selNoteDate" name="noteDate" ng-change="populateRemainingNumberOfPayment()"
-												placeholder="(MM/DD/YYYY)"
+												placeholder="(MM/ddD/YYYY)"
 												uib-datepicker-popup="MM/dd/yyyy"
 												ng-model="parent.noteDate"
 												is-open="noteDate.opened" datepicker-options="dateOptions"
@@ -134,7 +134,7 @@
 													<div class="col-sm-3 originalPrincipalBal">
 														<input type="text" class="form-control icon-text"
 												id="lastPaymentRecievedDate" name="lastPaymentRecievedDate"
-												placeholder="(MM/DD/YYYY)" ng-change="populateRemainingNumberOfPayment()"
+												placeholder="(MM/ddD/YYYY)" ng-change="populateRemainingNumberOfPayment()"
 												uib-datepicker-popup="MM/dd/yyyy"
 												ng-model="parent.lastPaymentRecievedDate"
 												is-open="lastPaymentRecievedDate.opened" datepicker-options="dateOptions"
@@ -289,7 +289,7 @@
 								<h4 class="panel-title">
 									<a class="accordion-toggle" data-toggle="collapse"
 										data-parent="#accordion" href="#propertyDetail"
-										style="text-transform: none">Property Detail</a>
+										style="text-transform: none">Property Details</a>
 								</h4>
 							</div>
 							<div id="propertyDetail" class="panel-collapse collapse">

@@ -1,14 +1,16 @@
 package com.noteanalyzer.mvc.controller;
 
+import static com.noteanalyzer.mvc.constant.NoteConstant.FILE_UPLOAD_LOCATION;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -44,10 +46,6 @@ import com.noteanalyzer.mvc.model.UserModel;
 import com.noteanalyzer.mvc.service.NoteService;
 import com.noteanalyzer.mvc.service.UserService;
 import com.noteanalyzer.utility.NoteUtility;
-
-import au.com.bytecode.opencsv.CSVReader;
-import au.com.bytecode.opencsv.bean.ColumnPositionMappingStrategy;
-import au.com.bytecode.opencsv.bean.CsvToBean;
 
 /**
  * This class is responsible for all communication with UI for Notes related activity. This is restful webservice can be called from any UI or third party as and when needed.
@@ -247,18 +245,26 @@ public class NoteRestController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/api/noteUpload", method = RequestMethod.POST)
-	public ResponseEntity<List<NoteInputFormModel>> multiFileUpload(MultipartHttpServletRequest request,
-			RedirectAttributes redirectAttributes) throws IOException {
-
-		RequestStatusModel statusModel = new RequestStatusModel();
+	public ResponseEntity<String> multiFileUpload(MultipartHttpServletRequest request,
+			RedirectAttributes redirectAttributes)  {
+		String loggedInUserName = NoteUtility.getLoggedInUserName();
+		String fileUploadLocation = noteService.getParameterValue(FILE_UPLOAD_LOCATION, null).getParameterValue();
 		Iterator<String> iterator = request.getFileNames();
 		MultipartFile multipart = null;
-		List<NoteInputFormModel> responseList = new ArrayList<>();
 		while (iterator.hasNext()) {
 			multipart = request.getFile(iterator.next());
-			// do something with the file.....
+			if (multipart != null) {
+			final String originalFileName = multipart.getOriginalFilename();
+			try {
+				Files.write(Paths.get(fileUploadLocation+loggedInUserName+"__"+System.currentTimeMillis()+"__"+originalFileName), multipart.getBytes());
+			} catch (IOException e) {
+				e.printStackTrace();
+				return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+			}
+			}
 		}
-		System.out.println("Index controler for filr upload called>>" + multipart);
+		return new ResponseEntity<String>(HttpStatus.OK);
+		/*System.out.println("Index controler for filr upload called>>" + multipart);
 		if (multipart == null) {
 			System.out.println("Empty uploaded file");
 			return new ResponseEntity<List<NoteInputFormModel>>(responseList, HttpStatus.BAD_REQUEST);
@@ -287,7 +293,7 @@ public class NoteRestController {
 			}
 			return new ResponseEntity<List<NoteInputFormModel>>(responseList, HttpStatus.OK);
 		}
-	}
+*/	}
 
 	/**
 	 * This method will return all the notes summary for logged in user.

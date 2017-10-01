@@ -285,9 +285,25 @@ div.block .input{
 }
 
 .orHomepage{
-	color: red;
-    font-weight: 600;
+	color: #EA2127;
+    font-weight: 800;
     line-height: 20px;
     padding-top: 15px;
-    padding-left: 15px;
 }
+.navbar-header{
+	    min-height: 100px;
+}
+
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
+    color: #EA2127;
+    font-weight: 600;
+    background-color: white;
+}
+
+@media(min-width: 768px){
+.navbar-nav>li>a {
+   padding-top:75px;
+   padding-bottom:5px;
+}
+}
+

@@ -45,5 +45,5 @@ public class NoteConstant {
 	
 	public static final String BLOCKED_USER_CODE_UI = "BlockedUser";
 	
-	
+	public static final String FILE_UPLOAD_LOCATION = "FILE_UPLOAD_LOCATION";
 }

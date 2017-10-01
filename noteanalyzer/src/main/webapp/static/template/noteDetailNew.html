@@ -72,7 +72,7 @@
 											Term(Months)</label>
 										<div class="col-sm-3">
 											<input type="text" class="form-control icon-text modifiedField" id="originalTerm"
-												name="originalTerm"  ng-blur=populateNoteInputModelFromJS()
+												name="originalTerm"  ng-blur=populateNoteInputModelFromJS() ng-change="populateRemainingNumberOfPayment()"
 												ng-model="noteInputFormModel.originalTerm"
 												ng-init="updateOrginalTerm()" />
 											<span
@@ -113,6 +113,15 @@
 												/> <span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Enter unpiad balance"></span>
+										</div>
+										<label class="col-sm-1 control-label requiredField">Last Payment
+														Recieved</label>
+													<div class="col-sm-3">
+											<input type="text" class="form-control icon-text"
+												name="lastPaymentRecievedDate" placeholder="MM/dd/YYYY" ng-change="populateRemainingNumberOfPayment()"
+												ng-model="noteInputFormModel.lastPaymentRecievedDate" /> <span
+												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
+												tooltip-placement="top" uib-tooltip="Enter last Payment Recieved Date"></span>
 										</div>
 									</div>
 
@@ -177,17 +186,6 @@
 															tooltip-placement="top"
 															uib-tooltip="Enter tax and interest"></span>
 													</div>
-												</div>
-												<div class="form-group">
-													<label class="col-sm-1 control-label ">Last Payment
-														Recieved</label>
-													<div class="col-sm-3">
-											<input type="text" class="form-control icon-text"
-												name="lastPaymentRecievedDate" placeholder="MM/dd/YYYY"
-												ng-model="noteInputFormModel.lastPaymentRecievedDate" /> <span
-												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
-												tooltip-placement="top" uib-tooltip="Enter last Payment Recieved Date"></span>
-										</div>
 													<label class="col-sm-1 control-label ">No of
 														Late Payments</label>
 													<div class="col-sm-3 ">
@@ -421,7 +419,7 @@
 								<h4 class="panel-title">
 									<a class="accordion-toggle" data-toggle="collapse"
 										data-parent="#accordion" style="text-transform: none"
-										href="#demographicData">Demographic Data</a>
+										href="#demographicData">Demographic and Neighborhood Details</a>
 								</h4>
 							</div>
 							<div id="demographicData" class="panel-collapse collapse">
@@ -446,7 +444,7 @@
 									
 									<div class="form-group">
 										<label class="col-lg-2 control-label">Property Detail
-											Url</label>
+											URL</label>
 										<div class="col-lg-3">
 											<div ng-if="noteInputFormModel.propertyDetailModel.propertyDetailUrl">
 											<p class="form-control-static">
@@ -532,7 +530,7 @@
 								<input type="button" class="btn btn-success"
 									id="updateNoteBtn" name="updateNote" value="Save" />
 									<input type="button" class="btn btn-success"
-									id="updateMarketValueBtn" name="updateMarketValue" value="Update" ng-click="updateAndSaveMarketValue()" ng-show="isSubscribed()" />
+									id="updateMarketValueBtn" name="updateMarketValue" value="Save & Update" ng-click="updateAndSaveMarketValue()" ng-show="isSubscribed()" />
 									<input type="button" class="btn btn-success"
 									id="subscribeNoteBtn" name="subscribeNoteBtn" value="Subscribe" ng-hide="isSubscribed()"/>
 									 <input type="button" class="btn btn-danger" ng-click="deleteNote()"
