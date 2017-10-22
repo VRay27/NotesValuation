@@ -48,12 +48,6 @@ public class Note extends AbstractEntity {
 	@Column(name = "USER_ID")
 	private Long userId;
 
-	@Column(name = "FACE_VALUE")
-	private Double faceValue;
-	
-	@Column(name = "SALE_PRICE")
-	private Double salePrice;
-
 
 	@Column(name = "NOTE_TYPE")
 	private String noteType;
@@ -105,9 +99,6 @@ public class Note extends AbstractEntity {
 	@Column(name = "STORE_NAME")
 	private String storeName;
 	
-	@Column(name = "PROPERTY_VALUE_AT_ORIGINATION")
-	private Double propertyValueAtOrigination;
-	
 	@Column(name = "NOTE_PRICE")
 	private Double notePrice;
 	
@@ -147,11 +138,7 @@ public class Note extends AbstractEntity {
 	@Column(name = "Borrower_Name")
 	private String borrowerName;
 	
-	@Column(name = "HOA_FEE")
-	private String hoaFee;
 
-	@Column(name = "NO_OF_PROP_UNIT")
-	private String numberOfPropUnit;
 	
 	@Column(name = "CREATED_DATE_TIME")
 	private ZonedDateTime createdDate;
@@ -222,35 +209,7 @@ public class Note extends AbstractEntity {
 		this.userId = userId;
 	}
 
-	/**
-	 * @return the faceValue
-	 */
-	public Double getFaceValue() {
-		return faceValue;
-	}
 
-	/**
-	 * @param faceValue the faceValue to set
-	 */
-	public void setFaceValue(Double faceValue) {
-		this.faceValue = faceValue;
-	}
-
-	/**
-	 * @return the salePrice
-	 */
-	public Double getSalePrice() {
-		return salePrice;
-	}
-
-	/**
-	 * @param salePrice the salePrice to set
-	 */
-	public void setSalePrice(Double salePrice) {
-		this.salePrice = salePrice;
-	}
-
-	
 	/**
 	 * @return the noteType
 	 */
@@ -422,21 +381,6 @@ public class Note extends AbstractEntity {
 		this.storeName = storeName;
 	}
 
-	/**
-	 * @return the propertyValueAtOrigination
-	 */
-	public Double getPropertyValueAtOrigination() {
-		return propertyValueAtOrigination;
-	}
-
-	/**
-	 * @param propertyValueAtOrigination the propertyValueAtOrigination to set
-	 */
-	public void setPropertyValueAtOrigination(Double propertyValueAtOrigination) {
-		this.propertyValueAtOrigination = propertyValueAtOrigination;
-	}
-
-	
 
 	/**
 	 * @return the notePrice
@@ -699,35 +643,7 @@ public class Note extends AbstractEntity {
 		this.originalLoanBal = originalLoanBal;
 	}
 
-	
-	/**
-	 * @return the hoaFee
-	 */
-	public String getHoaFee() {
-		return hoaFee;
-	}
 
-	/**
-	 * @param hoaFee the hoaFee to set
-	 */
-	public void setHoaFee(String hoaFee) {
-		this.hoaFee = hoaFee;
-	}
-
-	
-	/**
-	 * @return the numberOfPropUnit
-	 */
-	public String getNumberOfPropUnit() {
-		return numberOfPropUnit;
-	}
-
-	/**
-	 * @param numberOfPropUnit the numberOfPropUnit to set
-	 */
-	public void setNumberOfPropUnit(String numberOfPropUnit) {
-		this.numberOfPropUnit = numberOfPropUnit;
-	}
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()

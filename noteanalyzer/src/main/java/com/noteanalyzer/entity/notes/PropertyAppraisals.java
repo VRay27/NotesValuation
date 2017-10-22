@@ -54,16 +54,16 @@ public class PropertyAppraisals extends AbstractEntity {
 	private Date lastSoldDate;
 	
 	@Column(name="LAST_SOLD_PRICE")
-	private String lastSoldPrice;
+	private Double lastSoldPrice;
 	
 	@Column(name="RENT_VALUE")
-	private String rentValue;
+	private Double rentValue;
 
 	@Column(name="TAX_ASSESSMENT_YEAR")
-	private String taxAssessmentYear;
+	private Double taxAssessmentYear;
 	
 	@Column(name="TAX_ASSESSMENT_VALUE")
-	private String taxAssessmentValue;
+	private Double taxAssessmentValue;
 	
 	@Column(name="PROP_GRAPH_DATA_URL")
 	private String propertyGraphAndDataUrl;
@@ -147,59 +147,62 @@ public class PropertyAppraisals extends AbstractEntity {
 		this.lastSoldDate = lastSoldDate;
 	}
 
+	
+	
+
 	/**
 	 * @return the lastSoldPrice
 	 */
-	public String getLastSoldPrice() {
+	public Double getLastSoldPrice() {
 		return lastSoldPrice;
 	}
 
 	/**
 	 * @param lastSoldPrice the lastSoldPrice to set
 	 */
-	public void setLastSoldPrice(String lastSoldPrice) {
+	public void setLastSoldPrice(Double lastSoldPrice) {
 		this.lastSoldPrice = lastSoldPrice;
 	}
 
 	/**
 	 * @return the rentValue
 	 */
-	public String getRentValue() {
+	public Double getRentValue() {
 		return rentValue;
 	}
 
 	/**
 	 * @param rentValue the rentValue to set
 	 */
-	public void setRentValue(String rentValue) {
+	public void setRentValue(Double rentValue) {
 		this.rentValue = rentValue;
 	}
 
 	/**
 	 * @return the taxAssessmentYear
 	 */
-	public String getTaxAssessmentYear() {
+	public Double getTaxAssessmentYear() {
 		return taxAssessmentYear;
 	}
 
 	/**
 	 * @param taxAssessmentYear the taxAssessmentYear to set
 	 */
-	public void setTaxAssessmentYear(String taxAssessmentYear) {
+	public void setTaxAssessmentYear(Double taxAssessmentYear) {
 		this.taxAssessmentYear = taxAssessmentYear;
 	}
 
 	/**
 	 * @return the taxAssessmentValue
 	 */
-	public String getTaxAssessmentValue() {
+	public Double getTaxAssessmentValue() {
 		return taxAssessmentValue;
 	}
 
 	/**
 	 * @param taxAssessmentValue the taxAssessmentValue to set
 	 */
-	public void setTaxAssessmentValue(String taxAssessmentValue) {
+	public void setTaxAssessmentValue(Double taxAssessmentValue) {
 		this.taxAssessmentValue = taxAssessmentValue;
 	}
 

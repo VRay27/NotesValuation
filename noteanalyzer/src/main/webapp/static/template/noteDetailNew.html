@@ -74,7 +74,7 @@
 											<input type="text" class="form-control icon-text modifiedField" id="originalTerm"
 												name="originalTerm"  ng-blur=populateNoteInputModelFromJS() ng-change="populateRemainingNumberOfPayment()"
 												ng-model="noteInputFormModel.originalTerm"
-												ng-init="updateOrginalTerm()" />
+												 />
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top"
@@ -264,7 +264,7 @@
 								<h4 class="panel-title">
 									<a class="accordion-toggle" data-toggle="collapse"
 										data-parent="#accordion" href="#propertyDetail"
-										style="text-transform: none">Property Detail</a>
+										style="text-transform: none">Property Details</a>
 								</h4>
 							</div>
 							<div id="propertyDetail" class="panel-collapse collapse">
@@ -414,7 +414,7 @@
 								</div>
 							</div>
 						</div>
-		<div class="panel panel-default">
+						<div class="panel panel-default">
 							<div class="panel-heading">
 								<h4 class="panel-title">
 									<a class="accordion-toggle" data-toggle="collapse"
@@ -425,7 +425,7 @@
 							<div id="demographicData" class="panel-collapse collapse">
 								<div class="panel-body">
 									<div class="form-group">
-										<label class="col-lg-2 control-label">Schools score</label>
+										<label class="col-lg-2 control-label">School(s) score</label>
 										<div class="col-lg-3">
 											<p class="form-control-static">{{noteInputFormModel.demoGraphicDetailModel.schoolScore | getDefaultValueForNull}}</p>
 											<span
@@ -485,7 +485,6 @@
 								</div>
 							</div>
 						</div>
-					
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<h4 class="panel-title">

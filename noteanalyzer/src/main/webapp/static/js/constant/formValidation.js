@@ -536,15 +536,47 @@ $(document).ready(function() {
 		   $('#noteInputForm').bootstrapValidator('revalidateField', 'pdiPayment');
 	   }
 	 });
-   $('.closeall').click(function(){
+/*   $('.closeall').click(function(){
  	  $('.panel-collapse.in')
  	    .collapse('hide');
  	});
  	$('.openall').click(function(){
  	  $('.panel-collapse:not(".in")')
  	    .collapse('show');
- 	});
+ 	});*/
  		
+ 	$('.closeall').click(function(){
+ 		 //if ($(this).data("lastState") === null || $(this).data("lastState") === 0) {
+
+ 	        // close all
+ 		$('.panel-collapse').removeData('bs.collapse')
+	        .collapse({parent:false, toggle:false})
+	        .collapse('hide')
+	        .removeData('bs.collapse')
+	         // restore single panel behavior
+	        .collapse({parent:'#accordionFormat', toggle:false});
+
+
+ 	        // next state will be open all
+ 	        $('.closeall').data("lastState",1);
+ 	       $('.openall').data("lastState",1);
+ 		// }
+
+ 	 	});
+ 	$('.openall').click(function(){
+ 	 		 // initial state...
+ 	        // override accordion behavior and open all
+ 	        $('.panel-collapse').removeData('bs.collapse')
+ 	        .collapse({parent:false, toggle:false})
+ 	        .collapse('show')
+ 	        .removeData('bs.collapse')
+ 	         // restore single panel behavior
+ 	        .collapse({parent:'#accordionFormat', toggle:false});
+
+ 	        // next state will be close all
+ 	        $('.closeall').data("lastState",0);
+ 	        $('.openall').data("lastState",0);
+ 	 	});
  	$.calculator.setDefaults({showOn: 'button', buttonImageOnly: true, buttonImage: '/notes/static/img/calculator.png',useThemeRoller: true });
  	$('#originalPrincipalBal').calculator();
  	$('#pdiPayment').calculator();

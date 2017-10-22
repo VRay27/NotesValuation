@@ -75,20 +75,26 @@ public class Property extends AbstractEntity {
 	private Integer otherMonthlyExpenses;
 
 	@Column(name = "BUILT_YEAR")
-	private String propertyBuiltYear;
+	private Double propertyBuiltYear;
 
 	@Column(name = "PROP_LOT_SIZE")
-	private String propertyLotSize;
+	private Double propertyLotSize;
 
-	@Column(name = "PROP_LOT_FINISHED_SIZE")
-	private String propertyBuiltUpSize;
+	@Column(name = "Building_size_sf")
+	private Double propertyBuiltUpSize;
 
 	@Column(name = "NO_OF_BATHROOMS")
-	private String numberOfBathrooms;
+	private Double numberOfBathrooms;
 
 	@Column(name = "NO_OF_BEDROOMS")
-	private String numberOfBedrooms;
+	private Double numberOfBedrooms;
 	
+	@Column(name = "NO_OF_PROP_UNIT")
+	private Double numberOfPropUnit;
+	
+	@Column(name = "HOA_FEE")
+	private Double hoaFee;
+
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "propertyId",cascade={CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval=true)
     private List<Note> note;
@@ -282,96 +288,6 @@ public class Property extends AbstractEntity {
 		this.otherMonthlyExpenses = otherMonthlyExpenses;
 	}
 
-	/**
-	 * @return the appraisalPropertyId
-	 *//*
-	public String getAppraisalPropertyId() {
-		return appraisalPropertyId;
-	}
-
-	*//**
-	 * @param appraisalPropertyId
-	 *            the appraisalPropertyId to set
-	 *//*
-	public void setAppraisalPropertyId(String appraisalPropertyId) {
-		this.appraisalPropertyId = appraisalPropertyId;
-	}
-*/
-	/**
-	 * @return the propertyBuiltYear
-	 */
-	public String getPropertyBuiltYear() {
-		return propertyBuiltYear;
-	}
-
-	/**
-	 * @param propertyBuiltYear
-	 *            the propertyBuiltYear to set
-	 */
-	public void setPropertyBuiltYear(String propertyBuiltYear) {
-		this.propertyBuiltYear = propertyBuiltYear;
-	}
-
-	/**
-	 * @return the propertyLotSize
-	 */
-	public String getPropertyLotSize() {
-		return propertyLotSize;
-	}
-
-	/**
-	 * @param propertyLotSize
-	 *            the propertyLotSize to set
-	 */
-	public void setPropertyLotSize(String propertyLotSize) {
-		this.propertyLotSize = propertyLotSize;
-	}
-
-	/**
-	 * @return the propertyBuiltUpSize
-	 */
-	public String getPropertyBuiltUpSize() {
-		return propertyBuiltUpSize;
-	}
-
-	/**
-	 * @param propertyBuiltUpSize
-	 *            the propertyBuiltUpSize to set
-	 */
-	public void setPropertyBuiltUpSize(String propertyBuiltUpSize) {
-		this.propertyBuiltUpSize = propertyBuiltUpSize;
-	}
-
-	/**
-	 * @return the numberOfBathrooms
-	 */
-	public String getNumberOfBathrooms() {
-		return numberOfBathrooms;
-	}
-
-	/**
-	 * @param numberOfBathrooms
-	 *            the numberOfBathrooms to set
-	 */
-	public void setNumberOfBathrooms(String numberOfBathrooms) {
-		this.numberOfBathrooms = numberOfBathrooms;
-	}
-
-	/**
-	 * @return the numberOfBedrooms
-	 */
-	public String getNumberOfBedrooms() {
-		return numberOfBedrooms;
-	}
-
-	/**
-	 * @param numberOfBedrooms
-	 *            the numberOfBedrooms to set
-	 */
-	public void setNumberOfBedrooms(String numberOfBedrooms) {
-		this.numberOfBedrooms = numberOfBedrooms;
-	}
-	
 	
 
 	/**
@@ -434,6 +350,105 @@ public class Property extends AbstractEntity {
 		this.updatedTime = updatedTime;
 	}
 
+	
+
+	/**
+	 * @return the propertyBuiltYear
+	 */
+	public Double getPropertyBuiltYear() {
+		return propertyBuiltYear;
+	}
+
+	/**
+	 * @param propertyBuiltYear the propertyBuiltYear to set
+	 */
+	public void setPropertyBuiltYear(Double propertyBuiltYear) {
+		this.propertyBuiltYear = propertyBuiltYear;
+	}
+
+	/**
+	 * @return the propertyLotSize
+	 */
+	public Double getPropertyLotSize() {
+		return propertyLotSize;
+	}
+
+	/**
+	 * @param propertyLotSize the propertyLotSize to set
+	 */
+	public void setPropertyLotSize(Double propertyLotSize) {
+		this.propertyLotSize = propertyLotSize;
+	}
+
+	/**
+	 * @return the propertyBuiltUpSize
+	 */
+	public Double getPropertyBuiltUpSize() {
+		return propertyBuiltUpSize;
+	}
+
+	/**
+	 * @param propertyBuiltUpSize the propertyBuiltUpSize to set
+	 */
+	public void setPropertyBuiltUpSize(Double propertyBuiltUpSize) {
+		this.propertyBuiltUpSize = propertyBuiltUpSize;
+	}
+
+	/**
+	 * @return the numberOfBathrooms
+	 */
+	public Double getNumberOfBathrooms() {
+		return numberOfBathrooms;
+	}
+
+	/**
+	 * @param numberOfBathrooms the numberOfBathrooms to set
+	 */
+	public void setNumberOfBathrooms(Double numberOfBathrooms) {
+		this.numberOfBathrooms = numberOfBathrooms;
+	}
+
+	/**
+	 * @return the numberOfBedrooms
+	 */
+	public Double getNumberOfBedrooms() {
+		return numberOfBedrooms;
+	}
+
+	/**
+	 * @param numberOfBedrooms the numberOfBedrooms to set
+	 */
+	public void setNumberOfBedrooms(Double numberOfBedrooms) {
+		this.numberOfBedrooms = numberOfBedrooms;
+	}
+
+	/**
+	 * @return the numberOfPropUnit
+	 */
+	public Double getNumberOfPropUnit() {
+		return numberOfPropUnit;
+	}
+
+	/**
+	 * @param numberOfPropUnit the numberOfPropUnit to set
+	 */
+	public void setNumberOfPropUnit(Double numberOfPropUnit) {
+		this.numberOfPropUnit = numberOfPropUnit;
+	}
+
+	/**
+	 * @return the hoaFee
+	 */
+	public Double getHoaFee() {
+		return hoaFee;
+	}
+
+	/**
+	 * @param hoaFee the hoaFee to set
+	 */
+	public void setHoaFee(Double hoaFee) {
+		this.hoaFee = hoaFee;
+	}
 
 	/*
 	 * (non-Javadoc)
