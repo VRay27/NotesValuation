@@ -148,8 +148,10 @@ public class UserRestController {
 		Optional<UserModel> user = userService.changePassword(inputUser);
 		if (user.isPresent()) {
 			String statusCode = user.get().getErrorCode();
-			if ("ResetTokenExpired".equalsIgnoreCase(statusCode)) {
+			if ("ResetTokenUsed".equalsIgnoreCase(statusCode)) {
 				return new ResponseEntity<UserModel>(HttpStatus.FOUND);
+			}else if("ResetTokenExpired".equalsIgnoreCase(statusCode)) {
+				return new ResponseEntity<UserModel>(HttpStatus.NOT_ACCEPTABLE);
 			}
 			return new ResponseEntity<UserModel>(HttpStatus.OK);
 		} else {

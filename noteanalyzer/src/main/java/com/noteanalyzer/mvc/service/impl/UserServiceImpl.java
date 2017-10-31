@@ -7,6 +7,7 @@ import static com.noteanalyzer.mvc.constant.NoteConstant.LOGIN_SUCCESS;
 import static com.noteanalyzer.mvc.constant.NoteConstant.MAX_UNSUCCESSFUL_ATTEMPT;
 
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -172,12 +173,19 @@ public class UserServiceImpl implements UserService {
 			User user = userOpt.get();
 			UserModel userModel = new UserModel();
 			if (user.getResetToken() == null) {
-				userModel.setErrorCode("ResetTokenExpired");
+				userModel.setErrorCode("ResetTokenUsed");
 				return Optional.of(userModel);
+			}else if(user.getResetTokenCreationTime() != null){
+				long diffTime = ChronoUnit.HOURS.between(user.getResetTokenCreationTime(),ZonedDateTime.now());
+				if(diffTime > 24 ){
+					userModel.setErrorCode("ResetTokenExpired");
+					return Optional.of(userModel);
+				}
 			}
 			if (inputUser.getResetToken().equals(user.getResetToken())) {
 				user.setPassword(encoder.encode(inputUser.getPassword()));
 				user.setResetToken(null);
+				user.setResetTokenCreationTime(null);
 				user.setIsActive(ACTIVE_USER_FLAG);
 				user.setUnsuccessfulLoginAttempts(new Long(0));
 				User updatedUser = genericDao.update(user);

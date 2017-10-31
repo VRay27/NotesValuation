@@ -256,7 +256,14 @@ public class NoteRestController {
 			if (multipart != null) {
 			final String originalFileName = multipart.getOriginalFilename();
 			try {
-				Files.write(Paths.get(fileUploadLocation+loggedInUserName+"__"+System.currentTimeMillis()+"__"+originalFileName), multipart.getBytes());
+				Optional<UserModel> loggedInuser = userService.getByUsername(loggedInUserName);
+				if (loggedInuser.isPresent()) {
+					LOG.info("Inside  multiFileUpload loggedInUserName" + loggedInUserName);
+					long userId = loggedInuser.get().getUserId();
+					Files.write(Paths.get(fileUploadLocation+userId+"__"+System.currentTimeMillis()+"__"+originalFileName), multipart.getBytes());
+				}else{
+					return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 				return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);

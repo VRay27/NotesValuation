@@ -44,6 +44,8 @@ angular.module('NoteApp')
         		  toastr.error('Reset token already been used. Please try resetting password again.');
         	  }else if(response.status == 404){
         		  toastr.error('No user is associated with this token.');
+        	  }else if(response.status == 406){
+        		  toastr.error('Reset token is expired. Please try resetting password again.');
         	  }else{
         		  toastr.error('We are unable to reset password. Please try after some time');
         	  }
