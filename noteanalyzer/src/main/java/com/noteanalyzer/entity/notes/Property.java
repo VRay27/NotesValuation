@@ -60,7 +60,7 @@ public class Property extends AbstractEntity {
 	private Integer age;
 
 	@Column(name = "SIZE_SF")
-	private double sizeSF;
+	private Double sizeSF;
 
 	@Column(name = "SUBDIVIDABLE")
 	private String subdividable;
@@ -216,7 +216,7 @@ public class Property extends AbstractEntity {
 	/**
 	 * @return the sizeSF
 	 */
-	public double getSizeSF() {
+	public Double getSizeSF() {
 		return sizeSF;
 	}
 
@@ -224,7 +224,7 @@ public class Property extends AbstractEntity {
 	 * @param sizeSF
 	 *            the sizeSF to set
 	 */
-	public void setSizeSF(double sizeSF) {
+	public void setSizeSF(Double sizeSF) {
 		this.sizeSF = sizeSF;
 	}
 

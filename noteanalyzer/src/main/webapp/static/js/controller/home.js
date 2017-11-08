@@ -256,6 +256,9 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 		}else if(elem == 'originalPrincipleBalance'){
 			angular.element( document.querySelector('#orginalLoanBalanceId')).addClass('noteInputCalculatedField');
 		}
+
+		$scope.noteInputFormModel.pdiPayment = $filter('number')($scope.noteInputFormModel.pdiPayment);
+		$scope.noteInputFormModel.pdiPayment = UtilityService.addSymbol($scope.noteInputFormModel.pdiPayment);
 		$scope.populateUPBFromJS();
 	};
 	
@@ -276,6 +279,9 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 				$scope.noteInputFormModel.upb = sampleNoteModel.originalPrincipleBalance;
 				angular.element( document.querySelector('#unpaidBalanceId')).addClass('noteInputCalculatedField');	
 			}
+			
+			$scope.noteInputFormModel.upb = $filter('number')($scope.noteInputFormModel.upb);
+			$scope.noteInputFormModel.upb = UtilityService.addSymbol($scope.noteInputFormModel.upb);
 	}
 
 	$scope.populateDefaultPropertyType = function() {
@@ -443,6 +449,18 @@ noteApp.filter('getDefaultValueForNull', function($auth){
     			}
     		}else{
     			return "Unable to find user deatils";
+    		}
+    	}
+});
+
+noteApp.filter('addCurrencySymbol', function(){
+    return function(obj,rateSymbol){
+    		if(obj && !rateSymbol){
+    			return "$"+obj;
+    		}else if(rateSymbol){
+    			return obj+rateSymbol;
+    		}else{
+    			return obj;
     		}
     	}
 });

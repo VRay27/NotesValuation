@@ -3,18 +3,32 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state, $doc
 	$scope.noteInputFormModel = NoteService.getNoteDetailModel();
 	if ($scope.noteInputFormModel && $scope.noteInputFormModel.noteId) {
 		$window.localStorage.setItem('noteId', $scope.noteInputFormModel.noteId);
+		$scope.addCurrencyAndRateSymbol();
 	} else {
 		NoteService.getNoteDetail($window.localStorage.getItem('noteId')).then(function(response) {
 			NoteService.setNoteDetailModel(response);
 			$scope.noteInputFormModel = NoteService.getNoteDetailModel();
 			$scope.convertNumberFilter();
 			$scope.populateDefaultPropertyType();
+			$scope.addCurrencyAndRateSymbol();
 		}, function(response) {
 			$auth.checkLoginFromServer(response.status);
 			toastr.error("We are unable to find details for this note. Please try after sometime.")
 		});
 	}
 
+	$scope.addCurrencyAndRateSymbol = function(){
+		if($scope.noteInputFormModel){
+			$scope.noteInputFormModel.rate = UtilityService.addSymbol($scope.noteInputFormModel.rate, '%');
+			$scope.noteInputFormModel.upb = UtilityService.addSymbol($scope.noteInputFormModel.upb);
+			$scope.noteInputFormModel.pdiPayment = UtilityService.addSymbol($scope.noteInputFormModel.pdiPayment);
+			$scope.noteInputFormModel.originalPrincipleBalance = UtilityService.addSymbol($scope.noteInputFormModel.originalPrincipleBalance);
+			$scope.noteInputFormModel.notePrice = UtilityService.addSymbol($scope.noteInputFormModel.notePrice);
+		}
+	}
+	
+	
+	
 	$scope.isSubscribed = function() {
 		var user = $auth.getUser();
 		if (user && "P1" == user.subscriptionName) {
@@ -102,6 +116,8 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state, $doc
 		}else if(elem == 'originalPrincipleBalance'){
 			angular.element( document.querySelector('#orginalLoanBalanceId')).addClass('noteInputCalculatedField');
 		}
+		$scope.noteInputFormModel.pdiPayment = $filter('number')($scope.noteInputFormModel.pdiPayment);
+		$scope.noteInputFormModel.pdiPayment = UtilityService.addSymbol($scope.noteInputFormModel.pdiPayment);
 		$scope.populateUPBFromJS();
 	};
 	
@@ -122,6 +138,8 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state, $doc
 				$scope.noteInputFormModel.upb = sampleNoteModel.originalPrincipleBalance;
 				angular.element( document.querySelector('#unpaidBalanceId')).addClass('noteInputCalculatedField');	
 			}
+			$scope.noteInputFormModel.upb = $filter('number')($scope.noteInputFormModel.upb);
+			$scope.noteInputFormModel.upb = UtilityService.addSymbol($scope.noteInputFormModel.upb);
 	}
 
 	

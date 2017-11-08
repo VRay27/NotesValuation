@@ -79,8 +79,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
 	                     min: 1,
-	                     max: 12,
-	                     message: 'The unpaid balance must be less than 12 characters long'
+	                     max: 15,
+	                     message: 'The unpaid balance must be less than 15 characters long'
 	            	 },
 	            	 notEmpty: {
 	                        message: 'The unpaid balance is required and can\'t be empty.'
@@ -95,8 +95,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
 	                     min: 1,
-	                     max: 12,
-	                     message: 'The rate must be less than 12 characters long'
+	                     max: 15,
+	                     message: 'The rate must be less than 15 characters long'
 	            	 },
 	            	 notEmpty: {
 	                        message: 'The rate is required and can\'t be empty.'
@@ -111,8 +111,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
 	                     min: 1,
-	                     max: 12,
-	                     message: 'The  payment must be less than 12 characters long'
+	                     max: 15,
+	                     message: 'The  payment must be less than 15 characters long'
 	            	 },
 	            	 notEmpty: {
 	                        message: 'The  payment is required and can\'t be empty.'
@@ -127,8 +127,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
 	                     min: 0,
-	                     max: 12,
-	                     message: 'The tax and Insurance must be less than 12 characters long'
+	                     max: 15,
+	                     message: 'The tax and Insurance must be less than 15 characters long'
 	            	 }
              }},
              
@@ -141,8 +141,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
 	                     min: 1,
-	                     max: 12,
-	                     message: 'The original principal bal must be less than 12 characters long'
+	                     max: 15,
+	                     message: 'The original principal bal must be less than 15 characters long'
 	            	 },
 	            	 notEmpty: {
 	                        message: 'The original principal balance is required and can\'t be empty.'
@@ -157,8 +157,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
 	                     min: 1,
-	                     max: 12,
-	                     message: 'The Note Price must be less than 12 characters long'
+	                     max: 15,
+	                     message: 'The Note Price must be less than 15 characters long'
 	            	 },
 	            	 notEmpty: {
 	                        message: 'The Note Price is required and can\'t be empty.'
@@ -175,8 +175,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
 	                     min: 1,
-	                     max: 12,
-	                     message: 'The remaining no of payment must be less than 12 characters long'
+	                     max: 15,
+	                     message: 'The remaining no of payment must be less than 15 characters long'
 	            	 },
 	            	 notEmpty: {
 	                        message: 'The remaining no of payment value is required and can\'t be empty.'
@@ -193,8 +193,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
 	                     min: 0,
-	                     max: 12,
-	                     message: 'The No of Late Payment must be less than 12 characters long'
+	                     max: 15,
+	                     message: 'The No of Late Payment must be less than 15 characters long'
 	            	 }
              }},
              notePosition:{
@@ -208,8 +208,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
 	                     min: 1,
-	                     max: 12,
-	                     message: 'The note position value must be less than 12 characters long'
+	                     max: 15,
+	                     message: 'The note position value must be less than 15 characters long'
 	            	 }
              }}, 
              borrowerCreditScore:{
@@ -239,8 +239,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
 	                     min: 1,
-	                     max: 12,
-	                     message: 'The Estimated market value must be less than 12 characters long'
+	                     max: 15,
+	                     message: 'The Estimated market value must be less than 15 characters long'
 	            	 },
 	            	 notEmpty: {
 	                        message: 'The Estimated market value is required and can\'t be empty.'
@@ -280,8 +280,8 @@ $(document).ready(function() {
                  },
         		 stringLength: {
                      min: 0,
-                     max: 12,
-                     message: 'The No of Late Payment must be less than 12 characters long'
+                     max: 15,
+                     message: 'The No of Late Payment must be less than 15 characters long'
             	 }
         	 }},
         	 hoaFees:{
@@ -293,8 +293,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
                          min: 0,
-                         max: 12,
-                         message: 'The No of Late Payment must be less than 12 characters long'
+                         max: 15,
+                         message: 'The No of Late Payment must be less than 15 characters long'
                 	 }
             	 }
         	 },creditScore:{
@@ -331,8 +331,8 @@ $(document).ready(function() {
                      },
             		 stringLength: {
                          min: 0,
-                         max: 12,
-                         message: 'The No of Late Payment must be less than 12 characters long'
+                         max: 15,
+                         message: 'The No of Late Payment must be less than 15 characters long'
                 	 }
             	 }},
             	 
@@ -347,8 +347,8 @@ $(document).ready(function() {
                          },
                 		 stringLength: {
                              min: 1,
-                             max: 12,
-                             message: 'The zipcode must be less than 12 characters long'
+                             max: 15,
+                             message: 'The zipcode must be less than 15 characters long'
                     	 },
                     	 notEmpty: {
  	                        message: 'The  zipcode is required and can\'t be empty.'
@@ -365,8 +365,8 @@ $(document).ready(function() {
                              },
                     		 stringLength: {
                                  min: 1,
-                                 max: 12,
-                                 message: 'The zipcode must be less than 12 characters long'
+                                 max: 15,
+                                 message: 'The zipcode must be less than 15 characters long'
                         	 },
                         	 notEmpty: {
      	                        message: 'The  zipcode is required and can\'t be empty.'
@@ -397,8 +397,8 @@ $(document).ready(function() {
                                          },
                                 		 stringLength: {
                                              min: 1,
-                                             max: 12,
-                                             message: 'The originalTerm must be less than 12 characters long'
+                                             max: 15,
+                                             message: 'The originalTerm must be less than 15 characters long'
                                     	 },
                                     	 notEmpty: {
                  	                        message: 'The  originalTerm is required and can\'t be empty.'

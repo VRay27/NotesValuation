@@ -9,7 +9,8 @@ noteApp.factory('UtilityService', ['$http', 'toastr', '$q', '$rootScope', '$uibM
 		round : round,
 		getParameterByName : getParameterByName,
 		getNumberOfMonth : getNumberOfMonth,
-		setActiveHeader : setActiveHeader
+		setActiveHeader : setActiveHeader,
+		addSymbol : addSymbol
 	};
 
 	return factory;
@@ -205,5 +206,15 @@ noteApp.factory('UtilityService', ['$http', 'toastr', '$q', '$rootScope', '$uibM
 		if (!results) return null;
 		if (!results[2]) return '';
 		return decodeURIComponent(results[2].replace(/\+/g, " "));
+	}
+	
+	function addSymbol(obj,rateSymbol){
+		if(obj && !rateSymbol){
+			return "$"+obj;
+		}else if(rateSymbol){
+			return obj+rateSymbol;
+		}else{
+			return obj;
+		}
 	}
 }]);

@@ -22,9 +22,9 @@ import lombok.ToString;
 @Table(name = "ZIPCODES")
 @ToString(callSuper = true)
 @NamedQueries({
-		@NamedQuery(name = Zipcodes.GET_ZIPCODE_DETAILS_BY_ZIPCODE, query = "select z from Zipcodes z where z.zip =:zipCode"),
-		@NamedQuery(name = Zipcodes.GET_ALL_LOCATION, query = "select z from Zipcodes z"),
-		@NamedQuery(name = Zipcodes.GET_LOCATION_BY_ADDRESS, query = "select z from Zipcodes z where z.city =:city and z.state =:state and z.zip =:zipCode")})
+		@NamedQuery(name = Zipcodes.GET_ZIPCODE_DETAILS_BY_ZIPCODE, query = "select z from Zipcodes z where z.zip =:zipCode and z.areaType ='ZIP-CITY-STATE'"),
+		@NamedQuery(name = Zipcodes.GET_ALL_LOCATION, query = "select z from Zipcodes z where z.areaType ='ZIP-CITY-STATE'"),
+		@NamedQuery(name = Zipcodes.GET_LOCATION_BY_ADDRESS, query = "select z from Zipcodes z where z.city =:city and z.state =:state and z.zip =:zipCode and z.areaType ='ZIP-CITY-STATE'")})
 
 public class Zipcodes extends AbstractEntity {
 

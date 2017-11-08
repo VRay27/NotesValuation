@@ -64,10 +64,14 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q','$filter', '$rootScope',
 		 var isAllPresent = principal && term && interestRate && payment;
 		 if(!(isAllPresent)) {
 			 	interestRate = interestRate / 1200;
-			 	payment = payment * -1;
+			 	if(payment > 0){
+			 		payment = payment * -1;
+			 	}else{
+			 		payment = payment * 1;
+			 	}
 				if (principal && term && interestRate) {
 					var pay = principal * interestRate / (1 - (Math.pow(1 / (1 + interestRate), term)));
-					noteInputFormModel.pdiPayment = UtilityService.round(pay,2);
+					noteInputFormModel.pdiPayment = UtilityService.round(pay,2) *-1;
 					return 'pdiPayment';
 				} else if (principal && term && payment) {
 					var newRate = UtilityService.calculateRate(term,payment, principal) * 1200;

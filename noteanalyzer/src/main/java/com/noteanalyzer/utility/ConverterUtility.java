@@ -224,7 +224,10 @@ public class ConverterUtility {
 				}
 				Iterator<PropertyArea> itr = property.getPropertyAreaSet().iterator();
 				if (itr.hasNext()) {
-					dashBoardModel.setSchoolAreaId(itr.next().getAreaId());
+					PropertyArea  propertyArea = itr.next();
+					if("ZIP-CITY-STATE".equalsIgnoreCase(propertyArea.getAreaType())){
+						dashBoardModel.setSchoolAreaId(propertyArea.getAreaId());
+					}
 				}
 
 				dashBoardModel.setYield(Objects.toString(model.getYield(), ""));
@@ -520,7 +523,10 @@ public class ConverterUtility {
 			}
 			Iterator<PropertyArea> itr = property.getPropertyAreaSet().iterator();
 			if (itr.hasNext()) {
-				propertyDetailModel.setAreaId(itr.next().getAreaId());
+				PropertyArea  propertyArea = itr.next();
+				if("ZIP-CITY-STATE".equalsIgnoreCase(propertyArea.getAreaType())){
+					propertyDetailModel.setAreaId(propertyArea.getAreaId());
+				}
 			}
 			model.setHoaFees(Objects.toString(property.getHoaFee(), ""));
 			propertyDetailModel.setZip(Objects.toString(property.getZip(), ""));

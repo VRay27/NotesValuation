@@ -198,7 +198,7 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
                 },
                 placeholder:'Search'
             },
-            cellTemplate: "<div style=\"float:left\">{{row.entity.marketValue | number | getDefaultValueForNull }}</div><a ng-href=\"\"  style=\"cursor:pointer; text-align:right\"  ng-click= \"grid.appScope.vm.updateMarketValue(grid, row)\"><span class=\"glyphicon glyphicon-refresh\"></span></a>"
+            cellTemplate: "<div style=\"float:left\">{{row.entity.marketValue | number | addCurrencySymbol | getDefaultValueForNull }}</div><a ng-href=\"\"  style=\"cursor:pointer; text-align:right\"  ng-click= \"grid.appScope.vm.updateMarketValue(grid, row)\"><span class=\"glyphicon glyphicon-refresh\"></span></a>"
            
         }
     ];
