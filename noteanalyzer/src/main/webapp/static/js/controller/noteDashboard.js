@@ -174,7 +174,7 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
                 },
                 placeholder:'Search',
             },
-            cellTemplate: "<div ><p>{{row.entity.schoolScore  | number | getDefaultValueForNull }}</p></div>"
+            cellTemplate: "<div ><p>{{row.entity.schoolScore  | number | number:0 | getDefaultValueForNull }}</p></div>"
         }, {
             field: 'crimeScore',
             displayName: 'Crime Score',
@@ -186,7 +186,7 @@ function NoteDashboardCtrl($scope, $http, $auth, $rootScope, $uibModal, NoteDeta
                 },
                 placeholder:'Search' 
             },
-            cellTemplate: "<div><p>{{row.entity.crimeScore  | number | getDefaultValueForNull }}</p></div>"
+            cellTemplate: "<div><p>{{row.entity.crimeScore  | number | number:0 | getDefaultValueForNull }}</p></div>"
         }, {
             field: 'marketValue',
             displayName:  ' Market Value ',

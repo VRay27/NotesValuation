@@ -152,7 +152,7 @@ noteApp.run(function(editableOptions) {
 
 
 
-noteApp.service('APIInterceptor', [function() {
+noteApp.service('APIInterceptor', function(incognitiveStore) {
 	var service = this;
 	//var resourceCache = $cacheFactory.get('resourceCache');
 	//ar httpCache = $cacheFactory.get('$http');
@@ -161,6 +161,8 @@ noteApp.service('APIInterceptor', [function() {
 		config.headers['X-Requested-With'] = "XMLHttpRequest";
 		if (sessionStorage.getItem('token')) {
 			config.headers['X-Authorization'] = 'Bearer ' + sessionStorage.getItem('token');
+		}else{
+			config.headers['X-Authorization'] = 'Bearer ' + incognitiveStore.token;
 		}
 		 //disable IE ajax request caching
 		config.headers['If-Modified-Since'] = 'Mon, 26 Jul 1997 05:00:00 GMT';
@@ -175,7 +177,7 @@ noteApp.service('APIInterceptor', [function() {
 	      //console.log('cache removed', response.config.url);
 	      return response;
 	};
-}]);
+});
 
 noteApp.run(function($rootScope, $state, $location, $auth){
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, skipIfLoggedIn){
@@ -187,7 +189,7 @@ noteApp.run(function($rootScope, $state, $location, $auth){
 });
 
 
-noteApp.factory('$auth', function($window,$state,toastr,$rootScope) {
+noteApp.factory('$auth', function($window,$state,toastr,$rootScope,incognitiveStore) {
 	var auth = this;
 	var isAuthenticated = function() {
 		$rootScope.loggedInUserDisplayName=auth.getUserDisplayName();
@@ -204,7 +206,11 @@ noteApp.factory('$auth', function($window,$state,toastr,$rootScope) {
 	};
 
 	auth.saveToken = function(token) {
-		$window.sessionStorage.setItem('token', token);
+		if($window.sessionStorage)
+			$window.sessionStorage.setItem('token', token);
+		else{
+			incognitiveStore.token = token;
+		}
 	};
 	
 	auth.getUserDisplayName = function() {
@@ -215,14 +221,22 @@ noteApp.factory('$auth', function($window,$state,toastr,$rootScope) {
 	};
 
 	auth.logout = function() {
+		if($window.sessionStorage){
 		$window.sessionStorage.removeItem('user');
 		$window.sessionStorage.removeItem('token');
+		}else{
+			incognitiveStore ={ user:'',token:''};
+		}
 		angular.element("#welcomeUserName").html('');
 		$rootScope.loggedInUserDisplayName='';
 	};
 
 	auth.getToken = function() {
+		if($window.sessionStorage){
 		return $window.sessionStorage.getItem('token');
+		}else{
+		return 	incognitiveStore.token;
+		}
 	};
 	
 	auth.checkLoginFromServer = function(status) {
@@ -244,11 +258,20 @@ noteApp.factory('$auth', function($window,$state,toastr,$rootScope) {
 		}
 	}
 	auth.getUser = function(){
-		return JSON.parse($window.sessionStorage.getItem('user'));
+		if($window.sessionStorage){
+			return JSON.parse($window.sessionStorage.getItem('user'));	
+		}else{
+			return JSON.parse(incognitiveStore.user);
+		}
+		
 	}
 	
 	auth.setUser = function(user){
+		if($window.sessionStorage){
 		$window.sessionStorage.setItem('user', JSON.stringify(user));
+		}else{
+			incognitiveStore.user = JSON.stringify(user);
+		}
 	}
 	auth.isPrivilegeExists = function(privilageName){
 		var user = auth.getUser(); 

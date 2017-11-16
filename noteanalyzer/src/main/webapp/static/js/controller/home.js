@@ -193,16 +193,20 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 			}else if( selectedPropertyType == 'TRIPLEX'){
 				angular.element( document.querySelector('#numberOfUnits')).val('3');
 			}
+			$scope.noteInputFormModel.hoaFees = '';
 		}else{
 			angular.element( document.querySelector('#numberOfUnits')).attr('disabled','disabled');
 			angular.element( document.querySelector('#numberOfUnits')).val('');
+			$scope.noteInputFormModel.noOfPropUnits='';
 		}
 		
 		if( selectedPropertyType == 'TH' || selectedPropertyType == 'CONDO'){
 			angular.element( document.querySelector('#hoaFees')).removeAttr('disabled');
+			$scope.noteInputFormModel.noOfPropUnits='';
 		}else{
 			angular.element( document.querySelector('#hoaFees')).attr('disabled','disabled');
 			angular.element( document.querySelector('#hoaFees')).val('');
+			$scope.noteInputFormModel.hoaFees = '';
 		}
 	}
 	
@@ -228,6 +232,7 @@ noteApp.controller('noteInputFormController', function($scope, $rootScope, $stat
 		$scope.noteInputFormModel.upb  = $filter('sanitizeInput')($scope.noteInputFormModel.upb);
 		$scope.noteInputFormModel.pdiPayment = $filter('sanitizeInput')($scope.noteInputFormModel.pdiPayment);
 		$scope.noteInputFormModel.tdiPayment = $filter('sanitizeInput')($scope.noteInputFormModel.tdiPayment);
+		$scope.noteInputFormModel.hoaFees = $filter('sanitizeInput')($scope.noteInputFormModel.hoaFees);
 		$scope.noteInputFormModel.originalPrincipleBalance = $filter('sanitizeInput')($scope.noteInputFormModel.originalPrincipleBalance);
 		$scope.noteInputFormModel.notePrice = $filter('sanitizeInput')($scope.noteInputFormModel.notePrice);
 		$scope.noteInputFormModel.originalPropertyValue = $filter('sanitizeInput')($scope.noteInputFormModel.originalPropertyValue);
@@ -453,10 +458,35 @@ noteApp.filter('getDefaultValueForNull', function($auth){
     	}
 });
 
+noteApp.filter('getDefaultValueForNullNumber', function($auth){
+    return function(obj){
+    	var user = $auth.getUser();
+    		if(user){
+    			var subscription = user.subscriptionName;
+    			if("P1" == subscription){
+    				if(!obj || obj == '0' || obj == '$0'){
+    					return "No Data Available";
+    				}else{
+    					return obj;
+    				}
+    			}else{
+    				return  'Available through subscription';
+    			}
+    		}else{
+    			return "Unable to find user deatils";
+    		}
+    	}
+});
+
 noteApp.filter('addCurrencySymbol', function(){
     return function(obj,rateSymbol){
     		if(obj && !rateSymbol){
-    			return "$"+obj;
+    			if(obj.startsWith("-")){
+    				return "-$"+obj.substring(1);
+    			}else{
+    				return "$"+obj;	
+    			}
+    			
     		}else if(rateSymbol){
     			return obj+rateSymbol;
     		}else{

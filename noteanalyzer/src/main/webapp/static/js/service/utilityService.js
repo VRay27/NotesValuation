@@ -210,7 +210,11 @@ noteApp.factory('UtilityService', ['$http', 'toastr', '$q', '$rootScope', '$uibM
 	
 	function addSymbol(obj,rateSymbol){
 		if(obj && !rateSymbol){
-			return "$"+obj;
+			if(obj.startsWith("-")){
+				return "-$"+obj.substring(1);
+			}else{
+				return "$"+obj;	
+			}
 		}else if(rateSymbol){
 			return obj+rateSymbol;
 		}else{

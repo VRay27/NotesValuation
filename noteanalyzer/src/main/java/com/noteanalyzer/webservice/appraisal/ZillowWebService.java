@@ -129,7 +129,12 @@ public class ZillowWebService implements IAppraisalSource {
 					Element zestimate = (Element) nodeList.item(0);
 					Element amount = (Element) zestimate.getElementsByTagName("amount").item(0);
 					Element lastUpdatedDate = (Element) zestimate.getElementsByTagName("last-updated").item(0);
-					propertyBean.setMarketValue(amount.getTextContent());
+					String marketVal = amount.getTextContent();
+					if(StringUtils.isNotBlank(marketVal)){
+						propertyBean.setMarketValue(marketVal);
+					}else{
+						propertyBean.setMarketValue(null);
+					}
 					propertyBean.setCurrency(amount.getAttribute("currency"));
 					try {
 						propertyBean.setLastMarketValueUpdated(df.parse(lastUpdatedDate.getTextContent()));
@@ -179,43 +184,78 @@ public class ZillowWebService implements IAppraisalSource {
 				nodeList = valueDoc.getElementsByTagName("taxAssessmentYear");
 				if (nodeList != null && nodeList.item(0) != null) {
 					Element taxAssessmentYear = (Element) nodeList.item(0);
-					propertyBean.setTaxAssessmentYear(taxAssessmentYear.getTextContent());
+					String year = taxAssessmentYear.getTextContent();
+					if(StringUtils.isNotBlank(year)){
+						propertyBean.setTaxAssessmentYear(year);
+					}else{
+						propertyBean.setTaxAssessmentYear(null);
+					}
 				}
 
 				nodeList = valueDoc.getElementsByTagName("taxAssessment");
 				if (nodeList != null && nodeList.item(0) != null) {
 					Element taxAssessment = (Element) nodeList.item(0);
-					propertyBean.setTaxAssessmentValue(taxAssessment.getTextContent());
+					String value = taxAssessment.getTextContent();
+					if(StringUtils.isNotBlank(value)){
+						propertyBean.setTaxAssessmentValue(value);
+					}else{
+						propertyBean.setTaxAssessmentValue(null);
+					}
 				}
 
 				nodeList = valueDoc.getElementsByTagName("yearBuilt");
 				if (nodeList != null && nodeList.item(0) != null) {
 					Element yearBuilt = (Element) nodeList.item(0);
-					propertyBean.setPropertyBuiltYear(yearBuilt.getTextContent());
+					String value = yearBuilt.getTextContent();
+					if(StringUtils.isNotBlank(value)){
+						propertyBean.setPropertyBuiltYear(value);
+					}else{
+						propertyBean.setPropertyBuiltYear(null);
+					}
 				}
 
 				nodeList = valueDoc.getElementsByTagName("lotSizeSqFt");
 				if (nodeList != null && nodeList.item(0) != null) {
 					Element lotSizeSqFt = (Element) nodeList.item(0);
-					propertyBean.setPropertyLotSize(lotSizeSqFt.getTextContent());
+					String value = lotSizeSqFt.getTextContent();
+					if(StringUtils.isNotBlank(value)){
+						propertyBean.setPropertyLotSize(value);
+					}else{
+						propertyBean.setPropertyLotSize(null);
+					}
 				}
 
 				nodeList = valueDoc.getElementsByTagName("finishedSqFt");
 				if (nodeList != null && nodeList.item(0) != null) {
 					Element finishedSqFt = (Element) nodeList.item(0);
-					propertyBean.setPropertyBuiltUpSize(finishedSqFt.getTextContent());
+					String value = finishedSqFt.getTextContent();
+					if(StringUtils.isNotBlank(value)){
+						propertyBean.setPropertyBuiltUpSize(value);
+					}else{
+						propertyBean.setPropertyBuiltUpSize(null);
+					}
 				}
 
 				nodeList = valueDoc.getElementsByTagName("bathrooms");
 				if (nodeList != null && nodeList.item(0) != null) {
 					Element bathrooms = (Element) nodeList.item(0);
-					propertyBean.setNumberOfBathrooms(bathrooms.getTextContent());
+					String value = bathrooms.getTextContent();
+					if(StringUtils.isNotBlank(value)){
+						propertyBean.setNumberOfBathrooms(value);
+					}else{
+						propertyBean.setNumberOfBathrooms(null);
+					}
 				}
 
 				nodeList = valueDoc.getElementsByTagName("bedrooms");
 				if (nodeList != null && nodeList.item(0) != null) {
 					Element bedrooms = (Element) nodeList.item(0);
-					propertyBean.setNumberOfBedrooms(bedrooms.getTextContent());
+					String value = bedrooms.getTextContent();
+					if(StringUtils.isNotBlank(value)){
+						propertyBean.setNumberOfBedrooms(value);
+					}else{
+						propertyBean.setNumberOfBedrooms(null);
+					}
 				}
 
 				nodeList = valueDoc.getElementsByTagName("lastSoldDate");
@@ -235,14 +275,24 @@ public class ZillowWebService implements IAppraisalSource {
 				nodeList = valueDoc.getElementsByTagName("lastSoldPrice");
 				if (nodeList != null && nodeList.item(0) != null) {
 					Element lastSoldPrice = (Element) nodeList.item(0);
-					propertyBean.setLastSoldPrice(lastSoldPrice.getTextContent());
+					String value = lastSoldPrice.getTextContent();
+					if(StringUtils.isNotBlank(value)){
+						propertyBean.setLastSoldPrice(value);
+					}else{
+						propertyBean.setLastSoldPrice(null);
+					}
 				}
 
 				nodeList = valueDoc.getElementsByTagName("rentzestimate");
 				if (nodeList != null && nodeList.item(0) != null) {
 					Element rentzestimate = (Element) nodeList.item(0);
 					Element amount = (Element) rentzestimate.getElementsByTagName("amount").item(0);
-					propertyBean.setRentValue(amount.getTextContent());
+					String value = amount.getTextContent();
+					if(StringUtils.isNotBlank(value)){
+						propertyBean.setRentValue(value);
+					}else{
+						propertyBean.setRentValue(null);
+					}
 				}
 			}
 		} catch (SAXException e) {

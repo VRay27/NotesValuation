@@ -36,7 +36,7 @@ public class PropertyDetailModel implements Serializable {
 	private Integer	age;
 	
 	
-	private double	sizeSF;
+	private Double	sizeSF;
 	
 	
 	private String subdividable;
@@ -191,14 +191,14 @@ public class PropertyDetailModel implements Serializable {
 	/**
 	 * @return the sizeSF
 	 */
-	public double getSizeSF() {
+	public Double getSizeSF() {
 		return sizeSF;
 	}
 
 	/**
 	 * @param sizeSF the sizeSF to set
 	 */
-	public void setSizeSF(double sizeSF) {
+	public void setSizeSF(Double sizeSF) {
 		this.sizeSF = sizeSF;
 	}
 

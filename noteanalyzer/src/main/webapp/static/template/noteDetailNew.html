@@ -325,7 +325,7 @@
 										<label class="col-sm-1 control-label">Market
 											Value</label>
 										<div class="col-sm-3 streetAddress">
-											<p class="form-control-static">{{noteInputFormModel.propertyDetailModel.marketValue | getDefaultValueForNull}}</p>
+											<p class="form-control-static">{{noteInputFormModel.propertyDetailModel.marketValue | addCurrencySymbol | getDefaultValueForNull}}</p>
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Market Value"></span>
@@ -333,7 +333,7 @@
 										<label class="col-sm-1 control-label">Year Built
 											</label>
 										<div class="col-sm-3 streetAddress">
-											<p class="form-control-static">{{noteInputFormModel.propertyDetailModel.propertyBuiltYear | number:0 | getDefaultValueForNull}}</p>
+											<p class="form-control-static">{{noteInputFormModel.propertyDetailModel.propertyBuiltYear | number:0 | sanitizeInput |   getDefaultValueForNullNumber}}</p>
 											<span
 												class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 												tooltip-placement="top" uib-tooltip="Market Value"></span>
@@ -354,7 +354,7 @@
 												<div class="form-group">
 													<label class="col-sm-1 control-label">No of bedrooms</label>
 													<div class="col-sm-3">
-														<p class="form-control-static">{{noteInputFormModel.propertyDetailModel.numberOfBedrooms | getDefaultValueForNull}}</p>
+														<p class="form-control-static">{{noteInputFormModel.propertyDetailModel.numberOfBedrooms | number:0 | getDefaultValueForNullNumber}}</p>
 														<span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 															tooltip-placement="top" uib-tooltip="Number of bedroom"></span>
@@ -362,7 +362,7 @@
 													<label class="col-sm-1 control-label">No of
 														bathrooms</label>
 													<div class="col-sm-3">
-														<p class="form-control-static">{{noteInputFormModel.propertyDetailModel.numberOfBathrooms | getDefaultValueForNull}}</p>
+														<p class="form-control-static">{{noteInputFormModel.propertyDetailModel.numberOfBathrooms | number:0 | getDefaultValueForNullNumber}}</p>
 														<span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 															tooltip-placement="top" uib-tooltip="Number of bathroom"></span>
@@ -371,7 +371,7 @@
 													<label class="col-sm-1 control-label">Lot Size(sf)
 														</label>
 													<div class="col-sm-3">
-														<p class="form-control-static">{{noteInputFormModel.propertyDetailModel.propertyLotSize | getDefaultValueForNull}}</p>
+														<p class="form-control-static">{{noteInputFormModel.propertyDetailModel.propertyLotSize | number:0 | sanitizeInput | getDefaultValueForNullNumber}}</p>
 														<span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 															tooltip-placement="top" uib-tooltip="Lot Size"></span>
@@ -380,7 +380,7 @@
 												<div class="form-group">
 													<label class="col-sm-1 control-label">Building(sf)</label>
 													<div class="col-sm-3">
-														<p class="form-control-static">{{noteInputFormModel.propertyDetailModel.propertyBuiltUpSize | getDefaultValueForNull}}</p>
+														<p class="form-control-static">{{noteInputFormModel.propertyDetailModel.propertyBuiltUpSize | number:0 | sanitizeInput | getDefaultValueForNullNumber}}</p>
 														<span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 															tooltip-placement="top" uib-tooltip="Building sf"></span>
@@ -389,7 +389,7 @@
 													<label class="col-sm-1 control-label">Last sold
 														price</label>
 													<div class="col-sm-3">
-														<p class="form-control-static">{{noteInputFormModel.propertyDetailModel.lastSoldPrice | getDefaultValueForNull}}</p>
+														<p class="form-control-static">{{noteInputFormModel.propertyDetailModel.lastSoldPrice | addCurrencySymbol | getDefaultValueForNullNumber}}</p>
 														<span
 															class="glyphicon glyphicon-info-sign tooltip-color icon-img"
 															tooltip-placement="top" uib-tooltip="Last sold Price "></span>

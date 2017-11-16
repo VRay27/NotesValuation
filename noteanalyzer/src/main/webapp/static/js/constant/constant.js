@@ -21,6 +21,11 @@ app.constant("noteDetailModel",{
   avgEducation : ""
 });
 
+app.constant("incognitiveStore",{
+	 user:'',
+	 token:''
+	});
+
 app.constant("noteSummaryModel",{
   assetUrl : "",
   yieldVal : "",

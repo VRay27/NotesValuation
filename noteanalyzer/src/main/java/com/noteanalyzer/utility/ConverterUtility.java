@@ -127,9 +127,13 @@ public class ConverterUtility {
 		if (property != null) {
 			if (StringUtils.isNotBlank(note.getHoaFees())) {
 				property.setHoaFee(Double.valueOf(note.getHoaFees()));
+			}else{
+				property.setHoaFee(null);
 			}
 			if (StringUtils.isNotBlank(note.getNoOfPropUnits())) {
 				property.setNumberOfPropUnit(Double.valueOf(note.getNoOfPropUnits()));
+			}else{
+				property.setNumberOfPropUnit(null);
 			}
 			Set<PropertyAppraisals> propertyApprisalSet = property.getPropertyAppraisalSet();
 			if (propertyApprisalSet != null) {
@@ -146,6 +150,8 @@ public class ConverterUtility {
 
 		if (StringUtils.isNotBlank(note.getYieldValue())) {
 			noteEntity.setYield(Double.valueOf(note.getYieldValue()));
+		}else{
+			noteEntity.setYield(new Double(0));
 		}
 		noteEntity.setPdiPayment(Double.valueOf(note.getPdiPayment()));
 		if (StringUtils.isNotBlank(note.getTdiPayment())) {

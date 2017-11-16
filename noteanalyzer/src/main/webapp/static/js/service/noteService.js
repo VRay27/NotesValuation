@@ -41,6 +41,92 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q','$filter', '$rootScope',
 		
 	}
 	
+
+	   function calculateRateNew_2( nper,  pmt,  pv,  fv,  type,  guess) {
+	 // Sets default values for missing parameters
+		    fv = typeof fv !== 'undefined' ? fv : 0;
+		    type = typeof type !== 'undefined' ? type : 0;
+		    guess = typeof guess !== 'undefined' ? guess : 0.1;
+	  var FINANCIAL_MAX_ITERATIONS = 20;
+	  var FINANCIAL_PRECISION = 0.0000001;
+
+	  var y, y1, xN = 0, f = 0, i = 0;
+
+	  var rate = guess;
+
+	  //find root by Newtons method (https://en.wikipedia.org/wiki/Newton%27s_method), not secant method!
+	  //Formula see: https://wiki.openoffice.org/wiki/Documentation/How_Tos/Calc:_Derivation_of_Financial_Formulas#PV.2C_FV.2C_PMT.2C_NPER.2C_RATE
+
+	  f = Math.pow(1 + rate, nper);
+	  y = pv * f + pmt * ((f - 1) / rate) * (1 + rate * type) + fv;
+
+	  //first derivative:
+	  //y1 = (pmt * nper * type * Math.pow(rate,2) * f - pmt * f - pmt * rate * f + pmt * nper * rate * f + pmt * rate + pmt + nper * pv * Math.pow(rate,2) * f) / (Math.pow(rate,2) * (rate+1));
+	  y1 = (f * ((pmt * nper * type + nper * pv) * Math.pow(rate,2) + (pmt * nper - pmt) * rate - pmt) + pmt * rate + pmt) / (Math.pow(rate,3) + Math.pow(rate,2));
+
+	  xN = rate - y/y1;
+
+	  while ((Math.abs(rate - xN) > FINANCIAL_PRECISION) && (i < FINANCIAL_MAX_ITERATIONS)) {
+
+	   rate = xN;
+
+	   f = Math.pow(1 + rate, nper);
+	   y = pv * f + pmt * ((f - 1) / rate) * (1 + rate * type) + fv;
+
+	   //first derivative:
+	   //y1 = (pmt * nper * type * Math.pow(rate,2) * f - pmt * f - pmt * rate * f + pmt * nper * rate * f + pmt * rate + pmt + nper * pv * Math.pow(rate,2) * f) / (Math.pow(rate,2) * (rate+1));
+	   y1 = (f * ((pmt * nper * type + nper * pv) * Math.pow(rate,2) + (pmt * nper - pmt) * rate - pmt) + pmt * rate + pmt) / (Math.pow(rate,3) + Math.pow(rate,2));
+
+	   xN = rate - y/y1;
+	   ++i;
+
+	   
+	  }
+
+	  rate = xN;    
+	  return rate;
+
+	 }
+	
+    function calculateRateNew( nper,  pmt,  pv,  fv,  type,  guess) {
+	      var FINANCIAL_MAX_ITERATIONS = 20;//Bet accuracy with 128
+	      var FINANCIAL_PRECISION = 0.0000001;//1.0e-8
+
+	      var y, y0, y1, x0, x1 = 0, f = 0, i = 0;
+	      var rate = .1;
+    
+	      if (Math.abs(rate) < FINANCIAL_PRECISION) {
+	         y = pv * (1 + nper * rate) + pmt * (1 + rate * type) * nper + fv;
+	      } else {
+	         f = Math.exp(nper * Math.log(1 + rate));
+	         y = pv * f + pmt * (1 / rate + type) * (f - 1) + fv;
+	      }
+    
+	      y0 = pv + pmt * nper + fv;
+	      y1 = pv * f + pmt * (1 / rate + type) * (f - 1) + fv;
+
+	      // find root by Newton secant method
+	      i = x0 = 0.0;
+	      x1 = rate;
+	      while ((Math.abs(y0 - y1) > FINANCIAL_PRECISION) && (i < FINANCIAL_MAX_ITERATIONS)) {
+	         rate = (y1 * x0 - y0 * x1) / (y1 - y0);
+	         x0 = x1;
+	         x1 = rate;
+
+	         if (Math.abs(rate) < FINANCIAL_PRECISION) {
+	            y = pv * (1 + nper * rate) + pmt * (1 + rate * type) * nper + fv;
+	         } else {
+	            f = Math.exp(nper * Math.log(1 + rate));
+	            y = pv * f + pmt * (1 / rate + type) * (f - 1) + fv;
+	         }
+
+	         y0 = y1;
+	         y1 = y;
+	         ++i;
+	      }
+	      return rate;
+	   }
+	
 	function setInputFormModel(model){
 		noteInputFormModel = model;
 	}
@@ -97,10 +183,14 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q','$filter', '$rootScope',
 		 var isAllPresent = principal && term && interestRate && payment;
 		 if(!(isAllPresent)) {
 			 	interestRate = interestRate / 1200;
-			 	payment = payment * -1;
+			 	if(payment > 0){
+			 		payment = payment * -1;
+			 	}else{
+			 		payment = payment * 1;
+			 	}
 				if (principal && term && interestRate) {
 					var pay = principal * interestRate / (1 - (Math.pow(1 / (1 + interestRate), term)));
-					noteInputFormModel.pdiPayment = UtilityService.round(pay,2);
+					noteInputFormModel.pdiPayment = UtilityService.round(pay,2) * -1;
 					return 'pdiPayment';
 				}
 			}
@@ -114,7 +204,11 @@ noteApp.factory('NoteService', ['$http', 'toastr', '$q','$filter', '$rootScope',
 		 var isAllPresent = principal && term && interestRate && payment;
 		 if(!(isAllPresent)) {
 			 	interestRate = interestRate / 1200;
-			 	payment = payment * -1;
+			 	if(payment > 0){
+			 		payment = payment * -1;
+			 	}else{
+			 		payment = payment * 1;
+			 	}
 				 if (term && interestRate && payment) {
 					var newPrinciple = UtilityService.getPV(interestRate, term, payment);
 					noteInputFormModel.originalPrincipleBalance = UtilityService.round(newPrinciple, 2);

@@ -1,8 +1,45 @@
 var noteApp = angular.module('NoteApp');
 noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state, $document, $auth, $http, toastr, $rootScope, noteUploadAPI, NoteService, UtilityService, $window, $filter, UserService) {
 	$scope.noteInputFormModel = NoteService.getNoteDetailModel();
+	
+	$scope.convertNumberFilter = function() {
+		if ($scope.noteInputFormModel) {
+			$scope.noteInputFormModel.upb = $filter('number')($scope.noteInputFormModel.upb);
+			$scope.noteInputFormModel.pdiPayment = $filter('number')($scope.noteInputFormModel.pdiPayment);
+			$scope.noteInputFormModel.tdiPayment = $filter('number')($scope.noteInputFormModel.tdiPayment);
+			$scope.noteInputFormModel.originalPrincipleBalance = $filter('number')($scope.noteInputFormModel.originalPrincipleBalance);
+			$scope.noteInputFormModel.notePrice = $filter('number')($scope.noteInputFormModel.notePrice);
+			$scope.noteInputFormModel.originalPropertyValue = $filter('number')($scope.noteInputFormModel.originalPropertyValue);
+			$scope.noteInputFormModel.estimatedMarketValue = $filter('number')($scope.noteInputFormModel.estimatedMarketValue);
+			if (!isNaN($scope.noteInputFormModel.hoaFees) && angular.isNumber(+$scope.noteInputFormModel.hoaFees) && $scope.noteInputFormModel.hoaFees != 0.0) {
+				$scope.noteInputFormModel.hoaFees = $filter('number')($scope.noteInputFormModel.hoaFees);
+			}else{
+				$scope.noteInputFormModel.hoaFees='';
+			}
+			if (!isNaN($scope.noteInputFormModel.propertyDetailModel.marketValue) && angular.isNumber(+$scope.noteInputFormModel.propertyDetailModel.marketValue)) {
+				$scope.noteInputFormModel.propertyDetailModel.marketValue = $filter('number')($scope.noteInputFormModel.propertyDetailModel.marketValue);
+			}
+			if (!isNaN($scope.noteInputFormModel.propertyDetailModel.lastSoldPrice) && angular.isNumber(+$scope.noteInputFormModel.propertyDetailModel.lastSoldPrice)) {
+				$scope.noteInputFormModel.propertyDetailModel.lastSoldPrice = $filter('number')($scope.noteInputFormModel.propertyDetailModel.lastSoldPrice);
+			}
+		}
+	}
+	$scope.addCurrencyAndRateSymbol = function(){
+		if($scope.noteInputFormModel){
+			$scope.noteInputFormModel.rate = UtilityService.addSymbol($scope.noteInputFormModel.rate, '%');
+			$scope.noteInputFormModel.upb = UtilityService.addSymbol($scope.noteInputFormModel.upb);
+			$scope.noteInputFormModel.pdiPayment = UtilityService.addSymbol($scope.noteInputFormModel.pdiPayment);
+			$scope.noteInputFormModel.originalPrincipleBalance = UtilityService.addSymbol($scope.noteInputFormModel.originalPrincipleBalance);
+			$scope.noteInputFormModel.notePrice = UtilityService.addSymbol($scope.noteInputFormModel.notePrice);
+			$scope.noteInputFormModel.estimatedMarketValue = UtilityService.addSymbol($scope.noteInputFormModel.estimatedMarketValue);
+			$scope.noteInputFormModel.hoaFees = UtilityService.addSymbol($scope.noteInputFormModel.hoaFees);
+			$scope.noteInputFormModel.tdiPayment = UtilityService.addSymbol($scope.noteInputFormModel.tdiPayment);
+		}
+	}
+	
 	if ($scope.noteInputFormModel && $scope.noteInputFormModel.noteId) {
 		$window.localStorage.setItem('noteId', $scope.noteInputFormModel.noteId);
+		$scope.convertNumberFilter();
 		$scope.addCurrencyAndRateSymbol();
 	} else {
 		NoteService.getNoteDetail($window.localStorage.getItem('noteId')).then(function(response) {
@@ -17,18 +54,6 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state, $doc
 		});
 	}
 
-	$scope.addCurrencyAndRateSymbol = function(){
-		if($scope.noteInputFormModel){
-			$scope.noteInputFormModel.rate = UtilityService.addSymbol($scope.noteInputFormModel.rate, '%');
-			$scope.noteInputFormModel.upb = UtilityService.addSymbol($scope.noteInputFormModel.upb);
-			$scope.noteInputFormModel.pdiPayment = UtilityService.addSymbol($scope.noteInputFormModel.pdiPayment);
-			$scope.noteInputFormModel.originalPrincipleBalance = UtilityService.addSymbol($scope.noteInputFormModel.originalPrincipleBalance);
-			$scope.noteInputFormModel.notePrice = UtilityService.addSymbol($scope.noteInputFormModel.notePrice);
-		}
-	}
-	
-	
-	
 	$scope.isSubscribed = function() {
 		var user = $auth.getUser();
 		if (user && "P1" == user.subscriptionName) {
@@ -37,21 +62,32 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state, $doc
 		return false;
 	}
 
-	$scope.propertyTypeChange = function() {
-		if ($scope.noteInputFormModel) {
-			var selectedPropertyType = $scope.noteInputFormModel.selPropType;
-			if (selectedPropertyType == 'DUPLEX' || selectedPropertyType == 'FOURPLEX' || selectedPropertyType == 'APARTMENT' || selectedPropertyType == 'TRIPLEX') {
-				angular.element(document.querySelector('#numberOfUnits')).removeAttr('disabled');
-			} else {
-				angular.element(document.querySelector('#numberOfUnits')).attr('disabled', 'disabled');
-				angular.element(document.querySelector('#numberOfUnits')).val('');
+	$scope.propertyTypeChange = function(){
+	if($scope.noteInputFormModel && $scope.noteInputFormModel.selPropType){
+		var selectedPropertyType = $scope.noteInputFormModel.selPropType;
+		if( selectedPropertyType == 'DUPLEX' || selectedPropertyType == 'FOURPLEX' || selectedPropertyType == 'APARTMENT' || selectedPropertyType == 'TRIPLEX'){
+			angular.element( document.querySelector('#numberOfUnits')).removeAttr('disabled');
+			if( selectedPropertyType == 'DUPLEX'){
+				angular.element( document.querySelector('#numberOfUnits')).val('2');
+			}else if( selectedPropertyType == 'FOURPLEX'){
+				angular.element( document.querySelector('#numberOfUnits')).val('4');
+			}else if( selectedPropertyType == 'TRIPLEX'){
+				angular.element( document.querySelector('#numberOfUnits')).val('3');
 			}
-
-			if (selectedPropertyType == 'TH' || selectedPropertyType == 'CONDO') {
-				angular.element(document.querySelector('#hoaFees')).removeAttr('disabled');
-			} else {
-				angular.element(document.querySelector('#hoaFees')).attr('disabled', 'disabled');
-				angular.element(document.querySelector('#hoaFees')).val('');
+			$scope.noteInputFormModel.hoaFees = '';
+		}else{
+			angular.element( document.querySelector('#numberOfUnits')).attr('disabled','disabled');
+			angular.element( document.querySelector('#numberOfUnits')).val('');
+			$scope.noteInputFormModel.noOfPropUnits='';
+		}
+		
+		if( selectedPropertyType == 'TH' || selectedPropertyType == 'CONDO'){
+			angular.element( document.querySelector('#hoaFees')).removeAttr('disabled');
+			$scope.noteInputFormModel.noOfPropUnits='';
+		}else{
+			angular.element( document.querySelector('#hoaFees')).attr('disabled','disabled');
+			angular.element( document.querySelector('#hoaFees')).val('');
+			$scope.noteInputFormModel.hoaFees = '';
 			}
 		}
 	}
@@ -68,6 +104,7 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state, $doc
 		$scope.noteInputFormModel.upb = $filter('sanitizeInput')($scope.noteInputFormModel.upb);
 		$scope.noteInputFormModel.pdiPayment = $filter('sanitizeInput')($scope.noteInputFormModel.pdiPayment);
 		$scope.noteInputFormModel.tdiPayment = $filter('sanitizeInput')($scope.noteInputFormModel.tdiPayment);
+		$scope.noteInputFormModel.hoaFees = $filter('sanitizeInput')($scope.noteInputFormModel.hoaFees);
 		$scope.noteInputFormModel.originalPrincipleBalance = $filter('sanitizeInput')($scope.noteInputFormModel.originalPrincipleBalance);
 		$scope.noteInputFormModel.notePrice = $filter('sanitizeInput')($scope.noteInputFormModel.notePrice);
 		$scope.noteInputFormModel.originalPropertyValue = $filter('sanitizeInput')($scope.noteInputFormModel.originalPropertyValue);
@@ -75,26 +112,6 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state, $doc
 		$scope.noteInputFormModel.propertyDetailModel.marketValue = $filter('sanitizeInput')($scope.noteInputFormModel.propertyDetailModel.marketValue);
 		$scope.noteInputFormModel.propertyDetailModel.lastSoldPrice = $filter('sanitizeInput')($scope.noteInputFormModel.propertyDetailModel.lastSoldPrice);
 	}
-
-	$scope.convertNumberFilter = function() {
-		if ($scope.noteInputFormModel) {
-			$scope.noteInputFormModel.upb = $filter('number')($scope.noteInputFormModel.upb);
-			$scope.noteInputFormModel.pdiPayment = $filter('number')($scope.noteInputFormModel.pdiPayment);
-			$scope.noteInputFormModel.tdiPayment = $filter('number')($scope.noteInputFormModel.tdiPayment);
-			$scope.noteInputFormModel.originalPrincipleBalance = $filter('number')($scope.noteInputFormModel.originalPrincipleBalance);
-			$scope.noteInputFormModel.notePrice = $filter('number')($scope.noteInputFormModel.notePrice);
-			$scope.noteInputFormModel.originalPropertyValue = $filter('number')($scope.noteInputFormModel.originalPropertyValue);
-			$scope.noteInputFormModel.estimatedMarketValue = $filter('number')($scope.noteInputFormModel.estimatedMarketValue);
-			if (!isNaN($scope.noteInputFormModel.propertyDetailModel.marketValue) && angular.isNumber(+$scope.noteInputFormModel.propertyDetailModel.marketValue)) {
-				$scope.noteInputFormModel.propertyDetailModel.marketValue = $filter('number')($scope.noteInputFormModel.propertyDetailModel.marketValue);
-			}
-			if (!isNaN($scope.noteInputFormModel.propertyDetailModel.lastSoldPrice) && angular.isNumber(+$scope.noteInputFormModel.propertyDetailModel.lastSoldPrice)) {
-				$scope.noteInputFormModel.propertyDetailModel.lastSoldPrice = $filter('number')($scope.noteInputFormModel.propertyDetailModel.lastSoldPrice);
-			}
-		}
-	}
-
-	$scope.convertNumberFilter();
 
 	$scope.populateNoteInputModelFromJS = function(){
 		angular.element( document.querySelector('.modifiedField')).trigger('change');
@@ -179,15 +196,26 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state, $doc
 			}
 		}
 	}
+	
+	$scope.checkForNonPerformingNote  = function(){
+		if($scope.noteInputFormModel){
+			if($scope.noteInputFormModel.selNoteType  == 'N'){
+				$scope.noteInputFormModel.roi ='';
+				$scope.noteInputFormModel.yieldValue ='';
+			}
+		}
+	}
 
 	$scope.saveNote = function() {
 		$scope.sanitizeNoteInputModelFromJS();
 		$scope.noteInputFormModel.noteDate = $filter('date')($scope.noteInputFormModel.noteDate, 'MM/dd/yyyy');
 		$scope.noteInputFormModel.lastPaymentRecievedDate = $filter('date')($scope.noteInputFormModel.lastPaymentRecievedDate, 'MM/dd/yyyy');
 		NoteService.getYield($scope.noteInputFormModel);
+		$scope.checkForNonPerformingNote();
 		NoteService.updateNote($scope.noteInputFormModel).then(function(response) {
 			$scope.noteInputFormModel = response;
 			$scope.convertNumberFilter();
+			$scope.addCurrencyAndRateSymbol();
 			toastr.success("Note has been save successfully.")
 		}, function(response) {
 			$auth.checkLoginFromServer(response.status);
@@ -204,6 +232,7 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state, $doc
 		NoteService.updateAndSaveMarketValue($scope.noteInputFormModel).then(function(response) {
 			$scope.noteInputFormModel = response;
 			$scope.convertNumberFilter();
+			$scope.addCurrencyAndRateSymbol();
 			toastr.success("Note has been updated successfully.")
 		}, function(response) {
 			$auth.checkLoginFromServer(response.status);
@@ -221,6 +250,7 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state, $doc
 			NoteService.subscribeNote($scope.noteInputFormModel).then(function(response) {
 				$scope.noteInputFormModel = response;
 				$scope.convertNumberFilter();
+				$scope.addCurrencyAndRateSymbol();
 				toastr.success("Note has been updated successfully.")
 			}, function(response) {
 				$auth.checkLoginFromServer(response.status);
