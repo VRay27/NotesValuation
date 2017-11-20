@@ -227,6 +227,7 @@ noteApp.controller('NoteDetailCtrl', function($scope, $stateParams, $state, $doc
 	$scope.updateAndSaveMarketValue = function() {
 		$scope.sanitizeNoteInputModelFromJS();
 		NoteService.getYield($scope.noteInputFormModel);
+		$scope.checkForNonPerformingNote();
 		$scope.noteInputFormModel.noteDate = $filter('date')($scope.noteInputFormModel.noteDate, 'MM/dd/yyyy');
 		$scope.noteInputFormModel.lastPaymentRecievedDate = $filter('date')($scope.noteInputFormModel.lastPaymentRecievedDate, 'MM/dd/yyyy');
 		NoteService.updateAndSaveMarketValue($scope.noteInputFormModel).then(function(response) {

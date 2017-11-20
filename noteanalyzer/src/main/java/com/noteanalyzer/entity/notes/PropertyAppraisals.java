@@ -264,20 +264,6 @@ public class PropertyAppraisals extends AbstractEntity {
 		this.appraisalsSource = appraisalsSource;
 	}
 
-	/*	*//**
-	 * @return the appraisalsSource
-	 *//*
-	public AppriasalSources getAppraisalsSource() {
-		return appraisalsSource;
-	}
-
-	*//**
-	 * @param appraisalsSource the appraisalsSource to set
-	 *//*
-	public void setAppraisalsSource(AppriasalSources appraisalsSource) {
-		this.appraisalsSource = appraisalsSource;
-	}*/
-
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -285,7 +271,7 @@ public class PropertyAppraisals extends AbstractEntity {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((propertyId == null) ? 0 : propertyId.hashCode());
+		result = prime * result + ((propertyAppraisalsId == null) ? 0 : propertyAppraisalsId.hashCode());
 		return result;
 	}
 
@@ -301,15 +287,16 @@ public class PropertyAppraisals extends AbstractEntity {
 		if (getClass() != obj.getClass())
 			return false;
 		PropertyAppraisals other = (PropertyAppraisals) obj;
-		if (propertyId == null) {
-			if (other.propertyId != null)
+		if (propertyAppraisalsId == null) {
+			if (other.propertyAppraisalsId != null)
 				return false;
-		} else if (!propertyId.equals(other.propertyId))
+		} else if (!propertyAppraisalsId.equals(other.propertyAppraisalsId))
 			return false;
 		return true;
 	}
-    
-    
+
+	
+	
     
     
 }

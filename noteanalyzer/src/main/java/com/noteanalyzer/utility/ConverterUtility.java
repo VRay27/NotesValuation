@@ -138,7 +138,7 @@ public class ConverterUtility {
 			Set<PropertyAppraisals> propertyApprisalSet = property.getPropertyAppraisalSet();
 			if (propertyApprisalSet != null) {
 				Iterator<PropertyAppraisals> itr = propertyApprisalSet.iterator();
-				if (itr.hasNext()) {
+				while (itr.hasNext()) {
 					PropertyAppraisals propertyAppraisals = itr.next();
 					noteEntity.setAppraisedITV(NoteAnalysisService.getCurrentITV(note.getNotePrice(),
 							propertyAppraisals.getMarketValue()));
@@ -212,7 +212,7 @@ public class ConverterUtility {
 				Set<PropertyAppraisals> propertyApprisalSet = property.getPropertyAppraisalSet();
 				if (propertyApprisalSet != null) {
 					Iterator<PropertyAppraisals> itr = propertyApprisalSet.iterator();
-					if (itr.hasNext()) {
+					while (itr.hasNext()) {
 						PropertyAppraisals propertyAppraisals = itr.next();
 						dashBoardModel.setMarketValue(propertyAppraisals.getMarketValue());
 						dashBoardModel.setMarketUpdateDate(propertyAppraisals.getMarketValueUpdatedDate());
@@ -229,7 +229,7 @@ public class ConverterUtility {
 					}
 				}
 				Iterator<PropertyArea> itr = property.getPropertyAreaSet().iterator();
-				if (itr.hasNext()) {
+				while(itr.hasNext()) {
 					PropertyArea  propertyArea = itr.next();
 					if("ZIP-CITY-STATE".equalsIgnoreCase(propertyArea.getAreaType())){
 						dashBoardModel.setSchoolAreaId(propertyArea.getAreaId());
@@ -373,7 +373,7 @@ public class ConverterUtility {
 				if (propertyApprisalSet != null) {
 					DateFormat zillowDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 					Iterator<PropertyAppraisals> itr = propertyApprisalSet.iterator();
-					if (itr.hasNext()) {
+					while (itr.hasNext()) {
 						PropertyAppraisals propertyAppraisals = itr.next();
 						if (propertyAppraisals.getLastSoldDate() != null) {
 							propertyDetailModel
@@ -506,7 +506,7 @@ public class ConverterUtility {
 			if (propertyApprisalSet != null) {
 				DateFormat zillowDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 				Iterator<PropertyAppraisals> itr = propertyApprisalSet.iterator();
-				if (itr.hasNext()) {
+				while (itr.hasNext()) {
 					PropertyAppraisals propertyAppraisals = itr.next();
 					if (propertyAppraisals.getLastSoldDate() != null) {
 						propertyDetailModel
@@ -528,7 +528,7 @@ public class ConverterUtility {
 				}
 			}
 			Iterator<PropertyArea> itr = property.getPropertyAreaSet().iterator();
-			if (itr.hasNext()) {
+			while (itr.hasNext()) {
 				PropertyArea  propertyArea = itr.next();
 				if("ZIP-CITY-STATE".equalsIgnoreCase(propertyArea.getAreaType())){
 					propertyDetailModel.setAreaId(propertyArea.getAreaId());

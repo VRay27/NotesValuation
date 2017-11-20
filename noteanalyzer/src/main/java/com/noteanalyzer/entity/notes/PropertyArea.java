@@ -109,7 +109,7 @@ public class PropertyArea extends AbstractEntity {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((propertyId == null) ? 0 : propertyId.hashCode());
+		result = prime * result + ((propertyAreaId == null) ? 0 : propertyAreaId.hashCode());
 		return result;
 	}
 
@@ -125,15 +125,14 @@ public class PropertyArea extends AbstractEntity {
 		if (getClass() != obj.getClass())
 			return false;
 		PropertyArea other = (PropertyArea) obj;
-		if (propertyId == null) {
-			if (other.propertyId != null)
+		if (propertyAreaId == null) {
+			if (other.propertyAreaId != null)
 				return false;
-		} else if (!propertyId.equals(other.propertyId))
+		} else if (!propertyAreaId.equals(other.propertyAreaId))
 			return false;
 		return true;
 	}
-    
-    
+
     
     
 }
