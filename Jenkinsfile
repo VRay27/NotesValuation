@@ -1,26 +1,11 @@
-def getDockerTag(){
-        def tag = sh script: 'git rev-parse HEAD', returnStdout: true
-        return tag
-        }
-        
-
-pipeline{
-        agent any  
-        environment{
-	    Docker_tag = getDockerTag()
-        }
-        
-        stages{
-
-
-              stage('Quality Gate Status Check'){
-
-               agent {
+pipeline{       
+          agent {
                 docker {
                 image 'maven'
                 args '-v $HOME/.m2:/root/.m2'
                 }
-               }
+        stages{
+              stage('Quality Gate Status Check'){
                   steps{
                       script{
                       withSonarQubeEnv('sonarserver') { 
@@ -36,21 +21,6 @@ pipeline{
                   }
                 }  
               }
-
-
-
-              stage('build')
-                {
-              steps{
-                  script{
-		  sh 'cp -r ..rayv2701/cicd27/target .'
-                  sh 'docker build . -t rayv2701/cicd27/target:$Docker_tag'
-		  withCredentials([string(credentialsId: 'docker_password', variable: 'docker_password')]) {			    
-				  sh 'docker login -u rayv2701 -p $docker_password'
-				  sh 'docker push rayv2701/cicd27:$Docker_tag'
-			}
-                       }
-                    }
-                 }		
-               }     	     
+	}
+}
 }
