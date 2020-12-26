@@ -1,4 +1,4 @@
-FROM tomcat:8.0-alpine
+FROM tomcat:8.0
 
 LABEL maintainer=”rayvikas.27@gmail.com”
 
