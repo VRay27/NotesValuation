@@ -1,6 +1,6 @@
 FROM tomcat:8.0
 
-LABEL maintainer=”rayvikas.27@gmail.com”
+LABEL maintainer=”VIKAS RAY”
 
 ADD target/notes.war /usr/local/tomcat/webapps/notes.war
 
