@@ -26,8 +26,8 @@ pipeline {
         stage('Docker Login'){
             
             steps {
-                 withCredentials([string(credentialsId: 'DockerId', variable: 'docker_pwd')]) {
-                    sh "docker login -u rayv2701 -p ${docker_pwd}"
+                 withCredentials([string(credentialsId: 'Dockerid', variable: 'Dockerpwd')]) {
+                    sh "docker login -u rayv2701 -p ${Dockerpwd}"
                 }
             }                
         }
