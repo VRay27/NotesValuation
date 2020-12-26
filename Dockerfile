@@ -1,3 +1,3 @@
 FROM openjdk:8
-ADD target/notes.jar notes.jar
-ENTRYPOINT ["java","-jar","/notes.jar"]
+ADD target/notes.war notes.war
+ENTRYPOINT ["java","-war","/notes.war"]
