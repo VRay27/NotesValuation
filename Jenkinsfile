@@ -1,26 +1,63 @@
-pipeline{       
-          agent {
-                docker {
-                image 'maven'
-                args '-v $HOME/.m2:/root/.m2'
+pipeline {
+    agent any 
+    stages {
+        stage('Compile and Clean') { 
+            steps {
+
+                sh "mvn clean compile"
+            }
+        }
+        stage('Test') { 
+            steps {
+                sh "mvn test site"
+            }
+            
+             post {
+                always {
+                    junit allowEmptyResults: true, testResults: 'target/surefire-reports/*.xml'   
                 }
-        stages{
-              stage('Quality Gate Status Check'){
-                  steps{
-                      script{
-                      withSonarQubeEnv('sonarserver') { 
-                      sh "mvn sonar:sonar"
-                       }
-                      timeout(time: 1, unit: 'HOURS') {
-                      def qg = waitForQualityGate()
-                      if (qg.status != 'OK') {
-                           error "Pipeline aborted due to quality gate failure: ${qg.status}"
-                      }
-                    }
-		    sh "mvn clean install"
-                  }
-                }  
-              }
-	}
-}
+            }     
+        }
+
+        stage('deploy') { 
+            steps {
+                sh "mvn package"
+            }
+        }
+
+
+        stage('Build Docker image'){
+            steps {
+                sh 'docker build -t rayv2701/docker_jenkins_pipeline:${BUILD_NUMBER} .'
+            }
+        }
+
+        stage('Docker Login'){
+            
+            steps {
+                 withCredentials([string(credentialsId: 'DockerId', variable: 'Dockerpwd')]) {
+                    sh "docker login -u rayv2701 -p ${Dockerpwd}"
+                }
+            }                
+        }
+
+        stage('Docker Push'){
+            steps {
+                sh 'docker push rayv2701/docker_jenkins_pipeline:${BUILD_NUMBER}'
+            }
+        }
+        
+        stage('Docker deploy'){
+            steps {
+                sh 'docker run -itd -p 8081:8080 rayv2701/cicd27:0.0.3'
+            }
+        }
+
+        
+        stage('Archving') { 
+            steps {
+                 archiveArtifacts '**/target/*.jar'
+            }
+        }
+    }
 }
