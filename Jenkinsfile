@@ -9,16 +9,16 @@ pipeline {
         }
         stage('Test') { 
             steps {
-                sh "mvn test site"
+                sh "mvn test"
             }
             
-             post {
-                always {
-                    junit allowEmptyResults: true, testResults: '/*.xml'   
-                }
-            }     
+             stage('deploy') { 
+            steps {
+                sh "mvn package"
+            }
         }
-
+           
+                }
         
     }
 }
