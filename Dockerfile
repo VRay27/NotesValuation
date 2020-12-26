@@ -4,6 +4,6 @@ LABEL maintainer=”rayvikas.27@gmail.com”
 
 ADD target/notes.war notes.war
 
-EXPOSE 8080
+EXPOSE 80
 
 CMD [“catalina.sh”, “run”]
